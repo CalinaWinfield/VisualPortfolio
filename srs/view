@@ -1,1 +1,53 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visual Portfolio</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="logo">VISUAL PORTFOLIO</div>
+        <ul class="nav-links">
+            <li><a href="#">Log In</a></li>
+            <li><a href="#">About</a></li>
+            <li><a href="#">Explore</a></li>
+            <li><a href="#">Guide</a></li>
+        </ul>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="hero">
+        <h1>Work Smarter, Feel Effortless</h1>
+        <p>Simplify Document Management with the Visual Portfolio App.</p>
+        <button class="cta-button">Sign up for free</button>
+    </header>
+
+    <!-- Document Management Section -->
+    <!--<section class="documents">
+        <div class="toolbar">
+            <button>Print</button>
+            <button>Single</button>
+            <button>Export</button>
+            <button>Sign</button>
+        </div>
+        <div class="document-list">
+            <div class="document">
+                <img src="resume1.png" alt="Resume Preview">
+                <p>Old_Resume_JohnDoe</p>
+            </div>
+            <div class="document">
+                <img src="resume2.png" alt="Resume Preview">
+                <p>Final_Resume_John_Doe</p>
+            </div>
+        </div>
+    </section>
+                -->
+
+</body>
+</html>
+
