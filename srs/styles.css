@@ -1,0 +1,120 @@
+/* Import Google Font */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap');
+
+/* Color Palette */
+:root {
+    --dark-brown: #382C29;
+    --cream: #FFF5E3;
+    --pink: #F5A3AD;
+    --blue: #5D81BC;
+    --navy: #01223B;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--navy);
+    color: white;
+    margin: 0;
+    padding: 0;
+}
+
+/* Navigation Bar */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 30px;
+    background-color: var(--navy);
+}
+
+.logo {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+}
+
+.nav-links li {
+    margin: 0 15px;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: white;
+    font-weight: 500;
+}
+
+/* Hero Section */
+.hero {
+    text-align: center;
+    padding: 100px 20px;
+    background: radial-gradient(circle, var(--blue) 10%, transparent 50%);
+}
+
+.hero h1 {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+}
+
+.hero p {
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+}
+
+.cta-button {
+    background-color: var(--pink);
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    font-size: 1rem;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+/* Document Section */
+.documents {
+    padding: 50px;
+}
+
+.toolbar {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.toolbar button {
+    background-color: var(--blue);
+    border: none;
+    padding: 10px 15px;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.document-list {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.document {
+    text-align: center;
+    background: var(--dark-brown);
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.document img {
+    width: 200px;
+    height: auto;
+    border-radius: 5px;
+}
+
+.document p {
+    margin-top: 10px;
+    font-size: 14px;
+}
