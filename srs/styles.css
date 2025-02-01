@@ -118,3 +118,16 @@ body {
     margin-top: 10px;
     font-size: 14px;
 }
+
+.sidebar{
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    top: 150px;
+    width: 100px;
+    margin-left: 32px;
+    background-color: #5D81BC;
+    align-items: center;
+
+}
+
