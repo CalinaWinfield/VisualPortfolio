@@ -120,14 +120,24 @@ body {
 }
 
 .sidebar{
+
+    display:flex;
+    flex-direction: column;
+   
     position: fixed;
     left: 0;
     bottom: 0;
     top: 150px;
     width: 100px;
     margin-left: 32px;
-    background-color: #5D81BC;
-    align-items: center;
+    background-color:#382C29;
+    
+
+}
+
+.sidebar-object{
+outline-style: solid;
+
 
 }
 
