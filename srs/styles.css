@@ -77,6 +77,7 @@ body {
 /* Document Section */
 .documents {
     padding: 50px;
+   
 }
 
 .toolbar {
@@ -120,24 +121,47 @@ body {
 }
 
 .sidebar{
-
-    display:flex;
+    display: flex;
     flex-direction: column;
-   
-    position: fixed;
-    left: 0;
-    bottom: 0;
-    top: 150px;
-    width: 100px;
-    margin-left: 32px;
-    background-color:#382C29;
+    list-style-type: none;
+    margin-right: 20px;
+    padding: 0;
+    width: 120;
+    background-color: #f1f1f1;
+    background-color:#5d81bc;
+    position:fixed;
+    top: 190px;
+    left: 10px;
+    border-radius: 2px;
     
 
-}
-
-.sidebar-object{
-outline-style: solid;
 
 
 }
+.sidebar-object-Header{
+    text-align: center;
+    -fontfamily: 'Inter', sans-serif;
+    font-size: 14px;
+
+}
+.sidebar-object a{
+   
+    display: block;
+    color: #FFF5E3;
+    padding: 8px 16px;
+    text-decoration: none;
+    font-size: 14px;
+    
+    
+    
+}
+
+.sidebar-object a:hover{
+    background-color:#5274ac;
+    -fontfamily: 'Inter', sans-serif;
+    box-shadow: #81899e 1px .5px 6px;
+
+}
+
+
 
