@@ -83,8 +83,11 @@ body {
 .toolbar {
     display: flex;
     justify-content: center;
-    gap: 15px;
+    gap: 0px;
     margin-bottom: 20px;
+    background-color: #5274ac;
+    margin-left: 150px;
+    margin-right: 150px;
 }
 
 .toolbar button {
@@ -92,8 +95,14 @@ body {
     border: none;
     padding: 10px 15px;
     color: white;
-    border-radius: 5px;
+    border-radius: 0;
     cursor: pointer;
+}
+
+.toolbar button:hover{
+    background-color:#5274ac;
+    -fontfamily: 'Inter', sans-serif;
+    box-shadow: #81899e 1px .5px 6px;
 }
 
 .document-list {
@@ -160,6 +169,22 @@ body {
     background-color:#5274ac;
     -fontfamily: 'Inter', sans-serif;
     box-shadow: #81899e 1px .5px 6px;
+
+}
+
+.sidebar-object-upload a{
+    display: block;
+    color: #FFF5E3;
+    padding: 8px 16px;
+    text-decoration: none;
+    font-size: 14px;
+    
+}
+
+.sidebar-object-upload a:hover{
+    background-color:#f5a3ada1;
+    -fontfamily: 'Inter', sans-serif;
+    box-shadow: #81899e .3px .5px 2px;
 
 }
 
