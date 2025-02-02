@@ -133,15 +133,13 @@ body {
     display: flex;
     flex-direction: column;
     list-style-type: none;
-    margin-right: 20px;
+
     padding: 0;
     width: 120;
     background-color: #f1f1f1;
     background-color:#5d81bc;
-    position:fixed;
-    top: 190px;
-    left: 10px;
     border-radius: 2px;
+    
     
 
 
@@ -188,5 +186,11 @@ body {
 
 }
 
+.main-page{
+    display: flex;
+    align-items: center;
+   
+   
+}
 
 
