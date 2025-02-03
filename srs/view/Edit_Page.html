@@ -105,22 +105,23 @@
 	</div>
 
 	<script>
-		// JavaScript to handle font change
-		document.querySelectorAll('.dropdown-item').forEach(item => {
-		  item.addEventListener('click', (e) => {
-			const selectedFont = e.target.getAttribute('data-font');
-			document.body.style.fontFamily = selectedFont;
-		  });
-		});
-	</script>
-	<script>
-		// JavaScript to handle font change
-		document.querySelectorAll('.dropdown-item').forEach(item => {
-		  item.addEventListener('click', (e) => {
-			const selectedSize = e.target.getAttribute('data-size');
-			document.body.style.fontSize = selectedSize;
-		  });
-		});
-	</script>
+        // JavaScript to handle font change
+        document.querySelectorAll('.dropdown-item[data-font]').forEach(item => {
+          item.addEventListener('click', (e) => {
+            const selectedFont = e.target.getAttribute('data-font');
+            const documentContent = document.querySelector('.document');
+            documentContent.style.fontFamily = selectedFont;
+          });
+        });
+
+        // JavaScript to handle font size change
+        document.querySelectorAll('.dropdown-item[data-size]').forEach(item => {
+          item.addEventListener('click', (e) => {
+            const selectedSize = e.target.getAttribute('data-size');
+            const documentContent = document.querySelector('.document');
+            documentContent.style.fontSize = selectedSize;
+          });
+        });
+    </script>
 
 </body>
