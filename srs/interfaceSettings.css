@@ -8,14 +8,17 @@
     --pink: #F5A3AD;
     --blue: #5D81BC;
     --navy: #01223B;
+    --padding-no-padding: 0;
+    --margin-no-margin: 0;
+
 }
 
 body {
     font-family: 'Inter', sans-serif;
     background-color: var(--navy);
     color: white;
-    margin: 0;
-    padding: 0;
+    margin: var(--no-margin);
+    padding:var(--no-padding);
 }
 
 /* Navigation Bar */
@@ -42,7 +45,7 @@ body {
 }
 
 .middle-navbar{
-    background-color: lightpink;
+    background-color: var(--pink);
     flex: 2;
     margin-left: 70px;
     margin-right: 35px;
