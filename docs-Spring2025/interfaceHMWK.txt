@@ -1,0 +1,12 @@
+Ahkeelah Lindo implemented variable var(--no-margin);in the 
+file interfaceSettings.css and the corresponding page document.html
+
+Ahkeelah Lindo implemented variable var(--no-padding) in the
+file interfaceSettings.css and the corresponding page document.html
+
+Mihn Huy Tran implemented variable var(--navy) in the file 
+interfaceSetting.css and the corresponding page index.html
+
+Mihn Huy Tran implemented variable var(--brown) in the file
+interfaceSetting.css and the corresponding page index.html
+
