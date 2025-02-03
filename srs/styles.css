@@ -20,17 +20,45 @@ body {
 
 /* Navigation Bar */
 .navbar {
+    height: 55px;
     display: flex;
+    flex-direction: row;
     justify-content: space-between;
-    align-items: center;
-    padding: 15px 30px;
     background-color: var(--navy);
 }
 
-.logo {
-    font-size: 20px;
-    font-weight: bold;
+.left-navbar{
+    flex:1;
+    background-color: lightblue;
+    width: 150px;
 }
+
+.hamburger-navbar-btn{
+
+}
+
+.logo{
+
+}
+
+.middle-navbar{
+    background-color: lightpink;
+    flex: 2;
+    margin-left: 70px;
+    margin-right: 35px;
+    
+  
+}
+
+.right-navbar{
+    flex:1;
+    background-color: lightblue;
+}
+
+
+
+
+
 
 .nav-links {
     list-style: none;
