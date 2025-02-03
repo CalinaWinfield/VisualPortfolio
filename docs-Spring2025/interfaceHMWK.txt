@@ -1,0 +1,23 @@
+Ahkeelah Lindo implemented variable var(--no-margin);in the 
+file interfaceSettings.css and the corresponding page document.html
+
+Ahkeelah Lindo implemented variable var(--no-padding) in the
+file interfaceSettings.css and the corresponding page document.html
+
+Mihn Huy Tran implemented variable var(--navy) in the file 
+interfaceSetting.css and the corresponding page index.html
+
+Mihn Huy Tran implemented variable var(--brown) in the file
+interfaceSetting.css and the corresponding page index.html
+
+David Flores implemented variable var(--accent-color-2) in the file interfaceSetting.css and the correspondng 
+page main.html
+
+David Flores implemented variable var(--VPOrange) in the file interfaceSetting.css and the correspondng 
+page main.html
+
+Oved Lomeli implemented variable var(--blue) the file interfaceSetting.css and the correspondng 
+page Edit_Page.html
+
+Oved Lomeli implemented variable var(--pink) the file interfaceSetting.css and the correspondng 
+page Edit_Page.html
