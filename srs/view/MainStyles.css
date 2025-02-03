@@ -6,6 +6,8 @@
     --accent-color-2: #81B29A; 
     --text-color: #362C28; 
     --text-light: #F4F1DE;
+	--VPOrange: #F4A460;
+	--light-purple:#C8A2C8;
 }
 
 /* General Styles */
@@ -125,7 +127,7 @@ body {
 }
 
 .quick-actions .action-content {
-    background-color: var(--accent-color-2);
+    background-color: var(--VPOrange);
     color: var(--text-light);
     width: 100%;
     height: 120px;
@@ -139,7 +141,7 @@ body {
 }
 
 .quick-actions .action-content:hover {
-    background-color: var(--accent-color);
+    background-color:var(--light-purple);
 }
 
 
