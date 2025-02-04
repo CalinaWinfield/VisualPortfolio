@@ -215,30 +215,24 @@ body {
     display: flex;
     flex: 1;
     align-items: center;
+    vertical-align: top;
 }
 
 
-
 .search-bar {
-    
-   flex: 1;
-   height: 34px;
-   padding-left: 10px;
-   font-size: 14;
-   border-width:1px;
-   border-style: solid;
-   border-color: #FFF5E3;
-   background-color: #FFF5E3;
-   border-radius: 10px;
-   box-shadow: inset 1px 2px 3px rgba(57, 54, 54, 0.15);
-
-
-
-
-
-  
-  }
-  
+    flex: 1;
+    height: 36px;
+    padding-left: 10px;
+    font-size: 14px;
+    border-width: 1px;
+    border-style: solid;
+    border-color: #FFF5E3;
+    background-color: #FFF5E3;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    box-shadow: inset -1px 2px 3px -1px rgba(57, 54, 54, 0.15);
+    border-right: none; /* No right border */
+ }
   .search-bar::placeholder {
     font-family: Roboto, Arial;
     font-size: 14px;
@@ -246,26 +240,24 @@ body {
   }
 
 
-  .temp{
+  .temp {
     display: flex;
-    
-    height: 34px;
-   padding-left: 10px;
-   font-size: 14;
-   border-width:1px;
-   border-style: solid;
-   border-color: #FFF5E3;
-   background-color: #FFF5E3;
-   box-shadow: inset 1px 2px 3px rgba(57, 54, 54, 0.15);
-   align-items: center;
-   border-top-right-radius: 10px;
-   border-bottom-right-radius: 10px;
-   margin-left: -1px;
-   
-   
-
-
-  }
+    flex: 1;
+    max-width: 74px;
+    height: 36px;
+    padding-left: 10px;
+    border-width: 1px;
+    border-style: solid;
+    border-color: #FFF5E3;
+    background-color: #FFF5E3;
+    box-shadow: inset 2px 2px 3px -1px rgba(57, 54, 54, 0.15);
+    align-items: center;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    border-left: none; /*  No left border */
+    margin-left: 0; /*  Avoids misalignment */
+ }
+  
 
   
   .search-button {
@@ -276,14 +268,34 @@ body {
     border-color: var(--cream);
     border-width: 0px;
     margin-left: -1px;
-    border-radius: 2px;
+    border-left-width: 0px;
+    border-right-width:0px ;
+
+    
+  }
+  
+
+  .search-button2 {
+   
+    height: 15px;
+    background-color: var(--cream);
+    border-style: solid;
+    border-color: var(--cream);
+    border-width: 0px;
+    margin-left: -1px;
     border-left-width: 0px;
     border-right-width:0px ;
 
     
   }
 
+
+
   .search-icon{
+    height: 20px;
+
+  }
+  .search-icon2{
     height: 20px;
 
   }
