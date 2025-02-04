@@ -8,95 +8,120 @@
 </head>
 <body>
 
-    <!-- Navigation Bar -->
-    <div class="navbar">
-        <div class="left-navbar">
-            <button class="hamburger-navbar-btn">
-                <img class="hamburger-icon"src="../img/hamburger.svg">
-            </button>
-            <div class="logo-navbar">
-                <img class="logo" src="../img/logo1.png">
+    <div class="whole-flex">
+   <!-- Navigation Bar -->
+   <div class="navbar">
+    <div class="left-navbar">
+        <button class="hamburger-navbar-btn">
+            <img class="hamburger-icon"src="../img/hamburger.svg">
+        </button>
+        <div class="logo-navbar">
+            <img class="logo" src="../img/logo1.png">
+        </div>
+    </div>
+    <div class="middle-navbar">
+    </div>
+    <div class="right-navbar">
+        <button class="addpage-navbar-btn">
+            <img class="addpage-icon" src="../img/addpage.svg">
+        </button>
+        <button class="onetwopageview-navbar-btn">
+            <img class="onetwopage-icon" src="../img/onetwopageview.svg">
+        </button>
+        <button class="guide-navbar-btn">
+            <img class="guide-icon" src="../img/guide.svg">
+        </button>
+        <div class="userprofile-navbar">
+            <img class="profilepicture-icon" src="../img/profilepicture.jpg">
             </div>
-        </div>
-        <div class="middle-navbar">
-        </div>
-        <div class="right-navbar">
-            <button class="addpage-navbar-btn">
-                <img class="addpage-icon" src="../img/addpage.svg">
-            </button>
-            <button class="onetwopageview-navbar-btn">
-                <img class="onetwopage-icon" src="../img/onetwopageview.svg">
-            </button>
-            <button class="guide-navbar-btn">
-                <img class="guide-icon" src="../img/guide.svg">
-            </button>
-            <div class="userprofile-navbar">
-                <img class="profilepicture-icon" src="../img/profilepicture.jpg">
-                </div>
-        </div>
-
     </div>
 
-    <!-- Hero Section 
-    <header class="hero">
-        <h1>Work Smarter, Feel Effortless</h1>
-        <p>Simplify Document Management with the Visual Portfolio App.</p>
-        <button class="cta-button">Sign up for free</button>
-    </header>
+</div>
+
+<!-- Hero Section 
+<header class="hero">
+    <h1>Work Smarter, Feel Effortless</h1>
+    <p>Simplify Document Management with the Visual Portfolio App.</p>
+    <button class="cta-button">Sign up for free</button>
+</header>
 -->
-    <!-- Document Management Section -->
-    <div class="toolbar">
-        <div class="toolbar-left"></div>
-        <div class="toolbar-middle"></div>
-        <div class="toolbar-right">
-           
-           
-            <input class="search-bar" type="text" placeholder="Find">
-           
-        <div class="temp">
-            <button class="search-button">
-              <img class="search-icon" src="../img/up.svg">
-            </button>
-            <button class="search-button2">
-                <img class="search-icon" src="../img/down.svg">
-              </button>
-            </div>
+<!-- Document Management Section -->
+<div class="toolbar">
+    <div class="toolbar-left"></div>
+    <div class="toolbar-middle"></div>
+    <div class="toolbar-right">
        
+       
+        <input class="search-bar" type="text" placeholder="Find">
+       
+    <div class="temp">
+        <button class="search-button">
+          <img class="search-icon" src="../img/up.svg">
+        </button>
+        <button class="search-button2">
+            <img class="search-icon2" src="../img/down.svg">
+          </button>
         </div>
-
-
-
-
-
-
-       
-
+   
     </div>
-    <div class="main-page">
-        <ul class="sidebar">
-            <li class="sidebar-object-Header"><p>Most Used &#11088;</p></li>
-            <li class="sidebar-object"><a href ="#CV">CV</a></li>
-            <li class="sidebar-object"><a href ="#ResumeTemplate">Resume Template</a></li>
-            <li class="sidebar-object"><a href ="#Accolades">Accolades</a></li>
-            <li class="sidebar-object"><a href ="#Certifications">Certification Badges</a></li>
-            <li class="sidebar-object"><a href ="#CoverLetter">Cover Letter</a></li>
-            <li class="sidebar-object-upload"><a href ="#UploadNewFile">&#x2191 New File</a></li>
-        </ul>    
+
+
+
+
+
+
+   
+
+</div>
+<div class="main-page">
     
-        
-        <div class="document-list">
-            <div class="document">
-                <img src="../img/resume1.png" alt="Resume Preview">
-                <p>Old_Resume_JohnDoe</p>
-            </div>
-            <div class="document">
-                <img src="../img/resume2.png" alt="Resume Preview">
-                <p>Final_Resume_John_Doe</p>
-            </div>
+    
+    <ul class="sidebar">
+        <li class="sidebar-object-Header"><p>Most Used &#11088;</p></li>
+        <li class="sidebar-object"><a href ="#CV">CV</a></li>
+        <li class="sidebar-object"><a href ="#ResumeTemplate">Resume Template</a></li>
+        <li class="sidebar-object"><a href ="#Accolades">Accolades</a></li>
+        <li class="sidebar-object"><a href ="#Certifications">Certification Badges</a></li>
+        <li class="sidebar-object"><a href ="#CoverLetter">Cover Letter</a></li>
+        <li class="sidebar-object-upload"><a href ="#UploadNewFile">&#x2191 New File</a></li>
+    </ul>    
+    
+
+    
+    
+        <div class="document-test">
+            <form class="hope" action="/action_page.php">
+                <div class="doc-name">
+                    <p><label for="w3review">Review of W3Schools:</label></p>
+                </div>
+    
+                <textarea id="w3review" name="w3review" class="text-document">At w3schools.com you will learn how to make a website. 
+                    They offer free tutorials in all web development technologies.</textarea>
+                <br>
+                <input type="submit" value="Submit">
+                <p>Click the "Submit" button and the form-data will be sent to a page on the server called "action_page.php".</p>
+            </form>
         </div>
-         
-        
+   
+    
+   
+        <div class="document-test2">
+            <form action="/action_page.php">
+                <div class="doc-name">
+                    <p><label for="w3review">Review of W3Schools:</label></p>
+                </div>
+    
+                <textarea id="w3review" name="w3review" class="text-document">At w3schools.com you will learn how to make a website. 
+                    They offer free tutorials in all web development technologies.</textarea>
+                <br>
+                <input type="submit" value="Submit">
+                <p>Click the "Submit" button and the form-data will be sent to a page on the server called "action_page.php".</p>
+            </form>
+       
     </div>
+    
+</div>
+</div>
 
 </body>
 </html>

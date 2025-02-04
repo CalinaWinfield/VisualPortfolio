@@ -11,8 +11,7 @@
     --padding-no-padding: 0;
     --margin-no-margin: 0;
     --VPOrange: #F4A460;
-	--light-purple:#C8A2C8;
-
+	--light-purple: #C8A2C8;
 }
 
 body {
@@ -21,6 +20,18 @@ body {
     color: white;
     margin: var(--no-margin);
     padding:var(--no-padding);
+    height: 3000px;
+}
+
+
+.whole-flex{
+height: 2000px;
+display: flex;
+flex-direction: column;
+column-gap: 10px;
+
+
+
 }
 
 /* Navigation Bar */
@@ -218,88 +229,74 @@ body {
     vertical-align: top;
 }
 
+.search-bar, .temp, .search-button, .search-button2 {
+    box-sizing: border-box;
+}
+
+
+
+.search-bar, .temp {
+    height: 36px;  /* Ensure both have the exact same height */
+    display: flex;
+    align-items: center; /* Ensures content is aligned */
+    box-sizing: border-box; /* Prevents unexpected height changes */
+}
 
 .search-bar {
     flex: 1;
-    height: 36px;
-    padding-left: 10px;
     font-size: 14px;
-    border-width: 1px;
-    border-style: solid;
-    border-color: #FFF5E3;
+    border: 1px solid #FFF5E3;
     background-color: #FFF5E3;
     border-top-left-radius: 10px;
     border-bottom-left-radius: 10px;
     box-shadow: inset -1px 2px 3px -1px rgba(57, 54, 54, 0.15);
-    border-right: none; /* No right border */
- }
+    border-right: none; /* Removes overlapping border */
+    margin: 0;
+    padding: 10px;
+}
   .search-bar::placeholder {
     font-family: Roboto, Arial;
     font-size: 14px;
+    line-height: normal;
   
   }
 
 
   .temp {
     display: flex;
-    flex: 1;
-    max-width: 74px;
+    width: auto; 
     height: 36px;
-    padding-left: 10px;
-    border-width: 1px;
-    border-style: solid;
-    border-color: #FFF5E3;
+    align-items: center;
+    justify-content: space-between; 
+    min-width: 74px; 
+    border: 1px solid #FFF5E3;
     background-color: #FFF5E3;
     box-shadow: inset 2px 2px 3px -1px rgba(57, 54, 54, 0.15);
-    align-items: center;
     border-top-right-radius: 10px;
     border-bottom-right-radius: 10px;
-    border-left: none; /*  No left border */
-    margin-left: 0; /*  Avoids misalignment */
- }
-  
+    border-left: none;
+    margin-left: 0;
+    overflow: hidden;
+}
 
   
-  .search-button {
-   
-    height: 15px;
+.search-button, .search-button2 {
+    flex-grow: 1; 
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     background-color: var(--cream);
-    border-style: solid;
-    border-color: var(--cream);
-    border-width: 0px;
-    margin-left: -1px;
-    border-left-width: 0px;
-    border-right-width:0px ;
+    border: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
 
-    
-  }
-  
-
-  .search-button2 {
-   
-    height: 15px;
-    background-color: var(--cream);
-    border-style: solid;
-    border-color: var(--cream);
-    border-width: 0px;
-    margin-left: -1px;
-    border-left-width: 0px;
-    border-right-width:0px ;
-
-    
-  }
-
-
-
-  .search-icon{
-    height: 20px;
-
-  }
-  .search-icon2{
-    height: 20px;
-
-  }
-
+.search-icon, .search-icon2 {
+    max-width: 70%; 
+    height: auto;   
+}
 
 
 .sidebar{
@@ -357,51 +354,116 @@ body {
 }
 
 .main-page{
+    height: 1000px;
     display: flex;
-    align-items: center;
+    flex-direction: row;
+    justify-content: space-between;
+    background-color: pink;
+    padding-bottom: 16px;
+    padding-top: 16px; 
+    padding-left: 16px;
+    padding-right: 16px;
+    column-gap: 15px;
+  
+    
 }
+
+
+
 
 
 
 .sidebar{
     display: flex;
-    flex-direction: column;
     list-style-type: none;
     padding: 0;
     width: 120;
     background-color: #f1f1f1;
     background-color:#5d81bc;
     border-radius: 2px;
+    margin-left: 0px;
 
 }
 
-.document-list {
-    flex-grow: 1;
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-}
+
+
+
+
+
 
 /* Document Section */
-.documents {
-    flex-grow: 1;
-    padding: 50px;
-   
-}
 
-.document-list {
+
+
+.document-test {
     display: flex;
-    justify-content: center;
-    gap: 20px;
-}
-
-.document {
+    flex-direction: column; /* Ensures the form elements stack vertically */
     text-align: center;
     background: var(--dark-brown);
     padding: 20px;
     border-radius: 10px;
-    margin-left: 5px
+    max-width: 600px;  /* Add a maximum width */
+    width: 100%;       /* Makes the width responsive */
+    flex-grow: 1;      /* Allows it to grow and take up available space */
+    flex-shrink: 1;    /* Allows it to shrink when the screen is smaller */
+    min-height: 100px; /* Minimum height to ensure it doesn't collapse completely */
+    height: auto;      /* Makes the height adjust based on content */
+    overflow: hidden;  
+
 }
+
+
+.document-test2 {
+    display: flex;
+    flex-direction: column; /* Ensures the form elements stack vertically */
+    text-align: center;
+    background: var(--dark-brown);
+    padding: 20px;
+    border-radius: 10px;
+    max-width: 600px;  /* Add a maximum width */
+    width: 100%;       /* Makes the width responsive */
+    flex-grow: 1;      /* Allows it to grow and take up available space */
+    flex-shrink: 1;    /* Allows it to shrink when the screen is smaller */
+    min-height: 100px; /* Minimum height to ensure it doesn't collapse completely */
+    height: auto;      /* Makes the height adjust based on content */
+    overflow: hidden;  
+
+   
+}
+
+
+
+
+.hope{
+  display: flex;
+  flex-direction: column;
+
+
+
+
+}
+
+.bottom-space{
+    display: flex;
+    background-color: #f4e7e7;
+    height: 500px;
+    
+
+}
+
+
+
+    .text-document {
+        height: 500px;    /* Set the height */
+        width: 100%;      /* Set the width to 100% of its container */
+        padding: 10px;    /* Add padding inside the textarea */
+        border: 1px solid #ccc;  /* Border color */
+        font-size: 14px;  /* Font size */
+        border-radius: 5px;  /* Rounded corners */
+        box-sizing: border-box;  /* Ensures padding is included in width calculation */
+    }
+
+
 
 .document img {
     min-width:0;
@@ -413,4 +475,4 @@ body {
 .document p {
     margin-top: 10px;
     font-size: 14px;
-}
+} 
