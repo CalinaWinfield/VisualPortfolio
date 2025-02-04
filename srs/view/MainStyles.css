@@ -8,6 +8,7 @@
     --text-light: #F4F1DE;
 	--VPOrange: #F4A460;
 	--light-purple:#C8A2C8;
+	--navy: #01223B;
 }
 
 /* General Styles */
@@ -62,7 +63,7 @@ body {
 
 /* Left Pane (Hidden on Mobile, Visible on Desktop) */
 .left-pane {
-    background-color: var(--primary-color);
+    background-color: var(--navy);
     color: var(--text-light);
     padding: 15px;
     height: 100vh;
@@ -71,20 +72,26 @@ body {
 }
 
 .left-pane .logo {
-    font-size: 24px;
+    font-size: 22px;
     font-weight: bold;
-    font-family: 'Lora', serif;
+    display: flex;
+	align-items: center;
+	color: white;
 }
 
 .logo img {
-	width: 30%; /* Make the image fit the container */
-    height: 30%; /* Make the image fit the container */
+	width: 25%; /* Make the image fit the container */
+    height: 25%; /* Make the image fit the container */
     object-fit: contain;
 }
 .left-pane .profile-picture {
     width: 80px;
     height: 80px;
-    background-color: var(--accent-color);
+    background-image: url("../img/profilepicture.jpg"); 
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    border-radius: 50%;
     border-radius: 50%;
     margin: 0 auto 10px;
 }
@@ -147,7 +154,7 @@ body {
 
 /* Right Pane (Calendar) - Desktop Styles */
 .right-pane {
-    background-color: var(--primary-color);
+    background-color: var(--navy);
     color: var(--text-light);
     padding: 20px;
     height: 100vh;
