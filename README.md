@@ -10,9 +10,11 @@ The Visual Portfolio App is a web-based tool designed to help faculty modernize 
 1. HTML
 2. CSS
 3. JavasCript
-4. NotePad++
 ### Features
-
+1. Drag and drop document customozation
+2. External link integration
+3. PDF generation
+4. Schedule management
 ### Installation
 1. Clone git repo: 
    git clone https://github.com/GGC-SD/VisPortfolio.git
