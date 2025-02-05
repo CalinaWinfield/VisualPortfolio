@@ -29,7 +29,7 @@ body {
 
 /* Mobile Header (Visible only on small screens) */
 .mobile-header {
-    background-color: var(--primary-color);
+    background-color: var(--navy);
     color: var(--text-light);
     padding: 10px;
 }
@@ -37,7 +37,11 @@ body {
 .mobile-header .profile-picture {
     width: 60px;
     height: 60px;
-    background-color: var(--accent-color);
+   background-image: url("../img/profilepicture.jpg"); 
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    border-radius: 50%;
     border-radius: 50%;
     margin: 0 auto 10px;
 }
