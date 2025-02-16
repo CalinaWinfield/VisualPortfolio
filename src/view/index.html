@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,45 +9,43 @@
 </head>
 <body>
 
-    <!-- Navigation Bar -->
-    <nav class="navbar">
-        <div class="logo"><img src="../img/foxIcon.png" alt="Visual Portfolio Logo" class="img-fluid">VISUAL PORTFOLIO</div>
-        <ul class="nav-links">
-            <li><a href="main.html">Log In</a></li>
-            <li><a href="#">About</a></li>
-            <li><a href="#">Explore</a></li>
-            <li><a href="#">Guide</a></li>
-        </ul>
-    </nav>
-
-    <!-- Hero Section -->
-    <header class="hero">
-        <h1>Work Smarter, Feel Effortless</h1>
-        <p>Simplify Document Management with the Visual Portfolio App.</p>
-        <button class="cta-button">Sign up for free</button>
+    <!-- Header -->
+    <header class="site-header">
+        <nav class="navbar">
+            <div class="logo"><img src="../img/foxIcon.png" alt="Visual Portfolio Logo" class="img-fluid">VISUAL PORTFOLIO</div>
+            <ul class="nav-links">
+                <li><a href="main.html">Log In</a></li>
+                <li><a href="#">About</a></li>
+                <li><a href="#">Explore</a></li>
+                <li><a href="#">Guide</a></li>
+            </ul>
+        </nav>
     </header>
 
-    <!-- Document Management Section -->
-    <!--<section class="documents">
-        <div class="toolbar">
-            <button>Print</button>
-            <button>Single</button>
-            <button>Export</button>
-            <button>Sign</button>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Hero Section -->
+        <section class="hero">
+            <h2>Work Smarter, Feel Effortless</h2>
+            <p>Simplify Document Management with the Visual Portfolio App.</p>
+            <button class="cta-button">Sign up for free</button>
+        </section>
+
+        
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; <span id="current-year"></span> Visual Portfolio. All rights reserved.</p>
         </div>
-        <div class="document-list">
-            <div class="document">
-                <img src="resume1.png" alt="Resume Preview">
-                <p>Old_Resume_JohnDoe</p>
-            </div>
-            <div class="document">
-                <img src="resume2.png" alt="Resume Preview">
-                <p>Final_Resume_John_Doe</p>
-            </div>
-        </div>
-    </section>
-                -->
+    </footer>
+
+    <script>
+        // Set current year in footer
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+    </script>
 
 </body>
 </html>
-
