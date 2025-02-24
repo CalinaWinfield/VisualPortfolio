@@ -290,29 +290,17 @@ body {
 }
 
 /* Item Modal */
-/* The Modal */
-.modal {
-  display: none; /* Hidden by default */
-  position: fixed; /* Stay in place */
-  z-index: 1; /* Sit on top */
-  left: 0;
-  top: 0;
-  width: 75%; /* Default modal width */
-  height: 100%; /* Set the height of the modal */
-  overflow: auto; /* Enable scroll if needed */
-  background-color: rgba(0, 0, 0, 0.4); /* Black background with opacity */
-  box-sizing: border-box; /* Include padding and border in width */
-}
-  
+
 /* Modal Content */
 .modal-content {
-  color: black;
-  background-color: #fefefe;
-  margin: auto;
-  padding: 20px;
-  border: 1px solid #888;
-  width: 80%;
-}
+    color: black;
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+  }
+
   
 /* The Close Button */
 .close {
