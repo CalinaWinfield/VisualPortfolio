@@ -19,7 +19,13 @@ The Visual Portfolio App is a web-based tool designed to help faculty modernize 
 1. Clone git repo: 
    git clone https://github.com/GGC-SD/VisPortfolio.git
 ### How to Run
-
+- Open terminal and move to backend subfolder: "cd VisPortfolio/backend"
+- run "npm install" to istall dependencies"
+- if .env file is not present create one on back end subfolder and type:
+1. MONGO_URL= "mongodb-connection-string";
+1. PORT=5000
+- Ensure your IP address is allowed to connect with the dabase on MongoDB Atlas
+- On back end run then server using: "node server.js"
 ## Team Roles
 
 #### Spring 2025
