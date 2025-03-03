@@ -1,14 +1,14 @@
 /* David Flores */
 :root {
-    --primary-color: #3D405B; 
+    --primary-color: #3D405B;
     --secondary-color: #F4F1DE;
     --accent-color: #E07A5F;
-    --accent-color-2: #81B29A; 
-    --text-color: #362C28; 
+    --accent-color-2: #81B29A;
+    --text-color: #362C28;
     --text-light: #F4F1DE;
-	--VPOrange: #F4A460;
-	--light-purple:#C8A2C8;
-	--navy: #01223B;
+    --VPOrange: #F4A460;
+    --light-purple:#C8A2C8;
+    --navy: #01223B;
 }
 
 /* General Styles */
@@ -19,8 +19,8 @@ body {
     color: var(--text-color);
 }
 .menu {
-	text-align: center;
-	padding-top: 50px;
+    text-align: center;
+    padding-top: 50px;
 }
 .dashboard {
     height: 100vh;
@@ -37,7 +37,7 @@ body {
 .mobile-header .profile-picture {
     width: 60px;
     height: 60px;
-   background-image: url("../img/profilepicture.jpg"); 
+    background-image: url("../img/profilepicture.jpg");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -79,19 +79,19 @@ body {
     font-size: 22px;
     font-weight: bold;
     display: flex;
-	align-items: center;
-	color: white;
+    align-items: center;
+    color: white;
 }
 
 .logo img {
-	width: 25%; /* Make the image fit the container */
+    width: 25%; /* Make the image fit the container */
     height: 25%; /* Make the image fit the container */
     object-fit: contain;
 }
 .left-pane .profile-picture {
     width: 80px;
     height: 80px;
-    background-image: url("../img/profilepicture.jpg"); 
+    background-image: url("../img/profilepicture.jpg");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -111,30 +111,30 @@ body {
 
 /* Main Section */
 .main-section {
-    margin-left: 0; 
-    margin-right: 0; 
+    margin-left: 0;
+    margin-right: 0;
     padding: 25px;
     background-color: var(--secondary-color);
 }
 
 @media (min-width: 768px) {
     .main-section {
-        margin-left: 16.6667%; 
-        margin-right: 16.6667%; 
+        margin-left: 16.6667%;
+        margin-right: 16.6667%;
     }
 }
 
 .greeting {
-    font-size: 25px; 
-    color: var(--text-color); 
+    font-size: 25px;
+    color: var(--text-color);
     margin-bottom: 20px;
-	padding-bottom: 20px;
-	padding-top:35px;
+    padding-bottom: 20px;
+    padding-top:35px;
 }
 
 #username {
-    
-    color: var(--accent-color-3); 
+
+    color: var(--accent-color-3);
 }
 
 .quick-actions .action-content {
@@ -227,7 +227,7 @@ body {
     display: inline-block;
     margin: 10px;
     padding: 5px;
-    background: var(--text-light); 
+    background: var(--text-light);
     border-radius: 8px;
 }
 
@@ -239,7 +239,7 @@ body {
     padding: 10px 20px;
     font-size: 16px;
     border-radius: 5px;
-	text-decoration: none;
+    text-decoration: none;
 }
 
 .dynamic-button:hover {
@@ -258,11 +258,11 @@ body {
     transform: translate(40%, -40%);
 }
 .link-delete:hover {
-	background-color: var(--text-color);
+    background-color: var(--text-color);
 }
 #addButton {
-	background: var(--primary-color);
-	border: none;
+    background: var(--primary-color);
+    border: none;
 }
 
 /* Collapsible Button content */
@@ -276,17 +276,17 @@ body {
     text-align: left;
     outline: none;
     font-size: 15px;
-  }
+}
 
 .active, .collapsible:hover {
-  background-color: var(--accent-color);
+    background-color: var(--accent-color);
 }
-  
+
 .content {
-  padding: 0 18px;
-  display: none;
-  overflow: hidden;
-  background-color: var(--secondary-color);
+    padding: 0 18px;
+    display: none;
+    overflow: hidden;
+    background-color: var(--secondary-color);
 }
 
 /* Item Modal */
@@ -299,57 +299,57 @@ body {
     padding: 20px;
     border: 1px solid #888;
     width: 80%;
-  }
+}
 
-  
+
 /* The Close Button */
 .close {
-  float: right;
-  color: #aaaaaa;
-  font-size: 28px;
-  font-weight: bold;
+    float: right;
+    color: #aaaaaa;
+    font-size: 28px;
+    font-weight: bold;
 }
-  
+
 .close:hover,
 .close:focus {
-  color: #000;
-  text-decoration: none;
-  cursor: pointer;
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
 }
-  
+
 body {font-family: Arial, Helvetica, sans-serif;}
 * {box-sizing: border-box;}
 
 input[type=text], select, textarea {
-  width: 100%;
-  padding: 12px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  box-sizing: border-box;
-  margin-top: 6px;
-  margin-bottom: 16px;
-  resize: vertical;
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    margin-top: 6px;
+    margin-bottom: 16px;
+    resize: vertical;
 }
-  
+
 input[type=submit] {
-  background-color: #04AA6D;
-  color: white;
-  padding: 12px 20px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
+    background-color: #04AA6D;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
 }
-  
+
 input[type=submit]:hover {
-  background-color: #45a049;
+    background-color: #45a049;
 }
-  
+
 .container {
-  border-radius: 5px;
-  background-color: #f2f2f2;
-  padding: 20px;
+    border-radius: 5px;
+    background-color: #f2f2f2;
+    padding: 20px;
 }
-  
+
 .date {
-  padding-bottom: 10px;
+    padding-bottom: 10px;
 }
