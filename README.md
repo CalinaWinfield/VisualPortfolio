@@ -26,6 +26,10 @@ The Visual Portfolio App is a web-based tool designed to help faculty modernize 
 1. PORT=5000
 - Ensure your IP address is allowed to connect with the dabase on MongoDB Atlas
 - On back end run then server using: "node server.js"
+
+  ### To run the front end
+  - go to VisPortfolio/frontend on your terminal and run: npm install
+  - run with: ng serve 
 ## Team Roles
 
 #### Spring 2025
