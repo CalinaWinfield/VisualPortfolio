@@ -24,7 +24,7 @@ The Visual Portfolio App is a web-based tool designed to help faculty modernize 
 - if .env file is not present create one on back end subfolder and type:
 1. MONGO_URL= "mongodb-connection-string";
 1. PORT=5000
-- Ensure your IP address is allowed to connect with the dabase on MongoDB Atlas
+- Ensure your IP address is allowed to connect with the database on MongoDB Atlas
 - On back end run then server using: "node server.js"
 
   ### To run the front end
