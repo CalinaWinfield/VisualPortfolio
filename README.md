@@ -9,7 +9,7 @@ The Visual Portfolio App is a web-based tool designed to help faculty modernize 
 ### Technologies
 1. HTML
 2. CSS
-3. JavasCript
+3. JavaScript
 ### Features
 1. Drag and drop document customization
 2. External link integration
