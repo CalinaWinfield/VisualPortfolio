@@ -1,0 +1,140 @@
+/* Sidebar Styles */
+
+:root {
+  --dark-brown: #382c29;
+  --cream: #fff5e3;
+  --pink: #f5a3ad;
+  --blue: #5d81bc;
+  --navy: #01223b;
+  --padding-no-padding: 0;
+  --margin-no-margin: 0;
+  --VPOrange: #f4a460;
+  --light-purple: #c8a2c8;
+}
+.sidebar {
+  background-color: #343a40;
+  color: white;
+  min-height: 100vh;
+  padding: 20px;
+  width: 250px; /* Default sidebar width */
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  transition: width 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+
+/* Main Content */
+.main-content {
+  margin-left: 250px; /* Default space for sidebar */
+  padding: 20px;
+  transition: margin-left 0.3s ease-in-out, width 0.3s ease-in-out;
+  width: calc(100% - 250px); /* Adjust width dynamically */
+}
+
+/* Top Navbar (Dashboard Bar) */
+.navbar {
+  background-color: #212529; /* Dark navbar */
+  color: white;
+  padding: 15px;
+  position: fixed;
+  top: 0;
+  left: 250px; /* Aligns with sidebar */
+  width: calc(100% - 250px); /* Navbar width adjusted */
+  transition: left 0.3s ease-in-out, width 0.3s ease-in-out;
+}
+
+/* Shrink Sidebar Instead of Hiding It on Medium Screens */
+@media (max-width: 991px) {
+  .sidebar {
+    width: 80px; /* Shrinks sidebar */
+    padding: 10px;
+  }
+
+  .main-content {
+    margin-left: 80px; /* Adjust for smaller sidebar */
+    width: calc(100% - 80px);
+  }
+
+  .navbar {
+    left: 80px; /* Adjust navbar position */
+    width: calc(100% - 80px);
+  }
+}
+
+/* Hide Sidebar on Small & Extra Small Screens */
+@media (max-width: 767px) {
+  .sidebar {
+    transform: translateX(-100%); /* Moves sidebar completely out */
+    width: 0;
+    padding: 0;
+  }
+
+  .main-content {
+    margin-left: 0 !important;
+    width: 100% !important;
+  }
+
+  .navbar {
+    left: 0;
+    width: 100%; /* Navbar should take full width when sidebar is gone */
+  }
+}
+
+/* Hide Navbar When Sidebar is Visible */
+@media (min-width: 992px) { 
+  .navbar {
+    display: none; /* Hides navbar when sidebar is visible */
+  }
+}
+
+.card-image {
+  height: 120px; /* Smaller height */
+  width: 100%; /* Ensures consistency */
+  object-fit: cover; /* Keeps the aspect ratio without distortion */
+}
+
+.custom-card-header {
+  background-color: var(--pink)!important;/* Replace with your desired color */
+  color: white !important; /* Ensures text is visible */
+}
+
+.hidden { display: none; }
+        .form-container {
+            background-color: #d4e5f5;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+        .subgroup-container {
+            background-color: #f8d7da;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 10px;
+        }
+        
+        #secondForm {
+          display: none;  /* Keeps it hidden initially */
+      }
+
+      .addSubgroup{
+        background-color:var(--blue) !important;
+      }
+
+    .submit{
+      background-color: var(--pink) !important;
+    }
+
+
+    .remove-btn{
+      background-color: var(--pink) !important;
+
+    }
+
+   .cardbtn{
+    background-color: var(--blue) !important;
+   }    
+
+   .folderTxt{
+    color: #01223b;
+   }

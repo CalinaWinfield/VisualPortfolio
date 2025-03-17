@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard</title>
+  <link rel="stylesheet" href="..\..\assets\css\Dashboard.css">
+  <!-- Bootstrap Links -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+<body>
+
+<!-- Navbar (Visible on Mobile) -->
+<nav class="navbar navbar-dark bg-dark d-md-none">
+  <div class="container-fluid">
+    <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebarMenu">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <span class="navbar-brand">Dashboard</span>
+  </div>
+</nav>
+
+<!-- Sidebar + Main Content -->
+<div class="container-fluid">
+  <div class="row">
+
+    <!-- Sidebar (Collapsible on Mobile) -->
+    <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar offcanvas-md offcanvas-start">
+      <div class="position-sticky">
+        <ul class="nav flex-column">
+          <li class="nav-item"><a class="nav-link" href="#" data-page="settings.html">⚙️ Settings</a></li>
+          <li class="nav-item"><a class="nav-link" href="#" data-page="help.html">Help</a></li>
+          <li class="nav-item"><a class="nav-link" href="#" data-page="Home">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="#" data-page="create-item.html">Create Item</a></li>
+          <li class="nav-item"><a class="nav-link" href="#" data-page="document.html" >Document Builder</a></li>
+        </ul>
+      </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+      <!-- Top Widgets -->
+      <div class="container-fluid Greeting d-flex justify-content-between align-items-center mt-2">
+        <!-- Search Bar -->
+        <div class="search-container d-flex align-items-center">
+            <input type="text" class="form-control search-bar" placeholder="Search">
+        </div>
+    
+        <!-- Location & Time Widget -->
+        <div class="location-time">
+            <span>📍 Location | 🕒 12:00 PM</span>
+        </div>
+      </div>
+      
+      <div class="container-fluid Greeting py-3">
+        <h4>Hello, Dr. Anca</h4>
+        <hr class="border border-secondary">
+      </div>
+      
+      <!-- Dashboard Content -->
+
+      <div id="content-area">
+      <div class="row mt-4">
+        <div class="col-md-3">
+          <div class="card h-100">
+            <div class="card-body d-flex flex-column">
+              <h5 class="card-title">Explore</h5>
+              <p class="text-muted">Discover other visionaries.</p>
+              <img src="../../assets/img/explore.svg" class="img-fluid card-image" alt="Explore Image">
+              <p>Check out other users' portfolios.</p>
+              <a href="#" class="btn btn-primary w-100 mt-auto cardbtn">Explore Now</a>
+            </div>
+          </div>
+        </div>
+      
+        <div class="col-md-3">
+          <div class="card h-100">
+            <div class="card-body d-flex flex-column">
+              <h5 class="card-title">My Profile</h5>
+              <p class="text-muted">Manage your settings</p>
+              <img src="../../assets/img/MyProfile.svg" class="img-fluid card-image" alt="Explore Image">
+              <p>Update personal details and preferences.</p>
+              <a href="#" class="btn btn-success w-100 mt-auto cardbtn">Go to Profile</a>
+            </div>
+          </div>
+        </div>
+      
+        <div class="col-md-3">
+          <div class="card h-100">
+            <div class="card-body d-flex flex-column">
+              <h5 class="card-title">Guides</h5>
+              <p class="text-muted">Helpful resources</p>
+              <img src="../../assets/img/Guides.svg" class="img-fluid card-image" alt="Explore Image">
+              <p>Access documentation, tutorials, and best practices.</p>
+              <a href="#" class="btn btn-primary w-100 mt-auto cardbtn">View Guides</a>
+            </div>
+          </div>
+        </div>
+      
+        <div class="col-md-3">
+          <div class="card h-100">
+            <div class="card-body d-flex flex-column">
+              <h5 class="card-title">Placeholder</h5>
+              <p class="text-muted">Coming soon</p>
+              <p>Stay tuned for new features and updates.</p>
+              <a href="#" class="btn btn-success w-100 mt-auto cardbtn">Learn More</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- My Documents & To Do Cards Side by Side -->
+      <div class="row mt-5 gy-3">
+        <!-- My Documents Card -->
+        <div class="col-md-6 mb-3">
+          <div class="card">
+            <div class="card-header custom-card-header">
+              My Documents
+            </div>
+            <div class="card-body d-flex flex-wrap gap-3">
+              <div class="folder text-center">
+                <img src="../../assets/img/folderD.svg" alt="Folder Icon" class="img-fluid" style="width: 80px; height: 80px;">
+                <p class="m-0 folderTxt">Resumes</p>
+              </div>
+              <div class="folder text-center">
+                <img src="../../assets/img/folderD.svg" alt="Folder Icon" class="img-fluid" style="width: 80px; height: 80px;">
+                <p class="m-0 style folderTxt">Certification Documents</p>
+              </div>
+              <div class="folder text-center">
+                <img src="../../assets/img/folderD.svg" alt="Folder Icon" class="img-fluid" style="width: 80px; height: 80px;">
+                <p class="m-0 folderTxt">Degrees</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      
+        <!-- To Do Card -->
+        <div class="col-md-6 mb-3">
+          <div class="card">
+            <div class="card-header custom-card-header">
+              To Do
+            </div>
+            <div class="card-body">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="task1">
+                <label class="form-check-label" for="task1">Finish Robotics Cv</label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="task2" checked>
+                <label class="form-check-label" for="task2">Update Resume</label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="task3" disabled>
+                <label class="form-check-label" for="task3">Disabled Task</label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Active Forms Card -->
+      <div class="row mt-4">
+        <div class="col-md-6">
+          <div class="card">
+            <div class="card-header custom-card-header">
+              Active Forms
+            </div>
+            <div class="card-body">
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Document</th>
+                    <th scope="col">State</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th scope="row">1</th>
+                    <td>Robotics CV</td>
+                    <td><span class="badge bg-success">Completed</span></td>
+                  </tr>
+                  <tr>
+                    <th scope="row">2</th>
+                    <td>Most Current Resume</td>
+                    <td><span class="badge bg-warning text-dark">Pending</span></td>
+                  </tr>
+                  <tr>
+                    <th scope="row">3</th>
+                    <td>CV #2</td>
+                    <td><span class="badge bg-danger">Canceled</span></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      
+      
+      </div>
+      </div>
+      
+    </main>
+  </div>
+</div>
+<script>
+
+  //Page Changing JS
+  document.addEventListener("DOMContentLoaded", function () {
+      const links = document.querySelectorAll(".nav-link");
+      const contentArea = document.getElementById("content-area");
+  
+      links.forEach(link => {
+          link.addEventListener("click", function (event) {
+              event.preventDefault(); // Prevent default page reload
+              const page = this.getAttribute("data-page"); // Get the target page
+              console.log(page);
+              // Fetch the content using AJAX
+              fetch(page)
+                  .then(response => response.text())
+                  .then(data => {
+                    
+                    if(page == "Home"){
+                    location.reload();
+                    }
+                      contentArea.innerHTML = data; // Load new content
+                      //contentArea.querySelectorAll("script").forEach(script =>
+                       // {
+                          //const src = script.src;
+                          //const scripts = document.createElement("script");
+                         // scripts.textContent = script.textContent;
+                          //scripts.src = src;
+                         // document.body.appendChild(scripts);
+                       //}
+                      //);
+                  })
+                  .catch(error => console.error("Error loading page:", error));
+          });
+      });
+  });
+  </script>
+  <script src="../../../../backend/controller/scriptMain.js"></script>
+</body>
+</html>

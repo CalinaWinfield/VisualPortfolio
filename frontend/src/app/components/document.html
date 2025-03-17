@@ -4,126 +4,120 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Visual Portfolio</title>
-    <link rel="stylesheet" href="interfaceSettings.css">
-		<link rel="icon" type="image/x-icon" href="../img/foxIcon1.png">
+    
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <link rel="stylesheet" href="../../assets/css/document.css">
+    <link rel="icon" type="image/x-icon" href="../img/foxIcon1.png">
+
+    <style>
+        body {
+            background-color: #F2F4F8; /* Light blue-gray */
+            color: #2C3E50; /* Dark blue-gray for text */
+            font-family: 'Calibri', sans-serif;
+        }
+
+        .list {
+            background: #5d81bc;
+            height: 60px;
+            margin: 10px;
+            padding: 10px;
+            color: #fff5e3;
+            display: flex;
+            align-items: center;
+            cursor: grab;
+            border-radius: 5px;
+            border-color:#fff5e3 ;
+            box-shadow: 2px 4px 6px rgba(0, 0, 0, 0.3);
+                    }
+
+        .list img {
+            width: 20px;
+            margin-right: 15px;
+            margin-left: 20px;
+        }
+
+        .drag-container {
+            min-height: 200px;
+            border: 2px dashed #ccc;
+            padding: 15px;
+            background-color: #fff;
+            border-radius: 5px;
+        }
+
+        .dragging {
+            opacity: 0.5;
+        }
+    </style>
 </head>
 <body>
 
-    <div class="whole-flex">
-   <!-- Navigation Bar -->
-   <div class="doc-navbar">
-    <div class="left-navbar">
-        <button class="hamburger-navbar-btn">
-            <img class="hamburger-icon"src="../img/hamburger.svg">
-        </button>
-        <div class="logo-navbar">
-            <img class="doc-logo" src="../img/foxIcon1.png">
-        </div>
-    </div>
-    <div class="middle-navbar">
-    </div>
-    <div class="right-navbar">
-        <button class="addpage-navbar-btn">
-            <img class="addpage-icon" src="../img/addpage.svg">
-        </button>
-        <button class="onetwopageview-navbar-btn">
-            <img class="onetwopage-icon" src="../img/onetwopageview.svg">
-        </button>
-        <button class="guide-navbar-btn">
-            <img class="guide-icon" src="../img/guide.svg">
-        </button>
-        <div class="userprofile-navbar">
-            <img class="profilepicture-icon" src="../img/profilepicture.jpg">
+<div class="container-fluid"> <!-- Full-width container -->
+    <div class="row justify-content-center py-4">
+        
+        <!-- Left Document -->
+        <div class="col-lg-5 col-md-6 mb-4">
+            <div class="p-4 border rounded bg-white shadow">
+                <h5 class="mb-3 docTitle">Item List:</h5>
+                <div id="left" class="drag-container">
+                    <div class="list" draggable="true"><img src="../../assets/img/foxIcon1.png">About Me</div>
+                    <div class="list" draggable="true"><img src="../../assets/img/foxIcon1.png">My Certifications</div>
+                    <div class="list" draggable="true"><img src="../../assets/img/foxIcon1.png">Experience</div>
+                    <div class="list" draggable="true"><img src="../../assets/img/foxIcon1.png">Projects</div>
+                </div>
             </div>
-    </div>
-
-</div>
-
-
-<div class="toolbar">
-    <div class="toolbar-left"></div>
-    <div class="toolbar-middle"></div>
-    <div class="toolbar-right">
-       
-       
-        <input class="search-bar" type="text" placeholder="Find">
-       
-    <div class="temp">
-        <button class="search-button">
-          <img class="search-icon" src="../img/up.svg">
-        </button>
-        <button class="search-button2">
-            <img class="search-icon2" src="../img/down.svg">
-          </button>
         </div>
-   
-    </div>
 
-
-
-
-
-
-   
-
-</div>
-<div class="main-page">
-    
-    
-    <ul class="sidebar">
-        <li class="sidebar-object-Header"><p>Most Used &#11088;</p></li>
-        <li class="sidebar-object"><a href ="#CV">CV</a></li>
-        <li class="sidebar-object"><a href ="#ResumeTemplate">Resume Template</a></li>
-        <li class="sidebar-object"><a href ="#Accolades">Accolades</a></li>
-        <li class="sidebar-object"><a href ="#Certifications">Certification Badges</a></li>
-        <li class="sidebar-object"><a href ="#CoverLetter">Cover Letter</a></li>
-        <li class="sidebar-object-upload"><a href ="#UploadNewFile">&#x2191 New File</a></li>
-        <li class="sidebar-object-Header"><p>Most Used section &#9733;</p></li>
-        <li class="sidebar-object"><a href ="#CV">Badges</a></li>
-        <li class="sidebar-object"><a href ="#ResumeTemplate">About Me</a></li>
-        <li class="sidebar-object"><a href ="#Accolades">Experience</a></li>
-		<li class="sidebar-object"><a href ="main.html">Dashboard</a></li>
-    </ul>    
-    
-
-    
-    
-        <div class="document-test">
-            <form action="/action_page.php">
-                <div class="doc-name">
-                    <p><label for="w3review">Template Document:</label></p>
-                </div>
-    
-                <textarea id="w3review" name="w3review" class="text-document">Paste Document Text Here</textarea>
-                <br>
-                <input class="docbtn" type="submit" value="Download">
-                <p class ="doc-end-text">You are using John_Smith_Resume.pdf as your template</p>
-            </form>
-       
-       
-       
-       
+        <!-- Right Document -->
+        <div class="col-lg-5 col-md-6 mb-4">
+            <div class="p-4 border rounded bg-white shadow">
+                <h5 class="mb-3 docTitle">Document Builder:</h5>
+                <div id="right" class="drag-container">Drag list items here</div>
+                <button class="btn btn-secondary w-100 mt-3 formatbtn">&#9881;</button>
+            </div>
         </div>
-   
-    
-   
-        <div class="document-test2">
-            <form action="/action_page.php">
-                <div class="doc-name">
-                    <p><label for="w3review">Main Document</label></p>
-                </div>
-    
-                <textarea id="w3review" name="w3review" class="text-document">Paste Document Text Here</textarea>
-                <br>
-                <input class="docbtn" type="submit" value="Download">
-                <input class="docbtn2" type="submit" value="Format">
-                 <p class="doc-end-text">Currently working on John_Smith_CV.pdf as your template</p>
-            </form>
-       
-    </div>
-    
-</div>
-</div>
+
+    </div> <!-- End Main Content -->
+</div> <!-- End Container-Fluid -->
+
+<script>
+    let lists = document.querySelectorAll(".list");
+    let leftBox = document.getElementById("left");
+    let rightBox = document.getElementById("right");
+
+    lists.forEach(list => {
+        list.addEventListener("dragstart", function (e) {
+            e.dataTransfer.setData("text/plain", e.target.id);
+            setTimeout(() => {
+                e.target.classList.add("dragging");
+            }, 0);
+        });
+
+        list.addEventListener("dragend", function (e) {
+            e.target.classList.remove("dragging");
+        });
+    });
+
+    function enableDragAndDrop(container) {
+        container.addEventListener("dragover", function (e) {
+            e.preventDefault();
+        });
+
+        container.addEventListener("drop", function (e) {
+            e.preventDefault();
+            let draggedItem = document.querySelector(".dragging");
+            if (draggedItem) {
+                container.appendChild(draggedItem);
+                draggedItem.classList.remove("dragging");
+            }
+        });
+    }
+
+    enableDragAndDrop(leftBox);
+    enableDragAndDrop(rightBox);
+</script>
 
 </body>
 </html>
