@@ -9,7 +9,7 @@ The Visual Portfolio App is a web-based tool designed to help faculty modernize 
 ### Technologies
 1. HTML
 2. CSS
-3. JavasCript
+3. JavaScript
 ### Features
 1. Drag and drop document customization
 2. External link integration
@@ -20,7 +20,7 @@ The Visual Portfolio App is a web-based tool designed to help faculty modernize 
    git clone https://github.com/GGC-SD/VisPortfolio.git
 ### How to Run
 - Open terminal and move to backend subfolder: "cd VisPortfolio/backend"
-- run "npm install" to istall dependencies"
+- run "npm install" to install dependencies"
 - if .env file is not present create one on back end subfolder and type:
 1. MONGO_URL= "mongodb-connection-string";
 1. PORT=5000
