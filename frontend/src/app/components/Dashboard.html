@@ -209,38 +209,49 @@
 
   //Page Changing JS
   document.addEventListener("DOMContentLoaded", function () {
-      const links = document.querySelectorAll(".nav-link");
-      const contentArea = document.getElementById("content-area");
-  
-      links.forEach(link => {
-          link.addEventListener("click", function (event) {
-              event.preventDefault(); // Prevent default page reload
-              const page = this.getAttribute("data-page"); // Get the target page
-              console.log(page);
-              // Fetch the content using AJAX
-              fetch(page)
-                  .then(response => response.text())
-                  .then(data => {
-                    
-                    if(page == "Home"){
-                    location.reload();
-                    }
-                      contentArea.innerHTML = data; // Load new content
-                      //contentArea.querySelectorAll("script").forEach(script =>
-                       // {
-                          //const src = script.src;
-                          //const scripts = document.createElement("script");
-                         // scripts.textContent = script.textContent;
-                          //scripts.src = src;
-                         // document.body.appendChild(scripts);
-                       //}
-                      //);
-                  })
-                  .catch(error => console.error("Error loading page:", error));
-          });
-      });
-  });
+    const links = document.querySelectorAll(".nav-link");
+    const contentArea = document.getElementById("content-area");
+
+    links.forEach(link => {
+        link.addEventListener("click", function (event) {
+            event.preventDefault(); // Prevent default page reload
+            const page = this.getAttribute("data-page"); // Get the target page
+
+            if (page === "Home") {
+                location.reload();
+                return;
+            }
+
+            fetch(page)
+                .then(response => response.text())
+                .then(data => {
+                    // Create a temporary container to parse the content
+                    const tempContainer = document.createElement("div");
+                    tempContainer.innerHTML = data;
+
+                    // Extract inline scripts and remove them from tempContainer
+                    const scripts = tempContainer.querySelectorAll("script");
+                    scripts.forEach(script => script.remove());
+
+                    // Replace content
+                    contentArea.innerHTML = tempContainer.innerHTML;
+
+                    // Execute scripts manually
+                    scripts.forEach(script => {
+                        const newScript = document.createElement("script");
+                        if (script.src) {
+                            newScript.src = script.src; // External script
+                            newScript.async = false; // Ensure execution order
+                        } else {
+                            newScript.textContent = script.textContent; // Inline script
+                        }
+                        document.body.appendChild(newScript);
+                    });
+                })
+                .catch(error => console.error("Error loading page:", error));
+        });
+    });
+});
   </script>
-  <script src="../../../../backend/controller/scriptMain.js"></script>
 </body>
 </html>
