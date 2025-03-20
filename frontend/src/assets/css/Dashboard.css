@@ -16,12 +16,24 @@
   color: white;
   min-height: 100vh;
   padding: 20px;
-  width: 250px; /* Default sidebar width */
+  width: 100px; /* Default sidebar width */
   position: fixed;
   top: 0;
-  left: 0;
+  left: -1;
   height: 100%;
   transition: width 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+.nav-link {
+  color: white; /* Default text color */
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.nav-link:hover {
+  background-color: #e0e4e8; /* Darker gray */
+  color: #f8f9fa; /* Light text for contrast */
+}
+.sidebar:hover {
+  background-color: #3d444b; /* Slightly lighter than the original */
 }
 
 /* Main Content */
@@ -138,3 +150,35 @@
    .folderTxt{
     color: #01223b;
    }
+
+   .cardStyle{
+    background-color: #f4a460;
+    display: flex;
+    justify-content: center;
+   }
+
+   .custom-card-header {
+    background-color: var(--blue)!important;/* Replace with your desired color */
+    color:white !important; /* Ensures text is visible */
+  }
+
+   .card {
+    border-radius: 4px!important; /* Adjust this value as needed */
+    background-color:var(--cream) !important;
+  }
+  .folder img {
+    transition: transform 0.2s ease-in-out; /* Smooth animation */
+  }
+  
+  .folder:hover img {
+    transform: scale(1.1); /* Slightly enlarges the image */
+  }
+
+  .table {
+    background-color: inherit !important; /* Inherit the card's background */
+  }
+  
+  .table th, .table td {
+    background-color: inherit !important; /* Ensure consistency for all cells */
+    border-color: rgba(0, 0, 0, 0.1) !important; /* Lighten borders to blend in */
+  }
