@@ -17,7 +17,7 @@ connectDB();
 
 // API Routes
 app.use("/api/users", require("./routes/userRoutes"));
-app.use("/api/upload", require("./routes/uploadFile"));
+app.use("/api/files", require("./routes/uploadFile"));
 
 // Start server
 const PORT = process.env.PORT || 3000;
