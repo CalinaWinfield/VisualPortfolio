@@ -83,33 +83,4 @@ export class SupabaseService {
     return data.map(file => this.getFileUrl(`${userId}/${file.name}`));
   }
 
-  /**
-   * inserts the item data into the item table in Supabase
-   * @param formData
-   */
-  async insertData(formData: any) {
-    try {
-      // Insert the data into Supabase table
-      const { data, error } = await this.supabase
-        .from('items') // Table name in Supabase
-        .insert([
-          {
-            item: formData.txtItem,
-            item_type: formData.itemType,
-            item_date: formData.itemDate,
-            description: formData.itemDescription
-          },
-        ]);
-
-      if (error) {
-        throw new Error(`Error inserting data: ${error.message}`);
-      }
-
-      return data; // Return inserted data or success message
-    } catch (error) {
-      console.error('Error inserting item:', error);
-      throw error;
-    }
-  }
-
 }
