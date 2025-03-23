@@ -6,6 +6,7 @@
     <title>Visual Portfolio</title>
     <link rel="stylesheet" href="assets/css/interfaceSettings.css">
 	<link rel="icon" type="image/x-icon" href="assets/img/foxIcon1.png">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
 
@@ -14,7 +15,7 @@
         <nav class="navbar">
             <div class="logo"><img src="assets/img/foxIcon.png" alt="Visual Portfolio Logo" class="img-fluid">VISUAL PORTFOLIO</div>
             <ul class="nav-links">
-                <li><a href="app/components/main.html">Log In</a></li>
+                <li><a href="app/components/Dashboard.html">Log In</a></li>
                 <li><a href="#">About</a></li>
                 <li><a href="#">Explore</a></li>
                 <li><a href="#">Guide</a></li>
@@ -29,7 +30,7 @@
         <section class="hero">
             <h2>Work Smarter, Feel Effortless</h2>
             <p>Simplify Document Management with the Visual Portfolio App.</p>
-            <button class="cta-button">Sign up for free</button>
+            <button class="cta-button" data-bs-toggle="modal" data-bs-target="#signupModal">Sign up for free</button>
         </section>
 
 
@@ -49,6 +50,39 @@
         // Set current year in footer
         document.getElementById('current-year').textContent = new Date().getFullYear();
     </script>
+
+    <!-- Add this right before the closing </body> tag -->
+    <div class="modal fade" id="signupModal" tabindex="-1" aria-labelledby="signupModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="signupModalLabel">Sign Up</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="signupForm">
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Name</label>
+                            <input type="text" class="form-control" id="name" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="email" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Password</label>
+                            <input type="password" class="form-control" id="password" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Sign Up</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Bootstrap and our signup script -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/signup.js"></script>
 
 </body>
 </html>
