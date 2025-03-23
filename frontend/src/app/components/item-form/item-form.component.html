@@ -1,0 +1,27 @@
+<div class="container">
+  <h2>Create Item</h2>
+  <form (ngSubmit)="onSubmit()" #itemForm="ngForm">
+
+    <!-- Item Title -->
+    <div class="form-group">
+      <label for="txtItem">Item Title:</label>
+      <input type="text" id="txtItem" [(ngModel)]="formData.txtItem" name="txtItem" class="form-control" required />
+    </div>
+
+    <!-- Item Type -->
+    <div class="form-group">
+      <label for="itemType">Item Type:</label>
+      <input type="text" id="itemType" [(ngModel)]="formData.itemType" name="itemType" class="form-control" required />
+    </div>
+
+    <!-- Item Description -->
+    <div class="form-group">
+      <label for="itemDescription">Description:</label>
+      <textarea id="itemDescription" [(ngModel)]="formData.itemDescription" name="itemDescription" class="form-control" required></textarea>
+    </div>
+
+    <div class="text-center mt-3">
+      <button type="submit" class="btn btn-primary" [disabled]="itemForm.invalid">Submit</button>
+    </div>
+  </form>
+</div>
