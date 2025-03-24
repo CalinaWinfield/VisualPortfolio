@@ -57,7 +57,7 @@ document.addEventListener("DOMContentLoaded", function () {
 // Minh Huy Tran
 
 // Cover Letter Builder Functionality
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('pageLoaded', function () { ///use to be dom loaded but change to page loaded so it can load within the dashboard
     // Define Templates (Guided Templates with Placeholders)
     const templates = {
         template1: {
@@ -98,7 +98,6 @@ document.addEventListener('DOMContentLoaded', function () {
             loadTemplate(templates[templateKey]);
         });
     });
-
     // Load Template into Editor
     function loadTemplate(template) {
         const introduction = document.getElementById('introduction');
@@ -235,3 +234,6 @@ for (i = 0; i < coll.length; i++) {
         }
     });
 }
+
+
+//Ahkeelah Lindo Drag and Drop
