@@ -8,7 +8,7 @@ import { SupabaseService } from '../../services/supabase.service'; // Import the
 })
 export class ItemFormComponent {
   formData = {
-    txtItem: '',
+    itemTitle: '',
     itemType: '',
     itemDate: '',
     itemDescription: ''
@@ -34,7 +34,7 @@ export class ItemFormComponent {
   // Reset the form data
   resetForm() {
     this.formData = {
-      txtItem: '',
+      itemTitle: '',
       itemType: '',
       itemDate: '',
       itemDescription: ''
