@@ -91,13 +91,13 @@ export class SupabaseService {
     try {
       // Insert the data into Supabase table
       const { data, error } = await this.supabase
-        .from('items') // Table name in Supabase
+        .from('item') // Table name in Supabase
         .insert([
           {
-            item: formData.txtItem,
-            item_type: formData.itemType,
-            item_date: formData.itemDate,
-            description: formData.itemDescription
+            itemTitle: formData.itemTitle,
+            itemType: formData.itemType,
+            itemDate: formData.itemDate,
+            itemDescription: formData.itemDescription
           },
         ]);
 
