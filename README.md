@@ -58,7 +58,8 @@ The Visual Portfolio App is a web-based tool designed to help faculty modernize 
 - Discord
 
 ## License
-This project is licensed under the GNU General Public License (GPL). You are free to use, modify, and distribute this software under the condition that any derivative works or modifications must also be made available under the same license, ensuring that others have the same freedoms to use and adapt the code. For more details, see [the GNU GPL documentation.](https://www.gnu.org/licenses/gpl-3.0.html)
-see the [LICENSE.md](LICENSE.md) file for details.  
+This project is licensed under the GNU General Public License (GPL)[the GNU GPL documentation.](https://www.gnu.org/licenses/gpl-3.0.html). You are free to use, modify, and distribute this software under the condition that any derivative works or modifications must also be made available under the same license, ensuring that others have the same freedoms to use and adapt the code. For more details, see 
+
+
 Copyright © 2025 VisPortfolio Team
 
