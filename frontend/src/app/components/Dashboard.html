@@ -229,6 +229,10 @@
                 window.location.href = page; // Full-page redirect
                 return;
             }
+            else{
+              window.location.href = page; // Full-page redirect
+              return;
+            }
            
             fetch(page)
                 .then(response => response.text())
