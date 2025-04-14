@@ -133,18 +133,46 @@ body {
 }
 
 .cta-button {
+  position: relative;
   background-color: var(--pink);
   color: white;
   padding: 10px 20px;
   border: none;
   font-size: 1.5rem;
-  border-radius: 0px;
+  border-radius: 2px;
   cursor: pointer;
-  font-family:'Playfair Display', sans-serif;
+  font-family: 'Playfair Display', sans-serif;
+  overflow: hidden;
+  transition: letter-spacing 0.3s ease;
+}
+
+.cta-button::before,
+.cta-button::after {
+  content: "";
+  position: absolute;
+  height: 2px;
+  background-color: white;
+  width: 20%;
+  left: 50%;
+  transform: translateX(-50%);
+  transition: width 0.3s ease;
+}
+
+.cta-button::before {
+  top: 0;
+}
+
+.cta-button::after {
+  bottom: 0;
 }
 
 .cta-button:hover {
-   letter-spacing: 0.6rem; */
+  letter-spacing: 0.2rem;
+}
+
+.cta-button:hover::before,
+.cta-button:hover::after {
+  width: 100%;
 }
 
 
@@ -155,11 +183,11 @@ main {
 
 /* Footer Styles */
 .footer {
-  background-color: var(--dark-brown);
+  background-color: var(--pink);
   color: var(--cream);
   padding: 20px 0;
   text-align: center;
-  border-top: 1px solid var(--pink);
+  border-top: 2px solid var(--cream);
 }
 
 
