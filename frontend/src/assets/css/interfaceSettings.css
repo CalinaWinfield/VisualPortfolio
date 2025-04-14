@@ -91,11 +91,29 @@ body {
 }
 
 .nav-links a {
+  display: inline-block;
   text-decoration: none;
   color: white;
   font-weight: 500;
   font-size: 20px;
+  position: relative;
 }
+
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -4px;
+  width: 0;
+  height: 2px;
+  background-color: white;
+  transition: width 0.3s ease;
+}
+
+.nav-links a:hover::after {
+  width: 100%;
+}
+
 
 /* Hero Section */
 .hero {
@@ -113,7 +131,9 @@ body {
   white-space: nowrap;
   border-right: 2px solid white;
   width: 0ch;
-  animation: typing 3s steps(30, end) forwards, blink-caret 0.7s step-end infinite;
+  animation: 
+    typing 3s steps(30, end) forwards,
+    blink-caret 0.7s step-end 3 3s forwards;
 }
 
 @keyframes typing {
@@ -134,7 +154,7 @@ body {
 
 .cta-button {
   position: relative;
-  background-color: var(--pink);
+  background-color:#ffa8b2; /*slightly shade of f5a3ad to have better contrast and match contrast to top and bottom border*/
   color: white;
   padding: 10px 20px;
   border: none;
@@ -184,7 +204,8 @@ main {
 /* Footer Styles */
 .footer {
   background-color: var(--pink);
-  color: var(--cream);
+  color:white;
+  font-size: 18px;
   padding: 20px 0;
   text-align: center;
   border-top: 2px solid var(--cream);
