@@ -12,7 +12,7 @@ The Visual Portfolio App is a web-based tool designed to help faculty modernize 
 3. JavaScript
 4. Bootstrap, https://getbootstrap.com/
 5. Google Fonts, https://fonts.google.com/
-6. Angular, https://angular.dev/installation
+6. Angular, https://angular.dev/installation/
 7.MongoDb Atlas, https://www.mongodb.com/
 
 ### Features
