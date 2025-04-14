@@ -38,10 +38,10 @@ The Visual Portfolio App is a web-based tool designed to help faculty modernize 
   - go to VisPortfolio/frontend on your terminal and run: npm install
   - run with: ng serve
 
-##List of working features
-1.Drag and drop feature: Allows users to drag an item from one container to another. 
+## List of working features
+1. Drag and drop feature: Allows users to drag an item from one container to another. 
 
-2.Responsive Design: Application is able to adapt to different screen sizes.
+2. Responsive Design: Application is able to adapt to different screen sizes.
 
 ## Team Roles
 
