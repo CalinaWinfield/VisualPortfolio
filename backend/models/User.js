@@ -4,6 +4,8 @@ const UserSchema = new mongoose.Schema({
     name: String,
     email: String,
     password: String,
-});
+    loggedInAt: Date, // Stores last login time
+},
+ { timestamps: true });
 
 module.exports = mongoose.model("User", UserSchema);
