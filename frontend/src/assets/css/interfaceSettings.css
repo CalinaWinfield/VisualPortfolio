@@ -1,5 +1,8 @@
 /* Import Google Font */
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Karla:ital,wght@0,200..800;1,200..800&display=swap');
+/* This import contains the file Roboto, IBM Plex Serif Static,  Playfair Display */
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
 
 /* Color Palette */
 :root {
@@ -15,7 +18,7 @@
 }
 
 body {
-  font-family: "Inter", sans-serif;
+  font-family: "Playfair Display", sans-serif;
   background-color: var(--navy);
   color: white;
   margin: var(--no-margin);
@@ -28,7 +31,7 @@ body {
 /* Header Styles */
 .site-header {
   background-color: var(--cream);
-  padding: 20px 0;
+  padding: 5px 0; 
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
@@ -66,7 +69,7 @@ body {
 }
 
 .logo {
-  font-size: 20px;
+  font-size: 24px;
   font-weight: bold;
   display: flex;
   align-items: center;
@@ -88,10 +91,29 @@ body {
 }
 
 .nav-links a {
+  display: inline-block;
   text-decoration: none;
   color: white;
   font-weight: 500;
+  font-size: 20px;
+  position: relative;
 }
+
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -4px;
+  width: 0;
+  height: 2px;
+  background-color: white;
+  transition: width 0.3s ease;
+}
+
+.nav-links a:hover::after {
+  width: 100%;
+}
+
 
 /* Hero Section */
 .hero {
@@ -101,24 +123,78 @@ body {
 }
 
 .hero h2 {
-  font-size: 2.5rem;
+  font-size: 44px;
   margin-bottom: 10px;
+
+  display: inline-block;
+  overflow: hidden;
+  white-space: nowrap;
+  border-right: 2px solid white;
+  width: 0ch;
+  animation: 
+    typing 3s steps(30, end) forwards,
+    blink-caret 0.7s step-end 3 3s forwards;
 }
 
+@keyframes typing {
+  from { width: 0ch; }
+  to { width: 22ch; }  
+}
+
+@keyframes blink-caret {
+  0%, 100% { border-color: transparent; }
+  50% { border-color: white; }
+}
+
+
 .hero p {
-  font-size: 1.2rem;
+  font-size: 1.3rem;
   margin-bottom: 20px;
 }
 
 .cta-button {
-  background-color: var(--pink);
+  position: relative;
+  background-color:#ffa8b2; /*slightly shade of f5a3ad to have better contrast and match contrast to top and bottom border*/
   color: white;
   padding: 10px 20px;
   border: none;
-  font-size: 1rem;
-  border-radius: 20px;
+  font-size: 1.5rem;
+  border-radius: 2px;
   cursor: pointer;
+  font-family: 'Playfair Display', sans-serif;
+  overflow: hidden;
+  transition: letter-spacing 0.3s ease;
 }
+
+.cta-button::before,
+.cta-button::after {
+  content: "";
+  position: absolute;
+  height: 2px;
+  background-color: white;
+  width: 20%;
+  left: 50%;
+  transform: translateX(-50%);
+  transition: width 0.3s ease;
+}
+
+.cta-button::before {
+  top: 0;
+}
+
+.cta-button::after {
+  bottom: 0;
+}
+
+.cta-button:hover {
+  letter-spacing: 0.2rem;
+}
+
+.cta-button:hover::before,
+.cta-button:hover::after {
+  width: 100%;
+}
+
 
 /* Main Content */
 main {
@@ -127,11 +203,12 @@ main {
 
 /* Footer Styles */
 .footer {
-  background-color: var(--dark-brown);
-  color: var(--cream);
+  background-color: var(--pink);
+  color:white;
+  font-size: 18px;
   padding: 20px 0;
   text-align: center;
-  border-top: 1px solid var(--pink);
+  border-top: 2px solid var(--cream);
 }
 
 
@@ -493,3 +570,78 @@ main {
   font-size: 14px;
 }
 
+/* ===== Responsive Fixes ===== */
+@media (max-width: 992px) {
+  .navbar {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 10px;
+  }
+
+  .nav-links {
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+    margin-top: 10px;
+    padding-left: 0;
+  }
+
+  .nav-links li {
+    margin: 10px 0;
+  }
+
+  .doc-navbar,
+  .right-navbar,
+  .middle-navbar,
+  .left-navbar {
+    flex-direction: column;
+    width: 100%;
+    align-items: flex-start;
+    margin-bottom: 10px;
+  }
+
+  .hero {
+    padding: 80px 20px;
+  }
+
+  .hero h2 {
+    font-size: 2rem;
+    text-align: center;
+  }
+
+  .hero p {
+    font-size: 1.1rem;
+  }
+
+  .cta-button {
+    font-size: 1rem;
+    padding: 10px 16px;
+    width: 100%;
+    max-width: 300px;
+    margin: 0 auto;
+  }
+
+  .footer {
+    font-size: 16px;
+    padding: 15px;
+  }
+}
+
+@media (max-width: 576px) {
+  .nav-links {
+    align-items: center;
+  }
+
+  .hero h2 {
+    font-size: 1.6rem;
+  }
+
+  .hero p {
+    font-size: 1rem;
+  }
+
+  .cta-button {
+    font-size: 0.9rem;
+    padding: 8px 14px;
+  }
+}
