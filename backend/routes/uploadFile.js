@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const File = require('../models/File'); // File model
 
 // Upload file details to MongoDB
-router.post('/upload', async (req, res) => {
+router.post('/resumes', async (req, res) => {
     const { userId, fileName, fileUrl } = req.body;
 
     try {

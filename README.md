@@ -10,11 +10,18 @@ The Visual Portfolio App is a web-based tool designed to help faculty modernize 
 1. HTML
 2. CSS
 3. JavaScript
+4. Bootstrap, https://getbootstrap.com/
+5. Google Fonts, https://fonts.google.com/
+6. Angular, https://angular.dev/installation/
+7. MongoDb Atlas, https://www.mongodb.com
+
 ### Features
 1. Drag and drop document customization
 2. External link integration
 3. PDF generation
 4. Schedule management
+5. Responsive Screen
+   
 ### Installation
 1. Clone git repo: 
    git clone https://github.com/GGC-SD/VisPortfolio.git
@@ -29,7 +36,13 @@ The Visual Portfolio App is a web-based tool designed to help faculty modernize 
 
   ### To run the front end
   - go to VisPortfolio/frontend on your terminal and run: npm install
-  - run with: ng serve 
+  - run with: ng serve
+
+### List of working features
+1. Drag and drop feature: Allows users to drag an item from one container to another. 
+
+2. Responsive Design: Application is able to adapt to different screen sizes.
+
 ## Team Roles
 
 #### Spring 2025

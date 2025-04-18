@@ -8,7 +8,7 @@ const app = express();
 // Middleware
 app.use(express.json());
 app.use(cors());
-app.use(express.static("public")); // Serve static files
+app.use(express.static('../frontend/src'));
 
 // Connect to Database
 connectDB();
@@ -16,6 +16,7 @@ connectDB();
 // API Routes
 app.use("/api/users", require("./routes/userRoutes"));
 app.use("/api/uploads", require("./routes/uploadFile"));
+app.use("/api/items", require("./routes/itemRoute"));
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5001;
 app.listen(PORT, () => console.log(` Server running on port ${PORT}`));
