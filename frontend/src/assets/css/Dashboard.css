@@ -164,7 +164,7 @@ body {
    }
 
    .cardStyle{
-    background-color:var(--blue);
+    background: var(--blue);
     display: flex;
     justify-content: center;
    }
