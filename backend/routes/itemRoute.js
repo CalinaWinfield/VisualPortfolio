@@ -23,3 +23,13 @@ router.post("/create-item", async (req, res) => {
   });
 
 module.exports = router;
+
+// GET all items
+router.get("/", async (req, res) => {
+  try {
+      const items = await Item.find();
+      res.json(items);
+  } catch (error) {
+      res.status(500).json({ error: "Failed to fetch items" });
+  }
+});

@@ -8,7 +8,8 @@ const app = express();
 // Middleware
 app.use(express.json());
 app.use(cors());
-app.use(express.static('../frontend/src'));
+app.use('/components', express.static('../frontend/src/app/components'));
+app.use('/components/assets', express.static('../frontend/src/app/assets'));
 
 // Connect to Database
 connectDB();

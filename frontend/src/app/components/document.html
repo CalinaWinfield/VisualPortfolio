@@ -83,20 +83,27 @@
 </div> <!-- End Container-Fluid -->
 
 <script>
-    let lists = document.querySelectorAll(".list");
-    let leftBox = document.getElementById("left");
-    let rightBox = document.getElementById("right");
+    document.addEventListener("DOMContentLoaded", function () {
+        const leftBox = document.getElementById("left");
+        const rightBox = document.getElementById("right");
 
-    lists.forEach(list => {
-        list.addEventListener("dragstart", function (e) {
-            e.dataTransfer.setData("text/plain", e.target.id);
-            setTimeout(() => {
-                e.target.classList.add("dragging");
-            }, 0);
-        });
+        enableDragAndDrop(leftBox);
+        enableDragAndDrop(rightBox);
+        loadItems();
 
-        list.addEventListener("dragend", function (e) {
-            e.target.classList.remove("dragging");
+        // BUILD BUTTON
+        document.querySelector(".formatbtn").addEventListener("click", function () {
+            const droppedItems = rightBox.querySelectorAll(".list");
+
+            let output = "<div class='resume-output'>";
+            droppedItems.forEach(item => {
+                const title = item.dataset.title;
+                const description = item.dataset.description;
+                output += `<h5>${title}</h5><p>${description}</p>`;
+            });
+            output += "</div>";
+
+            rightBox.innerHTML = output;
         });
     });
 
@@ -107,7 +114,7 @@
 
         container.addEventListener("drop", function (e) {
             e.preventDefault();
-            let draggedItem = document.querySelector(".dragging");
+            const draggedItem = document.querySelector(".dragging");
             if (draggedItem) {
                 container.appendChild(draggedItem);
                 draggedItem.classList.remove("dragging");
@@ -115,8 +122,41 @@
         });
     }
 
-    enableDragAndDrop(leftBox);
-    enableDragAndDrop(rightBox);
+    async function loadItems() {
+        try {
+            const response = await fetch("http://localhost:5001/api/items");
+            const items = await response.json();
+
+            const leftContainer = document.getElementById("left");
+            leftContainer.innerHTML = ""; // clear default items
+
+            items.forEach((item, index) => {
+                const div = document.createElement("div");
+                div.className = "list";
+                div.draggable = true;
+                div.id = `item-${index}`;
+                div.dataset.title = item.itemTitle;
+                div.dataset.description = item.itemDescription;
+                div.innerHTML = `<img src="../../assets/img/foxIcon1.png"> ${item.itemTitle}`;
+
+                addDragEvents(div);
+                leftContainer.appendChild(div);
+            });
+        } catch (error) {
+            console.error("Error loading items:", error);
+        }
+    }
+
+    function addDragEvents(element) {
+        element.addEventListener("dragstart", function (e) {
+            e.dataTransfer.setData("text/plain", e.target.id);
+            setTimeout(() => e.target.classList.add("dragging"), 0);
+        });
+
+        element.addEventListener("dragend", function (e) {
+            e.target.classList.remove("dragging");
+        });
+    }
 </script>
 
 </body>
