@@ -230,3 +230,8 @@ opacity: 1 !important;
   box-shadow: inset 0 0 0 9999px var(--bs-table-bg-state, var(--bs-table-bg-type, var(--bs-table-accent-bg)));
 }
 
+.Dashboard-Title {
+  font-size: 40px;
+  text-align: center;
+  width: 100%;
+}
