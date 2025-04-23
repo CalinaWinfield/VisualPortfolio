@@ -8,6 +8,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const itemTitle = document.getElementById('itemTitle').value;
         const itemDate = document.getElementById('itemDate').value;
         const itemDescription = document.getElementById('itemDescription').value;
+        const userID = sessionStorage.getItem('userID');
 
         try {
             const response = await fetch('http://localhost:5001/api/items/create-item', {
@@ -19,7 +20,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     category,
                     itemTitle,
                     itemDate,
-                    itemDescription
+                    itemDescription,
+                    userID
                 })
             });
 
@@ -36,4 +38,4 @@ document.addEventListener('DOMContentLoaded', function() {
             alert('An error occurred during item creation');
         }
     });
-}); 
+});

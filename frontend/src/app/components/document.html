@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Visual Portfolio</title>
-    
+
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
@@ -56,7 +56,7 @@
 
 <div class="container-fluid"> <!-- Full-width container -->
     <div class="row justify-content-center py-4">
-        
+
         <!-- Left Document -->
         <div class="col-lg-5 col-md-6 mb-4">
             <div class="p-4 border rounded bg-white shadow">
@@ -124,13 +124,22 @@
 
     async function loadItems() {
         try {
+          const sessionUserID = sessionStorage.getItem('userId');
+
+          if (!userId) {
+            console.log("No user ID found in sessionStorage");
+            return;
+          }
+
             const response = await fetch("http://localhost:5001/api/items");
             const items = await response.json();
 
             const leftContainer = document.getElementById("left");
             leftContainer.innerHTML = ""; // clear default items
 
-            items.forEach((item, index) => {
+            const filteredItems = items.filter(item => item.userID === sessionUserID);
+
+            filteredItems.forEach((item, index) => {
                 const div = document.createElement("div");
                 div.className = "list";
                 div.draggable = true;

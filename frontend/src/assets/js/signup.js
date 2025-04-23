@@ -25,6 +25,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
             if (response.ok) {
                 alert('Registration successful!');
+
+              const userID = data._id;
+              sessionStorage.setItem('userId', userID);
+
                 window.location.href = 'app/components/Dashboard.html';
             } else {
                 alert('Registration failed: ' + data.error);
@@ -34,4 +38,4 @@ document.addEventListener('DOMContentLoaded', function() {
             alert('An error occurred during registration');
         }
     });
-}); 
+});

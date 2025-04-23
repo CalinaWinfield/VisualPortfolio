@@ -23,6 +23,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
             if (response.ok) {
                 alert('Login successful!');
+
+                const userID = data._id;
+                sessionStorage.setItem('userId', userID);
+
                 window.location.href = 'app/components/Dashboard.html';
             } else {
                 alert('Login failed: ' + data.error);
