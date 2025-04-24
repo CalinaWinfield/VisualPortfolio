@@ -328,7 +328,15 @@ opacity: 1 !important;
   opacity: 0.5;
 }
 
-.resume-output{
-  color: var(--dark-brown) !important;
+.resume-output h5 {
+  font-size: 26px;
+  font-weight: 600;
+  margin-bottom: 5px;
+  color: var(--dark-brown);
+}
+
+.resume-output p {
   font-size: 24px;
+  margin-bottom: 15px;
+  color: var(--dark-brown);
 }
