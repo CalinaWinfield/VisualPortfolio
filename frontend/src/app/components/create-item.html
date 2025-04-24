@@ -17,6 +17,7 @@
     }
     .createButton {
       background-color: #5d81bc;
+      font-size: 24px;
     }
     .createButton:hover {
       background-color: #5d81bca2;
@@ -26,6 +27,7 @@
     }
     .updateButton {
       background-color: #f5a3ad;
+      font-size: 24px;
     }
     .updateButton:hover {
       background-color: #f5a3ad94;
@@ -40,49 +42,62 @@
       border: 1px solid gray;
       display: none;
     }
+
+    .center-form-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 40px 20px;
+  background-color: #00243a; /* Or your preferred bg */
+}
+
+
   </style>
 </head>
 
 <body>
-  <div class="expandable-form-container">
-    <!-- Trigger Form -->
-    <form id="firstForm" class="p-4 border rounded bg-white shadow w-75 mx-auto">
-      <div class="form-row">
-        <div class="form-group mb-3">
-          <input type="button" value="CREATE" id="createBtn" class="btn btn-primary btn-block form-control createButton"/>
+  <div class="center-form-wrapper">
+    <div class="expandable-form-container">
+      <!-- Trigger Form -->
+      <form id="firstForm" class="p-4 border rounded bg-white shadow w-75 mx-auto">
+        <div class="form-row">
+          <div class="form-group mb-3">
+            <input type="button" value="CREATE" id="createBtn" class="btn btn-primary btn-block form-control createButton" />
+          </div>
+          <div class="form-group">
+            <input type="reset" value="UPDATE" class="btn btn-secondary btn-block form-control updateButton" />
+          </div>
         </div>
-        <div class="form-group">
-          <input type="reset" value="UPDATE" class="btn btn-secondary btn-block form-control updateButton"/>
+      </form>
+  
+      <!-- Actual Create Item Form -->
+      <form id="itemForm" class="p-4 border rounded bg-white shadow w-75 mx-auto">
+        <div class="form-group mb-4">
+          <label for="category">Category:</label>
+          <input type="text" name="category" id="category" class="form-control" required placeholder="Category">
         </div>
-      </div>
-    </form>
-
-    <!-- Actual Create Item Form -->
-    <form id="itemForm" class="p-4 border rounded bg-white shadow w-75 mx-auto">
-      <div class="form-group mb-4">
-        <label for="category">Category:</label>
-        <input type="text" name="category" id="category" class="form-control" required>
-      </div>
-
-      <div class="form-group mb-4">
-        <label for="itemTitle">Title:</label>
-        <input type="text" name="itemTitle" id="itemTitle" class="form-control" required>
-      </div>
-
-      <div class="form-group mb-4">
-        <label for="itemDate">Date:</label>
-        <input type="date" name="itemDate" id="itemDate" class="form-control" required>
-      </div>
-
-      <div class="form-group mb-4">
-        <label for="itemDescription">Description:</label>
-        <textarea name="itemDescription" id="itemDescription" class="form-control" rows="3" required></textarea>
-      </div>
-
-      <div class="text-center">
-        <button type="submit" class="btn btn-success mt-3" style="width: 50%;">Submit</button>
-      </div>
-    </form>
+  
+        <div class="form-group mb-4">
+          <label for="itemTitle">Title:</label>
+          <input type="text" name="itemTitle" id="itemTitle" class="form-control" required placeholder="Title">
+        </div>
+  
+        <div class="form-group mb-4">
+          <label for="itemDate">Date:</label>
+          <input type="date" name="itemDate" id="itemDate" class="form-control" required>
+        </div>
+  
+        <div class="form-group mb-4">
+          <label for="itemDescription">Description:</label>
+          <textarea name="itemDescription" id="itemDescription" class="form-control" rows="3" required placeholder="Description"></textarea>
+        </div>
+  
+        <div class="text-center">
+          <button type="submit" class="btn btn-success mt-3" style="width: 50%;">Submit</button>
+        </div>
+      </form>
+    </div>
   </div>
 
   <script>

@@ -22,18 +22,6 @@ body {
   color: white !important;
 }
 
-.sidebar {
-  background-color: #343a40;
-  color: white;
-  min-height: 100vh;
-  padding: 20px;
-  width: 100px; /* Default sidebar width */
-  position: fixed;
-  top: 0;
-  left: -1;
-  height: 100%;
-  transition: width 0.3s ease-in-out, transform 0.3s ease-in-out;
-}
 .nav-link {
   color: white; /* Default text color */
   transition: background-color 0.3s ease, color 0.3s ease;
@@ -362,3 +350,6 @@ opacity: 1 !important;
 .builder-card {
   min-height: 420px;
 }
+
+
+/* Creat-Item */
