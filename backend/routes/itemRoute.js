@@ -34,3 +34,14 @@ router.get("/", async (req, res) => {
       res.status(500).json({ error: "Failed to fetch items" });
   }
 });
+
+// DELETE an item by ID
+router.delete("/:id", async (req, res) => {
+  try {
+    const item = await Item.findByIdAndDelete(req.params.id);
+    if (!item) return res.status(404).json({ error: "Item not found" });
+    res.json({ message: "Item deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ error: "Failed to delete item" });
+  }
+});

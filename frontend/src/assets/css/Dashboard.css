@@ -294,7 +294,6 @@ opacity: 1 !important;
 
 .formatbtn:hover {
   background-color: #e38ea0;
-
   box-shadow: 0 0 10px var(--pink), 0 0 20px var(--pink);
 }
 
@@ -308,7 +307,7 @@ opacity: 1 !important;
 }
 
 .docTitle{
-  color:var(--dark-brown);
+  color:var(--navy);
   font-size: 26px;
 }
 
@@ -342,7 +341,7 @@ opacity: 1 !important;
   font-size: 26px;
   font-weight: 600;
   margin-bottom: 5px;
-  color: var(--dark-brown);
+  color: var(--navy);
 }
 
 .resume-output p {
