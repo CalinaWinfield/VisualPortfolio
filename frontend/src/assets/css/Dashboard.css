@@ -255,3 +255,80 @@ opacity: 1 !important;
   color: var(--navy) !important;
   border: none;
 }
+
+
+
+/*Document Page */
+.document-container {
+  background-color: #FFFFFF;
+  color: #2C3E50;
+}
+
+/*.dragging {
+  border: 2px dashed #5DADE2;S
+}*/
+
+.formatbtn {
+  background-color: var(--pink);
+  color: var(--cream);
+  border: none; /* Add border width, style, and color */
+  padding: 8px 16px; /* Optional: Adds some spacing inside */
+  border-radius: 5px; /* Optional: Rounds the corners */
+  font-size: 30px;
+}
+
+.formatbtn:hover {
+  background-color:#ee929d ; /* Swap colors */
+  color: var(--cream);
+ 
+}
+.formatbtn:active {
+  background-color: #d46b763f !important; /* Darker shade when clicked */
+  color: var(--navy) !important;
+  border: none;
+}
+
+.docTitle{
+  color:var(--dark-brown);
+  font-size: 26px;
+}
+
+.list {
+  background: #5d81bc;
+  height: 60px;
+  margin: 10px;
+  padding: 10px;
+  color: #fff5e3;
+  display: flex;
+  align-items: center;
+  cursor: grab;
+  border-radius: 5px;
+  border-color:#fff5e3 ;
+  box-shadow: 2px 4px 6px rgba(0, 0, 0, 0.3);
+  font-size: 24px !important;
+          }
+
+.list img {
+  width: 20px;
+  margin-right: 15px;
+  margin-left: 20px;
+}
+
+.drag-container {
+  min-height: 200px;
+  border: 2px dashed #ccc;
+  padding: 15px;
+  background-color: #fff;
+  border-radius: 5px;
+  color: var(--dark-brown);
+  font-size: 22px;
+}
+
+.dragging {
+  opacity: 0.5;
+}
+
+.resume-output{
+  color: var(--dark-brown) !important;
+  font-size: 24px;
+}
