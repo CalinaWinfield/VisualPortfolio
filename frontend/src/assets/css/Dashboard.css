@@ -235,3 +235,43 @@ opacity: 1 !important;
   text-align: center;
   width: 100%;
 }
+
+.formatbtn {
+  background-color: var(--pink);
+  color: var(--cream);
+  border: none; /* Add border width, style, and color */
+  padding: 8px 16px; /* Optional: Adds some spacing inside */
+  border-radius: 5px; /* Optional: Rounds the corners */
+  font-size: larger;
+}
+
+.formatbtn:hover {
+  background-color:#ee929d ; /* Swap colors */
+  color: var(--cream);
+ 
+}
+.formatbtn:active {
+  background-color: #d46b763f !important; /* Darker shade when clicked */
+  color: var(--navy) !important;
+  border: none;
+}
+.document-container {
+  background-color: #FFFFFF;
+  color: #2C3E50;
+}
+
+.dragging {
+  border: 2px dashed #5DADE2; /* Highlight when dragging */
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+      background-color: #2C3E50; /* Adjusted for mobile */
+  }
+}
+
+
+
+.docTitle{
+  color:var(--dark-brown);
+}
