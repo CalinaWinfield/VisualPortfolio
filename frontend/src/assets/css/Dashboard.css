@@ -270,22 +270,41 @@ opacity: 1 !important;
 
 .formatbtn {
   background-color: var(--pink);
-  color: var(--cream);
-  border: none; /* Add border width, style, and color */
-  padding: 8px 16px; /* Optional: Adds some spacing inside */
-  border-radius: 5px; /* Optional: Rounds the corners */
-  font-size: 30px;
+  color: white;
+  font-size: 18px;
+  padding: 8px 20px;
+  border: none;
+  border-radius: 6px;
+  width: 100%;
+  text-align: center;
+}
+
+.formatbtn {
+  background-color: var(--pink);
+  color: white;
+  font-size: 18px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  width: 100%;
+  text-align: center;
+  transition: all 0.3s ease-in-out;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
 }
 
 .formatbtn:hover {
-  background-color:#ee929d ; /* Swap colors */
-  color: var(--cream);
- 
+  background-color: #e38ea0;
+
+  box-shadow: 0 0 10px var(--pink), 0 0 20px var(--pink);
 }
-.formatbtn:active {
-  background-color: #d46b763f !important; /* Darker shade when clicked */
-  color: var(--navy) !important;
-  border: none;
+
+.formatbtn i {
+  display: inline-block;
+  transition: transform 0.5s ease-in-out;
+}
+
+.formatbtn:hover i {
+  transform: rotate(360deg) scale(1.2);
 }
 
 .docTitle{
@@ -314,15 +333,6 @@ opacity: 1 !important;
   margin-left: 20px;
 }
 
-.drag-container {
-  min-height: 200px;
-  border: 2px dashed #ccc;
-  padding: 15px;
-  background-color: #fff;
-  border-radius: 5px;
-  color: var(--dark-brown);
-  font-size: 22px;
-}
 
 .dragging {
   opacity: 0.5;
@@ -339,4 +349,25 @@ opacity: 1 !important;
   font-size: 24px;
   margin-bottom: 15px;
   color: var(--dark-brown);
+}
+.builder-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 40px 0;
+}
+
+.drag-container {
+  min-height: 250px;
+  padding: 15px;
+  border: 2px dashed #ccc;
+  border-radius: 6px;
+  background-color: white;
+  color: var(--dark-brown);
+  font-size: 22px;
+}
+
+.builder-card {
+  min-height: 420px;
 }
