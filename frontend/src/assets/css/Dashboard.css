@@ -255,23 +255,3 @@ opacity: 1 !important;
   color: var(--navy) !important;
   border: none;
 }
-.document-container {
-  background-color: #FFFFFF;
-  color: #2C3E50;
-}
-
-.dragging {
-  border: 2px dashed #5DADE2; /* Highlight when dragging */
-}
-
-@media (max-width: 768px) {
-  .sidebar {
-      background-color: #2C3E50; /* Adjusted for mobile */
-  }
-}
-
-
-
-.docTitle{
-  color:var(--dark-brown);
-}
