@@ -22,18 +22,6 @@ body {
   color: white !important;
 }
 
-.sidebar {
-  background-color: #343a40;
-  color: white;
-  min-height: 100vh;
-  padding: 20px;
-  width: 100px; /* Default sidebar width */
-  position: fixed;
-  top: 0;
-  left: -1;
-  height: 100%;
-  transition: width 0.3s ease-in-out, transform 0.3s ease-in-out;
-}
 .nav-link {
   color: white; /* Default text color */
   transition: background-color 0.3s ease, color 0.3s ease;
@@ -235,3 +223,133 @@ opacity: 1 !important;
   text-align: center;
   width: 100%;
 }
+
+.formatbtn {
+  background-color: var(--pink);
+  color: var(--cream);
+  border: none; /* Add border width, style, and color */
+  padding: 8px 16px; /* Optional: Adds some spacing inside */
+  border-radius: 5px; /* Optional: Rounds the corners */
+  font-size: larger;
+}
+
+.formatbtn:hover {
+  background-color:#ee929d ; /* Swap colors */
+  color: var(--cream);
+ 
+}
+.formatbtn:active {
+  background-color: #d46b763f !important; /* Darker shade when clicked */
+  color: var(--navy) !important;
+  border: none;
+}
+
+
+
+/*Document Page */
+.document-container {
+  background-color: #FFFFFF;
+  color: #2C3E50;
+}
+
+/*.dragging {
+  border: 2px dashed #5DADE2;S
+}*/
+
+
+
+.formatbtn {
+  background-color: var(--pink);
+  color: white;
+  font-size: 21px;
+  font-weight: 400;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  width: 100%;
+  text-align: center;
+  transition: all 0.3s ease-in-out;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.formatbtn:hover {
+  background-color: #e38ea0;
+  box-shadow: 0 0 10px var(--pink), 0 0 20px var(--pink);
+}
+
+.formatbtn i {
+  display: inline-block;
+  transition: transform 0.5s ease-in-out;
+}
+
+.formatbtn:hover i {
+  transform: rotate(360deg) scale(1.2);
+}
+
+.docTitle{
+  color:var(--navy);
+  font-size: 26px;
+}
+
+.list {
+  background: #5d81bc;
+  height: 60px;
+  margin: 10px;
+  padding: 10px;
+  color: #fff5e3;
+  display: flex;
+  align-items: center;
+  cursor: grab;
+  border-radius: 5px;
+  border-color:#fff5e3 ;
+  box-shadow: 2px 4px 6px rgba(0, 0, 0, 0.3);
+  font-size: 24px !important;
+          }
+
+.list img {
+  width: 20px;
+  margin-right: 15px;
+  margin-left: 20px;
+}
+
+
+.dragging {
+  opacity: 0.5;
+}
+
+.resume-output h5 {
+  font-size: 26px;
+  font-weight: 600;
+  margin-bottom: 5px;
+  color: var(--navy);
+}
+
+.resume-output p {
+  font-size: 24px;
+  margin-bottom: 15px;
+  color: var(--dark-brown);
+}
+.builder-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 40px 0;
+}
+
+.drag-container {
+  min-height: 250px;
+  padding: 15px;
+  border: 2px dashed #ccc;
+  border-radius: 6px;
+  background-color: white;
+  color: var(--dark-brown);
+  font-size: 22px;
+}
+
+.builder-card {
+  min-height: 420px;
+}
+
+
+/* Creat-Item */

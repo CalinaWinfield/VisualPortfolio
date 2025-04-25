@@ -7,50 +7,12 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <!-- Bootstrap Icons CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
-    <link rel="stylesheet" href="../../assets/css/document.css">
+    <link rel="stylesheet" href="../../assets/css/Dashboard.css">
     <link rel="icon" type="image/x-icon" href="../img/foxIcon1.png">
-
-    <style>
-        body {
-            background-color: #F2F4F8; /* Light blue-gray */
-            color: #2C3E50; /* Dark blue-gray for text */
-            font-family: 'Calibri', sans-serif;
-        }
-
-        .list {
-            background: #5d81bc;
-            height: 60px;
-            margin: 10px;
-            padding: 10px;
-            color: #fff5e3;
-            display: flex;
-            align-items: center;
-            cursor: grab;
-            border-radius: 5px;
-            border-color:#fff5e3 ;
-            box-shadow: 2px 4px 6px rgba(0, 0, 0, 0.3);
-                    }
-
-        .list img {
-            width: 20px;
-            margin-right: 15px;
-            margin-left: 20px;
-        }
-
-        .drag-container {
-            min-height: 200px;
-            border: 2px dashed #ccc;
-            padding: 15px;
-            background-color: #fff;
-            border-radius: 5px;
-        }
-
-        .dragging {
-            opacity: 0.5;
-        }
-    </style>
 </head>
 <body>
 
@@ -58,70 +20,80 @@
     <div class="row justify-content-center py-4">
 
         <!-- Left Document -->
-        <div class="col-lg-5 col-md-6 mb-4">
-            <div class="p-4 border rounded bg-white shadow">
-                <h5 class="mb-3 docTitle">Item List:</h5>
-                <div id="left" class="drag-container">
-                    <div class="list" draggable="true"><img src="../../assets/img/foxIcon1.png">About Me</div>
-                    <div class="list" draggable="true"><img src="../../assets/img/foxIcon1.png">My Certifications</div>
-                    <div class="list" draggable="true"><img src="../../assets/img/foxIcon1.png">Experience</div>
-                    <div class="list" draggable="true"><img src="../../assets/img/foxIcon1.png">Projects</div>
-                </div>
+        <div class="builder-wrapper">
+            <div class="container">
+              <div class="row justify-content-center align-items-start g-5">
+              
+                <!-- Item List -->
+<div class="col-lg-6 col-md-8 mb-4">
+    <div class="p-4 border rounded bg-white shadow builder-card">
+      <h4 class="mb-3 docTitle">Item List:</h4>
+      <div id="left" class="drag-container">
+        <!-- Draggable items will load here -->
+      </div>
+    </div>
+  </div>
+  
+  <!-- Document Builder -->
+  <div class="col-lg-6 col-md-8 mb-4">
+    <div class="p-4 border rounded bg-white shadow builder-card">
+      <h4 class="mb-3 docTitle">Document Builder:</h4>
+      <div id="right" class="drag-container">
+        <p class="text-muted">Drag list items here</p>
+      </div>
+      <button class="btn formatbtn mt-3">
+        <i class="bi bi-gear-fill"></i> Format
+      </button>
+    </div>
+  </div>
+          
+              </div>
             </div>
-        </div>
-
-        <!-- Right Document -->
-        <div class="col-lg-5 col-md-6 mb-4">
-            <div class="p-4 border rounded bg-white shadow">
-                <h5 class="mb-3 docTitle">Document Builder:</h5>
-                <div id="right" class="drag-container">Drag list items here</div>
-                <button class="btn btn-secondary w-100 mt-3 formatbtn">&#9881;</button>
-            </div>
-        </div>
+          </div>
 
     </div> <!-- End Main Content -->
 </div> <!-- End Container-Fluid -->
 
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-        const leftBox = document.getElementById("left");
-        const rightBox = document.getElementById("right");
-
-        enableDragAndDrop(leftBox);
-        enableDragAndDrop(rightBox);
-        loadItems();
-
-        // BUILD BUTTON
-        document.querySelector(".formatbtn").addEventListener("click", function () {
-            const droppedItems = rightBox.querySelectorAll(".list");
-
-            let output = "<div class='resume-output'>";
-            droppedItems.forEach(item => {
-                const title = item.dataset.title;
-                const description = item.dataset.description;
-                output += `<h5>${title}</h5><p>${description}</p>`;
-            });
-            output += "</div>";
-
-            rightBox.innerHTML = output;
+      const leftBox = document.getElementById("left");
+      const rightBox = document.getElementById("right");
+  
+      enableDragAndDrop(leftBox);
+      enableDragAndDrop(rightBox);
+      loadItems();
+  
+      // FORMAT BUTTON
+      document.querySelector(".formatbtn").addEventListener("click", function () {
+        const droppedItems = rightBox.querySelectorAll(".list");
+  
+        let output = "<div class='resume-output'>";
+        droppedItems.forEach(item => {
+          const title = item.dataset.title;
+          const description = item.dataset.description;
+          output += `<h5>${title}</h5><p>${description}</p>`;
         });
+        output += "</div>";
+  
+        rightBox.innerHTML = output;
+      });
     });
-
+  
     function enableDragAndDrop(container) {
-        container.addEventListener("dragover", function (e) {
-            e.preventDefault();
-        });
-
-        container.addEventListener("drop", function (e) {
-            e.preventDefault();
-            const draggedItem = document.querySelector(".dragging");
-            if (draggedItem) {
-                container.appendChild(draggedItem);
-                draggedItem.classList.remove("dragging");
-            }
-        });
+      container.addEventListener("dragover", function (e) {
+        e.preventDefault();
+      });
+  
+      container.addEventListener("drop", function (e) {
+        e.preventDefault();
+        const draggedItem = document.querySelector(".dragging");
+        if (draggedItem) {
+          container.appendChild(draggedItem);
+          draggedItem.classList.remove("dragging");
+        }
+      });
     }
-
+  
     async function loadItems() {
         try {
           const sessionUserEmail = sessionStorage.getItem('userEmail');
@@ -130,43 +102,76 @@
             console.log("No user email found in sessionStorage");
             return;
           }
-
-            const response = await fetch("http://localhost:5001/api/items");
-            const items = await response.json();
-
-            const leftContainer = document.getElementById("left");
-            leftContainer.innerHTML = ""; // clear default items
-
-            const filteredItems = items.filter(item => item.userEmail === sessionUserEmail);
-
-            filteredItems.forEach((item, index) => {
-                const div = document.createElement("div");
-                div.className = "list";
-                div.draggable = true;
-                div.id = `item-${index}`;
-                div.dataset.title = item.itemTitle;
-                div.dataset.description = item.itemDescription;
-                div.innerHTML = `<img src="../../assets/img/foxIcon1.png"> ${item.itemTitle}`;
-
-                addDragEvents(div);
-                leftContainer.appendChild(div);
-            });
-        } catch (error) {
-            console.error("Error loading items:", error);
-        }
+  
+        const response = await fetch("http://localhost:5001/api/items");
+        const items = await response.json();
+  
+        const leftContainer = document.getElementById("left");
+        leftContainer.innerHTML = "";
+  
+        const filteredItems = items.filter(item => item.userID === sessionUserID);
+        console.log("Filtered Items:", filteredItems);
+  
+        filteredItems.forEach((item, index) => {
+          const div = document.createElement("div");
+          div.className = "list";
+          div.draggable = true;
+          div.id = `item-${index}`;
+          div.dataset.title = item.itemTitle;
+          div.dataset.description = item.itemDescription;
+  
+          div.innerHTML = `
+            <div class="d-flex justify-content-between align-items-center">
+              <span><img src="../../assets/img/foxIcon1.png" style="width: 20px; margin-right: 5px;"> ${item.itemTitle}</span>
+              <button class="btn btn-sm delete-btn" data-id="${item._id}" style="margin-left:
+               10px; color: white; background: none; border: none; font-size: 1.2rem;">×</button>
+            </div>
+          `;
+  
+          addDragEvents(div);
+          leftContainer.appendChild(div);
+  
+          const deleteBtn = div.querySelector(".delete-btn");
+          deleteBtn.addEventListener("click", async function (e) {
+            e.stopPropagation();
+            const itemId = this.getAttribute("data-id");
+  
+            if (confirm("Are you sure you want to delete this item?")) {
+              try {
+                const response = await fetch(`http://localhost:5001/api/items/${itemId}`, {
+                  method: "DELETE"
+                });
+  
+                if (response.ok) {
+                  alert("Item deleted successfully!");
+                  loadItems();
+                } else {
+                  alert("Failed to delete item.");
+                }
+              } catch (err) {
+                console.error("Delete error:", err);
+                alert("Error deleting item.");
+              }
+            }
+          });
+        });
+      } catch (error) {
+        console.error("Error loading items:", error);
+      }
     }
-
+  
     function addDragEvents(element) {
-        element.addEventListener("dragstart", function (e) {
-            e.dataTransfer.setData("text/plain", e.target.id);
-            setTimeout(() => e.target.classList.add("dragging"), 0);
-        });
-
-        element.addEventListener("dragend", function (e) {
-            e.target.classList.remove("dragging");
-        });
+      element.addEventListener("dragstart", function (e) {
+        e.dataTransfer.setData("text/plain", e.target.id);
+        setTimeout(() => e.target.classList.add("dragging"), 0);
+      });
+  
+      element.addEventListener("dragend", function (e) {
+        e.target.classList.remove("dragging");
+      });
     }
-</script>
+  </script>
+  
 
 </body>
 </html>
