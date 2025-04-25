@@ -11,7 +11,19 @@
   <link rel="icon" type="image/x-icon" href="../../assets/img/foxIcon1.png">
 </head>
 <body>
-
+<header class="site-header">
+  <nav class="navbar">
+    <div class="logo">
+      <img src="../../assets/img/foxIcon.png" alt="Visual Portfolio Logo" class="img-fluid">VISUAL PORTFOLIO
+    </div>
+    <ul class="nav-links">
+      <li><a href="../../index.html">Log out</a></li>
+      <li><a href="Dashboard.html">Dashboard</a></li>
+      <li><a href="#">Explore</a></li>
+      <li><a href="#">Guide</a></li>
+    </ul>
+  </nav>
+</header>
 <!-- Navbar (Visible on Mobile) -->
 
 
@@ -34,7 +46,7 @@
           </div>
         </div>
         <hr class="border border-secondary">
-  
+
         <!-- Main Cards Row -->
         <div class="row mt-4 text-center">
           <div class="col-md-4">
@@ -68,7 +80,7 @@
             </a>
           </div>
         </div>
-  
+
         <!-- Toggle Preview Cards -->
         <div class="row mt-4 text-center">
           <div class="col-md-4">
@@ -96,7 +108,7 @@
             </div>
           </div>
         </div>
-  
+
         <!-- My Documents -->
         <div id="documentsSection" class="row mt-4 d-none">
           <div class="col-md-6 mb-3">
@@ -119,7 +131,7 @@
             </div>
           </div>
         </div>
-  
+
         <!-- To Do -->
         <div id="todoSection" class="row mt-4 d-none">
           <div class="col-md-6 mb-3">
@@ -142,7 +154,7 @@
             </div>
           </div>
         </div>
-  
+
         <!-- Active Forms -->
         <div id="activeFormsSection" class="row mt-4 d-none">
           <div class="col-md-6">
@@ -163,10 +175,17 @@
             </div>
           </div>
         </div>
-  
+        <br><br><br><br><br><br><br><br><br><br><br><br>
       </main>
     </div>
   </div>
+    <!-- Footer -->
+
+    <footer class="footer">
+      <div class="container">
+        <p>&copy; <span id="current-year"></span> Visual Portfolio. All rights reserved.</p>
+      </div>
+    </footer>
 <script>
 
 
@@ -200,7 +219,7 @@ function toggleSection(id) {
               window.location.href = page; // Full-page redirect
               return;
             }
-           
+
             fetch(page)
                 .then(response => response.text())
                 .then(data => {

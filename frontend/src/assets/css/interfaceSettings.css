@@ -31,7 +31,7 @@ body {
 /* Header Styles */
 .site-header {
   background-color: var(--cream);
-  padding: 5px 0; 
+  padding: 5px 0;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
@@ -131,14 +131,14 @@ body {
   white-space: nowrap;
   border-right: 2px solid white;
   width: 0ch;
-  animation: 
+  animation:
     typing 3s steps(30, end) forwards,
     blink-caret 0.7s step-end 3 3s forwards;
 }
 
 @keyframes typing {
   from { width: 0ch; }
-  to { width: 22ch; }  
+  to { width: 22ch; }
 }
 
 @keyframes blink-caret {
