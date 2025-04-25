@@ -24,8 +24,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (response.ok) {
                 alert('Login successful!');
 
-                const userID = data._id;
-                sessionStorage.setItem('userId', userID);
+                sessionStorage.setItem('userEmail', email);
 
                 window.location.href = 'app/components/Dashboard.html';
             } else {

@@ -5,14 +5,14 @@ const Item = require("../models/Item");
 //Item Route
 router.post("/create-item", async (req, res) => {
     try {
-      const { category, itemTitle, itemDate, itemDescription, userID } = req.body;
+      const { category, itemTitle, itemDate, itemDescription, userEmail } = req.body;
   
       const item = new Item({
         category,
         itemTitle,
         itemDate,
         itemDescription,
-        userID
+        userEmail
       });
   
       await item.save();

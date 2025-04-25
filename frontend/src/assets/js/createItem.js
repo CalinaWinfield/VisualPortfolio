@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const itemTitle = document.getElementById('itemTitle').value;
         const itemDate = document.getElementById('itemDate').value;
         const itemDescription = document.getElementById('itemDescription').value;
-        const userID = sessionStorage.getItem('userID');
+        const userEmail = sessionStorage.getItem('userEmail');
 
         try {
             const response = await fetch('http://localhost:5001/api/items/create-item', {
@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     itemTitle,
                     itemDate,
                     itemDescription,
-                    userID
+                    userEmail
                 })
             });
 

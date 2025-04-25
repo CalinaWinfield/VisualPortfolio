@@ -95,13 +95,13 @@
     }
   
     async function loadItems() {
-      try {
-        const sessionUserID = sessionStorage.getItem("userId");
-  
-        if (!sessionUserID) {
-          console.log("No user ID found in sessionStorage");
-          return;
-        }
+        try {
+          const sessionUserEmail = sessionStorage.getItem('userEmail');
+           //was once if (!userId)
+          if (!sessionUserEmail) {
+            console.log("No user email found in sessionStorage");
+            return;
+          }
   
         const response = await fetch("http://localhost:5001/api/items");
         const items = await response.json();
