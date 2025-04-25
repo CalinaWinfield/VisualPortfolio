@@ -45,15 +45,16 @@ body {
 
 /* Top Navbar (Dashboard Bar) */
 .navbar {
-  background-color: #212529; /* Dark navbar */
+  background-color: #212529;
   color: white;
   padding: 15px;
   position: fixed;
   top: 0;
-  left: 250px; /* Aligns with sidebar */
-  width: calc(100% - 250px); /* Navbar width adjusted */
-  transition: left 0.3s ease-in-out, width 0.3s ease-in-out;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
 }
+
 
 /* Shrink Sidebar Instead of Hiding It on Medium Screens */
 @media (max-width: 991px) {
@@ -93,7 +94,7 @@ body {
 }
 
 /* Hide Navbar When Sidebar is Visible */
-@media (min-width: 992px) { 
+@media (min-width: 992px) {
   .navbar {
     display: none; /* Hides navbar when sidebar is visible */
   }
@@ -112,79 +113,79 @@ body {
 }
 
 .hidden { display: none; }
-        .form-container {
-            background-color: #d4e5f5;
-            padding: 20px;
-            border-radius: 10px;
-            margin-top: 20px;
-        }
-        .subgroup-container {
-            background-color: #f8d7da;
-            padding: 15px;
-            border-radius: 8px;
-            margin-top: 10px;
-        }
-        
-        #secondForm {
-          display: none;  /* Keeps it hidden initially */
-      }
+.form-container {
+  background-color: #d4e5f5;
+  padding: 20px;
+  border-radius: 10px;
+  margin-top: 20px;
+}
+.subgroup-container {
+  background-color: #f8d7da;
+  padding: 15px;
+  border-radius: 8px;
+  margin-top: 10px;
+}
 
-      .addSubgroup{
-        background-color:var(--blue) !important;
-      }
+#secondForm {
+  display: none;  /* Keeps it hidden initially */
+}
 
-    .submit{
-      background-color: var(--pink) !important;
-    }
+.addSubgroup{
+  background-color:var(--blue) !important;
+}
+
+.submit{
+  background-color: var(--pink) !important;
+}
 
 
-    .remove-btn{
-      background-color: var(--pink) !important;
+.remove-btn{
+  background-color: var(--pink) !important;
 
-    }
+}
 
-   .cardbtn{
-    background-color: var(--blue) !important;
-   }    
+.cardbtn{
+  background-color: var(--blue) !important;
+}
 
-   .folderTxt{
-    color: white !important;
-   }
+.folderTxt{
+  color: white !important;
+}
 
-   .cardStyle{
-    background: var(--blue);
-    display: flex;
-    justify-content: center;
-   }
+.cardStyle{
+  background: var(--blue);
+  display: flex;
+  justify-content: center;
+}
 
-   .custom-card-header {
-    background-color: var(--pink)!important;/* Replace with your desired color */
-    color:white !important; /* Ensures text is visible */
-  }
+.custom-card-header {
+  background-color: var(--pink)!important;/* Replace with your desired color */
+  color:white !important; /* Ensures text is visible */
+}
 
-   .card {
-    border-radius: 4px!important; /* Adjust this value as needed */
-    background-color:var(--blue) !important;
-  }
-  .folder img {
-    transition: transform 0.2s ease-in-out; /* Smooth animation */
-  }
-  
-  .folder:hover img {
-    transform: scale(1.1); /* Slightly enlarges the image */
-  }
+.card {
+  border-radius: 4px!important; /* Adjust this value as needed */
+  background-color:var(--blue) !important;
+}
+.folder img {
+  transition: transform 0.2s ease-in-out; /* Smooth animation */
+}
 
-  .table {
-    background-color: inherit !important; /* Inherit the card's background */
-  }
-  
-  .table th, .table td {
-    background-color: inherit !important; /* Ensure consistency for all cells */
-    border-color: rgba(0, 0, 0, 0.1) !important; /* Lighten borders to blend in */
-  }
+.folder:hover img {
+  transform: scale(1.1); /* Slightly enlarges the image */
+}
+
+.table {
+  background-color: inherit !important; /* Inherit the card's background */
+}
+
+.table th, .table td {
+  background-color: inherit !important; /* Ensure consistency for all cells */
+  border-color: rgba(0, 0, 0, 0.1) !important; /* Lighten borders to blend in */
+}
 
 .card-title{
-  color: var(--pink) !important; 
+  color: var(--pink) !important;
   font-size: 30px;
 }
 
@@ -199,7 +200,7 @@ hr.border-secondary {
 }
 
 hr{
-opacity: 1 !important;
+  opacity: 1 !important;
 }
 
 .Dashboard-Title{
@@ -207,7 +208,7 @@ opacity: 1 !important;
 }
 
 .card-body{
-  color:white !important; 
+  color:white !important;
 }
 
 .table>:not(caption)>*>* {
@@ -236,7 +237,7 @@ opacity: 1 !important;
 .formatbtn:hover {
   background-color:#ee929d ; /* Swap colors */
   color: var(--cream);
- 
+
 }
 .formatbtn:active {
   background-color: #d46b763f !important; /* Darker shade when clicked */
@@ -304,7 +305,7 @@ opacity: 1 !important;
   border-color:#fff5e3 ;
   box-shadow: 2px 4px 6px rgba(0, 0, 0, 0.3);
   font-size: 24px !important;
-          }
+}
 
 .list img {
   width: 20px;
@@ -351,5 +352,111 @@ opacity: 1 !important;
   min-height: 420px;
 }
 
+.footer {
+  background-color: var(--pink);
+  color:white;
+  font-size: 18px;
+  padding: 20px 0;
+  text-align: center;
+  border-top: 2px solid var(--cream);
+  margin-top: auto;
+}
 
+
+/* Navigation Bar */
+.site-header {
+  background-color: var(--cream) !important;
+  padding: 5px 0 !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+  width: 100%;
+  z-index: 1000;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.header-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.header-logo {
+  width: 50px;
+  height: 50px;
+  margin-right: 15px;
+}
+
+.header-title {
+  font-size: 24px;
+  color: var(--navy);
+  margin: 0;
+}
+
+/* Navigation Bar */
+.header-title,
+.logo,
+.footer,
+.nav-links a {
+  font-family: "Playfair Display", serif !important;
+  color: white !important;
+}
+
+.site-header .navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 30px;
+  background-color: var(--pink);
+}
+
+.logo {
+  font-size: 24px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+}
+
+.logo img {
+  width: 10%;
+  height: 10%;
+  object-fit: contain;
+
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+}
+
+.nav-links li {
+  margin: 0 15px;
+}
+
+.nav-links a {
+  display: inline-block;
+  text-decoration: none;
+  color: white;
+  font-weight: 500;
+  font-size: 20px;
+  position: relative;
+}
+
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -4px;
+  width: 0;
+  height: 2px;
+  background-color: white;
+  transition: width 0.3s ease;
+}
+
+.nav-links a:hover::after {
+  width: 100%;
+}
 /* Creat-Item */
