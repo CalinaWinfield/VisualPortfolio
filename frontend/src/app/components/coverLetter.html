@@ -1,97 +1,139 @@
-<!--David Flores-->
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Visual Portfolio</title>
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="../../assets/css/Dashboard.css">
-	<link rel="icon" type="image/x-icon" href="../../assets/img/foxIcon1.png">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Visual Portfolio</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link rel="stylesheet" href="../../assets/css/Dashboard.css" />
+  <link rel="icon" type="image/x-icon" href="../../assets/img/foxIcon1.png" />
 </head>
 <body>
-    <div class="dashboard container-fluid">
-        <!-- Mobile Header (Visible only on small screens) -->
-        <header class="mobile-header d-md-none text-center py-3">
-            <!-- Logo -->
-            <div class="logo"><img src="../../assets/img/foxIcon.png" alt="Visual Portfolio Logo" class="img-fluid"></div>
-            <!-- User Profile -->
-            <div class="user-profile">
-                <div class="profile-picture mx-auto"></div> <!-- Placeholder for profile picture -->
-                <div class="user-details mt-2">
-                    <p class="user-name fw-bold mb-0">User Name</p>
-                    <p class="user-email mb-0">user@example.com</p>
-                </div>
+  <div class="dashboard container-fluid">
+    <header class="mobile-header d-md-none text-center py-3">
+      <div class="logo"><img src="../../assets/img/foxIcon.png" alt="Visual Portfolio Logo" class="img-fluid" /></div>
+      <div class="user-profile">
+        <div class="profile-picture mx-auto"></div>
+        <div class="user-details mt-2">
+          <p class="user-name fw-bold mb-0">User Name</p>
+          <p class="user-email mb-0">user@example.com</p>
+        </div>
+      </div>
+      <button class="btn btn-primary mt-3" id="menu-toggle">Menu</button>
+      <div class="mobile-menu d-none mt-3" id="mobile-menu">
+        <ul class="list-unstyled">
+          <li class="mb-3"><a href="#" class="text-decoration-none">Dashboard</a></li>
+          <li class="mb-3"><a href="../../index.html" class="text-decoration-none">Log out</a></li>
+        </ul>
+      </div>
+    </header>
+
+    <main class="main-section col-md-8 col-12">
+      <h1 class="greeting mb-4">Let's build your Cover Letter</h1>
+
+      <div class="template-selection mb-4">
+        <h2>Choose a Template</h2>
+        <div class="row">
+          <div class="col-md-4">
+            <div class="template-card">
+              <img src="../../assets/img/cover1.png" alt="Template 1" class="img-fluid"/>
+              <button class="btn btn-primary mt-2 covbtn">Use This Template</button>
             </div>
-            <!-- Menu Toggle Button -->
-            <button class="btn btn-primary mt-3" id="menu-toggle">Menu</button>
-            <!-- Mobile Menu (Hidden by default) -->
-            <div class="mobile-menu d-none mt-3" id="mobile-menu">
-                <ul class="list-unstyled">                    
-                    <li class="mb-3"><a href="#" class="text-decoration-none">Dashboard</a></li>
-					<li class="mb-3"><a href="../../index.html" class="text-decoration-none">Log out</a></li>
-                </ul>
+          </div>
+          <div class="col-md-4">
+            <div class="template-card">
+              <img src="../../assets/img/cover2.png" alt="Template 2" class="img-fluid"/>
+              <button class="btn btn-primary mt-2 covbtn">Use This Template</button>
             </div>
-        </header>
+          </div>
+          <div class="col-md-4">
+            <div class="template-card">
+              <img src="../../assets/img/cover3.png" alt="Template 3" class="img-fluid"/>
+              <button class="btn btn-primary mt-2 covbtn">Use This Template</button>
+            </div>
+          </div>
+        </div>
+      </div>
 
-			
-            <!-- Main Section
-				use this section to add the resume building properties
-				also use the left pane above to add drag and drop features, you can delete the profile info to work with the space 
-				just leave the Dashboard and logout buttons, this pages are using MainStyles.css so add or reuse any existing id's fo yout styling. 
-				if creating a new styling id make sure is not a repeated name.
+      <div class="cover-letter-editor">
+        <h2>Your Cover Letter</h2>
+        <p id="template-status" class="text-success fw-bold"></p>
+        <textarea class="form-control mb-3" id="introduction" rows="5" placeholder="Introduction..."></textarea>
+        <textarea class="form-control mb-3" id="body" rows="5" placeholder="Body..."></textarea>
+        <textarea class="form-control mb-3" id="conclusion" rows="5" placeholder="Conclusion..."></textarea>
+        <button class="btn btn-success" id="save-button">Save</button>
+        <button class="btn btn-primary" id="preview-button">Preview</button>
+        <button class="btn btn-secondary" id="export-button">Export as PDF</button>
+      </div>
+    </main>
+  </div>
 
-			-->
-            <main class="main-section col-md-8 col-12">
-                <!-- Greeting -->
-                <h1 class="greeting mb-4">Let's build your Cover Letter</h1>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const templates = {
+        template1: {
+          introduction: `[Your Name]\n[Your Address] | [Your Phone Number] | [Your Email]\n\n[Date]\n\n[Hiring Manager's Name], [Job Title]\n[Company Name]\n[Company Address]\n\nDear [Hiring Manager's Name],\n\nWhile viewing job ads online, I came across your request for a [Job Title]. I am very interested in this position and wanted to take this opportunity to introduce myself.`,
+          body: `I am a [describe your skills, e.g., fast learner, team player] and am skilled at [list key skills, e.g., learning new products quickly, processing payments, assisting customers]. I understand the value of [mention a key value, e.g., time management, customer satisfaction] and am great at getting things done quickly and effectively.\n\nIn my previous [Job Title] position at [Previous Company Name], I [describe a key achievement or responsibility, e.g., assisted 50+ customers daily in various shifts].`,
+          conclusion: `For further details of my qualifications, background, and contributions, please take a moment to review my enclosed resume. I believe that I can successfully be the [Job Title] you're seeking and I welcome the opportunity to speak with you at your earliest convenience.\n\nWarm regards,\n\n[Your Name]`
+        },
+        template2: {
+          introduction: `[Your Name]\n\n[Date] [Your Email]\n\n[Your Phone Number]\n\n[Hiring Manager's Name]\n[Company Name]\n[Company Address]\n\nDear [Hiring Manager's Name],\n\nI am applying for a position at [Company Name] because your mission and vision align with my values.`,
+          body: `With my focus on [mention your focus] and dedication to efficiently handling [mention key responsibilities], I know I can be a strong asset. Just a few qualities I bring include:\n\n- [Skill 1]\n- [Skill 2]\n- [Skill 3]`,
+          conclusion: `You can count on my enthusiasm, high energy, and positive attitude. I would greatly appreciate your review of my enclosed resume and am available for an interview at your convenience.\n\nSincerely,\n\n[Your Name]`
+        },
+        template3: {
+          introduction: `[Your Name]\n\n[Your Email] | [Your Phone Number] | [Your Address]\n\n[Date]\n\n[Hiring Manager's Name], [Job Title]\n[Company Name]\n[Company Address]\n\nDear [Hiring Manager's Name],\n\nI am contacting you to express my interest in the [Job Title] opportunity with [Company Name].`,
+          body: `I am a highly results-oriented individual with over [number] years of experience in [field]. I thrive in team settings and enjoy solving [key challenges].\n\n- [Key Quality 1]: [Details]\n- [Key Quality 2]: [Details]\n- [Key Quality 3]: [Details]`,
+          conclusion: `I've attached my resume with more information. Thank you for your time, and I look forward to hearing from you.\n\nSincerely,\n\n[Your Name]`
+        }
+      };
 
-                <!-- Template Selection -->
-                <div class="template-selection mb-4">
-                    <h2>Choose a Template</h2>
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="template-card">
-                                <img src="../../assets/img/cover1.png" alt="Template 1" class="img-fluid">
-                                <button class="btn btn-primary mt-2 covbtn">Use This Template</button>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="template-card">
-                                <img src="../../assets/img/cover2.png" alt="Template 2" class="img-fluid">
-                                <button class="btn btn-primary mt-2 covbtn">Use This Template</button>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="template-card">
-                                <img src="../../assets/img/cover3.png" alt="Template 3" class="img-fluid">
-                                <button class="btn btn-primary mt-2 covbtn">Use This Template</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+      const templateButtons = document.querySelectorAll('.template-card button');
+      const intro = document.getElementById('introduction');
+      const body = document.getElementById('body');
+      const conclusion = document.getElementById('conclusion');
+      const status = document.getElementById('template-status');
 
-                <!-- Cover Letter Editor -->
-                <div class="cover-letter-editor">
-                    <h2>Your Cover Letter</h2>
-                    <textarea class="form-control mb-3" rows="5" placeholder="Introduction..."></textarea>
-                    <textarea class="form-control mb-3" rows="5" placeholder="Body..."></textarea>
-                    <textarea class="form-control mb-3" rows="5" placeholder="Conclusion..."></textarea>
-                    <button class="btn btn-success">Save</button>
-                    <button class="btn btn-primary">Preview</button>
-                    <button class="btn btn-secondary">Export as PDF</button>
-                </div>
-               
-            </main>
+      templateButtons.forEach((btn, index) => {
+        btn.addEventListener('click', () => {
+          const key = `template${index + 1}`;
+          const temp = templates[key];
+          intro.value = temp.introduction;
+          body.value = temp.body;
+          conclusion.value = temp.conclusion;
+          status.textContent = `Template ${index + 1} loaded!`;
+        });
+      });
 
+      document.getElementById('save-button').addEventListener('click', () => {
+        const content = `${intro.value}\n\n${body.value}\n\n${conclusion.value}`;
+        localStorage.setItem('coverLetter', content);
+        alert('Cover letter saved successfully!');
+      });
 
+      document.getElementById('preview-button').addEventListener('click', () => {
+        const content = `${intro.value}\n\n${body.value}\n\n${conclusion.value}`;
+        const previewWindow = window.open();
+        previewWindow.document.write(`
+          <html><head><title>Preview</title>
+          <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+          </head><body><div class="container">
+          <h1>Cover Letter Preview</h1>
+          <p>${content.replace(/\n/g, "<br>")}</p>
+          </div></body></html>`);
+        previewWindow.document.close();
+      });
 
-
-    <!-- Bootstrap JS and dependencies -->
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
-    <!-- Custom JS (removed for event loading issue) -->
-    <script src="../../../../backend/controller/scriptMainREMOVED.js"></script>
+      document.getElementById('export-button').addEventListener('click', () => {
+        const content = `${intro.value}\n\n${body.value}\n\n${conclusion.value}`;
+        const element = document.createElement('a');
+        element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(content));
+        element.setAttribute('download', 'cover-letter.txt');
+        document.body.appendChild(element);
+        element.click();
+        document.body.removeChild(element);
+      });
+    });
+  </script>
 </body>
 </html>
