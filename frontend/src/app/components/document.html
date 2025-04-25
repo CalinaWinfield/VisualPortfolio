@@ -124,10 +124,10 @@
 
     async function loadItems() {
         try {
-          const sessionUserID = sessionStorage.getItem('userId');
+          const sessionUserEmail = sessionStorage.getItem('userEmail');
            //was once if (!userId)
-          if (!sessionUserID) {
-            console.log("No user ID found in sessionStorage");
+          if (!sessionUserEmail) {
+            console.log("No user email found in sessionStorage");
             return;
           }
 
@@ -137,7 +137,7 @@
             const leftContainer = document.getElementById("left");
             leftContainer.innerHTML = ""; // clear default items
 
-            const filteredItems = items.filter(item => item.userID === sessionUserID);
+            const filteredItems = items.filter(item => item.userEmail === sessionUserEmail);
 
             filteredItems.forEach((item, index) => {
                 const div = document.createElement("div");

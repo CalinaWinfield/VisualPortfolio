@@ -102,8 +102,8 @@
         const itemDate = document.getElementById('itemDate').value;
         const itemDescription = document.getElementById('itemDescription').value;
         //const userID = sessionStorage.getItem('userID');
-         const userID = sessionStorage.getItem('userId');
-       
+         const userEmail = sessionStorage.getItem('userEmail');
+
         try {
           const response = await fetch('http://localhost:5001/api/items/create-item', {
             method: 'POST',
@@ -115,14 +115,15 @@
               itemTitle,
               itemDate,
               itemDescription,
-              userID
+              userEmail
             })
           });
 
           const data = await response.json();
           if (response.ok) {
             alert('Item created successfully!');
-            window.location.href = 'app/components/Dashboard.html';
+            // window.location.href = 'app/components/Dashboard.html';
+            window.location.href = 'Dashboard.html';
           } else {
             alert('Item creation failed: ' + data.error);
           }
