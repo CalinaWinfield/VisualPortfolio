@@ -66,6 +66,7 @@ The Visual Portfolio App is a web-based tool designed to help faculty modernize 
 2. _Documentation Lead_
 
 ## Flyer
+![VisPortfolio (1)](https://github.com/user-attachments/assets/50f5a08e-7887-4f54-8626-630c9d0f4304)
 
 ## Repo Location
 - [**click here**](https://github.com/GGC-SD/VisPortfolio)
