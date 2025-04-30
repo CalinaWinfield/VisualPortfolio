@@ -33,6 +33,9 @@ The Visual Portfolio App is a web-based tool designed to help faculty modernize 
 1. PORT=5000
 - Ensure your IP address is allowed to connect with the database on MongoDB Atlas
 - On back end run then server using: "node server.js"
+- Open the File Explorer and navigate to the Visual Portfolio Project Files
+- Go to VisPortfolio/frontend/src
+- Open the index.html with preferred browser option
 
   ### To run the front end
   - go to VisPortfolio/frontend on your terminal and run: npm install
