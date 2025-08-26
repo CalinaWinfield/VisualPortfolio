@@ -57,7 +57,7 @@ The Visual Portfolio App is a web-based tool designed to help faculty modernize 
 1. _Programmer_ 
 2. _Code Architecture_ 
    
-* **Jordan Laudun**
+* **Jordan Xavier Laudun** 
 1. _Testing Lead_
 2. _Client Liaison_
 
