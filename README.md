@@ -50,8 +50,8 @@ The Visual Portfolio App is a web-based tool designed to help faculty modernize 
 
 #### Spring 2025
 * **Angelica Jones**
-1. _UX/UI Design_ 👾
-2. _Project Manager_ 👩🏽‍💻
+1. UX/UI Design 👾
+2. Project Manager 👩🏽‍💻
    
 * **Travis Mounsy**
 1. _Programmer_ 💻
