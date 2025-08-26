@@ -49,20 +49,20 @@ The Visual Portfolio App is a web-based tool designed to help faculty modernize 
 ## Team Roles
 
 #### Spring 2025
-* **David Flores**
-1. _Data Modeler_
-2. _Team Manager_
+* **Angelica Jones**
+1. _UX/UI Design_
+2. _Project Manager_
    
-* **Ahkleelah Lindo**
-1. _UI Design_
+* **Travis Mounsy**
+1. _Programmer_
+2. _Code Architecture_
+   
+* **Jordan Laudun**
+1. _Testing Lead_
 2. _Client Liaison_
-   
-* **Oved Lomeli**
-1. _Code Architecture/Lead Programmer_
-2. _Testing Lead_
 
-* **Minh Huy Tran**
-1. _Code Architecture/Lead Programmer_
+* **Sebastian Londono Escobar**
+1. _Data Modeler_
 2. _Documentation Lead_
 
 ## Flyer
