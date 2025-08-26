@@ -50,20 +50,20 @@ The Visual Portfolio App is a web-based tool designed to help faculty modernize 
 
 #### Spring 2025
 * **Angelica Jones**
-1. _UX/UI Design_
-2. _Project Manager_
+1. _UX/UI Design_ 👾
+2. _Project Manager_ 👩🏽‍💻
    
 * **Travis Mounsy**
-1. _Programmer_ 
-2. _Code Architecture_ 
+1. _Programmer_ 💻
+2. _Code Architecture_  🔨
    
 * **Jordan Xavier Laudun** 
-1. _Testing Lead_
-2. _Client Liaison_
+1. _Testing Lead_ 👾
+2. _Client Liaison_ 🦺
 
 * **Sebastian Londono Escobar**
-1. _Data Modeler_
-2. _Documentation Lead_
+1. _Data Modeler_ 👽
+2. _Documentation Lead_ 📝
 
 ## Flyer
 ![VisPortfolio (1)](https://github.com/user-attachments/assets/50f5a08e-7887-4f54-8626-630c9d0f4304)
