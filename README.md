@@ -54,8 +54,8 @@ The Visual Portfolio App is a web-based tool designed to help faculty modernize 
 2. _Project Manager_
    
 * **Travis Mounsy**
-1. _Programmer_
-2. _Code Architecture_
+1. _Programmer_ 
+2. _Code Architecture_ 
    
 * **Jordan Laudun**
 1. _Testing Lead_
