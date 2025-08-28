@@ -1,4 +1,4 @@
-# VisPortfolio
+# EasyFolio
 
 ## Team Visionary
 
