@@ -49,8 +49,11 @@ The Visual Portfolio App is a web-based tool designed to help faculty modernize 
 ## Team Roles
 
 #### Fall 2025- CRTL-ALT-ELITE
-* **Angelica Jones** 1. UX/UI Design 👾 2. Project Manager 👩🏽‍💻
+* **Angelica Jones** 1. UX/UI Design 👾 2. Project Manager 👩🏽‍💻 
+
 * **Sebastian Londono** 1. Data Modeler 📊 2. Documentation 📑
+* <img width="98" height="133" alt="image" src="https://github.com/user-attachments/assets/8dd1d025-25b9-4efc-8723-b6b94bfea3e8" />
+
 * **Travis Mounsy** 1. Programmer 💻 2. Code Architecture 👨‍🔧
 * **Jordan Laudun** 1. Testing Lead 🛠 2. Client Liaison 💼
 
