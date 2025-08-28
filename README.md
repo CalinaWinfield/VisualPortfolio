@@ -50,17 +50,17 @@ The Visual Portfolio App is a web-based tool designed to help faculty modernize 
 
 #### Fall 2025- CRTL-ALT-ELITE
 * **Angelica Jones** 1. UX/UI Design 👾 2. Project Manager 👩🏽‍💻
-  <img width="176" height="239" alt="image" src="https://github.com/user-attachments/assets/9d4254d4-042f-4dd2-832d-cd6cefcf523b" />
+* <img width="176" height="239" alt="image" src="https://github.com/user-attachments/assets/9d4254d4-042f-4dd2-832d-cd6cefcf523b" />
 
 
 * **Sebastian Londono** 1. Data Modeler 📊 2. Documentation 📑
-  <img width="98" height="133" alt="image" src="https://github.com/user-attachments/assets/8dd1d025-25b9-4efc-8723-b6b94bfea3e8" />
+* <img width="98" height="133" alt="image" src="https://github.com/user-attachments/assets/8dd1d025-25b9-4efc-8723-b6b94bfea3e8" />
 
 * **Travis Mounsy** 1. Programmer 💻 2. Code Architecture 👨‍🔧
-  <img width="173" height="115" alt="image" src="https://github.com/user-attachments/assets/acacb0ba-c3a0-4597-b030-68bdf42843b3" />
+* <img width="173" height="115" alt="image" src="https://github.com/user-attachments/assets/acacb0ba-c3a0-4597-b030-68bdf42843b3" />
 
 * **Jordan Laudun** 1. Testing Lead 🛠 2. Client Liaison 💼
-  <img width="131" height="174" alt="image" src="https://github.com/user-attachments/assets/e517033c-8207-4fe0-b2f9-5b4de2591c5a" />
+* <img width="131" height="174" alt="image" src="https://github.com/user-attachments/assets/e517033c-8207-4fe0-b2f9-5b4de2591c5a" />
 
 
 ## Flyer
