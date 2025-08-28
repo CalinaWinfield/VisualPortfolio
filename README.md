@@ -3,7 +3,7 @@
 ## Team Visionary
 
 ### Description
-The Visual Portfolio App is a web-based tool designed to help faculty modernize the process of maintaining, organizing, and presenting academic records. The app provides a personalized dashboard for users to store their academic data, categorize information, and generate customized documents such as resumes, CVs, and portfolios. With drag-and-drop functionality and customizable fields, faculty can easily compile, and format documents tailored to specific needs, reducing redundancy and improving efficiency.
+The EasyFolio App is a web tool that will help faculty keep, organize, and share their academic records. The User can log in, store their data, and quickly create documents like resumes, CVs, or portfolios. With easy customization, the app saves time, reduces repeated work, and makes it simple to format records for different needs.
 ### Links
 
 ### Technologies
