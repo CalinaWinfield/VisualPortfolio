@@ -371,4 +371,6 @@ body.document-page .formatbtn { margin-top: 12px; }
 .img-fluid { max-width: 100%; height: auto; }
 
 /* If a page uses inline header styles, this still ensures typography/colors are consistent */
+
 .logo, .nav-links a { font-family: "Playfair Display", serif; }
+
