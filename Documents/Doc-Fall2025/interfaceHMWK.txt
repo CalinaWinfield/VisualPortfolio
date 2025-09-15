@@ -1,0 +1,23 @@
+Travis Mounsy  implemented variable var(--navy);in the 
+file global.css and the corresponding page document.html
+
+Travis Mounsy implemented variable font-size: 26px in the
+file global.css and the corresponding page document.html
+
+Jordan Laudun implemented variable var(--cream) in the file 
+global.css and the corresponding page coverletter.html
+
+Jordan Laudun implemented variable padding: 12px in the file
+global.css and the corresponding page coverletter.html
+
+Sebastian  implemented variable background color: var(--pink) in the file global.css and the correspondng 
+page dashboard.html
+
+Sebastian implemented variable background: var(--blue) in the file global.css and the correspondng 
+page dashboard.html
+
+Angelica Jones implemented variable font-size: var(--fs-h1) the file global.css and the correspondng 
+page index.html
+
+Angelica Jones implemented variable padding: 120px 20px; the file global.css and the correspondng 
+page index.html
