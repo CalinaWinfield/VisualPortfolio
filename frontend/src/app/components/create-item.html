@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Create Item</title>
-  <link rel="stylesheet" href="../../assets/css/Dashboard.css">
   <link rel="icon" type="image/x-icon" href="../../assets/img/foxIcon1.png">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <link rel="stylesheet" href="../../assets/css/global.css">
 
   <style>
     .expandable-form-container {
@@ -16,26 +17,33 @@
       width: 50%;
       margin: auto;
     }
+
     .createButton {
       background-color: #5d81bc;
       font-size: 24px;
     }
+
     .createButton:hover {
       background-color: #5d81bca2;
     }
+
     .createButton:active {
       background-color: #5d81bc88 !important;
     }
+
     .updateButton {
       background-color: #f5a3ad;
       font-size: 24px;
     }
+
     .updateButton:hover {
       background-color: #f5a3ad94;
     }
+
     .updateButton:active {
       background-color: #f5a3ad71 !important;
     }
+
     #itemForm {
       background-color: #d1e7fd;
       padding: 20px;
@@ -45,39 +53,39 @@
     }
 
     .center-form-wrapper {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  padding: 40px 20px;
-  background-color: #00243a; /* Or your preferred bg */
-}
-
-
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 40px 20px;
+      background-color: #00243a;
+      /* Or your preferred bg */
+    }
   </style>
 </head>
 
-<body>
-<header class="site-header">
-  <nav class="navbar">
-    <div class="logo">
-      <img src="../../assets/img/foxIcon.png" alt="Visual Portfolio Logo" class="img-fluid">VISUAL PORTFOLIO
-    </div>
-    <ul class="nav-links">
-      <li><a href="../../index.html">Log out</a></li>
-      <li><a href="Dashboard.html">Dashboard</a></li>
-      <li><a href="#">Explore</a></li>
-      <li><a href="#">Guide</a></li>
-    </ul>
-  </nav>
-</header>
+<body class = "create-item-page">
+  <header class="site-header">
+    <nav class="navbar">
+      <div class="logo">
+        <img src="../../assets/img/foxIcon.png" alt="Visual Portfolio Logo" class="img-fluid">VISUAL PORTFOLIO
+      </div>
+      <ul class="nav-links">
+        <li><a href="../../index.html">Log out</a></li>
+        <li><a href="Dashboard.html">Dashboard</a></li>
+        <li><a href="#">Explore</a></li>
+        <li><a href="#">Guide</a></li>
+      </ul>
+    </nav>
+  </header>
   <div class="center-form-wrapper">
     <div class="expandable-form-container">
       <!-- Trigger Form -->
       <form id="firstForm" class="p-4 border rounded bg-white shadow w-75 mx-auto">
         <div class="form-row">
           <div class="form-group mb-3">
-            <input type="button" value="CREATE" id="createBtn" class="btn btn-primary btn-block form-control createButton" />
+            <input type="button" value="CREATE" id="createBtn"
+              class="btn btn-primary btn-block form-control createButton" />
           </div>
           <div class="form-group">
             <input type="reset" value="UPDATE" class="btn btn-secondary btn-block form-control updateButton" />
@@ -88,8 +96,8 @@
       <!-- Actual Create Item Form -->
       <form id="itemForm" class="p-4 border rounded bg-white shadow w-75 mx-auto">
         <div class="form-group mb-4">
-          <label for="category">Category:</label>
-          <input type="text" name="category" id="category" class="form-control" required placeholder="Category">
+          <label for="folder">Folder:</label>
+          <input type="text" name="folder" id="folder" class="form-control" required placeholder="Folder">
         </div>
 
         <div class="form-group mb-4">
@@ -104,7 +112,8 @@
 
         <div class="form-group mb-4">
           <label for="itemDescription">Description:</label>
-          <textarea name="itemDescription" id="itemDescription" class="form-control" rows="3" required placeholder="Description"></textarea>
+          <textarea name="itemDescription" id="itemDescription" class="form-control" rows="3" required
+            placeholder="Description"></textarea>
         </div>
 
         <div class="text-center">
@@ -131,12 +140,12 @@
       itemForm.addEventListener('submit', async function (e) {
         e.preventDefault();
 
-        const category = document.getElementById('category').value;
+        const folder = document.getElementById('folder').value;
         const itemTitle = document.getElementById('itemTitle').value;
         const itemDate = document.getElementById('itemDate').value;
         const itemDescription = document.getElementById('itemDescription').value;
         //const userID = sessionStorage.getItem('userID');
-         const userEmail = sessionStorage.getItem('userEmail');
+        const userEmail = sessionStorage.getItem('userEmail');
 
         try {
           const response = await fetch('http://localhost:5001/api/items/create-item', {
@@ -169,4 +178,5 @@
     });
   </script>
 </body>
+
 </html>
