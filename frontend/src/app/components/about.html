@@ -1,61 +1,70 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>About - EasyFolio App</title>
-  <link rel="stylesheet" href="../../assets/css/Dashboard.css">
+  <!-- Bootstrap Links -->
+   <link rel="icon" type="image/x-icon" href="../../assets/img/foxIcon1.png">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  
+  <!-- CSS-->
+   <link rel="stylesheet" href="../../assets/css/global.css">
 </head>
+
 <body>
-<header class="site-header">
-  <nav class="navbar">
-    <div class="logo">
-      <img src="../../assets/img/foxIcon.png" alt="Visual Portfolio Logo">VISUAL PORTFOLIO
-    </div>
-    <ul class="nav-links">
-      <li><a href="Dashboard.html">Dashboard</a></li>
-      <li><a href="Guide.html">Guide</a></li>
-      <li><a href="About.html">About</a></li>
+  <header class="site-header">
+    <nav class="navbar">
+      <div class="logo">
+        <img src="../../assets/img/foxIcon.png" alt="Visual Portfolio Logo">VISUAL PORTFOLIO
+      </div>
+      <ul class="nav-links">
+        <li><a href="../../index.html">Log out</a></li>
+        <li><a href="Dashboard.html">Dashboard</a></li>
+        <li><a href="Guide.html">Guide</a></li>
+        <li><a href="About.html">About</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="container mt-5 text-white">
+    <h1 class="Dashboard-Title mb-4">About EasyFolio</h1>
+    <p>
+      Faculty need to keep a lot of records related to their academic work. Many of these
+      records are repeated when faculty must submit information to different venues.
+      <strong>EasyFolio App</strong> allows faculty to enter data once and then visually
+      generate the requested report—resume, portfolio, or other records—automatically.
+      Users log in through an accounting system and customize their own resume/portfolio components.
+    </p>
+
+    <h2 class="mt-4">Technology</h2>
+    <ul>
+      <li>Front-end: Angular</li>
+      <li>Database: MongoDB</li>
     </ul>
-  </nav>
-</header>
 
-<main class="container mt-5 text-white">
-  <h1 class="Dashboard-Title mb-4">About EasyFolio</h1>
-  <p>
-    Faculty need to keep a lot of records related to their academic work. Many of these
-    records are repeated when faculty must submit information to different venues.
-    <strong>EasyFolio App</strong> allows faculty to enter data once and then visually
-    generate the requested report—resume, portfolio, or other records—automatically.
-    Users log in through an accounting system and customize their own resume/portfolio components.
-  </p>
+    <h2 class="mt-4">Client</h2>
+    <p>Dr. Anca Doloc-Mihu</p>
 
-  <h2 class="mt-4">Technology</h2>
-  <ul>
-    <li>Front-end: Angular</li>
-    <li>Database: MongoDB</li>
-  </ul>
+    <h2 class="mt-4">Team Crtl Alt Elite</h2>
+    <ul>
+      <li>Angelica Jones : UX/UI Design & Project Manager</li>
+      <li>Sebastian Londono : Data Modeler & Documentation</li>
+      <li>Travis Mounsy : Programmer & Code Architecture</li>
+      <li>Jordan Laudun : Testing Lead & Client Liaison</li>
+    </ul>
+  </main>
 
-  <h2 class="mt-4">Client</h2>
-  <p>Dr. Anca Doloc-Mihu</p>
-
-  <h2 class="mt-4">Team Crtl Alt Elite</h2>
-  <ul>
-    <li>Angelica Jones : UX/UI Design & Project Manager</li>
-    <li>Sebastian Londono : Data Modeler & Documentation</li>
-    <li>Travis Mounsy : Programmer & Code Architecture</li>
-    <li>Jordan Laudun : Testing Lead & Client Liaison</li>
-  </ul>
-</main>
-
-<footer class="footer">
-  <div class="container">
-    <p>&copy; <span id="current-year"></span> Visual Portfolio. All rights reserved.</p>
-  </div>
-</footer>
-<script>
-document.getElementById("current-year").textContent = new Date().getFullYear();
-</script>
+  <footer class="footer">
+    <div class="container">
+      <p>&copy; <span id="current-year"></span> Visual Portfolio. All rights reserved.</p>
+    </div>
+  </footer>
+  <script>
+    document.getElementById("current-year").textContent = new Date().getFullYear();
+  </script>
 </body>
+
 </html>
