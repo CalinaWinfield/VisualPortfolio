@@ -186,69 +186,64 @@
                 </div>
               </div>
 
-              <!-- Active Forms -->
-              <div id="activeFormsSection" class="row mt-4 d-none">
-                <div class="col-md-6">
-                  <div class="card shadow-lg rounded-3 border-0">
-                    <div class="card-header custom-card-header">Active Forms</div>
-                    <div class="card-body">
-                      <table class="table table-striped">
-                        <thead>
-                          <tr>
-                            <th>#</th>
-                            <th>Document</th>
-                            <th>State</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr>
-                            <th>1</th>
-                            <td>Robotics CV</td>
-                            <td><span class="badge bg-success">Completed</span></td>
-                          </tr>
-                          <tr>
-                            <th>2</th>
-                            <td>Most Current Resume</td>
-                            <td><span class="badge bg-warning text-dark">Pending</span></td>
-                          </tr>
-                          <tr>
-                            <th>3</th>
-                            <td>CV #2</td>
-                            <td><span class="badge bg-danger">Canceled</span></td>
-                          </tr>
-                        </tbody>
-                      </table>
-                    </div>
+            <!-- Active Forms -->
+            <div id="activeFormsSection" class="row mt-4 d-none">
+              <div class="col-md-6">
+                <div class="card shadow-lg rounded-3 border-0">
+                  <div class="card-header custom-card-header">Active Forms</div>
+                  <div class="card-body">
+                    <table class="table table-striped">
+                      <thead>
+                        <tr>
+                          <th>#</th>
+                          <th>Document</th>
+                          <th>State</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <th>1</th>
+                          <td>Robotics CV</td>
+                          <td><span class="badge bg-success">Completed</span></td>
+                        </tr>
+                        <tr>
+                          <th>2</th>
+                          <td>Most Current Resume</td>
+                          <td><span class="badge bg-warning text-dark">Pending</span></td>
+                        </tr>
+                        <tr>
+                          <th>3</th>
+                          <td>CV #2</td>
+                          <td><span class="badge bg-danger">Canceled</span></td>
+                        </tr>
+                      </tbody>
+                    </table>
                   </div>
                 </div>
               </div>
-              <br><br><br><br><br><br><br><br><br><br><br><br>
-            </main>
-          </div>
+            </div>
+            <br><br><br><br><br><br><br><br><br><br><br><br>
+          </main>
         </div>
-        <!-- Footer -->
+      </div>
+      <!-- Footer -->
 
-        <footer class="footer">
-    <div class="container">
-      <p>&copy; <span id="current-year"></span> Visual Portfolio. All rights reserved.</p>
-    </div>
-  </footer>
+      <footer class="footer">
+        <div class="container">
+          <p>&copy; <span id="current-year"></span> Visual Portfolio. All rights reserved.</p>
+        </div>
+      </footer>
+      <script>
 
-  <script>
-    document.getElementById("current-year").textContent = new Date().getFullYear();
-  </script>
- 
 
-        <script>
-
-          function toggleSection(id) {
-            const section = document.getElementById(id);
-            section.classList.toggle("d-none");
-          }
-          //Page Changing JS
-          document.addEventListener("DOMContentLoaded", function () {
-            const links = document.querySelectorAll(".nav-link");
-            const contentArea = document.getElementById("content-area");
+        function toggleSection(id) {
+          const section = document.getElementById(id);
+          section.classList.toggle("d-none");
+        }
+        //Page Changing JS
+        document.addEventListener("DOMContentLoaded", function () {
+          const links = document.querySelectorAll(".nav-link");
+          const contentArea = document.getElementById("content-area");
 
             links.forEach(link => {
               link.addEventListener("click", function (event) {
@@ -364,12 +359,12 @@
               });
             }
 
-      enableDragAndDrop(leftBox);
-      enableDragAndDrop(rightBox);
-      }
-      document.getElementById("current-year").textContent = new Date().getFullYear();
-        </script>
-    </div>
-  </body>
+    enableDragAndDrop(leftBox);
+    enableDragAndDrop(rightBox);
+}
+
+      </script>
+
+</body>
 
   </html>
