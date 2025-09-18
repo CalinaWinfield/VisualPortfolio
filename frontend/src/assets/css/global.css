@@ -51,6 +51,8 @@ button, .btn, input[type="button"], input[type="submit"], input[type="reset"] { 
   text-align: center;
   border-top: 2px solid var(--cream);
   margin-top: auto;
+  width: 100%;
+
 }
 
 /* Shared header (pink marketing header) */
@@ -70,15 +72,30 @@ button, .btn, input[type="button"], input[type="submit"], input[type="reset"] { 
 }
 .logo { font-size: 24px; font-weight: bold; display: flex; align-items: center; }
 .logo img { height: 28px; margin-right: 10px; object-fit: contain; }
-.nav-links { list-style: none; display: flex; gap: 15px; padding: 0; margin: 0; }
+.nav-link {
+  position: relative;
+  color: white !important;
+  font-weight: 500;
+  font-size: 20px;
+  font-family: 'Playfair Display', serif;
+}
 .nav-links li { margin: 0; }
 .nav-links a {
   display:inline-block; text-decoration:none; color:white; font-weight:500; font-size:20px; position:relative;
 }
-.nav-links a::after {
-  content: ''; position: absolute; left: 0; bottom: -4px; width: 0; height: 2px; background-color: white; transition: width 0.3s ease;
+.nav-link::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -4px;
+  width: 0;
+  height: 2px;
+  background-color: white;
+  transition: width 0.3s ease;
 }
-.nav-links a:hover::after { width: 100%; }
+.nav-link:hover::after {
+  width: 100%;
+}
 
 /* Utilities */
 .text-center { text-align: center; }
@@ -88,8 +105,11 @@ button, .btn, input[type="button"], input[type="submit"], input[type="reset"] { 
    DASHBOARD / SIDEBAR (scoped)
    ================================ */
 body.dashboard-page .nav-link {
-  color: white;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  position: relative;
+  color: white !important;
+  font-weight: 500;
+  font-size: 20px;
+  font-family: 'Playfair Display', serif;
 }
 body.dashboard-page .nav-link:hover {
   background-color: #e0e4e8;
@@ -122,10 +142,10 @@ body.dashboard-page .main-content {
 
 /* Dark, fixed dashboard topbar (acts as trigger on mobile) */
 body.dashboard-page .navbar {
-  background-color: #212529;
+  background-color: var(--pink);
   color: white;
   padding: 15px;
-  position: sticky;
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
@@ -164,17 +184,7 @@ body.dashboard-page .folderTxt { color: white; }
 
 /* Desktop layout restores sidebar column */
 @media (min-width: 992px) {
-  body.dashboard-page .sidebar {
-    left: 0;
-    width: 250px;
-    position: fixed;
-  }
-  body.dashboard-page .main-content {
-    margin-left: 250px;
-    width: calc(100% - 250px);
-    padding: 20px;
-  }
-  body.dashboard-page .navbar { display: none; }
+  body.dashboard-page .navbar { display: flex !important; }
 }
 
 /* ================================
@@ -374,3 +384,61 @@ body.document-page .formatbtn { margin-top: 12px; }
 
 .logo, .nav-links a { font-family: "Playfair Display", serif; }
 
+/* Bootstrap hamburger color */ 
+.navbar-dark .navbar-toggler-icon {
+  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='white' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+}
+
+.navbar-nav .nav-item {
+  margin: 1 15px;
+}
+
+.navbar-nav .nav-link {
+  display: inline-block;
+  text-decoration: none;
+  color: white !important;
+  font-weight: 500;
+  font-size: 20px;
+  font-family: 'Playfair Display', serif;
+  position: relative;
+}
+
+
+/* Optional: match link hover to your underline style */
+.navbar-nav .nav-link {
+  font-family: "Playfair Display", serif;
+  font-size: 20px;
+}
+
+.dashboard-container {
+  margin-top: 90px; /* adjust depending on navbar height */
+}
+
+.bg-pink {
+  background-color: #f4a6ac !important;
+}
+
+.navbar .nav-link:hover {
+  background-color: transparent !important;
+  color: white !important;
+}
+
+/* White lines at top and bottom of the navbar */
+.navbar.navbar-piped {
+  border-top: 5px solid #ffffff;
+  border-bottom: 5px solid #ffffff;
+}
+
+/* Optional: keep hover clean */
+.navbar .nav-link:hover {
+  background-color: transparent !important;
+  color: #ffffff !important;
+}
+
+body.dashboard-page .navbar {
+  border-top: 5px solid #fff;
+  border-bottom: 5px solid #fff;
+  align-items: center; /* keeps brand and toggler vertically aligned */
+  padding-top: 15px;   /* match your original inline padding */
+  padding-bottom: 15px;
+}
