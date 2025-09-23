@@ -21,3 +21,6 @@ page index.html
 
 Angelica Jones implemented variable padding: 120px 20px; the file global.css and the correspondng 
 page index.html
+
+We have been dealing merging conflicts and ensuring our branches are up to date with the main branch to mitigate 
+the future conflicts
