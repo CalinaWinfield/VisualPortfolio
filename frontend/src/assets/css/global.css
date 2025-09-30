@@ -317,6 +317,7 @@ body.create-item-page .createButton:active { background-color: #5d81bc88; }
 body.create-item-page .updateButton { background-color: #f5a3ad; font-size: 24px; width: 100%; }
 body.create-item-page .updateButton:hover { background-color: #f5a3ad94; }
 body.create-item-page .updateButton:active { background-color: #f5a3ad71; }
+body.create-item-page .btn-success {background-color:#f5a3ad ;}
 body.create-item-page #itemForm { background-color:#d1e7fd; padding:20px; border-radius:10px; border:1px solid gray; display:none; }
 @media (max-width: 992px) {
   body.create-item-page .site-header .navbar { flex-direction: column; align-items: flex-start; padding: 10px; }
