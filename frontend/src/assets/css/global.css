@@ -44,7 +44,7 @@ button, .btn, input[type="button"], input[type="submit"], input[type="reset"] { 
 
 /* Shared footer */
 .footer {
-  background-color: var(--pink);
+  background-color:#f5a3ad;
   color:white;
   font-size: 18px;
   padding: 20px 0;
