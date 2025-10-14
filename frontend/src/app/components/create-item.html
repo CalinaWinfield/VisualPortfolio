@@ -65,27 +65,31 @@
 </head>
 
 <body class = "create-item-page">
-  <header style="background-color: #fff5e3; padding: 5px 0; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); width: 100%; z-index: 1000; position: relative; font-family: 'Playfair Display', serif;">
-  <nav style="display: flex; justify-content: space-between; align-items: center; padding: 10px 30px; background-color: #f5a3ad;">
-    <div class="logo" style="font-size: 24px; font-weight: bold; display: flex; align-items: center; color: white; font-family: 'Playfair Display', serif;">
-      <img src="../../assets/img/foxIcon.png" alt="Visual Portfolio Logo" style="width: 10%; height: 10%; object-fit: contain;">
-      VISUAL PORTFOLIO
-    </div>
-    <ul class="nav-links" style="list-style: none; display: flex; margin: 0; padding: 0;">
-      <li style="margin: 0 15px;">
-        <a href="../../index.html" style="display: inline-block; text-decoration: none; color: white; font-weight: 500; font-size: 20px; font-family: 'Playfair Display', serif; position: relative;">Log out</a>
-      </li>
-      <li style="margin: 0 15px;">
-        <a href="Dashboard.html" style="display: inline-block; text-decoration: none; color: white; font-weight: 500; font-size: 20px; font-family: 'Playfair Display', serif; position: relative;">Dashboard</a>
-      </li>
-      <li style="margin: 0 15px;">
-        <a href="guide.html" style="display: inline-block; text-decoration: none; color: white; font-weight: 500; font-size: 20px; font-family: 'Playfair Display', serif; position: relative;">Guide</a>
-      </li>
-      <li style="margin: 0 15px;">
-        <a href="about.html" style="display: inline-block; text-decoration: none; color: white; font-weight: 500; font-size: 20px; font-family: 'Playfair Display', serif; position: relative;">About</a>
-      </li>
-    </ul>
-  </nav>
+  <header class="site-header">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-pink">
+        <div class="container-fluid">
+        <!-- Logo -->
+        <a class="navbar-brand d-flex align-items-center" routerLink="/">
+          <img src="../../assets/img/foxIcon.png" alt="Visual Portfolio Logo" style="height:28px; margin-right:10px;">
+          VISUAL PORTFOLIO
+        </a>
+
+        <!-- Hamburger toggler -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        
+        <!-- Nav Links -->
+        <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+          <ul class="navbar-nav">
+            <a class="nav-link" href="../../index.html" data-page="../../index.html">Log out</a>
+            <a class="nav-link" href="Dashboard.html" data-page="Dashboard.html">Dashboard</a>
+            <a class="nav-link" href="guide.html" data-page="guide.html">Guide</a>
+            <a class="nav-link" href="about.html" data-page="about.html">About</a>
+          </ul>
+        </div>
+      </div>
+    </nav>
   </header>
 
  <div class="container-fluid">
@@ -101,10 +105,12 @@
       </div>
               <hr class="border border-secondary">
     </div>
+
+  
   
     <div class="expandable-form-container">
       <!-- Trigger Form -->
-      <form id="firstForm" class="p-4 border rounded bg-white shadow w-75 mx-auto">
+      <form id="firstForm" class="p-4 w-25 mx-auto">
         <div class="form-row">
           <div class="form-group mb-3">
             <input type="button" value="CREATE" id="createBtn"
@@ -116,7 +122,31 @@
         </div>
       </form>
       
+      <!--Card 1 - My Documents -->
+    <div class="container my-4">
+      <div class="row g-4">
+          <div class="col-md-4">
+            <div class="card h-100 shadow">
+            
+              <div class="card-body">
+                <h5 class="card-title">My Documents</h5>
+                <p class="card-text">View stored documents.</p>
+              </div>
+              <div class="card-footer">
+                <a href="/frontend/src/app/components/document.html" class="btn btn-primary bg-pink ">Open Documents</a>
+              </div>
+          </div>
+      </div>
       
+      <div class="col-md-4">
+        <div class="card h-100 shadow">
+        
+          <div class="card-body">
+            <h5 class="card-title">Document Builder</h5>
+            <p class="card-text">Build a document from a template.</p>
+          </div>
+          <div class="card-footer">
+            <a href="#" class="btn btn-primary bg-pink">Get Building</a>
 
       <!-- Actual Create Item Form -->
       <form id="itemForm" class="p-4 border rounded bg-white shadow w-75 mx-auto">
