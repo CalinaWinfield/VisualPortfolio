@@ -252,8 +252,8 @@ body.index-page .cta-button:hover::after { width: 100%; }
 /* Create-item helpers */
 body.index-page .center-form-wrapper {
   display: flex;
-  justify-content: center;
-  align-items: center;
+  justify-content: left;
+  align-items: left;
   min-height: 100vh;
   padding: 24px 12px;
   background-color: #00243a;
