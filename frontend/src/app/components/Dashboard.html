@@ -226,15 +226,17 @@
           </main>
         </div>
       </div>
-      <!-- Footer -->
 
+      <!-- Footer -->
       <footer class="footer">
         <div class="container">
           <p>&copy; <span id="current-year"></span> Visual Portfolio. All rights reserved.</p>
         </div>
       </footer>
+
       <script>
 
+        document.getElementById("current-year").textContent = new Date().getFullYear();
 
         function toggleSection(id) {
           const section = document.getElementById(id);
