@@ -51,12 +51,19 @@
         </button>
         
         <!-- Nav Links -->
-        <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+        <div class="collapse navbar-collapse justify-content-end text-center" id="navbarNav">
           <ul class="navbar-nav">
-            <a class="nav-link" href="#" id="open-login">Log In</a>
-            <a class="nav-link" href="Dashboard.html" data-page="Dashboard.html">Dashboard</a>
-            <a class="nav-link" href="guide.html" data-page="guide.html">Guide</a>
-            <a class="nav-link" href="about.html" data-page="about.html">About</a>
+            <li>
+                <div class="justify-content-center align-items-center search-container" style="width: 250px; position:absolute; left:50%; transform:translateX(-50%);">
+                  <input type="text" class="form-control search-bar" placeholder="Search">
+              </div>
+              <br>
+              <br>
+            </li>
+            <li><a class="nav-link" href="#" id="open-login">Log In</a></li>
+            <li><a class="nav-link" href="Dashboard.html" data-page="Dashboard.html">Dashboard</a></li>
+            <li><a class="nav-link" href="guide.html" data-page="guide.html">Guide</a></li>
+            <li><a class="nav-link" href="about.html" data-page="about.html">About</a></li>
           </ul>
         </div>
       </div>
@@ -82,7 +89,7 @@
     <div id="signup-modal" class="modal" style="display:none; position:fixed; z-index:1000; left:0; top:0; width:100vw; height:100vh; background:rgba(0,0,0,0.5); align-items:center; justify-content:center;">
       <div style="background:#fff; padding:2em; border-radius:8px; max-width:340px; width:100%; position:relative;">
         <button id="close-signup-modal" style="position:absolute; right:1em; top:1em; background:none; border:none; font-size:1.2em; cursor:pointer;">&times;</button>
-        <h3 style="margin-bottom:1em;">Sign Up</h3>
+        <h3 style="margin-bottom:1em; color:black">Join for free!</h3>
         <form id="signupForm" style="display:flex; flex-direction:column; gap:1em;">
           <input type="text" id="name" name="name" placeholder="Name" required>
           <input type="email" id="email" name="email" placeholder="Email" required>
@@ -94,9 +101,9 @@
 
     <!-- Login Modal -->
     <div id="login-modal" class="modal" style="display:none; position:fixed; z-index:1000; left:0; top:0; width:100vw; height:100vh; background:rgba(0,0,0,0.5); align-items:center; justify-content:center;">
-      <div style="background:#fff; padding:2em; border-radius:8px; max-width:340px; width:100%; position:relative;">
-        <button id="close-login-modal" style="position:absolute; right:1em; top:1em; background:none; border:none; font-size:1.2em; cursor:pointer;">&times;</button>
-        <h3 style="margin-bottom:1em;">Log In</h3>
+      <div style="background:#fff; padding:2em; border-radius:8px; max-width:340px; width:100%; position:relative; text-align: center;">
+        <button id="close-login-modal" style="position:absolute; right:1em; top:1em; background:none; border:none; font-size:1.2em; cursor:pointer;"> &times;</button>
+        <h3 style="margin-bottom:1em; color: black;"> Welcome back! </h3>
         <form id="loginForm" style="display:flex; flex-direction:column; gap:1em;">
           <input type="email" id="login-email" name="email" placeholder="Email" required>
           <input type="password" id="login-password" name="password" placeholder="Password" required>

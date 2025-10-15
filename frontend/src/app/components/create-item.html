@@ -38,16 +38,17 @@
     }
 
     .createButton {
-      background-color: #5d81bc;
+      background-color: #f5a3ad;
       font-size: 24px;
+      ;
     }
 
     .createButton:hover {
-      background-color: #5d81bca2;
+      background-color: #f5a3ad94;
     }
 
     .createButton:active {
-      background-color: #5d81bc88 !important;
+      background-color: #f5a3ad !important;
     }
 
     .updateButton {
@@ -97,12 +98,26 @@
         </button>
 
         <!-- Nav Links -->
-        <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+        <div class="collapse navbar-collapse justify-content-end text-center" id="navbarNav">
+          <!-- <div class="search-container" style="width: 250px;">
+                  <input type="text" class="form-control search-bar" placeholder="Search">
+              </div> -->
+              <br>
+
           <ul class="navbar-nav">
-            <li><a class="nav-link" href="../../index.html">Log out</a></li>
+            <li>
+                <div class="justify-content-center align-items-center search-container" style="width: 250px; position:absolute; left:50%; transform:translateX(-50%);">
+                  <input type="text" class="form-control search-bar" placeholder="Search">
+              </div>
+              <br>
+              <br>
+            </li>
+            
             <li><a class="nav-link" href="Dashboard.html">Dashboard</a></li>
             <li><a class="nav-link" href="guide.html">Guide</a></li>
             <li><a class="nav-link" href="about.html">About</a></li>
+            <li><a class="nav-link" href="../../index.html">Log out</a></li>
+            
           </ul>
         </div>
       </div>
@@ -113,12 +128,12 @@
   <main>
     <div class="container-fluid">
       <div class="row">
-        <main class="col-12 px-md-4 mt-4 text-white">
-          <div class="container-fluid d-flex justify-content-between align-items-center mt-4 mb-2">
-            <h1 class="Dashboard-Title text-center w-100 m-0">Create Item</h1>
-            <div class="search-container" style="width: 250px;">
+        <main class="col-12 px-md-4 text-white">
+          <div class="container-fluid d-flex justify-content-between align-items-center mt-4 mb-2" style="border-color: pink">
+            <h1 class="Dashboard-Title text-center w-100 m-0 ">Create Item</h1>
+            <!-- <div class="search-container" style="width: 250px;">
               <input type="text" class="form-control search-bar" placeholder="Search">
-            </div>
+            </div> -->
           </div>
           <hr class="border border-secondary">
         </main>
@@ -131,14 +146,14 @@
                 <input type="button" value="CREATE" id="createBtn"
                   class="btn btn-primary btn-block form-control createButton" />
               </div>
-              <div class="form-group">
+              <!-- <div class="form-group">
                 <input type="reset" value="UPDATE" class="btn btn-secondary btn-block form-control updateButton" />
-              </div>
+              </div> -->
             </div>
           </form>
 
           <!--Card 1 - My Documents --> 
-          <div class="container my-4"> 
+          <!-- <div class="container my-4"> 
             <div class="row g-4"> 
               <div class="col-md-4"> 
                 <div class="card h-100 shadow">
@@ -158,7 +173,30 @@
                      <p class="card-text">Build a document from a template.</p> 
                     </div> <div class="card-footer"> 
                       <a href="#" class="btn btn-primary bg-pink">Get Building</a> 
+                    </div> -->
+
+                    <div class="container  col-md-4 py-2">
+                      <div class="card shadow">
+                        <div class="card-header custom-card-header">My Documents</div>
+                        <div class="card-body">
+                          <p class="text-muted mb-3">View stored documents.</p>
+                          <!-- TODO: render your documents here -->
+                          <a routerLink="/document-builder" class="btn btn-primary bg-pink">Open Documents</a>
+                        </div>
+                      </div>
                     </div>
+
+                    <div class="container col-md-4 py-2">
+                      <div class="card shadow">
+                        <div class="card-header custom-card-header">Document Builder</div>
+                        <div class="card-body">
+                          <p class="text-muted">Build a document from a template.</p>
+                          <!-- TODO: add Angular CDK drag-drop, template picker, etc. -->
+                           <a routerLink="/document-builder" class="btn btn-primary bg-pink">Build a Document</a>
+                        </div>
+                      </div>
+                    </div>
+
 
 
           <!-- Actual Create Item Form -->

@@ -311,9 +311,9 @@ body.create-item-page .center-form-wrapper {
   min-height: 100vh; padding: 24px 12px; background-color: #00243a;
 }
 body.create-item-page .expandable-form-container { padding: 20px; border-radius: 10px; width: 100%; margin: auto; }
-body.create-item-page .createButton { background-color: #5d81bc; font-size: 24px; width: 100%; }
-body.create-item-page .createButton:hover { background-color: #5d81bca2; }
-body.create-item-page .createButton:active { background-color: #5d81bc88; }
+body.create-item-page .createButton { background-color: #f5a3ad; font-size: 24px; width: 100%; }
+body.create-item-page .createButton:hover { background-color: #f5a3ad94; }
+body.create-item-page .createButton:active { background-color: #f5a3ad71; }
 body.create-item-page .updateButton { background-color: #f5a3ad; font-size: 24px; width: 100%; }
 body.create-item-page .updateButton:hover { background-color: #f5a3ad94; }
 body.create-item-page .updateButton:active { background-color: #f5a3ad71; }
