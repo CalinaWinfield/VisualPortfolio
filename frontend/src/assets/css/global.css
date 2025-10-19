@@ -29,7 +29,7 @@
 
 /* 3) Base (shared) */
 html, body {
-  font-family: "Playfair Display", sans-serif;
+  font-family: Libre Calson Text, serif;
   background-color: var(--navy);
   color: white;
   margin: var(--no-margin);
@@ -77,7 +77,7 @@ button, .btn, input[type="button"], input[type="submit"], input[type="reset"] { 
   color: white !important;
   font-weight: 500;
   font-size: 20px;
-  font-family: 'Playfair Display', serif;
+  font-family: Libre Calson Text, serif;
 }
 .nav-links li { margin: 0; }
 .nav-links a {
@@ -109,7 +109,7 @@ body.dashboard-page .nav-link {
   color: white !important;
   font-weight: 500;
   font-size: 20px;
-  font-family: 'Playfair Display', serif;
+  font-family: Libre Calson Text, serif;
 }
 body.dashboard-page .nav-link:hover {
   background-color: #e0e4e8;
@@ -228,7 +228,7 @@ body.index-page .cta-button {
   font-weight: 500;
   border-radius: 2px;
   cursor: pointer;
-  font-family: 'Playfair Display', sans-serif;
+  font-family: Libre Calson Text, serif;
   overflow: hidden;
   transition: letter-spacing 0.3s ease;
 }
@@ -310,8 +310,9 @@ body.create-item-page .center-form-wrapper {
   display: flex; justify-content: center; align-items: center;
   min-height: 100vh; padding: 24px 12px; background-color: #00243a;
 }
-body.create-item-page .expandable-form-container { padding: 20px; border-radius: 10px; width: 100%; margin: auto; }
-body.create-item-page .createButton { background-color: #f5a3ad; font-size: 24px; width: 100%; }
+body.create-item-page .expandable-form-container {border-radius: 10px; max-width: 100%; width: 100%; margin: auto; }
+#firstForm, #itemForm { width: 100%; } 
+body.create-item-page .createButton { background-color: #f5a3ad; font-size: 24px; width: 130px; max-width: 65%;}
 body.create-item-page .createButton:hover { background-color: #f5a3ad94; }
 body.create-item-page .createButton:active { background-color: #f5a3ad71; }
 body.create-item-page .updateButton { background-color: #f5a3ad; font-size: 24px; width: 100%; }
@@ -383,7 +384,7 @@ body.document-page .formatbtn { margin-top: 12px; }
 
 /* If a page uses inline header styles, this still ensures typography/colors are consistent */
 
-.logo, .nav-links a { font-family: "Playfair Display", serif; }
+.logo, .nav-links a { font-family: Libre Calson Text, serif; }
 
 /* Bootstrap hamburger color */ 
 .navbar-dark .navbar-toggler-icon {
@@ -407,7 +408,7 @@ body.document-page .formatbtn { margin-top: 12px; }
 
 /* Optional: match link hover to your underline style */
 .navbar-nav .nav-link {
-  font-family: "Playfair Display", serif;
+  font-family: Libre Calson Text, serif;
   font-size: 20px;
 }
 
