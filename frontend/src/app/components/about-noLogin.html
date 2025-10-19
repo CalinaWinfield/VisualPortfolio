@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About - EasyFolio App</title>
+  <!-- Bootstrap Links -->
+   <link rel="icon" type="image/x-icon" href="../../assets/img/foxIcon1.png">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  
+  <!-- CSS-->
+   <link rel="stylesheet" href="../../assets/css/global.css">
+</head>
+
+<body class="about-page">
+  <header class="site-header">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-pink">
+      <div class="container-fluid">
+    
+      <!-- Logo -->
+      <a class="navbar-brand d-flex align-items-center" href="../components/Dashboard.html">
+        <img src="../../assets/img/foxIcon.png" alt="Visual Portfolio Logo" style="height:28px; margin-right:10px;">
+        VISUAL PORTFOLIO
+      </a>
+
+      <!-- Hamburger toggler (mobile) -->
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+
+      <!-- Nav Links -->
+      <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item"><a class="nav-link" href="../../index.html">Log out</a></li>
+        <li class="nav-item"><a class="nav-link" href="guide.html">Guide</a></li>
+        <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+</header>
+
+
+  <div class="container-fluid">
+    <div class="row">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="container-fluid d-flex justify-content-between align-items-center mt-4 mb-2">
+              <h1 class="Dashboard-Title text-center w-100 m-1">About EasyFolio</h1>
+              <div class="search-container" style="width: 250px;">
+                <input type="text" class="form-control search-bar" placeholder="Search">
+              </div>
+            </div>
+            <br>
+            <hr class="border border-secondary">
+  <main class="container mt-5 text-white">
+    <!-- <h1 class="Dashboard-Title mb-4">About EasyFolio</h1> -->
+    <p>
+      Faculty need to keep a lot of records related to their academic work. Many of these
+      records are repeated when faculty must submit information to different venues.
+      <strong>EasyFolio App</strong> allows faculty to enter data once and then visually
+      generate the requested report—resume, portfolio, or other records—automatically.
+      Users log in through an accounting system and customize their own resume/portfolio components.
+    </p>
+
+    <h2 class="mt-4">Technology</h2>
+    <ul>
+      <li>Front-end: Angular</li>
+      <li>Database: MongoDB</li>
+    </ul>
+
+    <h2 class="mt-4">Client</h2>
+    <p>Dr. Anca Doloc-Mihu</p>
+
+    <h2 class="mt-4">TEAM CRTL ALT ELITE</h2>
+    <ul>
+      <li>Angelica Jones : UX/UI Design & Project Manager</li>
+      <li>Sebastian Londono : Data Modeler & Documentation</li>
+      <li>Travis Mounsy : Programmer & Code Architecture</li>
+      <li>Jordan Laudun : Testing Lead & Client Liaison</li>
+    </ul>
+  </main>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  
+
+  <footer class="footer">
+    <div class="container">
+      <p>&copy; <span id="current-year"></span> Visual Portfolio. All rights reserved.</p>
+    </div>
+  </footer>
+  <script>
+    document.getElementById("current-year").textContent = new Date().getFullYear();
+  </script>
+</body>
+
+</html>
