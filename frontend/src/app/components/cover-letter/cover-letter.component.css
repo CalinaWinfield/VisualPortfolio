@@ -1,0 +1,118 @@
+.coverLetter-page {
+  font-family: var(--font-family);
+  background-color: var(--navy);
+  color: white;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.dashboard {
+  flex: 1;
+  padding: 2rem;
+}
+
+.mobile-header {
+  background-color: var(--navy);
+  padding: 1rem;
+  margin-bottom: 2rem;
+}
+
+.profile-picture {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background-color: var(--cream);
+  margin: 0 auto;
+}
+
+.user-details {
+  color: var(--cream);
+}
+
+.greeting {
+  color: var(--cream);
+  font-size: var(--fs-h1);
+  margin-bottom: 2rem;
+}
+
+.template-selection h2 {
+  color: var(--VPOrange);
+  font-size: var(--fs-h2);
+  margin-bottom: 1.5rem;
+}
+
+.template-card {
+  background-color: var(--cream);
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.template-card img {
+  width: 100%;
+  height: auto;
+  border: 2px solid var(--pink);
+  border-radius: 4px;
+  margin-bottom: 1rem;
+}
+
+.covbtn {
+  background-color: var(--pink);
+  border: none;
+  padding: 0.5rem 1rem;
+  transition: background-color 0.3s ease;
+}
+
+.covbtn:hover {
+  background-color: var(--VPOrange);
+}
+
+.cover-letter-editor {
+  background-color: rgba(255, 255, 255, 0.1);
+  padding: 2rem;
+  border-radius: 8px;
+  margin-top: 2rem;
+}
+
+.cover-letter-editor h2 {
+  color: var(--cream);
+  margin-bottom: 1.5rem;
+}
+
+.cover-letter-editor textarea {
+  background-color: var(--cream);
+  color: var(--navy);
+  border: 2px solid var(--pink);
+  resize: vertical;
+}
+
+.cover-letter-editor textarea:focus {
+  border-color: var(--VPOrange);
+  box-shadow: 0 0 0 0.2rem rgba(244, 164, 96, 0.25);
+}
+
+.btn {
+  margin-right: 1rem;
+  margin-bottom: 1rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .dashboard {
+    padding: 1rem;
+  }
+  
+  .main-section {
+    padding: 0;
+  }
+  
+  .template-card {
+    margin-bottom: 1rem;
+  }
+  
+  .cover-letter-editor {
+    padding: 1rem;
+  }
+}

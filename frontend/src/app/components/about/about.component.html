@@ -1,0 +1,45 @@
+<header class="site-header">
+  <nav class="navbar">
+    <div class="logo">
+      <img src="assets/img/foxIcon.png" alt="Visual Portfolio Logo">VISUAL PORTFOLIO
+    </div>
+    <ul class="nav-links">
+      <li><a routerLink="/">Log out</a></li>
+      <li><a routerLink="/dashboard">Dashboard</a></li>
+      <li><a routerLink="/guide">Guide</a></li>
+      <li><a routerLink="/about">About</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main class="container mt-5 text-white">
+  <h1 class="Dashboard-Title mb-4">About EasyFolio</h1>
+  <p>
+    Faculty need to keep a lot of records related to their academic work. Many of these
+    records are repeated when faculty must submit information to different venues.
+    <strong>EasyFolio App</strong> allows faculty to enter data once and then visually
+    generate the requested report—resume, portfolio, or other records—automatically.
+    Users log in through an accounting system and customize their own resume/portfolio components.
+  </p>
+
+  <h2 class="mt-4">Technology</h2>
+  <ul>
+    <li *ngFor="let tech of technologies">{{ tech }}</li>
+  </ul>
+
+  <h2 class="mt-4">Client</h2>
+  <p>{{ client }}</p>
+
+  <h2 class="mt-4">Team Crtl Alt Elite</h2>
+  <ul>
+    <li *ngFor="let member of teamMembers">
+      {{ member.name }}: <span>{{ member.role }}</span>
+    </li>
+  </ul>
+</main>
+
+<footer class="footer">
+  <div class="container">
+    <p>&copy; {{ currentYear }} Visual Portfolio. All rights reserved.</p>
+  </div>
+</footer>

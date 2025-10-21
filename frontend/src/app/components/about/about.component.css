@@ -1,0 +1,58 @@
+/* About page specific styles */
+.Dashboard-Title {
+  color: var(--cream);
+  font-size: var(--fs-h1);
+  margin-bottom: 2rem;
+  border-bottom: 2px solid var(--pink);
+  padding-bottom: 0.5rem;
+}
+
+/* Style for the about section */
+main {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+main h2 {
+  color: var(--VPOrange);
+  font-size: var(--fs-h2);
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+}
+
+main p {
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+}
+
+main ul {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+main ul li {
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--light-purple);
+}
+
+main ul li:last-child {
+  border-bottom: none;
+}
+
+/* Emphasize the team member roles */
+main ul li span {
+  color: var(--pink);
+  font-style: italic;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  main {
+    padding: 1rem;
+  }
+  
+  .Dashboard-Title {
+    font-size: calc(var(--fs-h1) * 0.9);
+  }
+}

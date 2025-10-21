@@ -1,0 +1,10 @@
+/* Dashboard-specific styles */
+.Dashboard-Title { color: var(--cream); }
+.cardStyle { cursor: pointer; }
+.custom-card-header { background-color: var(--cream); color: var(--dark-brown); font-weight: 600; }
+.folderTxt { color: var(--cream); }
+
+/* minor responsive tweaks */
+@media (max-width: 768px) {
+  .Dashboard-Title { font-size: calc(var(--fs-h1) * 0.9); }
+}
