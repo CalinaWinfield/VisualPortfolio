@@ -1,7 +1,16 @@
-import { provideHttpClient } from '@angular/common/http';
-import { NgModule } from '@angular/core';
+import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 
-@NgModule({
-  providers: [provideHttpClient()],
+@Component({
+  selector: 'app-index-page',
+  standalone: true,
+  imports: [CommonModule, RouterModule],
+  template: `
+    <!-- your inline HTML here -->
+  `,
+  styles: [`
+    /* your inline CSS here */
+  `]
 })
-export class AppModule {}
+export class IndexPageComponent {}

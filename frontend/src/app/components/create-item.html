@@ -11,6 +11,25 @@
   <link rel="stylesheet" href="../../assets/css/global.css">
 
   <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+    }
+
+    main {
+      flex: 1;
+      /* Makes main take up remaining space so footer stays at bottom */
+    }
+
+    .footer {
+      background-color: #f5a3ad;
+      color: #fff;
+      text-align: center;
+      padding: 10px 0;
+    }
+
     .expandable-form-container {
       padding: 20px;
       border-radius: 10px;
@@ -19,16 +38,17 @@
     }
 
     .createButton {
-      background-color: #5d81bc;
+      background-color: #f5a3ad;
       font-size: 24px;
+      
     }
 
     .createButton:hover {
-      background-color: #5d81bca2;
+      background-color: #f5a3ad94;
     }
 
     .createButton:active {
-      background-color: #5d81bc88 !important;
+      background-color: #f5a3ad !important;
     }
 
     .updateButton {
@@ -56,20 +76,18 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      min-height: 100vh;
       padding: 40px 20px;
       background-color: #00243a;
-      /* Or your preferred bg */
     }
   </style>
 </head>
 
-<body class = "create-item-page">
+<body class="create-item-page">
   <header class="site-header">
     <nav class="navbar navbar-expand-lg navbar-dark bg-pink">
-        <div class="container-fluid">
+      <div class="container-fluid">
         <!-- Logo -->
-        <a class="navbar-brand d-flex align-items-center" routerLink="/">
+        <a class="navbar-brand d-flex align-items-center" href="#">
           <img src="../../assets/img/foxIcon.png" alt="Visual Portfolio Logo" style="height:28px; margin-right:10px;">
           VISUAL PORTFOLIO
         </a>
@@ -78,164 +96,156 @@
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
           <span class="navbar-toggler-icon"></span>
         </button>
-        
+
         <!-- Nav Links -->
-        <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+        <div class="collapse navbar-collapse justify-content-end text-center" id="navbarNav">
+          <!-- <div class="search-container" style="width: 250px;">
+                  <input type="text" class="form-control search-bar" placeholder="Search">
+              </div> -->
+              <br>
+
           <ul class="navbar-nav">
-            <a class="nav-link" href="../../index.html" data-page="../../index.html">Log out</a>
-            <a class="nav-link" href="Dashboard.html" data-page="Dashboard.html">Dashboard</a>
-            <a class="nav-link" href="guide.html" data-page="guide.html">Guide</a>
-            <a class="nav-link" href="about.html" data-page="about.html">About</a>
+            <li>
+                <div class="justify-content-center align-items-center search-container" style="width: 260px; position:absolute; left:50%; transform:translateX(-50%);">
+                  <input type="text" class="form-control search-bar" placeholder="Search">
+              </div>
+              <br>
+              <br>
+            </li>
+            
+            <li><a class="nav-link" href="Dashboard.html">Dashboard</a></li>
+            <li><a class="nav-link" href="guide.html">Guide</a></li>
+            <li><a class="nav-link" href="about.html">About</a></li>
+            <li><a class="nav-link" href="../../index.html">Log out</a></li>
+            
           </ul>
         </div>
       </div>
     </nav>
   </header>
 
- <div class="container-fluid">
-  <div class="row">
+  <!-- Main content -->
+  <main>
     <div class="container-fluid">
       <div class="row">
-         <div class="container-fluid d-flex justify-content-between align-items-center mt-4 mb-2">
-              <h1 class="Dashboard-Title text-center w-100 m-0">Create Item</h1>
-                <div class="search-container" style="width: 250px;">
-                <input type="text" class="form-control search-bar" placeholder="Search">
+        <main class="col-12 px-md-4 text-white">
+          <div class="container-fluid d-flex justify-content-between align-items-center mt-4 mb-2" style="border-color: pink">
+            <h1 class="Dashboard-Title text-center w-100 m-0 ">Create Item</h1>
+            <!-- <div class="search-container" style="width: 250px;">
+              <input type="text" class="form-control search-bar" placeholder="Search">
+            </div> -->
+          </div>
+          <hr class="border border-secondary">
+        </main>
+
+        <div class="expandable-form-container">
+          <!-- Trigger Form -->
+          <form id="firstForm" class="py-2 w-50 mx-auto text-center">
+            <div class="form-row">
+              <div class="form-group mb-3">
+                <input type="button" value="Add Item" id="createBtn"
+                  class="btn btn-primary btn-block form-control createButton" />
+              </div>
+              <!-- <div class="form-group">
+                <input type="reset" value="UPDATE" class="btn btn-secondary btn-block form-control updateButton" />
+              </div> -->
+            </div>
+          </form>
+
+          <!--Card 1 - My Documents --> 
+          <!-- <div class="container my-4"> 
+            <div class="row g-4"> 
+              <div class="col-md-4"> 
+                <div class="card h-100 shadow">
+                   <div class="card-body"> 
+                    <h5 class="card-title">My Documents</h5> 
+                    <p class="card-text">View stored documents.</p>
+                   </div> 
+                   <div class="card-footer"> 
+                    <a href="/frontend/src/app/components/document.html" class="btn btn-primary bg-pink ">Open Documents</a> 
+                  </div> 
                 </div>
-          </div> 
-      </div>
-              <hr class="border border-secondary">
-    </div>
+               </div> 
+               <div class="col-md-4">
+                 <div class="card h-100 shadow"> 
+                  <div class="card-body"> 
+                    <h5 class="card-title">Document Builder</h5>
+                     <p class="card-text">Build a document from a template.</p> 
+                    </div> <div class="card-footer"> 
+                      <a href="#" class="btn btn-primary bg-pink">Get Building</a> 
+                    </div> -->
 
-  
-  
-    <div class="expandable-form-container">
-      <!-- Trigger Form -->
-      <form id="firstForm" class="p-4 w-25 mx-auto">
-        <div class="form-row">
-          <div class="form-group mb-3">
-            <input type="button" value="CREATE" id="createBtn"
-              class="btn btn-primary btn-block form-control createButton" />
-          </div>
-          <div class="form-group">
-            <input type="reset" value="UPDATE" class="btn btn-secondary btn-block form-control updateButton" />
-          </div>
-        </div>
-      </form>
-      
-      <!--Card 1 - My Documents -->
-    <div class="container my-4">
-      <div class="row g-4">
-          <div class="col-md-4">
-            <div class="card h-100 shadow">
-            
-              <div class="card-body">
-                <h5 class="card-title">My Documents</h5>
-                <p class="card-text">View stored documents.</p>
-              </div>
-              <div class="card-footer">
-                <a href="/frontend/src/app/components/document.html" class="btn btn-primary bg-pink ">Open Documents</a>
-              </div>
-          </div>
-      </div>
-      
-      <div class="col-md-4">
-        <div class="card h-100 shadow">
-        
-          <div class="card-body">
-            <h5 class="card-title">Document Builder</h5>
-            <p class="card-text">Build a document from a template.</p>
-          </div>
-          <div class="card-footer">
-            <a href="#" class="btn btn-primary bg-pink">Get Building</a>
+                    <div class="container row row-cols-1 row-cols-lg-2 g-4">
+                      <div class="card shadow">
+                        <div class="card-header custom-card-header">My Documents</div>
+                        <div class="card-body">
+                          <p class="text-muted mb-3">View stored documents.</p>
+                          <!-- TODO: render your documents here -->
+                          <a routerLink="/document-builder" class="btn btn-primary bg-pink">Open Documents</a>
+                        </div>
+                      </div>
+                    </div>
 
-      <!-- Actual Create Item Form -->
-      <form id="itemForm" class="p-4 border rounded bg-white shadow w-75 mx-auto">
-        <div class="form-group mb-4">
-          <label for="folder">Folder:</label>
-          <input type="text" name="folder" id="folder" class="form-control" required placeholder="Folder">
-        </div>
+                    <div class="container col-md-4 py-2">
+                      <div class="card shadow">
+                        <div class="card-header custom-card-header">Document Builder</div>
+                        <div class="card-body">
+                          <p class="text-muted">Build a document from a template.</p>
+                          <!-- TODO: add Angular CDK drag-drop, template picker, etc. -->
+                           <a routerLink="/document-builder" class="btn btn-primary bg-pink">Build a Document</a>
+                        </div>
+                      </div>
+                    </div>
 
-        <div class="form-group mb-4">
-          <label for="itemTitle">Title:</label>
-          <input type="text" name="itemTitle" id="itemTitle" class="form-control" required placeholder="Title">
-        </div>
 
-        <div class="form-group mb-4">
-          <label for="itemDate">Date:</label>
-          <input type="date" name="itemDate" id="itemDate" class="form-control" required>
-        </div>
 
-        <div class="form-group mb-4">
-          <label for="itemDescription">Description:</label>
-          <textarea name="itemDescription" id="itemDescription" class="form-control" rows="3" required
-            placeholder="Description"></textarea>
-        </div>
+          <!-- Actual Create Item Form -->
+          <form id="itemForm" class="p-4 border rounded bg-white shadow w-75 mx-auto">
+            <div class="form-group mb-4">
+              <label for="folder">Folder:</label>
+              <input type="text" name="folder" id="folder" class="form-control" required placeholder="Folder">
+            </div>
 
-        <div class="text-center">
-          <button type="submit" class="btn btn-success mt-3" style="width: 50%;">Submit</button>
-        </div>
-      </form>
-    </div>
-  </div>
+            <div class="form-group mb-4">
+              <label for="itemTitle">Title:</label>
+              <input type="text" name="itemTitle" id="itemTitle" class="form-control" required placeholder="Title">
+            </div>
+
+            <div class="form-group mb-4">
+              <label for="itemDate">Date:</label>
+              <input type="date" name="itemDate" id="itemDate" class="form-control" required>
+            </div>
+
+            <div class="form-group mb-4">
+              <label for="itemDescription">Description:</label>
+              <textarea name="itemDescription" id="itemDescription" class="form-control" rows="3" required
+                placeholder="Description"></textarea>
+            </div>
+
+            <div class="text-center">
+              <button type="submit" class="btn btn-success mt-3" style="width: 50%;">Submit</button>
+            </div>
+          </form>
         </div>
       </div>
     </div>
-  </div>
-  
-  
+  </main>
+
   <!-- Footer -->
   <footer class="footer">
     <div class="container">
       <p>&copy; <span id="current-year"></span> Visual Portfolio. All rights reserved.</p>
     </div>
   </footer>
+
   <script>
+    // Keep footer year current
+    document.getElementById("current-year").textContent = new Date().getFullYear();
+
+    // Show/Hide form
     document.getElementById("createBtn").addEventListener("click", function () {
       document.getElementById("firstForm").style.display = "none";
       document.getElementById("itemForm").style.display = "block";
-    });
-
-    document.addEventListener('DOMContentLoaded', function () {
-      const itemForm = document.getElementById('itemForm');
-
-      itemForm.addEventListener('submit', async function (e) {
-        e.preventDefault();
-
-        const folder = document.getElementById('folder').value;
-        const itemTitle = document.getElementById('itemTitle').value;
-        const itemDate = document.getElementById('itemDate').value;
-        const itemDescription = document.getElementById('itemDescription').value;
-        //const userID = sessionStorage.getItem('userID');
-        const userEmail = sessionStorage.getItem('userEmail');
-
-        try {
-          const response = await fetch('http://localhost:5001/api/items/create-item', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-              category,
-              itemTitle,
-              itemDate,
-              itemDescription,
-              userEmail
-            })
-          });
-
-          const data = await response.json();
-          if (response.ok) {
-            alert('Item created successfully!');
-            // window.location.href = 'app/components/Dashboard.html';
-            window.location.href = 'Dashboard.html';
-          } else {
-            alert('Item creation failed: ' + data.error);
-          }
-        } catch (error) {
-          console.error('Error:', error);
-          alert('An error occurred during item creation');
-        }
-      });
     });
   </script>
 </body>
