@@ -1,0 +1,176 @@
+<header class="site-header">
+  <nav class="navbar">
+    <div class="logo">
+      <img src="assets/img/foxIcon.png" alt="Visual Portfolio Logo" class="img-fluid">VISUAL PORTFOLIO
+    </div>
+    <ul class="nav-links">
+      <li><a routerLink="/">Log out</a></li>
+      <li><a routerLink="/dashboard">Dashboard</a></li>
+      <li><a routerLink="/explore">Explore</a></li>
+      <li><a routerLink="/guide">Guide</a></li>
+    </ul>
+  </nav>
+</header>
+
+<div class="container-fluid">
+  <div class="row">
+    <main class="col-12 px-md-4">
+      <div class="container-fluid d-flex justify-content-between align-items-center mt-4 mb-2">
+        <h4 class="Dashboard-Title m-0">Dashboard</h4>
+        <div class="search-container" style="width: 250px;">
+          <input type="text" class="form-control search-bar" placeholder="Search">
+        </div>
+      </div>
+
+      <hr class="border border-secondary">
+
+      <div class="row mt-4 text-center">
+        <div class="col-md-4">
+          <a routerLink="/items" class="text-decoration-none text-dark">
+            <div class="card h-100 shadow-lg cardStyle">
+              <div class="card-body d-flex flex-column justify-content-center align-items-center">
+                <h5 class="card-title">Items</h5>
+                <p class="card-prompt">Create, view and edit items.</p>
+              </div>
+            </div>
+          </a>
+        </div>
+        <div class="col-md-4">
+          <a routerLink="/documents" class="text-decoration-none text-dark">
+            <div class="card h-100 shadow-lg cardStyle">
+              <div class="card-body d-flex flex-column justify-content-center align-items-center">
+                <h5 class="card-title">Document Builder</h5>
+                <p class="card-prompt">Drag and drop to create custom documents.</p>
+              </div>
+            </div>
+          </a>
+        </div>
+        <div class="col-md-4">
+          <a routerLink="/cover-letter" class="text-decoration-none text-dark">
+            <div class="card h-100 shadow-lg cardStyle">
+              <div class="card-body d-flex flex-column justify-content-center align-items-center">
+                <h5 class="card-title">Cover Letter</h5>
+                <p class="card-prompt">Easily generate coverletters.</p>
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <div class="row mt-4 text-center">
+        <div class="col-md-4">
+          <div class="card h-100 shadow-lg cardStyle" (click)="toggleSection('documents')">
+            <div class="card-body d-flex flex-column justify-content-center align-items-center">
+              <h5 class="card-title">My Documents</h5>
+              <p class="card-prompt">View and edit saved documents.</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card h-100 shadow-lg cardStyle" (click)="toggleSection('todo')">
+            <div class="card-body d-flex flex-column justify-content-center align-items-center">
+              <h5 class="card-title">To Do</h5>
+              <p class="card-prompt">Keep track of your administrative task.</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card h-100 shadow-lg cardStyle" (click)="toggleSection('activeForms')">
+            <div class="card-body d-flex flex-column justify-content-center align-items-center">
+              <h5 class="card-title">Active Forms</h5>
+              <p class="card-prompt">Track the progress of your ongoing forms.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="sections.documents" id="documentsSection" class="row mt-4">
+        <div class="col-md-6 mb-3">
+          <div class="card shadow-lg rounded-3 border-0">
+            <div class="card-header custom-card-header">My Documents</div>
+            <div class="card-body d-flex flex-wrap gap-3">
+              <div class="folder text-center">
+                <img src="assets/img/folder-svgrepo-com.svg" class="img-fluid" style="width: 80px; height: 80px;">
+                <p class="m-0 folderTxt">Resumes</p>
+              </div>
+              <div class="folder text-center">
+                <img src="assets/img/folder-svgrepo-com.svg" class="img-fluid" style="width: 80px; height: 80px;">
+                <p class="m-0 folderTxt">Certification Documents</p>
+              </div>
+              <div class="folder text-center">
+                <img src="assets/img/folder-svgrepo-com.svg" class="img-fluid" style="width: 80px; height: 80px;">
+                <p class="m-0 folderTxt">Degrees</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="sections.todo" id="todoSection" class="row mt-4">
+        <div class="col-md-6 mb-3">
+          <div class="card shadow-lg rounded-3 border-0">
+            <div class="card-header custom-card-header">To Do</div>
+            <div class="card-body">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="task1">
+                <label class="form-check-label" for="task1">Finish Robotics Cv</label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="task2" checked>
+                <label class="form-check-label" for="task2">Update Resume</label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="task3" disabled>
+                <label class="form-check-label" for="task3">Disabled Task</label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="sections.activeForms" id="activeFormsSection" class="row mt-4">
+        <div class="col-md-6">
+          <div class="card shadow-lg rounded-3 border-0">
+            <div class="card-header custom-card-header">Active Forms</div>
+            <div class="card-body">
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Document</th>
+                    <th>State</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th>1</th>
+                    <td>Robotics CV</td>
+                    <td><span class="badge bg-success">Completed</span></td>
+                  </tr>
+                  <tr>
+                    <th>2</th>
+                    <td>Most Current Resume</td>
+                    <td><span class="badge bg-warning text-dark">Pending</span></td>
+                  </tr>
+                  <tr>
+                    <th>3</th>
+                    <td>CV #2</td>
+                    <td><span class="badge bg-danger">Canceled</span></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <br><br><br><br><br><br><br><br><br><br><br><br>
+    </main>
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="container">
+    <p>&copy; <span>{{ currentYear }}</span> Visual Portfolio. All rights reserved.</p>
+  </div>
+</footer>

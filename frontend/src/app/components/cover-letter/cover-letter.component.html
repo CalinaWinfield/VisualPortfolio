@@ -1,0 +1,83 @@
+<header class="site-header">
+  <nav class="navbar">
+    <div class="logo">
+      <img src="assets/img/foxIcon.png" alt="Visual Portfolio Logo">
+      VISUAL PORTFOLIO
+    </div>
+    <ul class="nav-links">
+      <li><a routerLink="/">Log out</a></li>
+      <li><a routerLink="/dashboard">Dashboard</a></li>
+      <li><a routerLink="/guide">Guide</a></li>
+      <li><a routerLink="/about">About</a></li>
+    </ul>
+  </nav>
+</header>
+
+<div class="dashboard container-fluid">
+  <header class="mobile-header d-md-none text-center py-3">
+    <div class="logo">
+      <img src="assets/img/foxIcon.png" alt="Visual Portfolio Logo" class="img-fluid" />
+    </div>
+    <div class="user-profile">
+      <div class="profile-picture mx-auto"></div>
+      <div class="user-details mt-2">
+        <p class="user-name fw-bold mb-0">{{ userProfile.name }}</p>
+        <p class="user-email mb-0">{{ userProfile.email }}</p>
+      </div>
+    </div>
+  </header>
+
+  <main class="main-section col-md-8 col-12">
+    <h1 class="greeting mb-4">Let's build your Cover Letter</h1>
+
+    <div class="template-selection mb-4">
+      <h2>Choose a Template</h2>
+      <div class="row">
+        <div class="col-md-4" *ngFor="let template of [1, 2, 3]">
+          <div class="template-card">
+            <img src="assets/img/cover{{ template }}.png" [alt]="'Template ' + template" class="img-fluid"/>
+            <button class="btn btn-primary mt-2 covbtn" (click)="loadTemplate(template)">
+              Use This Template
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="cover-letter-editor">
+      <h2>Your Cover Letter</h2>
+      <p class="text-success fw-bold" *ngIf="templateStatus">{{ templateStatus }}</p>
+      
+      <textarea 
+        class="form-control mb-3" 
+        [(ngModel)]="currentLetter.introduction" 
+        rows="5" 
+        placeholder="Introduction...">
+      </textarea>
+      
+      <textarea 
+        class="form-control mb-3" 
+        [(ngModel)]="currentLetter.body" 
+        rows="5" 
+        placeholder="Body...">
+      </textarea>
+      
+      <textarea 
+        class="form-control mb-3" 
+        [(ngModel)]="currentLetter.conclusion" 
+        rows="5" 
+        placeholder="Conclusion...">
+      </textarea>
+      
+      <button class="btn btn-success" (click)="saveLetter()">Save</button>
+      <button class="btn btn-primary" (click)="previewLetter()">Preview</button>
+      <button class="btn btn-secondary" (click)="exportLetter()">Export as PDF</button>
+    </div>
+  </main>
+</div>
+
+<footer class="footer">
+  <div class="container">
+    <p>&copy; {{ currentYear }} Visual Portfolio. All rights reserved.</p>
+  </div>
+</footer>

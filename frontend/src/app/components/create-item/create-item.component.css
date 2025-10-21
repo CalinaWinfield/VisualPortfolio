@@ -1,0 +1,15 @@
+.expandable-form-container { padding: 20px; border-radius: 10px; width: 50%; margin: auto; }
+
+.createButton { background-color: var(--blue); font-size: 24px; }
+.createButton:hover { background-color: rgba(93,129,188,0.7); }
+
+.updateButton { background-color: var(--pink); font-size: 24px; }
+.updateButton:hover { background-color: rgba(245,163,173,0.7); }
+
+.center-form-wrapper { display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 40px 20px; background-color: var(--navy); }
+
+#itemForm { background-color: var(--cream); padding: 20px; border-radius: 10px; border: 1px solid gray; }
+
+@media (max-width: 768px) {
+  .expandable-form-container { width: 100%; padding: 10px; }
+}

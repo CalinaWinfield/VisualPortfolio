@@ -1,0 +1,60 @@
+<header class="site-header">
+  <nav class="navbar">
+    <div class="logo">
+      <img src="assets/img/foxIcon.png" alt="Visual Portfolio Logo" class="img-fluid">VISUAL PORTFOLIO
+    </div>
+    <ul class="nav-links">
+      <li><a routerLink="/">Log out</a></li>
+      <li><a routerLink="/dashboard">Dashboard</a></li>
+      <li><a routerLink="/explore">Explore</a></li>
+      <li><a routerLink="/guide">Guide</a></li>
+    </ul>
+  </nav>
+</header>
+
+<div class="center-form-wrapper">
+  <div class="expandable-form-container">
+    <form *ngIf="!showForm" class="p-4 border rounded bg-white shadow w-75 mx-auto">
+      <div class="form-row">
+        <div class="form-group mb-3">
+          <button type="button" class="btn btn-primary btn-block form-control createButton" (click)="openForm()">CREATE</button>
+        </div>
+        <div class="form-group">
+          <button type="button" class="btn btn-secondary btn-block form-control updateButton">UPDATE</button>
+        </div>
+      </div>
+    </form>
+
+    <form *ngIf="showForm" (ngSubmit)="submit()" class="p-4 border rounded bg-white shadow w-75 mx-auto">
+      <div class="form-group mb-4">
+        <label for="folder">Folder:</label>
+        <input type="text" name="folder" id="folder" class="form-control" required [(ngModel)]="model.folder" name="folder">
+      </div>
+
+      <div class="form-group mb-4">
+        <label for="itemTitle">Title:</label>
+        <input type="text" name="itemTitle" id="itemTitle" class="form-control" required [(ngModel)]="model.itemTitle" name="itemTitle">
+      </div>
+
+      <div class="form-group mb-4">
+        <label for="itemDate">Date:</label>
+        <input type="date" name="itemDate" id="itemDate" class="form-control" required [(ngModel)]="model.itemDate" name="itemDate">
+      </div>
+
+      <div class="form-group mb-4">
+        <label for="itemDescription">Description:</label>
+        <textarea name="itemDescription" id="itemDescription" class="form-control" rows="3" required [(ngModel)]="model.itemDescription" name="itemDescription"></textarea>
+      </div>
+
+      <div class="text-center">
+        <button type="submit" class="btn btn-success mt-3" [disabled]="isSubmitting" style="width: 50%;">{{ isSubmitting ? 'Submitting...' : 'Submit' }}</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="container">
+    <p>&copy; <span id="current-year"></span> Visual Portfolio. All rights reserved.</p>
+  </div>
+</footer>
