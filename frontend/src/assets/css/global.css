@@ -29,7 +29,7 @@
 
 /* 3) Base (shared) */
 html, body {
-  font-family: Libre Calson Text, serif;
+  font-family: "Inter", serif;
   background-color: #004687;
   color: white;
   margin: var(--no-margin);
@@ -77,7 +77,7 @@ button, .btn, input[type="button"], input[type="submit"], input[type="reset"] { 
   color: white !important;
   font-weight: 500;
   font-size: 20px;
-  font-family: Libre Calson Text, serif;
+  font-family: "Inter", serif;
 }
 .nav-links li { margin: 0; }
 .nav-links a {
@@ -109,7 +109,7 @@ body.dashboard-page .nav-link {
   color: white !important;
   font-weight: 500;
   font-size: 20px;
-  font-family: Libre Calson Text, serif;
+  font-family: "Inter", serif;
 }
 body.dashboard-page .nav-link:hover {
   background-color: #e0e4e8;
@@ -228,7 +228,7 @@ body.index-page .cta-button {
   font-weight: 500;
   border-radius: 2px;
   cursor: pointer;
-  font-family: Libre Calson Text, serif;
+  font-family: "Inter", serif;
   overflow: hidden;
   transition: letter-spacing 0.3s ease;
 }
@@ -384,7 +384,7 @@ body.document-page .formatbtn { margin-top: 12px; }
 
 /* If a page uses inline header styles, this still ensures typography/colors are consistent */
 
-.logo, .nav-links a { font-family: Libre Calson Text, serif; }
+.logo, .nav-links a { font-family: "Inter", serif;}
 
 /* Bootstrap hamburger color */ 
 .navbar-dark .navbar-toggler-icon {
@@ -401,14 +401,14 @@ body.document-page .formatbtn { margin-top: 12px; }
   color: white !important;
   font-weight: 500;
   font-size: 20px;
-  font-family: 'Playfair Display', serif;
+  font-family: "Inter", serif;
   position: relative;
 }
 
 
 /* Optional: match link hover to your underline style */
 .navbar-nav .nav-link {
-  font-family: Libre Calson Text, serif;
+  font-family: "Inter", serif;
   font-size: 20px;
 }
 
