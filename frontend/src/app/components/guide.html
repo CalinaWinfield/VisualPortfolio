@@ -13,22 +13,56 @@
   <!-- CSS-->
    <link rel="stylesheet" href="../../assets/css/global.css">
 </head>
-<body>
-<header class="site-header">
-  <nav class="navbar">
-    <div class="logo">
-      <img src="../../assets/img/foxIcon.png" alt="Visual Portfolio Logo">VISUAL PORTFOLIO
-    </div>
-    <ul class="nav-links">
-      <li><a href="Dashboard.html">Dashboard</a></li>
-      <li><a href="Guide.html">Guide</a></li>
-      <li><a href="About.html">About</a></li>
-    </ul>
-  </nav>
-</header>
+<body class="guide-page">
 
+  <header class="site-header">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-pink">
+      <div class="container-fluid">
+        <!-- Logo -->
+         <a class="navbar-brand d-flex align-items-center" href="../components/Dashboard.html">
+          <img src="../../assets/img/foxIcon.png" alt="Visual Portfolio Logo" style="height:28px;margin-right:10px;">
+          VISUAL PORTFOLIO
+        </a>
+        
+        <!-- Hamburger toggler -->
+         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        
+        <div class="collapse navbar-collapse justify-content-end text-center" id="navbarNav">
+          <!-- <div class="search-container" style="width: 250px;">
+                  <input type="text" class="form-control search-bar" placeholder="Search">
+              </div> -->
+              <br>
+
+          <ul class="navbar-nav">
+            <li>
+                <div class="justify-content-center align-items-center search-container" style="width: 250px; position:absolute; left:50%; transform:translateX(-50%);">
+                  <input type="text" class="form-control search-bar" placeholder="Search">
+              </div>
+              <br>
+              <br>
+            </li>
+            
+            <li><a class="nav-link" href="Dashboard.html">Dashboard</a></li>
+            <li><a class="nav-link" href="guide.html">Guide</a></li>
+            <li><a class="nav-link" href="about.html">About</a></li>
+            <li><a class="nav-link" href="../../index.html">Log out</a></li>
+            
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <div class="d-flex justify-content-between align-items-center mt-4 mb-2">
+                <h1 class="Dashboard-Title text-center w-100 m-0">User Guide</h1>
+              </div>
+
+              <hr class="border-white my-4">
+  
   <main class="container mt-5 text-white">
-    <h1 class="Dashboard-Title mb-4">User Guide</h1>
+    
 
     <ol class="fs-5">
       <li><strong>Login:</strong> Use your faculty credentials to log in to the EasyFolio App.</li>
@@ -42,6 +76,14 @@
       <li><strong>Log Out:</strong> Select “Log out” in the top navigation when finished.</li>
     </ol>
   </main>
+
+
+      </div>
+    </div>
+  </div>
+</div>
+
+  
 
   <footer class="footer">
     <div class="container">

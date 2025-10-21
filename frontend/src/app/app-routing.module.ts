@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { IndexPageComponent } from './components/home/index-page.component';
 import { AboutComponent } from './components/about/about.component';
 import { CoverLetterComponent } from './components/cover-letter/cover-letter.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
@@ -14,8 +15,7 @@ const routes: Routes = [
   { path: 'items', component: CreateItemComponent },
   { path: 'documents', component: DocumentComponent },
   { path: 'guide', component: GuideComponent },
-  // Add other routes here
-  { path: '', redirectTo: '/dashboard', pathMatch: 'full' }
+  { path: '', component: IndexPageComponent }
 ];
 
 @NgModule({
