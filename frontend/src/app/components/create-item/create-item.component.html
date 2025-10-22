@@ -12,7 +12,10 @@
   </nav>
 </header>
 
-<div class="center-form-wrapper">
+<div class="center-form-wrapper" style="position:relative;">
+  <div class="top-left-controls">
+    <button class="back-button" (click)="goBack()">← Back</button>
+  </div>
   <div class="expandable-form-container">
     <form *ngIf="!showForm" class="p-4 border rounded bg-white shadow w-75 mx-auto">
       <div class="form-row">

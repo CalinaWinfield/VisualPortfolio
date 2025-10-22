@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-dashboard',
@@ -6,6 +7,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent {
+  constructor(private location: Location) {}
   currentYear = new Date().getFullYear();
 
   sections = {
@@ -16,5 +18,9 @@ export class DashboardComponent {
 
   toggleSection(section: 'documents' | 'todo' | 'activeForms') {
     this.sections[section] = !this.sections[section];
+  }
+
+  goBack(): void {
+    this.location.back();
   }
 }

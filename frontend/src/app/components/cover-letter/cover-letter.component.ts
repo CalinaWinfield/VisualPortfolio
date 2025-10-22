@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Location } from '@angular/common';
 import { CoverLetter, CoverLetterTemplate } from '../../models/cover-letter.model';
 import { CoverLetterService } from '../../services/cover-letter.service';
 
@@ -24,7 +25,10 @@ export class CoverLetterComponent implements OnInit {
     email: 'user@example.com'
   };
 
-  constructor(private coverLetterService: CoverLetterService) {
+  constructor(private coverLetterService: CoverLetterService, private location: Location) {
+  goBack(): void {
+    this.location.back();
+  }
     this.templates = this.coverLetterService.getTemplates();
   }
 

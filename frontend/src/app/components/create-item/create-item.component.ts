@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Location } from '@angular/common';
 import { Router } from '@angular/router';
 import { ItemService } from '../../services/item.service';
 import { ItemCreateRequest } from '../../models/item.model';
@@ -20,7 +21,10 @@ export class CreateItemComponent {
 
   isSubmitting = false;
 
-  constructor(private itemService: ItemService, private router: Router) {}
+  constructor(private itemService: ItemService, private router: Router, private location: Location) {}
+  goBack(): void {
+    this.location.back();
+  }
 
   openForm() {
     this.showForm = true;
