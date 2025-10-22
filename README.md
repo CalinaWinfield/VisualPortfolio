@@ -25,16 +25,20 @@ The EasyFolio App is a web tool that will help faculty keep, organize, and share
 ### Installation
 1. Clone git repo: 
    git clone https://github.com/GGC-SD/VisPortfolio.git
+
 ### How to Run
 - Open terminal and move to backend subfolder: "cd VisPortfolio/backend"
 - run "npm install" to install dependencies"
 - On the backend, create a .env file (just click on backend and create it there) and add the following:
+  
 - MONGO_URL=mongodb+srv://visportfolio:h7j433RFoU79Sk1U@cluster0.btpuj.mongodb.net/VisPortfolio?retryWrites=true&w=majority&appName=Cluster0
-  PORT=5001
+- PORT=5001
 
 - then in terminal, access the backend:
 - to access backend: cd backend
+  
 - Afterwards, insert the following:
+  
 - node server.js
 - npm install
 - npm audit
@@ -43,7 +47,9 @@ The EasyFolio App is a web tool that will help faculty keep, organize, and share
 
 - After that, go to the mongoDB extention and click on connect, add the following:
 - mongodb+srv://<db_username>:<db_password>@cluster0.btpuj.mongodb.net/ - You need to replace the username with the information for user and password from Client
-
+  
+- mongodb+srv://visportfolio:h7j433RFoU79Sk1U@cluster0.btpuj.mongodb.net/
+  
   ### To run the front end
   - go to VisPortfolio/frontend on your terminal and run: npm install
   - run with: ng serve
