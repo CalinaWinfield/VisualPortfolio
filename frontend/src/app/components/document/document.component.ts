@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Location } from '@angular/common';
 import { ItemService } from '../../services/item.service';
 
 @Component({
@@ -10,7 +11,10 @@ export class DocumentComponent implements OnInit {
   items: any[] = [];
   droppedHtml = '';
 
-  constructor(private itemService: ItemService) { }
+  constructor(private itemService: ItemService, private location: Location) { }
+  goBack(): void {
+    this.location.back();
+  }
 
   ngOnInit(): void {
     this.loadItems();

@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-about',
@@ -6,6 +7,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./about.component.css']
 })
 export class AboutComponent {
+  constructor(private location: Location) {}
   currentYear: number = new Date().getFullYear();
   teamMembers = [
     { name: 'Angelica Jones', role: 'UX/UI Design & Project Manager' },
@@ -18,5 +20,9 @@ export class AboutComponent {
     'Database: MongoDB'
   ];
   client = 'Dr. Anca Doloc-Mihu';
+
+  goBack(): void {
+    // Navigate back to the previous page in history. Falls back to root if no history.
+    this.location.back();
+  }
 }
-``
