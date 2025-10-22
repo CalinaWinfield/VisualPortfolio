@@ -148,33 +148,33 @@
 
           
 
-                    <div class="container my-4">
-                      <div class="row g-4">
-                        <!-- My Documents -->
-                        <div class="col-12 col-lg-6">
-                          <div class="card h-100 shadow">
-                            <div class="card-header custom-card-header">My Documents</div>
-                            <div class="card-body">
-                              <p class="text-muted mb-3">View stored documents.</p>
-                              <a href="document.html" class="btn btn-primary bg-pink">Open Documents</a>
-                            </div>
-                          </div>
-                        </div>
+        <div class="container my-4">
+          <div class="row justify-content-center g-4">
+              <!-- My Documents -->
+          <div class="col-md-5">
+             <div class="card shadow">
+                <div class="card-header custom-card-header">My Documents</div>
+                  <div class="card-body">
+                    <p class="text-muted mb-3">View stored documents.</p>
+                    <a routerLink="/document-builder" class="btn btn-primary bg-pink">Open Documents</a>
+                   </div>
+                 </div>
+                </div>
 
-                        <!-- Document Builder -->
-                        <div class="col-12 col-lg-6">
-                          <div class="card h-100 shadow">
-                            <div class="card-header custom-card-header">Document Builder</div>
-                            <div class="card-body">
-                              <p class="text-muted">Build a document from a template.</p>
-                              <a href="document.html" class="btn btn-primary bg-pink">Build a Document</a>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+                <!-- Document Builder -->
+         <div class="col-md-5">
+            <div class="card shadow">
+              <div class="card-header custom-card-header">Document Builder</div>
+               <div class="card-body">
+                 <p class="text-muted">Build a document from a template.</p>
+                 <a routerLink="/document-builder" class="btn btn-primary bg-pink">Build a Document</a>
+                 </div>
+                </div>
+              </div>
+            </div>
+          </div>
 
-
+          
 
           <!-- Actual Create Item Form -->
           <form id="itemForm" class="p-4 border rounded bg-white shadow w-75 mx-auto">
