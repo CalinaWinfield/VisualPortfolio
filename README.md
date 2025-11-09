@@ -60,6 +60,8 @@ The EasyFolio App is a web tool that will help faculty keep, organize, and share
 
 2. Responsive Design: Application is able to adapt to different screen sizes.
 
+3. Export PDF files
+
 ## Team Roles
 
 #### Fall 2025- CRTL-ALT-ELITE
