@@ -16,5 +16,4 @@ The EasyFolio App is a web tool that will help faculty keep, organize, and share
 * **Jordan Laudun** 1. Testing Lead 🛠 2. Client Liaison 💼
 * <img width="131" height="174" alt="image" src="https://github.com/user-attachments/assets/e517033c-8207-4fe0-b2f9-5b4de2591c5a" />
 
-License
-<a href= "https://github.com/GGC-SD/VisPortfolio/blob/57efd2cbaeede12cc3182b4ce424ec2e4b6e52c2/Documents/Doc-Fall2025/LICENSE" />
+<a href= "https://github.com/GGC-SD/VisPortfolio/blob/57efd2cbaeede12cc3182b4ce424ec2e4b6e52c2/Documents/Doc-Fall2025/LICENSE"> License </a>
