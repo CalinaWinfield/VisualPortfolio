@@ -28,7 +28,7 @@ import { GuideComponent } from './components/guide/guide.component';
     GuideComponent
   ],
   imports: [
-  imports: [4
+  imports: [
     BrowserModule,
     HttpClientModule,
     AppRoutingModule,
