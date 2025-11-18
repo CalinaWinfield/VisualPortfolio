@@ -8,6 +8,8 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { DocumentComponent } from './components/document/document.component';
 import { GuideComponent } from './components/guide/guide.component';
 import { HomeComponent } from './components/home/home.component';
+import { LoginComponent } from '';
+import { SignupComponent } from '';
 
 const routes: Routes = [
   // Default route
@@ -34,8 +36,9 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes, {
     scrollPositionRestoration: 'enabled', // Restore scroll position on navigation
     anchorScrolling: 'enabled', // Enable anchor scrolling
-    onSameUrlNavigation: 'reload' // Allow reloading same route
+    onSameUrlNavigation: 'reload', // Allow reloading same route
+    RouterModule.forRoot(routes),
   })],
-  exports: [RouterModule]
+  exports: [RouterModule], 
 })
 export class AppRoutingModule {}

@@ -28,6 +28,7 @@ import { GuideComponent } from './components/guide/guide.component';
     GuideComponent
   ],
   imports: [
+  imports: [
     BrowserModule,
     HttpClientModule,
     AppRoutingModule,
