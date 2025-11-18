@@ -17,45 +17,34 @@
 
 </head>
 <body class = "index-page">
-    <!-- Header -->
-    <!-- <header class="site-header">
-        <nav class="navbar">
-            <div class="logo"><img src="assets/img/foxIcon.png" alt="Visual Portfolio Logo" class="img-fluid">VISUAL PORTFOLIO</div>
-            <ul class="nav-links">
-                <li><a href="#" id="open-login">Log In</a></li>
-                <li><a href="/frontend/src/app/components/guide.html">About</a></li>
-                <li><a href="/frontend/src/app/components/about.html">Explore</a></li>
-                <li><a href="/frontend/src/app/components/guide.html">Guide</a></li>
-            </ul>
-        </nav>
-    </header> -->
 
+  <!-- Header -->
     <header class="site-header">
-    <nav class="navbar navbar-expand-lg navbar-dark bg-pink">
-        <div class="container-fluid">
-        <!-- Logo -->
-        <a class="navbar-brand d-flex align-items-center" routerLink="/">
-          <img src="assets/img/foxIcon1.png" alt="Visual Portfolio Logo" style="height:28px; margin-right:10px;">
-          VISUAL PORTFOLIO
-        </a>
+      <nav class="navbar navbar-expand-lg navbar-dark bg-pink">
+          <div class="container-fluid">
+          <!-- Logo -->
+          <a class="navbar-brand d-flex align-items-center" routerLink="/">
+            <img src="assets/img/foxIcon1.png" alt="Visual Portfolio Logo" style="height:28px; margin-right:10px;">
+            VISUAL PORTFOLIO
+          </a>
 
-        <!-- Hamburger toggler -->
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        
-        <!-- Nav Links -->
-        <div class="collapse navbar-collapse justify-content-end text-center" id="navbarNav">
-          <ul class="navbar-nav">
-            <a class="nav-link" href="#" id="open-login">Log In</a>
-            <a class="nav-link" href="Dashboard.html" data-page="Dashboard.html">Dashboard</a>
-            <a class="nav-link" href="/frontend/src/app/components/guide.html" data-page="guide.html">Guide</a>
-            <a class="nav-link" href="/frontend/src/app/components/about-noLogin.html" data-page="about.html">About</a>
-          </ul>
+          <!-- Hamburger toggler -->
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          
+          <!-- Nav Links -->
+          <div class="collapse navbar-collapse justify-content-end text-center" id="navbarNav">
+            <ul class="navbar-nav">
+              <a class="nav-link" href="#" id="open-login">Log In</a>
+              <a class="nav-link" href="Dashboard.html" data-page="Dashboard.html">Dashboard</a>
+              <a class="nav-link" href="/frontend/src/app/components/guide.html" data-page="guide.html">Guide</a>
+              <a class="nav-link" href="/frontend/src/app/components/about-noLogin.html" data-page="about.html">About</a>
+            </ul>
+          </div>
         </div>
-      </div>
-    </nav>
-  </header>
+      </nav>
+    </header>
 
     
 
@@ -66,7 +55,7 @@
         <section class="hero">
             <h2>Work Smarter, Feel Effortless</h2>
             <p>Simplify Document Management with the Visual Portfolio App.</p>
-            <button class="cta-button" id="open-signup">Sign Up For Free</button>
+          
         </section>
 
 
@@ -95,6 +84,7 @@
           <input type="email" id="login-email" name="email" placeholder="Email" required>
           <input type="password" id="login-password" name="password" placeholder="Password" required>
           <button type="submit">Log In</button>
+          <p style="margin-top:1em; font-size:0.9em; color: #555;">Don't have an account? <a href="#" id="open-signup">Sign Up</a></p>
         </form>
       </div>
     </div>
