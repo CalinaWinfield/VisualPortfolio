@@ -99,6 +99,7 @@ router.post("/login", async (req, res) => {
 
     setRefreshCookie(res, refreshToken);
     res.status(200).json({
+      message: "Registration successful",
       accessToken,
       user: { id: user._id, email: user.email, name: user.name, role: user.role },
     });

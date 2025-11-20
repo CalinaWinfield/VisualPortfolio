@@ -26,10 +26,11 @@ export class CoverLetterComponent implements OnInit {
   };
 
   constructor(private coverLetterService: CoverLetterService, private location: Location) {
+    this.templates = this.coverLetterService.getTemplates();
+  }
+
   goBack(): void {
     this.location.back();
-  }
-    this.templates = this.coverLetterService.getTemplates();
   }
 
   ngOnInit(): void {
