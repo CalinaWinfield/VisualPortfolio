@@ -202,7 +202,7 @@ body.index-page .hero {
   background:
   
     linear-gradient(rgba(3, 20, 88, 0.5), rgba(163, 163, 163, 0.5));  
-    min-height: 81.9vh;  
+    min-height: 79.2vh;  
 
   /* Make the background image fill the entire hero section */
   background-size: cover;       /* Ensures highest resolution fill */

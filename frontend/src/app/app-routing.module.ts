@@ -8,8 +8,8 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { DocumentComponent } from './components/document/document.component';
 import { GuideComponent } from './components/guide/guide.component';
 import { HomeComponent } from './components/home/home.component';
-import { LoginComponent } from '';
-import { SignupComponent } from '';
+// import { LoginComponent } from './components/login/login.component';
+import { SignupComponent } from './components/signUp/signUp.component';
 
 const routes: Routes = [
   // Default route
