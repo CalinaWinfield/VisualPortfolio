@@ -195,11 +195,26 @@ body.index-page main { flex: 1; }
 /* Hero */
 body.index-page .hero {
   text-align: center;
-  padding: 120px 20px;
-  background: radial-gradient(circle, var(--blue) 10%, transparent 50%);
+  
+  padding: 60px 20px;
+
+  /* Layered background: gradient on top, image behind */
+  background:
+  
+    linear-gradient(rgba(3, 20, 88, 0.5), rgba(163, 163, 163, 0.5));  
+    min-height: 81.9vh;  
+
+  /* Make the background image fill the entire hero section */
+  background-size: cover;       /* Ensures highest resolution fill */
+  background-repeat: no-repeat; /* Prevent tiling */ 
+  background-position: center;  /* Center the image */
+
+  /* Make hero extend to bottom of page */
+  height: auto;
 }
+
 body.index-page .hero h2 {
-  font-size: var(--fs-h1);
+  font-size: var(--fs-title, 2.5rem);
   margin-bottom: 10px;
   /* typing animation disabled on small screens for accessibility */
 }
@@ -284,7 +299,7 @@ body.index-page #itemForm {
   .nav-links { flex-direction: column; align-items: flex-start; width: 100%; margin-top: 10px; padding-left: 0; }
   .nav-links li { margin: 10px 0; }
   body.index-page .hero { padding: 80px 20px; }
-  .footer { font-size: 16px; padding: 15px; }
+  .footer { font-size: 16px; padding: 15px;}
 }
 @media (max-width: 576px) {
   .nav-links { align-items: center; }
@@ -444,3 +459,11 @@ body.dashboard-page .navbar {
   padding-top: 15px;   /* match your original inline padding */
   padding-bottom: 15px;
 }
+
+/* Active nav link style */
+.active-nav {
+  color: #ffffff !important;
+  
+  border-bottom: 2px solid #fefefe;
+}
+
