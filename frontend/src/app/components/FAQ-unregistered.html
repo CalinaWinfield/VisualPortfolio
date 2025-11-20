@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FAQ - EasyFolio App</title>
+  <link rel="icon" type="image/x-icon" href="/assets/img/foxIcon1.png">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <link rel="stylesheet" href="/frontend/src/assets/css/global.css">
+
+</head>
+<body class="index-page">
+  <app-root></app-root>
+</body>
+
+
+</head>
+<body class = "index-page">
+
+  <!-- Header -->
+    <header class="site-header">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-pink">
+          <div class="container-fluid">
+          <!-- Logo -->
+          <a class="navbar-brand d-flex align-items-center" routerLink="/">
+            <img src="/frontend/src/assets/img/foxIcon.png" alt="Visual Portfolio Logo" style="height:28px; margin-right:10px;">
+            VISUAL PORTFOLIO
+          </a>
+
+          <!-- Hamburger toggler -->
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          
+          <!-- Nav Links -->
+          <div class="collapse navbar-collapse justify-content-end text-center" id="navbarNav">
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link" href="/frontend/src/index.html" id="open-login">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/frontend/src/app/components/about-noLogin.html" data-page="about.html">About</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/frontend/src/app/components/guide-noLogin.html" data-page="guide.html">Guide</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/frontend/src/app/components/FAQ-unregistered.html" data-page="Dashboard.html">FAQ</a>
+            </li>
+          </ul>
+        </div>
+        </div>
+      </nav>
+    </header>
+
+          <!-- FAQ Section -->
+      <section class="container my-5">
+        <h2 class="text-white mb-4">Frequently Asked Questions</h2>
+
+        <div class="accordion" id="faqAccordion">
+
+          <!-- Q1 -->
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="headingOne">
+              <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                1. What is Visual Portfolio (EasyFolio)?
+              </button>
+            </h2>
+            <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#faqAccordion">
+              <div class="accordion-body">
+                Visual Portfolio—also known as EasyFolio—is a digital tool that helps users collect, organize, and generate academic or professional documents. Instead of entering the same information multiple times, users store their data once and quickly create resumes, CVs, portfolios, and other records using a visual, drag-and-drop builder.
+              </div>
+            </div>
+          </div>
+
+          <!-- Q2 -->
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="headingTwo">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                2. Who is this app designed for?
+              </button>
+            </h2>
+            <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#faqAccordion">
+              <div class="accordion-body">
+                The app is primarily designed for faculty, students, and professionals who need to manage academic or career-related records. It is especially helpful for individuals who frequently need to update resumes, maintain credentials, or prepare documentation for reviews, applications, or reporting purposes.
+              </div>
+            </div>
+          </div>
+
+          <!-- Q3 -->
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="headingThree">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                3. What can I create with the app?
+              </button>
+            </h2>
+            <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#faqAccordion">
+              <div class="accordion-body">
+                Users can create a variety of structured documents based on the information they store inside the app. This includes resumes, CVs, professional portfolios, certification documents, and other academic records. All items entered into the system can be visually arranged using templates or drag-and-drop tools.
+              </div>
+            </div>
+          </div>
+
+          <!-- Q4 -->
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="headingFour">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                4. Do I need an account to use the app?
+              </button>
+            </h2>
+            <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#faqAccordion">
+              <div class="accordion-body">
+                Yes. Because the application stores personal information and allows users to save documents over time, an account is required to log in, manage your data, and access your saved items and documents.
+              </div>
+            </div>
+          </div>
+
+          <!-- Q5 -->
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="headingFive">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+                5. Is the app free to use?
+              </button>
+            </h2>
+            <div id="collapseFive" class="accordion-collapse collapse" aria-labelledby="headingFive" data-bs-parent="#faqAccordion">
+              <div class="accordion-body">
+                Yes. Visual Portfolio is free for users. There are no subscription fees, and all features—including item storage, document building, and exporting—are available at no cost.
+              </div>
+            </div>
+          </div>
+
+          <!-- Q6 (was #20) -->
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="headingSix">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
+                6. What types of documents can I generate?
+              </button>
+            </h2>
+            <div id="collapseSix" class="accordion-collapse collapse" aria-labelledby="headingSix" data-bs-parent="#faqAccordion">
+              <div class="accordion-body">
+                You can generate several kinds of academic and professional documents, including:
+                <ul class="mt-2 mb-0">
+                  <li>Resumes</li>
+                  <li>Curriculum Vitae (CVs)</li>
+                  <li>Professional or academic portfolios</li>
+                  <li>Certification or credential reports</li>
+                  <li>Custom documents built with the Document Builder</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <!-- Q7 (file formats) -->
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="headingSeven">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSeven" aria-expanded="false" aria-controls="collapseSeven">
+                7. What file formats can I export to?
+              </button>
+            </h2>
+            <div id="collapseSeven" class="accordion-collapse collapse" aria-labelledby="headingSeven" data-bs-parent="#faqAccordion">
+              <div class="accordion-body">
+                Currently, Visual Portfolio supports exporting documents in:
+                <ul class="mt-2 mb-0">
+                  <li><strong>PDF</strong> – for sharing and submitting finalized documents</li>
+                  <li><strong>DOCX</strong> – for further editing in Microsoft Word or Google Docs</li>
+                </ul>
+                Additional export options may be added in future versions based on user feedback.
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; <span id="current-year"></span> Visual Portfolio. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Angular App Root -->
+    <app-root></app-root>
+
+     <script>
+    document.getElementById("current-year").textContent = new Date().getFullYear();
+    // Page Changing + Active Nav JS
+          document.addEventListener("DOMContentLoaded", function () {
+            const links = document.querySelectorAll(".nav-link");
+            const contentArea = document.getElementById("content-area");
+
+            // 🔹 Highlight the active nav item based on current URL
+            const path = window.location.pathname.toLowerCase();
+            links.forEach((link) => {
+              const href = link.getAttribute("href");
+              if (!href) return;
+              const normalizedHref = href.toLowerCase();
+              if (path.endsWith(normalizedHref)) {
+                link.classList.add("active-nav");
+              }
+            });
+          });
+  </script>
+
+
+</body>
+</html>
