@@ -1,18 +1,172 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Visual Portfolio</title>
-    <link rel="icon" type="image/x-icon" href="assets/img/foxIcon1.png" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  </head>
-  <body>
-    <app-root></app-root>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Visual Portfolio</title>
 
-    <!-- Optional legacy scripts (kept as relative paths) -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="assets/js/signup.js"></script>
-    <script src="assets/js/login.js"></script>
-  </body>
+  <!-- Favicon + CSS/Bootstrap -->
+  <link rel="icon" type="image/x-icon" href="/assets/img/foxIcon1.png">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <link rel="stylesheet" href="/frontend/src/assets/css/global.css">
+</head>
+
+<body class="index-page">
+  <!-- Header -->
+  <header class="site-header">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-pink">
+      <div class="container-fluid">
+        <!-- Logo -->
+        <a class="navbar-brand d-flex align-items-center" href="#">
+          <img src="assets/img/foxIcon1.png" alt="Visual Portfolio Logo" style="height:28px; margin-right:10px;">
+          VISUAL PORTFOLIO
+        </a>
+
+        <!-- Hamburger toggler -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        
+        <!-- Nav Links -->
+        <div class="collapse navbar-collapse justify-content-end text-center" id="navbarNav">
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link" href="#" id="open-login">Log In</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/frontend/src/app/components/about-noLogin.html" data-page="about.html">About</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/frontend/src/app/components/guide-noLogin.html" data-page="guide.html">Guide</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/frontend/src/app/components/FAQ-unregistered.html" data-page="Dashboard.html">FAQ</a>
+            </li>
+            
+            
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Main Content -->
+  <main>
+    <!-- Hero Section -->
+    <section class="hero">
+      <h2>Work Smarter, Feel Effortless</h2>
+      <p>Simplify Document Management with the Visual Portfolio App.</p>
+      <img src="../src/assets/img/folder-svgrepo-com.svg" alt="Hero Image" style="max-width: 300px; margin: 20px 0;">
+    </section>
+  </main>
+
+  <!-- Signup Modal -->
+  <div id="signup-modal" class="modal" style="display:none; position:fixed; z-index:1000; left:0; top:0; width:100vw; height:100vh; background:rgba(0,0,0,0.5); align-items:center; justify-content:center;">
+    <div style="background:#fff; padding:2em; border-radius:8px; max-width:340px; width:100%; position:relative;">
+      <button id="close-signup-modal" style="position:absolute; right:1em; top:1em; background:none; border:none; font-size:1.2em; cursor:pointer;">&times;</button>
+      <h3 style="margin-bottom:1em; color:black">Join for free!</h3>
+      <form id="signupForm" style="display:flex; flex-direction:column; gap:1em;">
+        <input type="text" id="name" name="name" placeholder="Name" required>
+        <input type="email" id="email" name="email" placeholder="Email" required>
+        <input type="password" id="password" name="password" placeholder="Password" required>
+        <button type="submit">Sign Up</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Login Modal -->
+  <div id="login-modal" class="modal" style="display:none; position:fixed; z-index:1000; left:0; top:0; width:100vw; height:100vh; background:rgba(0,0,0,0.5); align-items:center; justify-content:center;">
+    <div style="background:#fff; padding:2em; border-radius:8px; max-width:340px; width:100%; position:relative; text-align: center;">
+      <button id="close-login-modal" style="position:absolute; right:1em; top:1em; background:none; border:none; font-size:1.2em; cursor:pointer;"> &times;</button>
+      <h3 style="margin-bottom:1em; color: black;"> Welcome back! </h3>
+      <form id="loginForm" style="display:flex; flex-direction:column; gap:1em;">
+        <input type="email" id="login-email" name="email" placeholder="Email" required>
+        <input type="password" id="login-password" name="password" placeholder="Password" required>
+        <button type="submit">Log In</button>
+        <p style="margin-top:1em; font-size:0.9em; color: #000000;">
+          Don't have an account? <a href="#" id="open-signup">Sign Up</a>
+        </p>
+      </form>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <p>&copy; <span id="current-year"></span> Visual Portfolio. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <!-- Angular root (if you actually bootstrap Angular here) -->
+  <app-root></app-root>
+
+  <script>
+    // Set current year in footer
+    document.getElementById('current-year').textContent = new Date().getFullYear();
+
+    const signupModal    = document.getElementById('signup-modal');
+    const loginModal     = document.getElementById('login-modal');
+
+    const openSignupLink = document.getElementById('open-signup');   // inside login form
+    const openLoginBtn   = document.getElementById('open-login');    // navbar "Log In" link
+
+    const closeSignupBtn = document.getElementById('close-signup-modal');
+    const closeLoginBtn  = document.getElementById('close-login-modal');
+
+    // Open LOGIN from navbar
+    openLoginBtn && openLoginBtn.addEventListener('click', function (e) {
+      e.preventDefault();
+      signupModal.style.display = 'none';
+      loginModal.style.display = 'flex';
+    });
+
+    // Open SIGNUP from inside the login form
+    openSignupLink && openSignupLink.addEventListener('click', function (e) {
+      e.preventDefault();
+      // hide login, show signup
+      loginModal.style.display = 'none';
+      signupModal.style.display = 'flex';
+    });
+
+    // Close buttons (X)
+    closeSignupBtn && closeSignupBtn.addEventListener('click', function () {
+      signupModal.style.display = 'none';
+    });
+
+    closeLoginBtn && closeLoginBtn.addEventListener('click', function () {
+      loginModal.style.display = 'none';
+    });
+
+    // One shared outside-click handler for BOTH modals
+    window.addEventListener('click', function (event) {
+      if (event.target === signupModal) {
+        signupModal.style.display = 'none';
+      }
+      if (event.target === loginModal) {
+        loginModal.style.display = 'none';
+      }
+    });
+
+    // Page Changing + Active Nav JS
+          document.addEventListener("DOMContentLoaded", function () {
+            const links = document.querySelectorAll(".nav-link");
+            const contentArea = document.getElementById("content-area");
+
+            // 🔹 Highlight the active nav item based on current URL
+            const path = window.location.pathname.toLowerCase();
+            links.forEach((link) => {
+              const href = link.getAttribute("href");
+              if (!href) return;
+              const normalizedHref = href.toLowerCase();
+              if (path.endsWith(normalizedHref)) {
+                link.classList.add("active-nav");
+              }
+            });
+          });
+  </script>
+
+  <script src="assets/js/signup.js"></script>
+  <script src="assets/js/login.js"></script>
+</body>
 </html>

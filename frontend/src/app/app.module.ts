@@ -27,6 +27,7 @@ import { GuideComponent } from './components/guide/guide.component';
     CreateItemComponent,
     GuideComponent
   ],
+
   imports: [
     BrowserModule,
     HttpClientModule,
