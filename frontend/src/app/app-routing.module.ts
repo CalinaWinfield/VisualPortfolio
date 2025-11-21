@@ -16,13 +16,13 @@ const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   
   // Main routes
-  { path: 'home', component: HomeComponent },
-  { path: 'about', component: AboutComponent },
-  { path: 'dashboard', component: DashboardComponent },
-  { path: 'documents', component: DocumentComponent },
-  { path: 'cover-letter', component: CoverLetterComponent },
-  { path: 'create-item', component: CreateItemComponent },
-  { path: 'guide', component: GuideComponent },
+  { path: 'home', component: HomeComponent, title: 'Home' },
+  { path: 'about', component: AboutComponent, title: 'About' },
+  { path: 'dashboard', component: DashboardComponent, title: 'Dashboard' },
+  { path: 'documents', component: DocumentComponent, title: 'Documents' },
+  { path: 'cover-letter', component: CoverLetterComponent, title: 'Cover Letter' },
+  { path: 'create-item', component: CreateItemComponent, title: 'Create Item' },
+  { path: 'guide', component: GuideComponent, title: 'Guide' },
   
   // Dynamic routes
   { path: 'documents/:id', component: DocumentComponent },
