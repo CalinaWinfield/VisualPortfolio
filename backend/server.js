@@ -1,41 +1,41 @@
+// backend/server.js
 const express = require('express');
-const path = require('path');
-const connectDB = require('./config/db');
 const cors = require('cors');
+const { default: mongoose } = require('mongoose');
 require('dotenv').config();
 
-const app = express();
-app.use(express.json());
-app.use(cors());
+const connectDB = require('./config/db'); // ensures Mongo connection
 
-// Connect DB
+const app = express();
+
+// --- Middleware ---
+app.use(express.json());                   // parse JSON request bodies
+app.use(express.urlencoded({ extended: true })); // (optional) parse form-encoded bodies
+app.use(cors());                           // allow all origins in dev; tighten in prod
+
+// --- Connect to MongoDB ---
 connectDB();
 
-// Set EJS view engine
-app.set('view engine', 'ejs');
-// Set views directory (adjust if different)
-app.set('views', path.join(__dirname, 'views'));
-
-app.use(express.urlencoded({ extended: true }));
-
-
-
-// Static assets (CSS/JS/images)
-app.use(express.static(path.join(__dirname, 'public')));
-
-// API Routes (keep your existing)
-app.use('/api/items', require('./routes/itemRoute'));
-
-// SSR route: render Items page with data from Mongo
-const Item = require('./models/Item');
-app.get('/items', async (req, res) => {
-  try {
-    const items = await Item.find().sort({ _id: -1 });
-    res.render('items', { items }); // renders views/items.ejs
-  } catch (error) {
-    res.status(500).send('Failed to load items');
-  }
+// Optional: log when the low-level Mongoose connection opens
+const connection = mongoose.connection;
+connection.once('open', () => {
+  console.log('✅ MongoDB Database connection established successfully');
+});
+connection.on('error', (err) => {
+  console.error('❌ MongoDB connection error:', err?.message || err);
 });
 
+// --- API Routes ---
+app.use('/api/users', require('./routes/userRoutes'));
+app.use('/api/uploads', require('./routes/uploadFile'));
+app.use('/api/items', require('./routes/itemRoute'));
+
+// --- Health check (optional) ---
+app.get('/health', (_req, res) => {
+  res.json({ ok: true, status: 'up' });
+});
+
+// --- Start server ---
 const PORT = process.env.PORT || 5001;
-app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
+app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`)); // able to start server.
+
