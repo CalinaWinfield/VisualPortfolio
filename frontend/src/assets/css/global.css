@@ -196,13 +196,13 @@ body.index-page main { flex: 1; }
 body.index-page .hero {
   text-align: center;
   
-  padding: 60px 20px;
+  padding: 60px 80px;
 
   /* Layered background: gradient on top, image behind */
   background:
   
     linear-gradient(rgba(3, 20, 88, 0.5), rgba(163, 163, 163, 0.5));  
-    min-height: 79.2vh;  
+    min-height: 82vh;  
 
   /* Make the background image fill the entire hero section */
   background-size: cover;       /* Ensures highest resolution fill */
@@ -466,4 +466,37 @@ body.dashboard-page .navbar {
   
   border-bottom: 2px solid #fefefe;
 }
+
+/* Make dropdown cards match parent width */
+#itemsSection .card-body,
+#documentsSection .card-body {
+  flex-wrap: wrap;
+  justify-content: left;
+}
+
+#itemsSection,
+#documentsSection {
+  margin-top: 10px !important; /* removes the gap */
+}
+
+.col-md-5 {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+.custom-height {
+  height: 200px; /* or whatever you need */
+  max-height: 100%; /* prevents overflow */
+}
+
+.custom-width {
+  width: 600px; /* or any value you want */
+  max-width: 100%; /* prevents overflow */
+}
+
+.dropdown-width {
+  width: 600px; /* or match your card width */
+  max-width: 100%; /* keeps it responsive */
+}
+
 
