@@ -1,7 +1,15 @@
+// src/app/models/item.model.ts
 export interface ItemCreateRequest {
-  folder: string;
+  category?: string;             // optional if you allow empty
   itemTitle: string;
-  itemDate: string; // ISO date
+  itemDate: string;              // keep as string for now (yyyy-MM-dd)
   itemDescription: string;
-  userEmail?: string | null;
+  userEmail: string;             // required to match backend schema
+}
+
+// Optional: read shape returned from the API
+export interface Item extends ItemCreateRequest {
+  _id: string;
+  createdAt?: string;
+  updatedAt?: string;
 }

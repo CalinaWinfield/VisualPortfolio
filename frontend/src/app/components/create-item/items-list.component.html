@@ -1,0 +1,30 @@
+<section class="panel w-75 mx-auto">
+  <h2>Items</h2>
+
+  <div *ngIf="loading">Loading items…</div>
+  <div *ngIf="error" class="error">{{ error }}</div>
+
+  <div class="actions mb-3">
+    <a class="btn btn-primary" routerLink="/create-item">+ Create Item</a>
+  </div>
+
+  <div *ngIf="!loading && !items.length" class="empty">
+    No items yet. Click “Create Item” to add your first one.
+  </div>
+
+  <ul class="item-grid" *ngIf="items.length">
+    <li class="item-card" *ngFor="let it of items">
+      <div class="title">{{ it.itemTitle }}</div>
+      <div class="meta">
+        <span class="chip">{{ it.category || 'No category' }}</span>
+        <span class="date">{{ it.itemDate }}</span>
+      </div>
+      <div class="desc">{{ it.itemDescription }}</div>
+
+      <div class="row mt-2">
+        <a class="btn btn-link" routerLink="/create-item" [queryParams]="{ prefillId: it._id }">Use as template</a>
+        <button class="btn btn-link text-danger" (click)="/* optional delete here */">Delete</button>
+      </div>
+    </li>
+  </ul>
+</section>

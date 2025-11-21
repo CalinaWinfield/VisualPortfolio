@@ -1,0 +1,43 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Items</title>
+  /css/styles.css
+  <style>
+    body { font-family: system-ui, sans-serif; background:#0b4a78; color:#fff; }
+    .panel { width: 75%; margin: 2rem auto; background:#fff; color:#222; border-radius:8px; padding:16px; }
+    .item-grid { list-style:none; padding:0; display:grid; grid-template-columns: repeat(auto-fill, minmax(260px,1fr)); gap:12px; }
+    .item-card { background:#f7f9fc; border:1px solid #e6edf5; border-radius:8px; padding:12px; }
+    .title { font-weight:600; }
+    .meta { color:#666; font-size:0.9rem; }
+  </style>
+</head>
+<body>
+  <section class="panel">
+    <h2>Items</h2>
+
+    <% if (!items || items.length === 0) { %>
+      <p>No items yet.</p>
+      /create-itemCreate Item</a>
+    <% } else { %>
+      <ul class="item-grid">
+        <% items.forEach(function(it){ %>
+          <li class="item-card">
+            <div class="title"><%= it.itemTitle %></div>
+            <div class="meta">
+              <span><%= it.category || 'No category' %></span> — 
+              <span><%= it.itemDate %></span>
+            </div>
+            <p><%= it.itemDescription %></p>
+            /items/<%= it._id %>?_method=DELETE
+              <button type="submit" style="color:#c00;background:none;border:none;cursor:pointer;">Delete</button>
+            </form>
+          </li>
+        <% }) %>
+      </ul>
+    <% } %>
+  </section>
+</body>
+</html>
