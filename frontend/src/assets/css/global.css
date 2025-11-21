@@ -490,7 +490,7 @@ body.dashboard-page .navbar {
 }
 
 .custom-width {
-  width: 600px; /* or any value you want */
+  width: 00px; /* or any value you want */
   max-width: 100%; /* prevents overflow */
 }
 
@@ -500,3 +500,104 @@ body.dashboard-page .navbar {
 }
 
 
+/* -----------------------------
+   SMALL SCREEN (phones ≤576px)
+   ----------------------------- */
+@media (max-width: 576px) {
+  /* Wrapper: center the two columns and keep spacing compact */
+  .dashboard-toggle-row {
+    display: flex;
+    flex-direction: column;
+    align-items: center;   /* centers tiles */
+    gap: 10px;             /* spacing between Items and My Documents */
+    padding-block: 8px;    /* tiny vertical padding around the stack */
+  }
+
+  /* Tiles: consistent, compact width; centered by parent + auto margins */
+  .tile-size {
+    width: clamp(260px, 88vw, 340px);
+    margin-inline: auto;
+    height: auto !important;      /* neutralize legacy fixed heights */
+  }
+
+  /* Tile interior: smaller padding for shorter tiles */
+  .tile-body {
+    padding: 12px;
+  }
+
+  /* Typography: compact to prevent wrapping */
+  .cardStyle .card-title {
+    font-size: 1.2rem;
+    line-height: 1.2;
+    margin-bottom: 6px;
+    color: var(--pink);
+  }
+  .card-prompt {
+    font-size: 0.95rem;
+    line-height: 1.35;
+    margin: 0;
+  }
+
+  /* Dropdown spacing: a little gap only when a dropdown is visible */
+  #itemsSection,
+  #documentsSection {
+    margin-top: 10px;            /* space between tile and its own dropdown */
+  }
+
+  /* Dropdown interior padding: compact */
+  #itemsSection .card-body,
+  #documentsSection .card-body {
+    padding: 12px;
+  }
+
+  /* If older helpers are still present on tiles, neutralize them */
+  .custom-width.tile-size,
+  .custom-height.tile-size {
+    width: auto !important;
+    height: auto !important;
+  }
+}
+
+/* -----------------------------------
+   TABLET / DESKTOP (md+ ≥768px)
+   ----------------------------------- */
+@media (min-width: 768px) {
+  .dashboard-toggle-row {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;  /* centers the row */
+    align-items: flex-start;
+    gap: 20px;                /* spacing between the two columns */
+  }
+
+  /* Desktop tile width (match your original look) */
+  .tile-size {
+    width: 600px;             /* change to 420px if that was your preferred */
+    height: auto;
+    margin-inline: 0;         /* parent handles centering */
+  }
+
+  .tile-body { padding: 20px; }
+  .cardStyle .card-title { font-size: 30px; }
+  .card-prompt { font-size: 22px; }
+
+  /* Dropdown interior padding roomier on desktop */
+  #itemsSection .card-body,
+  #documentsSection .card-body {
+    padding: 20px;
+  }
+}
+
+#itemsSection, #documentsSection {
+  margin-top: 10px;
+}
+
+/* Ensure dropdowns that use .tile-size are always centered, even outside flex */
+.tile-size { margin-left: auto; margin-right: auto; }
+
+/* Consistent offset under your fixed navbar (adjust height to your actual navbar) */
+body.dashboard-page { padding-top: 72px; }  /* tweak to 68–84px if needed */
+
+/* Remove accidental legacy margins that add vertical bulk */
+.dashboard-container { margin-top: 0; }

@@ -1,7 +1,8 @@
 <header class="site-header">
   <nav class="navbar">
     <div class="logo">
-      <img src="assets/img/foxIcon.png" alt="Visual Portfolio Logo" class="img-fluid">VISUAL PORTFOLIO
+      assets/img/foxIcon.png
+      VISUAL PORTFOLIO
     </div>
     <ul class="nav-links">
       <li><a routerLink="/">Log out</a></li>
@@ -12,10 +13,12 @@
   </nav>
 </header>
 
+
 <div class="center-form-wrapper" style="position:relative;">
   <div class="top-left-controls">
     <button class="back-button" (click)="goBack()">← Back</button>
   </div>
+
   <div class="expandable-form-container">
     <form *ngIf="!showForm" class="p-4 border rounded bg-white shadow w-75 mx-auto">
       <div class="form-row">
@@ -23,36 +26,56 @@
           <button type="button" class="btn btn-primary btn-block form-control createButton" (click)="openForm()">CREATE</button>
         </div>
         <div class="form-group">
-          <button type="button" class="btn btn-secondary btn-block form-control updateButton">UPDATE</button>
+          <button type="button" class="btn btn-secondary btn-block form-control updateButton" (click)="fetchItems()">UPDATE</button>
         </div>
       </div>
     </form>
 
-    <form *ngIf="showForm" (ngSubmit)="submit()" class="p-4 border rounded bg-white shadow w-75 mx-auto">
+    <!-- REACTIVE FORM -->
+    <form *ngIf="showForm" [formGroup]="form" (ngSubmit)="save()" class="p-4 border rounded bg-white shadow w-75 mx-auto">
       <div class="form-group mb-4">
-        <label for="folder">Folder:</label>
-        <input type="text" name="folder" id="folder" class="form-control" required [(ngModel)]="model.folder" name="folder">
+        <label for="category">Folder (Category):</label>
+        <input id="category" class="form-control" formControlName="category" />
       </div>
 
       <div class="form-group mb-4">
         <label for="itemTitle">Title:</label>
-        <input type="text" name="itemTitle" id="itemTitle" class="form-control" required [(ngModel)]="model.itemTitle" name="itemTitle">
+        <input id="itemTitle" class="form-control" formControlName="itemTitle" />
       </div>
 
       <div class="form-group mb-4">
         <label for="itemDate">Date:</label>
-        <input type="date" name="itemDate" id="itemDate" class="form-control" required [(ngModel)]="model.itemDate" name="itemDate">
+        <input id="itemDate" type="date" class="form-control" formControlName="itemDate" />
       </div>
 
       <div class="form-group mb-4">
         <label for="itemDescription">Description:</label>
-        <textarea name="itemDescription" id="itemDescription" class="form-control" rows="3" required [(ngModel)]="model.itemDescription" name="itemDescription"></textarea>
+        <textarea id="itemDescription" class="form-control" rows="3" formControlName="itemDescription"></textarea>
+      </div>
+
+      <div class="form-group mb-4">
+        <label for="userEmail">Email:</label>
+        <input id="userEmail" type="email" class="form-control" formControlName="userEmail" />
       </div>
 
       <div class="text-center">
-        <button type="submit" class="btn btn-success mt-3" [disabled]="isSubmitting" style="width: 50%;">{{ isSubmitting ? 'Submitting...' : 'Submit' }}</button>
+        <button type="submit" class="btn btn-success mt-3" [disabled]="form.invalid || isSubmitting" style="width: 50%;">
+          {{ isSubmitting ? 'Submitting...' : 'Submit' }}
+        </button>
       </div>
     </form>
+  </div>
+
+  <!-- Existing items list pulled from Mongo -->
+  <div class="p-4 w-75 mx-auto" *ngIf="items?.length">
+    <h3>Existing Items</h3>
+    <ul>
+      <li *ngFor="let it of items">
+        <strong>{{ it.itemTitle }}</strong> — {{ it.category || 'No category' }} — {{ it.itemDate }}
+        <button class="btn btn-link" (click)="prefillFrom(it)">Prefill</button>
+        <button class="btn btn-link text-danger" (click)="remove(it._id)">Delete</button>
+      </li>
+    </ul>
   </div>
 </div>
 

@@ -27,38 +27,65 @@
 
       <hr class="border border-secondary">
 
-      <div class="row mt-4 text-center">
-        <div class="col-md-4">
-          <a routerLink="/items" class="text-decoration-none text-dark">
-            <div class="card h-100 shadow-lg cardStyle">
-              <div class="card-body d-flex flex-column justify-content-center align-items-center">
-                <h5 class="card-title">Items</h5>
-                <p class="card-prompt">Create, view and edit items.</p>
-              </div>
+      
+<!-- Top tiles row -->
+<div class="row mt-4 text-center">
+  <!-- ITEMS TILE (with preview) -->
+  <div class="col-md-4">
+    <a routerLink="/items" class="text-decoration-none text-dark">
+      <div class="card h-100 shadow-lg cardStyle">
+        <div class="card-body d-flex flex-column justify-content-center align-items-center">
+          <h5 class="card-title">Items</h5>
+          <p class="card-prompt">Create, view and edit items.</p>
+
+          <!-- Preview block -->
+          <div class="w-100 mt-3">
+            <div *ngIf="loadingItems" class="text-muted">Loading items…</div>
+            <div *ngIf="itemsError" class="text-danger">{{ itemsError }}</div>
+
+            <ul class="list-unstyled text-start" *ngIf="itemsPreview.length">
+              <li *ngFor="let it of itemsPreview">
+                <strong>{{ it.itemTitle }}</strong>
+                <small class="text-muted"> — {{ it.category || 'No category' }} — {{ it.itemDate }}</small>
+              </li>
+            </ul>
+
+            <div class="mt-2">
+              <a class="btn btn-sm btn-primary" routerLink="/items">View all items</a>
+              <a class="btn btn-sm btn-outline-primary ms-2" routerLink="/create-item">Add new</a>
             </div>
-          </a>
-        </div>
-        <div class="col-md-4">
-          <a routerLink="/documents" class="text-decoration-none text-dark">
-            <div class="card h-100 shadow-lg cardStyle">
-              <div class="card-body d-flex flex-column justify-content-center align-items-center">
-                <h5 class="card-title">Document Builder</h5>
-                <p class="card-prompt">Drag and drop to create custom documents.</p>
-              </div>
-            </div>
-          </a>
-        </div>
-        <div class="col-md-4">
-          <a routerLink="/cover-letter" class="text-decoration-none text-dark">
-            <div class="card h-100 shadow-lg cardStyle">
-              <div class="card-body d-flex flex-column justify-content-center align-items-center">
-                <h5 class="card-title">Cover Letter</h5>
-                <p class="card-prompt">Easily generate coverletters.</p>
-              </div>
-            </div>
-          </a>
+          </div>
+          <!-- End preview block -->
         </div>
       </div>
+    </a>
+  </div>
+
+  <!-- DOCUMENT BUILDER TILE -->
+  <div class="col-md-4">
+    <a routerLink="/documents" class="text-decoration-none text-dark">
+      <div class="card h-100 shadow-lg cardStyle">
+        <div class="card-body d-flex flex-column justify-content-center align-items-center">
+          <h5 class="card-title">Document Builder</h5>
+          <p class="card-prompt">Drag and drop to create custom documents.</p>
+        </div>
+      </div>
+    </a>
+  </div>
+
+  <!-- COVER LETTER TILE -->
+  <div class="col-md-4">
+    <a routerLink="/cover-letter" class="text-decoration-none text-dark">
+      <div class="card h-100 shadow-lg cardStyle">
+        <div class="card-body d-flex flex-column justify-content-center align-items-center">
+          <h5 class="card-title">Cover Letter</h5>
+          <p class="card-prompt">Easily generate coverletters.</p>
+        </div>
+      </div>
+    </a>
+  </div>
+</div>
+
 
       <div class="row mt-4 text-center">
         <div class="col-md-4">
