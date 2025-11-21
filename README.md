@@ -78,9 +78,8 @@ The EasyFolio App is a web tool that will help faculty keep, organize, and share
 * **Jordan Laudun** 1. Testing Lead 🛠 2. Client Liaison 💼
 * <img width="131" height="174" alt="image" src="https://github.com/user-attachments/assets/e517033c-8207-4fe0-b2f9-5b4de2591c5a" />
 
-
 ## Flyer
-![VisPortfolio (1)](https://github.com/user-attachments/assets/50f5a08e-7887-4f54-8626-630c9d0f4304)
+<img width="640" height="799" alt="flyer" src="https://github.com/user-attachments/assets/467d7988-e5a2-4688-80d7-1ec5e228f315" />
 
 ## Repo Location
 - [**click here**](https://github.com/GGC-SD/VisPortfolio)

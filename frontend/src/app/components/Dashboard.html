@@ -98,56 +98,68 @@
                     <br />
                   </div>
 
-                  <!-- Toggle Preview Cards -->
-<div class="d-flex justify-content-center" style="gap: 20px;">
-  <!-- Items Section -->
-   <div class="d-flex flex-column">
-      <div class="card shadow-lg cardStyle custom-height custom-width" onclick="toggleSection('itemsSection')">
-      <div class="card-body text-center">
-        <h5 class="card-title">Items</h5>
-        <p class="card-prompt">Create, view and edit items.</p>
+                  
+
+<!-- Main content wrapper (helps keep footer visible when dropdowns are collapsed) -->
+<main class="dashboard-main">
+
+  <!-- Toggle Preview Cards -->
+  <div class="dashboard-toggle-row">
+
+    <!-- Items column -->
+    <div class="d-flex flex-column">
+
+      <!-- Tile -->
+      <div class="card shadow-lg cardStyle tile-size" onclick="toggleSection('itemsSection')">
+        <div class="card-body tile-body text-center">
+          <h5 class="card-title">Items</h5>
+          <p class="card-prompt">Create, view and edit items.</p>
+        </div>
+      </div>
+
+      <!-- Dropdown for Items -->
+      <div id="itemsSection" class="mt-0 d-none">
+        <div class="card shadow-lg rounded-3 border-0 tile-size">
+          <div class="card-header custom-card-header">Items</div>
+          <div class="card-body d-flex flex-wrap gap-3">
+            <div class="folder text-center">
+              <!-- ✅ fixed: class names and proper <p> -->
+                <img src="../../assets/img/folder-svgrepo-com.svg" class="m-0 folderTxt">Items</p>
+
+            </div>
+            <!-- more folders if needed -->
+          </div>
+        </div>
       </div>
     </div>
 
-    <!-- Dropdown for Items -->
-<div id="itemsSection" class="mt-0 d-none">
-  <div class="card shadow-lg rounded-3 border-0 dropdown-width">
-    <div class="card-header custom-card-header">Items</div>
-    <div class="card-body d-flex flex-wrap gap-3">
-      <div class="folder text-center">
-        <img src="../../assets/img/folder-svgrepo-com.svg" class="img-fluid" style="width: 80px; height: 80px;">
-        <p class="m-0 folderTxt">Add Items</p>
-          <!-- folders -->
+    <!-- My Documents column -->
+    <div class="d-flex flex-column">
+
+      <!-- Tile -->
+      <div class="card shadow-lg cardStyle tile-size" onclick="toggleSection('documentsSection')">
+        <div class="card-body tile-body text-center">
+          <h5 class="card-title">My Documents</h5>
+          <p class="card-prompt">View and edit saved documents.</p>
+        </div>
+      </div>
+
+      <!-- Dropdown for My Documents -->
+      <div id="documentsSection" class="mt-0 d-none">
+        <div class="card shadow-lg rounded-3 border-0 tile-size">
+          <div class="card-header custom-card-header">Documents</div>
+          <div class="card-body d-flex flex-wrap gap-3">
+            <div class="folder text-center">
+              <!-- ✅ fixed: class names and proper <p> -->
+              <img src="../../assets/img/folder-svgrepo-com.svg" class="m-0 folderTxt">Items</p>
+            </div>
+            <!-- more folders if needed -->
+          </div>
         </div>
       </div>
     </div>
   </div>
-  </div>
-
-  <!-- My Documents Section -->
-   <div class="d-flex flex-column">    
-    <div class="card shadow-lg cardStyle custom-height custom-width" onclick="toggleSection('documentsSection')">
-      <div class="card-body text-center">
-        <h5 class="card-title">My Documents</h5>
-        <p class="card-prompt">View and edit saved documents.</p>
-      </div>
-    </div>
-
-    <!-- Dropdown for My Documents -->
-    <div id="documentsSection" class="mt-0 d-none">
-      <div class="card shadow-lg rounded-3 border-0 dropdown-width">
-    <div class="card-header custom-card-header">Documents</div>
-    <div class="card-body d-flex flex-wrap gap-3">
-      <div class="folder text-center">
-        <img src="../../assets/img/folder-svgrepo-com.svg" class="img-fluid" style="width: 80px; height: 80px;">
-        <p class="m-0 folderTxt">Add Items</p>
-          <!-- folders -->
-        </div>
-      </div>
-    </div>
-  </div>
-  </div>
-</div>
+</main>
                   <!-- To Do -->
                   <div id="todoSection" class="row mt-4 d-none">
                     <div class="col-md-6 mb-3">
@@ -239,110 +251,105 @@
       </div>
     </div>
     <!-- Footer -->
-        <footer class="footer">
-          <div class="container">
-            <p>
-              &copy; <span id="current-year"></span> Visual Portfolio. All rights
-              reserved.
-            </p>
-          </div>
-        </footer>
-        <script>
-          document.getElementById("current-year").textContent =
-            new Date().getFullYear();
+<footer class="footer">
+  <div class="container">
+    <p>
+      &copy; <span id="current-year"></span> Visual Portfolio. All rights
+      reserved.
+    </p>
+  </div>
+</footer>
 
-          function toggleSection(id) {
-            const section = document.getElementById(id);
-            section.classList.toggle("d-none");
-          }
+<script>
+  // ---- Year in footer ----
+  document.getElementById("current-year").textContent = new Date().getFullYear();
 
-          // Page Changing + Active Nav JS
-          document.addEventListener("DOMContentLoaded", function () {
-            const links = document.querySelectorAll(".nav-link");
-            const contentArea = document.getElementById("content-area");
+  // ---- Toggle dropdown sections (Items / Documents) ----
+  function toggleSection(id) {
+    const section = document.getElementById(id);
+    section.classList.toggle("d-none");
+    // When a dropdown opens/closes, recalc available height just in case
+    setShellHeights();
+  }
 
-            // 🔹 Highlight the active nav item based on current URL
-            const path = window.location.pathname.toLowerCase();
-            links.forEach((link) => {
-              const href = link.getAttribute("href");
-              if (!href) return;
-              const normalizedHref = href.toLowerCase();
-              if (path.endsWith(normalizedHref)) {
-                link.classList.add("active-nav");
-              }
-            });
+  // ---- Active nav link ----
+  document.addEventListener("DOMContentLoaded", function () {
+    const links = document.querySelectorAll(".nav-link");
+    const path = window.location.pathname.toLowerCase();
 
-            // Existing click handling
-            links.forEach((link) => {
-              link.addEventListener("click", function (event) {
-                const page = this.getAttribute("data-page");
+    links.forEach((link) => {
+      const href = link.getAttribute("href");
+      if (!href) return;
+      const normalizedHref = href.toLowerCase();
+      if (path.endsWith(normalizedHref)) link.classList.add("active-nav");
+    });
 
-                // If you still want SPA-like behavior, you can keep preventDefault.
-                // For now, you’re using full-page redirects so we’ll let href work.
-                // event.preventDefault();
+    // Full-page navigation (no SPA)
+    links.forEach((link) => {
+      link.addEventListener("click", function () {
+        const page = this.getAttribute("data-page");
+        if (!page) return; // let href work
+        if (page === "Home") { location.reload(); return; }
+        window.location.href = page;
+      });
+    });
+  });
 
-                if (!page) return; // fall back on normal link behavior
+  // ---- Drag-and-drop helpers (unchanged) ----
+  function attachDocumentEventListeners() {
+    let lists = document.querySelectorAll(".list");
+    let leftBox = document.getElementById("left");
+    let rightBox = document.getElementById("right");
 
-                if (page === "Home") {
-                  location.reload();
-                  return;
-                }
+    if (!leftBox || !rightBox) {
+      console.error("Drag-and-drop containers not found!");
+      return;
+    }
 
-                if (page === "../../index.html") {
-                  window.location.href = page;
-                  return;
-                } else {
-                  window.location.href = page;
-                  return;
-                }
+    lists.forEach((list) => {
+      list.addEventListener("dragstart", function (e) {
+        e.dataTransfer.setData("text/plain", e.target.id);
+        setTimeout(() => { e.target.classList.add("dragging"); }, 0);
+      });
+      list.addEventListener("dragend", function (e) {
+        e.target.classList.remove("dragging");
+      });
+    });
 
-                // (Unreachable fetch() code left here if you want to refactor later)
-              });
-            });
-          });
+    function enableDragAndDrop(container) {
+      container.addEventListener("dragover", function (e) { e.preventDefault(); });
+      container.addEventListener("drop", function (e) {
+        e.preventDefault();
+        let draggedItem = document.querySelector(".dragging");
+        if (draggedItem) {
+          container.appendChild(draggedItem);
+          draggedItem.classList.remove("dragging");
+        }
+      });
+    }
 
-          // Drag-and-drop helpers (unchanged)
-          function attachDocumentEventListeners() {
-            let lists = document.querySelectorAll(".list");
-            let leftBox = document.getElementById("left");
-            let rightBox = document.getElementById("right");
+    enableDragAndDrop(leftBox);
+    enableDragAndDrop(rightBox);
+  }
 
-            if (!leftBox || !rightBox) {
-              console.error("Drag-and-drop containers not found!");
-              return;
-            }
+  // =========================
+  // Shell height management
+  // =========================
+  function setShellHeights() {
+    // Measure the actual navbar and footer heights and store them as CSS variables
+    const nav = document.querySelector("body.dashboard-page .navbar");
+    const footer = document.querySelector(".footer");
+    if (nav)   document.documentElement.style.setProperty("--nav-h", nav.offsetHeight + "px");
+    if (footer) document.documentElement.style.setProperty("--footer-h", footer.offsetHeight + "px");
+  }
 
-            lists.forEach((list) => {
-              list.addEventListener("dragstart", function (e) {
-                e.dataTransfer.setData("text/plain", e.target.id);
-                setTimeout(() => {
-                  e.target.classList.add("dragging");
-                }, 0);
-              });
+  // Run once after layout, and whenever the viewport changes
+  window.addEventListener("DOMContentLoaded", setShellHeights);
+  window.addEventListener("resize", setShellHeights);
 
-              list.addEventListener("dragend", function (e) {
-                e.target.classList.remove("dragging");
-              });
-            });
-
-            function enableDragAndDrop(container) {
-              container.addEventListener("dragover", function (e) {
-                e.preventDefault();
-              });
-
-              container.addEventListener("drop", function (e) {
-                e.preventDefault();
-                let draggedItem = document.querySelector(".dragging");
-                if (draggedItem) {
-                  container.appendChild(draggedItem);
-                  draggedItem.classList.remove("dragging");
-                }
-              });
-            }
-
-            enableDragAndDrop(leftBox);
-            enableDragAndDrop(rightBox);
-          }
-        </script>
+  // If you use Bootstrap's collapsible navbar, update heights when it opens/closes
+  document.addEventListener("shown.bs.collapse", setShellHeights);
+  document.addEventListener("hidden.bs.collapse", setShellHeights);
+</script>
   </body>
 </html>

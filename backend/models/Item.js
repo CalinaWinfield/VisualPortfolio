@@ -6,6 +6,6 @@ const ItemSchema = new mongoose.Schema({
     itemDate: { type: String, required: true },
     itemDescription: { type: String, required: true },
     userEmail: { type: String, required: true }
-});
+}, { timestamps: true });
 
 module.exports = mongoose.model("Item", ItemSchema);

@@ -6,6 +6,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
+import { ItemsListComponent } from './components/create-item/items-list.component';
 
 // Components
 import { AboutComponent } from './components/about/about.component';
@@ -25,7 +26,8 @@ import { GuideComponent } from './components/guide/guide.component';
     DocumentComponent,
     CoverLetterComponent,
     CreateItemComponent,
-    GuideComponent
+    GuideComponent,
+    ItemsListComponent
   ],
 
   imports: [

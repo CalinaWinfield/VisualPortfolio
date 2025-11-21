@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
                 sessionStorage.setItem('userEmail', email);
 
-                window.location.href = '/..frontend/src/app/index.html';
+                window.location.href = 'app/components/Dashboard.html';
             } else {
                 alert('Registration failed: ' + data.error);
             }
