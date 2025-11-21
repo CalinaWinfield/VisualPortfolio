@@ -34,8 +34,3 @@ app.use('/api/items', require('./routes/itemRoute'));
 app.get('/health', (_req, res) => {
   res.json({ ok: true, status: 'up' });
 });
-
-// --- Start server ---
-const PORT = process.env.PORT || 5001;
-app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`)); // able to start server.
-
