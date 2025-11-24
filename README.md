@@ -56,11 +56,7 @@ The EasyFolio App is a web tool that will help faculty keep, organize, and share
   - run with: ng serve
 
 ### List of working features
-1. Drag and drop feature: Allows users to drag an item from one container to another. 
-
-2. Responsive Design: Application is able to adapt to different screen sizes.
-
-3. Export PDF files: Allows the user to save and export the documents created.
+1. Responsive Design: Application is able to adapt to different screen sizes.
 
 ## Team Roles
 
