@@ -26,5 +26,9 @@ export class ItemsListComponent implements OnInit {
     });
   }
 
+  deleteItem(id: string): void {
+    // no-op placeholder for template click in tests; use ItemService in production
+  }
+
   // Optional: navigate to create-item page or edit a specific item
 }

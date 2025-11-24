@@ -69,22 +69,7 @@ main ul li span {
 .back-button {
   background: transparent;
   border: 1px solid var(--light-purple);
-  color: var(--cream);
-  padding: 0.35rem 0.6rem;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 0.95rem;
-}
 
-.back-button:hover {
-  background: rgba(255,255,255,0.03);
-}
-}
-
-.back-button {
-  background: transparent;
-  border: 1px solid var(--light-purple);
-  color: var(--cream);
   padding: 0.35rem 0.6rem;
   border-radius: 4px;
   cursor: pointer;

@@ -15,7 +15,6 @@
             "outputPath": "dist/frontend",
             "index": "src/index.html",
             "browser": "src/main.ts",
-            "main": "src/main.ts",
             "polyfills": [
               "zone.js"
             ],
@@ -62,6 +61,27 @@
             }
           },
           "defaultConfiguration": "development"
+        }
+        ,
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "src/test.ts",
+            "polyfills": "src/polyfills.ts",
+            "tsConfig": "tsconfig.spec.json",
+            "karmaConfig": "karma.conf.js",
+            "assets": [
+              {
+                "glob": "**/*",
+                "input": "src/assets",
+                "output": "assets"
+              }
+            ],
+            "styles": [
+              "src/assets/css/global.css"
+            ],
+            "scripts": []
+          }
         }
       }
     }
