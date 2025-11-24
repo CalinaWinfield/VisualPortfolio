@@ -23,7 +23,7 @@
 
       <div class="row mt-2">
         <a class="btn btn-link" routerLink="/create-item" [queryParams]="{ prefillId: it._id }">Use as template</a>
-        <button class="btn btn-link text-danger" (click)="/* optional delete here */">Delete</button>
+        <button class="btn btn-link text-danger" (click)="deleteItem(it._id)">Delete</button>
       </div>
     </li>
   </ul>

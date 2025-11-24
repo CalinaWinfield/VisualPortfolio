@@ -27,11 +27,11 @@ export class SignupComponent {
     if (this.form.invalid) return;
     this.loading = true;
     this.auth.signup(this.form.value).subscribe({
-      next: res => {
+      next: (res: any) => {
         localStorage.setItem('token', res.token);
         this.router.navigate(['/dashboard']);
       },
-      error: err => {
+      error: (err: any) => {
         this.loading = false;
         alert(err.error?.error || 'Signup failed');
       }
