@@ -17,3 +17,5 @@ The EasyFolio App is a web tool that will help faculty keep, organize, and share
 * <img width="131" height="174" alt="image" src="https://github.com/user-attachments/assets/e517033c-8207-4fe0-b2f9-5b4de2591c5a" />
 
 <a href= "https://github.com/GGC-SD/VisPortfolio/blob/57efd2cbaeede12cc3182b4ce424ec2e4b6e52c2/Documents/Doc-Fall2025/LICENSE"> License </a>
+* Flyer:
+* <img width="640" height="799" alt="CTRL-ALT-ELIETE_Flyer" src="https://github.com/user-attachments/assets/6c30e821-2d24-4243-b384-02e8da5a4a93" />
