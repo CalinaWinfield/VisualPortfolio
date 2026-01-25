@@ -77,6 +77,7 @@ The EasyFolio App is a web tool that will help faculty keep, organize, and share
 #### Spring 2026 - Pixel Improve
 * **Calina Winfield** 1. Data Modeler 📊 2. Documentation Lead 📑 
 * <img width="133" height="200" alt="image" src="https://github.com/user-attachments/assets/8e304b64-032f-4b3e-8bf8-867a8104fb78" />
+* **Aaron Matthews** 1. Code Architecture/Lead Programmer 💻  2. Programmer 💻 
 
 
 
