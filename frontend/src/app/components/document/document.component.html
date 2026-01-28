@@ -37,7 +37,7 @@
           <div class="col-lg-6 col-md-8 mb-4">
             <div class="p-4 border rounded bg-white shadow builder-card">
               <h4 class="mb-3 docTitle">Document Builder:</h4>
-              <div id="right" class="drag-container" (drop)="drop($event, $event.target)" (dragover)="allowDrop($event)">
+              <div id="right" class="drag-container" (drop)="drop($event)" (dragover)="allowDrop($event)">
                 <p class="text-muted">Drag list items here</p>
               </div>
               <button class="btn formatbtn mt-3" (click)="format()">

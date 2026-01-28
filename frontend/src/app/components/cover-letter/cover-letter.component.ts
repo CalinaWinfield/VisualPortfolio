@@ -1,15 +1,21 @@
 import { Component, OnInit } from '@angular/core';
-import { Location } from '@angular/common';
+import { CommonModule, Location } from '@angular/common';
+import {FormsModule} from '@angular/forms';
 import { CoverLetter, CoverLetterTemplate } from '../../models/cover-letter.model';
 import { CoverLetterService } from '../../services/cover-letter.service';
 
-@Component({
-  selector: 'app-cover-letter',
-  templateUrl: './cover-letter.component.html',
-  styleUrls: ['./cover-letter.component.css']
-})
+
+ @Component({
+   standalone: true,
+   selector: 'app-cover-letter',
+   imports: [CommonModule, FormsModule],
+   templateUrl: './cover-letter.component.html',
+   styleUrls: ['./cover-letter.component.css']
+ })
+
 export class CoverLetterComponent implements OnInit {
   templates: Record<string, CoverLetterTemplate>;
+
   currentLetter: CoverLetter = {
     template: 0,
     introduction: '',
@@ -19,19 +25,19 @@ export class CoverLetterComponent implements OnInit {
   };
   templateStatus = '';
   currentYear = new Date().getFullYear();
-  
+
   userProfile = {
     name: 'User Name',
     email: 'user@example.com'
   };
 
-  constructor(private coverLetterService: CoverLetterService, private location: Location) {
+  constructor(
+    private coverLetterService: CoverLetterService,
+    private location: Location
+    ) {
     this.templates = this.coverLetterService.getTemplates();
   }
 
-  goBack(): void {
-    this.location.back();
-  }
 
   ngOnInit(): void {
     this.coverLetterService.currentLetter$.subscribe(letter => {
@@ -39,6 +45,9 @@ export class CoverLetterComponent implements OnInit {
         this.currentLetter = letter;
       }
     });
+  }
+  goBack(): void {
+    this.location.back();
   }
 
   loadTemplate(templateNumber: number): void {
@@ -54,14 +63,21 @@ export class CoverLetterComponent implements OnInit {
   previewLetter(): void {
     const content = `${this.currentLetter.introduction}\n\n${this.currentLetter.body}\n\n${this.currentLetter.conclusion}`;
     const previewWindow = window.open();
+
     if (previewWindow) {
       previewWindow.document.write(`
-        <html><head><title>Preview</title>
+        <html>
+        <head>
+        <title>Preview</title>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-        </head><body><div class="container">
+        </head>
+        <body>
+        <div class="container">
         <h1>Cover Letter Preview</h1>
         <p>${content.replace(/\n/g, "<br>")}</p>
-        </div></body></html>`);
+        </div>
+        </body>
+        </html>`);
       previewWindow.document.close();
     }
   }

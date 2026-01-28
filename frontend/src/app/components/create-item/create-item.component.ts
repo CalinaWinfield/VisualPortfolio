@@ -1,19 +1,24 @@
 // src/app/components/create-item/create-item.component.ts
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators, FormGroup } from '@angular/forms';
-import { Location } from '@angular/common';
+import { FormBuilder, Validators, FormGroup, ReactiveFormsModule} from '@angular/forms';
+import { CommonModule, Location } from '@angular/common';
+
 import { ItemService } from '../../services/item.service';
 import { Item, ItemCreateRequest } from '../../models/item.model';
 
 @Component({
+  standalone: true,
   selector: 'app-create-item',
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './create-item.component.html',
   styleUrls: ['./create-item.component.css']
 })
+
 export class CreateItemComponent implements OnInit {
   items: Item[] = [];
   loading = false;
   error?: string;
+
   form!: FormGroup;
   showForm = false;
   isSubmitting = false;
@@ -23,9 +28,6 @@ export class CreateItemComponent implements OnInit {
     private itemService: ItemService,
     private location: Location
   ) {}
-
-  openForm() { this.showForm = true; }
-  goBack() { this.location.back(); }
 
   ngOnInit(): void {
     this.form = this.fb.group({
@@ -39,13 +41,30 @@ export class CreateItemComponent implements OnInit {
     this.fetchItems();
   }
 
-  fetchItems(): void {
+  openForm(): void {
+    this.showForm = true;
+  }
+
+
+
+  goBack(): void {
+      this.location.back();
+    }
+
+ fetchItems(): void {
     this.loading = true;
-    
+
 this.itemService.getItems().subscribe({
-  next: (data) => { this.items = data; this.loading = false; },
-  error: (err) => { this.error = err?.message ?? 'Failed to load items'; this.loading = false; },
-});
+  next: (data) => {
+    this.items = data;
+     this.loading = false;
+     },
+
+  error: (err) => {
+    this.error = err?.message ?? 'Failed to load items';
+  this.loading = false;
+    },
+   });
   }
 
   prefillFrom(item: Item): void {
@@ -60,10 +79,11 @@ this.itemService.getItems().subscribe({
 
   save(): void {
     if (this.form.invalid) return;
+
     this.isSubmitting = true;
     const payload = this.form.getRawValue() as ItemCreateRequest;
 
-    
+
 this.itemService.createItem(payload).subscribe({
   next: (created) => {
     this.items.unshift(created);
@@ -79,10 +99,14 @@ this.itemService.createItem(payload).subscribe({
   }
 
   remove(id: string): void {
-    
+
 this.itemService.deleteItem(id).subscribe({
-  next: () => this.items = this.items.filter(i => i._id !== id),
-  error: (err) => this.error = err?.message ?? 'Delete failed',
-});
+  next: () => {
+    this.items = this.items.filter(i => i._id !== id);
+    },
+  error: (err) =>
+  {this.error = err?.message ?? 'Delete failed';
+     },
+   });
   }
 }
