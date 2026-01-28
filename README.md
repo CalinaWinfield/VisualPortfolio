@@ -81,7 +81,8 @@ The EasyFolio App is a web tool that will help faculty keep, organize, and share
 * <img width="133" height="200" alt="image" src="https://piazza.com/redirect/s3?bucket=uploads&prefix=paste%2Fme7mcvitgu96va%2F12420e7ec619feccc2e9232386e87cbd231eda3210c7930d5fceff1b29d98e23%2FImage.jpg" />
 * **Erick Vale** 1. Testing Lead 🛠 2. Project Manager 👩🏽‍💻 
 * <img width="133" height="200" alt="image" src="https://github.com/evale92/practical-python/blob/main/selfie.jpg?raw=true" />
-
+* **Whitney Branch** 1. UI/UX Designer 🛠 2. Programmer 💻
+* <img width="133" height="200" alt="image" src="https://github.com/WBranch98/Whitney.Branch/blob/main/IMG_5918.jpeg?raw=true" />
 
 ## Flyer
 <img width="640" height="799" alt="flyer" src="https://github.com/user-attachments/assets/467d7988-e5a2-4688-80d7-1ec5e228f315" />
