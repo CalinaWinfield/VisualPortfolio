@@ -30,7 +30,7 @@ body {
 
 /* Header Styles */
 .site-header {
-  background-color: var(--cream);
+  background-color:transparent;
   padding: 5px 0;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }

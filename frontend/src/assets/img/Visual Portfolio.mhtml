@@ -1211,7 +1211,7 @@ px; }
 
 .navbar { height: 60px; display: flex; flex-direction: row; justify-content=
 : space-between; background-color: var(--navy); padding: 16px; border-botto=
-m: 0.0012px solid var(--cream) !important; }
+m: 0.0012px solid transparent !important; }
 
 .left-navbar { display: flex; width: 150px; align-items: center; vertical-a=
 lign: top; column-gap: 10px; }
