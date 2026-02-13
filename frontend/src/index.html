@@ -23,9 +23,9 @@
           <img
             src="assets/img/foxIcon1.png"
             alt="Visual Portfolio Logo"
-            style="height:45px; margin-right:10px;"
+            class="logo-img"
           />
-          <span class="logo-text">VISUAL PORTFOLIO</span>
+          <span class="logo-text">Visual Portfolio</span>
         </a>
 
         <!-- Hamburger toggler -->
@@ -35,7 +35,7 @@
 
         <!-- Nav Links -->
         <div class="collapse navbar-collapse text-center" id="navbarNav">
-          <ul class="navbar-nav">
+          <ul class="navbar-nav ms-auto">
             <li class="nav-item">
               <a class="nav-link" href="#" id="open-login">Log In</a>
             </li>
@@ -62,10 +62,10 @@
   <span class="typing-line line-1">
     <span class="typing-wrap">
       <span class="typing">
-        A <em>clearer</em> way to
+        An <em>easier</em> way to
       </span>
     </span>
-  </span><br>
+  </span>
           <span class="typing-line line-2">
     <span class="typing-wrap">
       <span class="typing">
@@ -76,13 +76,11 @@
         </h1>
 
         <p class="hero-subtitle">
-          Create a single, structured record of your academic <br>and professional work
+          Create a single, structured record of your academic and professional work
           then reuse it wherever it’s needed.
         </p>
-
         <div class="hero-actions">
           <button class="cta-primary">Get Started</button>
-          <a href="/guide" class="cta-secondary">Learn more</a>
         </div>
       </div>
 
@@ -110,37 +108,13 @@
     </section>
   </main>
 
-  <!-- Signup Modal -->
-  <div id="signup-modal" class="modal" style="display:none; position:fixed; z-index:1000; left:0; top:0; width:100vw; height:100vh; background:rgba(0,0,0,0.5); align-items:center; justify-content:center;">
-    <div style="background:#fff; padding:2em; border-radius:8px; max-width:340px; width:100%; position:relative;">
-      <button id="close-signup-modal" style="position:absolute; right:1em; top:1em; background:none; border:none; font-size:1.2em; cursor:pointer;">&times;</button>
-      <h3 style="margin-bottom:1em; color:black">Join for free!</h3>
-      <form id="signupForm" style="display:flex; flex-direction:column; gap:1em;">
-        <input type="text" id="name" name="name" placeholder="Name" required>
-        <input type="email" id="email" name="email" placeholder="Email" required>
-        <input type="password" id="password" name="password" placeholder="Password" required>
-        <button type="submit">Sign Up</button>
-      </form>
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-inner">
+    <p class="footer-copy">
+      &copy; <span id="current-year"></span> Visual Portfolio. All rights reserved.</p>
     </div>
-  </div>
-
-  <!-- Login Modal -->
-  <div id="login-modal" class="modal" style="display:none; position:fixed; z-index:1000; left:0; top:0; width:100vw; height:100vh; background:rgba(0,0,0,0.5); align-items:center; justify-content:center;">
-    <div style="background:#fff; padding:2em; border-radius:8px; max-width:340px; width:100%; position:relative; text-align: center;">
-      <button id="close-login-modal" style="position:absolute; right:1em; top:1em; background:none; border:none; font-size:1.2em; cursor:pointer;"> &times;</button>
-      <h3 style="margin-bottom:1em; color: black;"> Welcome back! </h3>
-      <form id="loginForm" style="display:flex; flex-direction:column; gap:1em;">
-        <input type="email" id="login-email" name="email" placeholder="Email" required>
-        <input type="password" id="login-password" name="password" placeholder="Password" required>
-        <button type="submit">Log In</button>
-        <p style="margin-top:1em; font-size:0.9em; color: #000000;">
-          Don't have an account? <a href="#" id="open-signup">Sign Up</a>
-        </p>
-      </form>
-    </div>
-  </div>
-
-
+  </footer>
 
   <!-- Angular root (if you actually bootstrap Angular here) -->
   <app-root></app-root>
