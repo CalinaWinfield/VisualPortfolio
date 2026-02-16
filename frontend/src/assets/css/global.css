@@ -77,8 +77,8 @@ body.index-page {
 
 
       image-rendering: -webkit-optimize-contrast;
-    }
-    color: #ffffff;
+    
+    
 }
 
 
@@ -683,10 +683,11 @@ body.index-page #itemForm {
   padding: 15px;}
 }
 
-@media (prefers-reduced-motion: reduce)
+@media (prefers-reduced-motion: reduce) {
   body.index-page .cta-primary {
     transition: none;
   }
+}
 
 @media (max-width: 576px) {
   .nav-links { align-items: center; }
@@ -1010,4 +1011,14 @@ padding: .4rem .8rem;
   font-size: 0.85rem;
   opacity: 0.8;
   font-weight: 700;
+}
+
+/* Reset checkbox to native appearance */
+.form-check-input {
+  appearance: auto !important;
+  -webkit-appearance: auto !important;
+  width: 1rem;
+  height: 1rem;
+  border: 1px solid #6c757d;
+  background-color: #fff;
 }
