@@ -19,6 +19,6 @@ page header.html
 Erick Vale implemented variable color: var(--color-white); the file global.css and the corresponding
 page about.html
 
-Angelica Jones implemented variable font-family: var(--font-display); the file global.css and the corresponding
+Erick Vale implemented variable font-family: var(--font-display); the file global.css and the corresponding
 page about.html
 
