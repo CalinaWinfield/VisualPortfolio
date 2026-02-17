@@ -1,14 +1,18 @@
 // src/app/components/dashboard/dashboard.component.ts
 import { Component, OnInit } from '@angular/core';
-import { Location } from '@angular/common';
+import { CommonModule, Location } from '@angular/common';
+
 import { ItemService } from '../../services/item.service';
 import { Item } from '../../models/item.model';
 
 @Component({
+  standalone: true,
   selector: 'app-dashboard',
+  imports: [CommonModule],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']
 })
+
 export class DashboardComponent implements OnInit {
   currentYear = new Date().getFullYear();
 
@@ -23,7 +27,10 @@ export class DashboardComponent implements OnInit {
   loadingItems = false;
   itemsError?: string;
 
-  constructor(private location: Location, private itemService: ItemService) {}
+  constructor(
+    private location: Location,
+    private itemService: ItemService
+    ) {}
 
   ngOnInit(): void {
     this.loadItemsPreview();
@@ -39,6 +46,7 @@ export class DashboardComponent implements OnInit {
 
   loadItemsPreview(): void {
     this.loadingItems = true;
+
     this.itemService.getItems().subscribe({
       next: (data) => {
         // Show the latest 5 (change as you wish)

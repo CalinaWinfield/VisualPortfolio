@@ -1,15 +1,6 @@
-<header class="site-header">
-  <nav class="navbar">
-    <div class="logo">
-      <img src="assets/img/foxIcon.png" alt="Visual Portfolio Logo" style="height:28px"> VISUAL PORTFOLIO
-    </div>
-    <ul class="nav-links">
-      <li><a routerLink="/dashboard">Dashboard</a></li>
-      <li><a routerLink="/documents">Document Builder</a></li>
-      <li><a routerLink="/about">About</a></li>
-    </ul>
-  </nav>
-</header>
+<div style="background: red; color: white; padding: 20px;">
+  🔴 TEST — AM I THE RIGHT COMPONENT?
+</div>
 
 <div class="container-fluid" style="position:relative;">
   <div class="top-left-controls">
@@ -37,7 +28,7 @@
           <div class="col-lg-6 col-md-8 mb-4">
             <div class="p-4 border rounded bg-white shadow builder-card">
               <h4 class="mb-3 docTitle">Document Builder:</h4>
-              <div id="right" class="drag-container" (drop)="drop($event, $event.target)" (dragover)="allowDrop($event)">
+              <div id="right" class="drag-container" (drop)="drop($event)" (dragover)="allowDrop($event)">
                 <p class="text-muted">Drag list items here</p>
               </div>
               <button class="btn formatbtn mt-3" (click)="format()">

@@ -1,89 +1,95 @@
 import { Component, OnInit } from '@angular/core';
-import { Location } from '@angular/common';
+import { CommonModule, Location } from '@angular/common';
+import { RouterModule } from '@angular/router';
 import { ItemService } from '../../services/item.service';
 
 @Component({
+  standalone: true,
   selector: 'app-document',
+  imports: [CommonModule, RouterModule],
   templateUrl: './document.component.html',
   styleUrls: ['./document.component.css']
 })
 export class DocumentComponent implements OnInit {
   items: any[] = [];
-  droppedHtml = '';
+  currentYear = new Date().getFullYear();
 
-  constructor(private itemService: ItemService, private location: Location) { }
-  goBack(): void {
-    this.location.back();
-  }
+  constructor(
+    private itemService: ItemService,
+    private location: Location
+  ) {}
 
   ngOnInit(): void {
     this.loadItems();
   }
 
-  async loadItems() {
+  goBack(): void {
+    this.location.back();
+  }
+
+  async loadItems(): Promise<void> {
     const sessionUserEmail = sessionStorage.getItem('userEmail');
-    if (!sessionUserEmail) {
-      console.warn('No user email in sessionStorage');
-      return;
-    }
+    if (!sessionUserEmail) return;
 
     try {
-      const items: any = await this.itemService.getItems().toPromise();
-      this.items = items.filter((i: any) => i.userEmail === sessionUserEmail);
+      // toPromise() can return undefined → guard it
+      const items = await this.itemService.getItems().toPromise();
+      const safeItems = items ?? [];
+
+      this.items = safeItems.filter(
+        i => i.userEmail === sessionUserEmail
+      );
     } catch (err) {
       console.error('Error loading items', err);
     }
   }
 
-  deleteItem(itemId: string) {
+  deleteItem(itemId: string): void {
     if (!confirm('Are you sure you want to delete this item?')) return;
+
     this.itemService.deleteItem(itemId).subscribe({
-      next: () => {
-        alert('Item deleted successfully!');
-        this.loadItems();
-      },
-      error: (err: any) => {
-        console.error('Delete failed', err);
-        alert('Failed to delete item.');
-      }
+      next: () => this.loadItems(),
+      error: () => alert('Failed to delete item.')
     });
   }
 
-  addDragEvents(el: HTMLElement, id: string) {
-    el.setAttribute('draggable', 'true');
-    el.addEventListener('dragstart', (e: DragEvent) => {
-      e.dataTransfer?.setData('text/plain', id);
-      setTimeout(() => el.classList.add('dragging'), 0);
-    });
-    el.addEventListener('dragend', () => el.classList.remove('dragging'));
-  }
-
-  allowDrop(e: DragEvent) {
+  allowDrop(e: DragEvent): void {
     e.preventDefault();
   }
 
-  drop(e: DragEvent, target: HTMLElement) {
+  drop(e: DragEvent): void {
     e.preventDefault();
+
+    const target = e.currentTarget as HTMLElement | null;
+    if (!target) return;
+
     const id = e.dataTransfer?.getData('text/plain');
     if (!id) return;
+
     const dragged = document.getElementById(id);
-    if (dragged) {
-      target.appendChild(dragged);
-      dragged.classList.remove('dragging');
-    }
+    if (!dragged) return; // ⬅ fixes null + Node error
+
+    target.appendChild(dragged);
+    dragged.classList.remove('dragging');
   }
 
-  format() {
+  format(): void {
     const right = document.getElementById('right');
     if (!right) return;
 
-    const lists = Array.from(right.querySelectorAll('.list')) as HTMLElement[];
+    const lists = Array.from(
+      right.querySelectorAll('.list')
+    ) as HTMLElement[];
+
     let output = '<div class="resume-output">';
+
     lists.forEach(l => {
-      const title = l.dataset['title'];
-      const description = l.dataset['description'];
+      const title = l.dataset['title'] ?? '';
+      const description = l.dataset['description'] ?? '';
+
       output += `<h5>${title}</h5><p>${description}</p>`;
     });
+
     output += '</div>';
     right.innerHTML = output;
   }

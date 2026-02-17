@@ -1,50 +1,140 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Visual Portfolio</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Visual Portfolio — Sign In (Demo)</title>
 
-  <!-- Favicon + CSS/Bootstrap -->
+  <!-- Favicon -->
   <link rel="icon" type="image/x-icon" href="assets/img/foxIcon1.png">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-  <link rel="stylesheet" href="/frontend/src/assets/css/global.css">
-</head>
 
+  <!-- Google font (optional) -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <style>
+    :root {
+      --brand: #0d6efd;
+      --muted: #6c757d;
+      --accent-bg: #eef5ff;
+      --accent-border: #cfe3ff;
+    }
+
+    body.index-page {
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background: #fafafa;
+    }
+
+    .site-header { padding: 0.75rem 0; }
+    .logo-img { width: 40px; height: 40px; object-fit: contain; margin-right: .5rem; }
+    .logo-text { font-weight: 700; letter-spacing: .2px; }
+
+    .hero-split {
+      display: flex;
+      gap: 2rem;
+      align-items: center;
+      justify-content: center;
+      padding: 4rem 1rem;
+      flex-wrap: wrap;
+    }
+
+    .hero-left { flex: 1 1 420px; max-width: 720px; }
+    .hero-right { flex: 0 1 360px; min-width: 300px; }
+
+    .hero-title { font-size: 2.25rem; line-height: 1.05; margin-bottom: 1rem; font-family: "Playfair Display", serif; }
+    .hero-subtitle { color: var(--muted); margin-bottom: 1.25rem; }
+
+    .login-card {
+      background: #fff;
+      border-radius: .5rem;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+      padding: 1.25rem;
+    }
+
+    .otp-code { font-family: monospace; font-size: 1.25rem; letter-spacing: .25rem; }
+
+    .footer { margin-top: auto; padding: 1rem 0; background: transparent; }
+    .footer-copy { color: var(--muted); margin: 0; text-align: center; }
+
+    /* Remember me emphasis styles */
+    .remember-container {
+      display: flex;
+      align-items: center;
+      gap: .75rem;
+      padding: .5rem;
+      border-radius: .5rem;
+      background: var(--accent-bg);
+      border: 1px solid var(--accent-border);
+      box-shadow: 0 2px 6px rgba(13,110,253,0.06);
+      margin-top: .5rem;
+      width: max-content;
+    }
+
+    /* Larger, clearer checkbox / switch */
+    .remember-container .form-check-input {
+      transform: scale(1.25);
+      margin-top: 0;
+      margin-left: 0;
+      margin-right: .5rem;
+      width: 1.25rem;
+      height: 1.25rem;
+      box-shadow: none;
+    }
+
+    /* Make label bold and high-contrast */
+    .remember-container .form-check-label {
+      font-weight: 600;
+      color: #0b3d91;
+      margin: 0;
+    }
+
+    /* Optional: when using the switch variant, make the switch more visible */
+    .form-switch .form-check-input {
+      width: 2.4rem;
+      height: 1.2rem;
+      transform: none;
+    }
+
+    /* Small helpers */
+    .small-muted { font-size: .9rem; color: var(--muted); }
+    .d-none-important { display: none !important; }
+  </style>
+</head>
 <body class="index-page">
+
   <!-- Header -->
   <header class="site-header">
-    <nav class="navbar navbar-expand-lg navbar-dark bg-pink">
+    <nav class="navbar navbar-expand-lg navbar-light bg-transparent">
       <div class="container-fluid">
-        <!-- Logo -->
         <a class="navbar-brand d-flex align-items-center" href="#">
-          <img src="assets/img/foxIcon1.png" alt="Visual Portfolio Logo" style="height:28px; margin-right:10px;">
-          VISUAL PORTFOLIO
+          <img src="assets/img/foxIcon1.png" alt="Visual Portfolio Logo" class="logo-img" width="40" height="40">
+          <span class="logo-text">Visual Portfolio</span>
         </a>
 
-        <!-- Hamburger toggler -->
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
-        
-        <!-- Nav Links -->
-        <div class="collapse navbar-collapse justify-content-end text-center" id="navbarNav">
-          <ul class="navbar-nav">
+
+        <div class="collapse navbar-collapse text-center" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
             <li class="nav-item">
               <a class="nav-link" href="#" id="open-login">Log In</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/frontend/src/app/components/about-noLogin.html" data-page="about.html">About</a>
+              <a class="nav-link" href="components/about-noLogin.html">About</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/frontend/src/app/components/guide-noLogin.html" data-page="guide.html">Guide</a>
+              <a class="nav-link" href="components/guide-noLogin.html">Guide</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/frontend/src/app/components/FAQ-unregistered.html" data-page="Dashboard.html">FAQ</a>
+              <a class="nav-link" href="components/FAQ-unregistered.html">FAQ</a>
             </li>
-            
-            
           </ul>
         </div>
       </div>
@@ -53,120 +143,396 @@
 
   <!-- Main Content -->
   <main>
-    <!-- Hero Section -->
-    <section class="hero">
-      <h2>Work Smarter, Feel Effortless</h2>
-      <p>Simplify Document Management with the Visual Portfolio App.</p>
-      <img src="../src/assets/img/folder-svgrepo-com.svg" alt="Hero Image" style="max-width: 300px; margin: 20px 0;">
+    <section class="hero-split container">
+      <div class="hero-left">
+        <h1 class="hero-title">
+          <span>An <em>easier</em> way to</span><br>
+          <span>manage your work.</span>
+        </h1>
+
+        <p class="hero-subtitle">
+          Create a single, structured record of your academic and professional work then reuse it wherever it’s needed.
+        </p>
+
+        <div class="hero-actions">
+          <button id="cta-get-started" class="btn btn-primary">Get Started</button>
+        </div>
+      </div>
+
+      <div class="hero-right">
+        <div class="login-card">
+          <h3 class="mb-3">Sign in</h3>
+
+          <form id="inlineLoginForm" novalidate>
+            <div class="mb-3">
+              <label for="inlineEmail" class="form-label">Email</label>
+              <input id="inlineEmail" type="email" class="form-control" placeholder="you@example.com" required>
+            </div>
+
+            <div class="mb-3">
+              <label for="inlinePassword" class="form-label">Password</label>
+              <input id="inlinePassword" type="password" class="form-control" placeholder="••••••••" required>
+            </div>
+
+            <div class="d-flex justify-content-between align-items-center">
+              <div>
+                <button id="inlineSignIn" type="submit" class="btn btn-primary">Log in</button>
+              </div>
+              <div class="small-muted">No backend required — demo only</div>
+            </div>
+          </form>
+        </div>
+      </div>
     </section>
   </main>
 
-  <!-- Signup Modal -->
-  <div id="signup-modal" class="modal" style="display:none; position:fixed; z-index:1000; left:0; top:0; width:100vw; height:100vh; background:rgba(0,0,0,0.5); align-items:center; justify-content:center;">
-    <div style="background:#fff; padding:2em; border-radius:8px; max-width:340px; width:100%; position:relative;">
-      <button id="close-signup-modal" style="position:absolute; right:1em; top:1em; background:none; border:none; font-size:1.2em; cursor:pointer;">&times;</button>
-      <h3 style="margin-bottom:1em; color:black">Join for free!</h3>
-      <form id="signupForm" style="display:flex; flex-direction:column; gap:1em;">
-        <input type="text" id="name" name="name" placeholder="Name" required>
-        <input type="email" id="email" name="email" placeholder="Email" required>
-        <input type="password" id="password" name="password" placeholder="Password" required>
-        <button type="submit">Sign Up</button>
-      </form>
-    </div>
-  </div>
-
-  <!-- Login Modal -->
-  <div id="login-modal" class="modal" style="display:none; position:fixed; z-index:1000; left:0; top:0; width:100vw; height:100vh; background:rgba(0,0,0,0.5); align-items:center; justify-content:center;">
-    <div style="background:#fff; padding:2em; border-radius:8px; max-width:340px; width:100%; position:relative; text-align: center;">
-      <button id="close-login-modal" style="position:absolute; right:1em; top:1em; background:none; border:none; font-size:1.2em; cursor:pointer;"> &times;</button>
-      <h3 style="margin-bottom:1em; color: black;"> Welcome back! </h3>
-      <form id="loginForm" style="display:flex; flex-direction:column; gap:1em;">
-        <input type="email" id="login-email" name="email" placeholder="Email" required>
-        <input type="password" id="login-password" name="password" placeholder="Password" required>
-        <button type="submit">Log In</button>
-        <p style="margin-top:1em; font-size:0.9em; color: #000000;">
-          Don't have an account? <a href="#" id="open-signup">Sign Up</a>
-        </p>
-      </form>
-    </div>
-  </div>
-
   <!-- Footer -->
   <footer class="footer">
-    <div class="container">
-      <p>&copy; <span id="current-year"></span> Visual Portfolio. All rights reserved.</p>
+    <div class="footer-inner container">
+      <p class="footer-copy">&copy; <span id="current-year"></span> Visual Portfolio. All rights reserved.</p>
     </div>
   </footer>
 
-  <!-- Angular root (if you actually bootstrap Angular here) -->
-  <app-root></app-root>
+  <!-- Bootstrap Login Modal (full-featured) -->
+  <div class="modal fade" id="loginModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <form id="loginForm" class="p-0" novalidate>
+          <div class="modal-header">
+            <h5 class="modal-title">Sign in</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+
+          <div class="modal-body">
+            <div class="mb-3">
+              <label for="loginEmail" class="form-label">Email</label>
+              <input id="loginEmail" type="email" class="form-control" required placeholder="you@example.com">
+            </div>
+
+            <div class="mb-3">
+              <label for="loginPassword" class="form-label">Password</label>
+              <input id="loginPassword" type="password" class="form-control" required placeholder="Password">
+            </div>
+
+            <!-- Emphasized Remember me -->
+            <div class="remember-container" role="group" aria-label="Remember me option">
+              <!-- Use a visible checkbox; you can switch to .form-switch if you prefer a toggle -->
+              <div class="form-check">
+                <input id="rememberMe" class="form-check-input" type="checkbox" />
+              </div>
+              <label class="form-check-label" for="rememberMe">Remember me on this device</label>
+            </div>
+
+            <div id="loginError" class="text-danger small d-none mt-2"></div>
+          </div>
+
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-primary">Sign in</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- MFA Modal -->
+  <div class="modal fade" id="mfaModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <form id="mfaForm" class="p-0" novalidate>
+          <div class="modal-header">
+            <h5 class="modal-title">Multifactor Authentication</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+
+          <div class="modal-body">
+            <p class="small-muted">Enter the 6-digit code sent to your device.</p>
+
+            <div class="mb-3">
+              <label for="otpInput" class="form-label">Authentication code</label>
+              <input id="otpInput" type="text" inputmode="numeric" pattern="\d{6}" maxlength="6" class="form-control" placeholder="123456" required>
+            </div>
+
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <div><span id="otpTimer" class="small-muted">01:00</span></div>
+              <div><button id="resendBtn" type="button" class="btn btn-link p-0">Resend</button></div>
+            </div>
+
+            <div id="mfaInfo" class="mb-2 small-muted"></div>
+
+            <!-- Visible only for testing; remove in production -->
+            <div id="debugOtp" class="mb-2">
+              <div class="small-muted">Test OTP</div>
+              <div class="otp-code" id="visibleOtp">------</div>
+            </div>
+
+            <div id="mfaError" class="text-danger small d-none"></div>
+          </div>
+
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-primary">Verify</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Success Toast -->
+  <div id="successToastContainer" class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index:1080;">
+    <div id="successToastInner" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+      <div class="toast-header">
+        <strong class="me-auto">Status</strong>
+        <small class="text-muted">now</small>
+        <button type="button" class="btn-close ms-2 mb-1" data-bs-dismiss="toast" aria-label="Close"></button>
+      </div>
+      <div class="toast-body">Signed in successfully</div>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS bundle -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
   <script>
-    // Set current year in footer
+    // Safe DOM helpers and initialization
     document.getElementById('current-year').textContent = new Date().getFullYear();
 
-    const signupModal    = document.getElementById('signup-modal');
-    const loginModal     = document.getElementById('login-modal');
+    (function () {
+      // Elements
+      const openLoginBtn = document.getElementById('open-login');
+      const ctaGetStarted = document.getElementById('cta-get-started');
 
-    const openSignupLink = document.getElementById('open-signup');   // inside login form
-    const openLoginBtn   = document.getElementById('open-login');    // navbar "Log In" link
+      const inlineLoginForm = document.getElementById('inlineLoginForm');
+      const inlineEmail = document.getElementById('inlineEmail');
+      const inlinePassword = document.getElementById('inlinePassword');
 
-    const closeSignupBtn = document.getElementById('close-signup-modal');
-    const closeLoginBtn  = document.getElementById('close-login-modal');
+      const loginModalEl = document.getElementById('loginModal');
+      const mfaModalEl = document.getElementById('mfaModal');
+      const successToastInner = document.getElementById('successToastInner');
 
-    // Open LOGIN from navbar
-    openLoginBtn && openLoginBtn.addEventListener('click', function (e) {
-      e.preventDefault();
-      signupModal.style.display = 'none';
-      loginModal.style.display = 'flex';
-    });
+      const loginForm = document.getElementById('loginForm');
+      const loginEmail = document.getElementById('loginEmail');
+      const loginPassword = document.getElementById('loginPassword');
+      const rememberMe = document.getElementById('rememberMe');
+      const loginError = document.getElementById('loginError');
 
-    // Open SIGNUP from inside the login form
-    openSignupLink && openSignupLink.addEventListener('click', function (e) {
-      e.preventDefault();
-      // hide login, show signup
-      loginModal.style.display = 'none';
-      signupModal.style.display = 'flex';
-    });
+      const mfaForm = document.getElementById('mfaForm');
+      const otpInput = document.getElementById('otpInput');
+      const otpTimer = document.getElementById('otpTimer');
+      const resendBtn = document.getElementById('resendBtn');
+      const visibleOtp = document.getElementById('visibleOtp');
+      const mfaInfo = document.getElementById('mfaInfo');
+      const mfaError = document.getElementById('mfaError');
 
-    // Close buttons (X)
-    closeSignupBtn && closeSignupBtn.addEventListener('click', function () {
-      signupModal.style.display = 'none';
-    });
+      // Bootstrap instances (guarded)
+      const loginModal = loginModalEl ? new bootstrap.Modal(loginModalEl) : null;
+      const mfaModal = mfaModalEl ? new bootstrap.Modal(mfaModalEl) : null;
 
-    closeLoginBtn && closeLoginBtn.addEventListener('click', function () {
-      loginModal.style.display = 'none';
-    });
+      // Simulation state
+      let currentOtp = null;
+      let otpExpiresAt = 0;
+      let resendCount = 0;
+      const RESEND_LIMIT = 3;
+      const OTP_TTL_SECONDS = 60;
+      let otpIntervalId = null;
 
-    // One shared outside-click handler for BOTH modals
-    window.addEventListener('click', function (event) {
-      if (event.target === signupModal) {
-        signupModal.style.display = 'none';
+      // Utilities
+      function generateOtp() {
+        return String(Math.floor(100000 + Math.random() * 900000));
       }
-      if (event.target === loginModal) {
-        loginModal.style.display = 'none';
+
+      function updateTimerDisplay() {
+        if (!otpTimer) return;
+        const remaining = Math.max(0, Math.floor((otpExpiresAt - Date.now()) / 1000));
+        const mm = String(Math.floor(remaining / 60)).padStart(2, '0');
+        const ss = String(remaining % 60).padStart(2, '0');
+        otpTimer.textContent = `${mm}:${ss}`;
+        if (remaining <= 0 && otpIntervalId) {
+          clearInterval(otpIntervalId);
+          otpIntervalId = null;
+        }
       }
-    });
 
-    // Page Changing + Active Nav JS
-          document.addEventListener("DOMContentLoaded", function () {
-            const links = document.querySelectorAll(".nav-link");
-            const contentArea = document.getElementById("content-area");
+      function startOtpCountdown() {
+        if (otpIntervalId) clearInterval(otpIntervalId);
+        updateTimerDisplay();
+        otpIntervalId = setInterval(updateTimerDisplay, 500);
+      }
 
-            // 🔹 Highlight the active nav item based on current URL
-            const path = window.location.pathname.toLowerCase();
-            links.forEach((link) => {
-              const href = link.getAttribute("href");
-              if (!href) return;
-              const normalizedHref = href.toLowerCase();
-              if (path.endsWith(normalizedHref)) {
-                link.classList.add("active-nav");
-              }
-            });
-          });
+      function showElement(el) { if (el) el.classList.remove('d-none'); }
+      function hideElement(el) { if (el) el.classList.add('d-none'); }
+
+      function showSuccessToast(message = 'Signed in successfully') {
+        if (!successToastInner) {
+          console.log('Success:', message);
+          return;
+        }
+        successToastInner.querySelector('.toast-body').textContent = message;
+        const bsToast = new bootstrap.Toast(successToastInner, { delay: 3000 });
+        bsToast.show();
+      }
+
+      function startOtpFlow(email) {
+        currentOtp = generateOtp();
+        otpExpiresAt = Date.now() + OTP_TTL_SECONDS * 1000;
+        resendCount = 0;
+        if (visibleOtp) visibleOtp.textContent = currentOtp; // debug only
+        if (mfaInfo) mfaInfo.textContent = `A code was sent to ${email}.`;
+        hideElement(mfaError);
+        startOtpCountdown();
+        if (mfaModal) mfaModal.show();
+      }
+
+      function canResend() { return resendCount < RESEND_LIMIT; }
+
+      function resendOtp(email) {
+        if (!canResend()) {
+          if (mfaError) {
+            mfaError.textContent = 'Resend limit reached. Please restart sign-in.';
+            showElement(mfaError);
+          }
+          return;
+        }
+        resendCount++;
+        currentOtp = generateOtp();
+        otpExpiresAt = Date.now() + OTP_TTL_SECONDS * 1000;
+        if (visibleOtp) visibleOtp.textContent = currentOtp; // debug only
+        if (mfaInfo) mfaInfo.textContent = `A new code was sent to ${email}. Resends left: ${RESEND_LIMIT - resendCount}`;
+        hideElement(mfaError);
+        startOtpCountdown();
+      }
+
+      function completeSignIn(email) {
+        const token = 'fake-session-' + Math.random().toString(36).slice(2);
+        if (rememberMe && rememberMe.checked) {
+          localStorage.setItem('sessionToken', token);
+          localStorage.setItem('sessionEmail', email);
+        } else {
+          sessionStorage.setItem('sessionToken', token);
+          sessionStorage.setItem('sessionEmail', email);
+        }
+        if (mfaModal) mfaModal.hide();
+        if (loginModal) loginModal.hide();
+        showSuccessToast('Signed in successfully');
+        console.log('Signed in (demo):', email, token);
+      }
+
+      // Event wiring
+      if (openLoginBtn && loginModal) {
+        openLoginBtn.addEventListener('click', function (e) {
+          e.preventDefault();
+          loginModal.show();
+        });
+      }
+
+      if (ctaGetStarted && openLoginBtn && loginModal) {
+        ctaGetStarted.addEventListener('click', function () {
+          loginModal.show();
+        });
+      }
+
+      // Inline card form (top-right quick login) — reuse same flow
+      if (inlineLoginForm) {
+        inlineLoginForm.addEventListener('submit', function (e) {
+          e.preventDefault();
+          const email = inlineEmail.value.trim();
+          const password = inlinePassword.value;
+          if (!email || !password) {
+            alert('Please enter email and password.');
+            return;
+          }
+          // Open modal-based flow for MFA
+          if (loginEmail) loginEmail.value = email;
+          if (loginPassword) loginPassword.value = password;
+          if (loginModal) loginModal.show();
+        });
+      }
+
+      // Full modal login form
+      if (loginForm) {
+        loginForm.addEventListener('submit', function (e) {
+          e.preventDefault();
+          const email = loginEmail.value.trim();
+          const password = loginPassword.value;
+          if (!email || !password) {
+            if (loginError) {
+              loginError.textContent = 'Please enter email and password.';
+              loginError.classList.remove('d-none');
+            }
+            return;
+          }
+          if (!/^\S+@\S+\.\S+$/.test(email)) {
+            if (loginError) {
+              loginError.textContent = 'Please enter a valid email address.';
+              loginError.classList.remove('d-none');
+            }
+            return;
+          }
+          if (loginError) loginError.classList.add('d-none');
+
+          // Start MFA flow (demo)
+          startOtpFlow(email);
+        });
+      }
+
+      if (resendBtn) {
+        resendBtn.addEventListener('click', function () {
+          const email = (loginEmail && loginEmail.value) ? loginEmail.value.trim() : '';
+          if (!email) {
+            if (mfaError) {
+              mfaError.textContent = 'Email missing. Please restart sign-in.';
+              mfaError.classList.remove('d-none');
+            }
+            return;
+          }
+          resendOtp(email);
+        });
+      }
+
+      if (mfaForm) {
+        mfaForm.addEventListener('submit', function (e) {
+          e.preventDefault();
+          const code = otpInput.value.trim();
+          if (!code || code.length !== 6) {
+            if (mfaError) {
+              mfaError.textContent = 'Enter the 6-digit code.';
+              mfaError.classList.remove('d-none');
+            }
+            return;
+          }
+          if (Date.now() > otpExpiresAt) {
+            if (mfaError) {
+              mfaError.textContent = 'Code expired. Please resend.';
+              mfaError.classList.remove('d-none');
+            }
+            return;
+          }
+          if (code !== currentOtp) {
+            if (mfaError) {
+              mfaError.textContent = 'Incorrect code. Try again.';
+              mfaError.classList.remove('d-none');
+            }
+            return;
+          }
+          // Success
+          const email = (loginEmail && loginEmail.value) ? loginEmail.value.trim() : 'unknown@example.com';
+          completeSignIn(email);
+        });
+      }
+
+      // Auto sign-in check (demo)
+      document.addEventListener('DOMContentLoaded', function () {
+        const existing = localStorage.getItem('sessionToken') || sessionStorage.getItem('sessionToken');
+        const email = localStorage.getItem('sessionEmail') || sessionStorage.getItem('sessionEmail');
+        if (existing && email) {
+          console.log('Auto-signed in (demo) as', email);
+          // Optionally show a UI state for signed-in user here
+        }
+      });
+
+      // Clean up intervals on page unload
+      window.addEventListener('beforeunload', function () {
+        if (otpIntervalId) clearInterval(otpIntervalId);
+      });
+    })();
   </script>
-
-  <script src="assets/js/signup.js"></script>
-  <script src="assets/js/login.js"></script>
 </body>
 </html>

@@ -1,14 +1,17 @@
 import { Component } from '@angular/core';
-import { Location } from '@angular/common';
+import { CommonModule, Location } from '@angular/common';
 
 @Component({
+  standalone: true,
   selector: 'app-about',
+  imports: [CommonModule],
   templateUrl: './about.component.html',
   styleUrls: ['./about.component.css']
 })
+
 export class AboutComponent {
-  constructor(private location: Location) {}
   currentYear: number = new Date().getFullYear();
+
   teamMembers = [
     { name: 'Angelica Jones', role: 'UX/UI Design & Project Manager' },
     { name: 'Sebastian Londono', role: 'Data Modeler & Documentation' },
@@ -20,7 +23,7 @@ export class AboutComponent {
     'Database: MongoDB'
   ];
   client = 'Dr. Anca Doloc-Mihu';
-
+  constructor(private location: Location) {}
   goBack(): void {
     // Navigate back to the previous page in history. Falls back to root if no history.
     this.location.back();

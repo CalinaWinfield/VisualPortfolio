@@ -1,10 +1,14 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { Router, RouterModule } from '@angular/router';
+
 import { AuthService } from '../auth.service';
 
 @Component({
+  standalone: true,
   selector: 'app-signup',
+  imports: [CommonModule, ReactiveFormsModule, RouterModule],
   templateUrl: './signup.component.html'
 })
 export class SignupComponent {
@@ -23,9 +27,11 @@ export class SignupComponent {
     });
   }
 
-  onSubmit() {
+  onSubmit(): void {
     if (this.form.invalid) return;
+
     this.loading = true;
+
     this.auth.signup(this.form.value).subscribe({
       next: (res: any) => {
         localStorage.setItem('token', res.token);
@@ -33,7 +39,7 @@ export class SignupComponent {
       },
       error: (err: any) => {
         this.loading = false;
-        alert(err.error?.error || 'Signup failed');
+        alert(err?.error?.error || 'Signup failed');
       }
     });
   }

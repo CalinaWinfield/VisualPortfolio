@@ -7,6 +7,9 @@ import { RouterModule } from '@angular/router';
   standalone: true,
   imports: [CommonModule, RouterModule],
   template: `
+  <div style="background: red; color: white; padding: 20px;">
+    🔴 TEST — AM I THE RIGHT COMPONENT?
+  </div>
   <header class="site-header navbar navbar-piped">
     <div class="navbar">
       <div class="logo">
@@ -28,9 +31,6 @@ import { RouterModule } from '@angular/router';
     <button class="cta-button">Sign Up For Free</button>
   </main>
 
-  <footer class="footer">
-    <p>&copy; Visual Portfolio. All rights reserved.</p>
-  </footer>
 `,
   styles: [`
     :host {

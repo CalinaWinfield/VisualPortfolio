@@ -1,8 +1,16 @@
 // src/app/app.component.ts
 import { Component } from '@angular/core';
+import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-root',
+  imports: [
+    CommonModule,
+    RouterOutlet,
+    RouterLink,
+    RouterLinkActive
+    ],
   template: `
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
       <div class="container">

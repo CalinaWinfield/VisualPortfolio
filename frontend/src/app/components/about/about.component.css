@@ -51,7 +51,7 @@ main ul li span {
   main {
     padding: 1rem;
   }
-  
+
   .Dashboard-Title {
     font-size: calc(var(--fs-h1) * 0.9);
   }
