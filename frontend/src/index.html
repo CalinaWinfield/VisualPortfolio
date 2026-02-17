@@ -115,30 +115,30 @@
           <img src="assets/img/foxIcon1.png" alt="Visual Portfolio Logo" class="logo-img" width="40" height="40">
           <span class="logo-text">Visual Portfolio</span>
         </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
 
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
+    <div class="collapse navbar-collapse text-center" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="#" id="open-login">Log In</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#about">About</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="components/guide-noLogin.html">Guide</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="components/FAQ-unregistered.html">FAQ</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
 
-        <div class="collapse navbar-collapse text-center" id="navbarNav">
-          <ul class="navbar-nav ms-auto">
-            <li class="nav-item">
-              <a class="nav-link" href="#" id="open-login">Log In</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="components/about-noLogin.html">About</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="components/guide-noLogin.html">Guide</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="components/FAQ-unregistered.html">FAQ</a>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </nav>
   </header>
 
   <!-- Main Content -->
@@ -150,40 +150,77 @@
           <span>manage your work.</span>
         </h1>
 
-        <p class="hero-subtitle">
-          Create a single, structured record of your academic and professional work then reuse it wherever it’s needed.
-        </p>
+           <p class="hero-subtitle">
+      Create a single, structured record of your academic and professional work then reuse it wherever it’s needed.
+    </p>
 
-        <div class="hero-actions">
-          <button id="cta-get-started" class="btn btn-primary">Get Started</button>
+    <div class="hero-actions">
+      <button id="cta-get-started" class="btn btn-primary">Get Started</button>
+    </div>
+  </div>
+
+  <div class="hero-right">
+    <div class="login-card">
+      <h3 class="mb-3">Sign in</h3>
+
+      <form id="inlineLoginForm" novalidate>
+        <div class="mb-3">
+          <label for="inlineEmail" class="form-label">Email</label>
+          <input id="inlineEmail" type="email" class="form-control" placeholder="you@example.com" required>
         </div>
+
+        <div class="mb-3">
+          <label for="inlinePassword" class="form-label">Password</label>
+          <input id="inlinePassword" type="password" class="form-control" placeholder="••••••••" required>
+        </div>
+
+        <div class="d-flex justify-content-between align-items-center">
+          <div>
+            <button id="inlineSignIn" type="submit" class="btn btn-primary">Log in</button>
+          </div>
+          <div class="small-muted">No backend required — demo only</div>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- About section (inserted) -->
+<section id="about" class="about-page container" aria-labelledby="about-title">
+  <div style="padding:2.5rem 1rem;">
+    <h1 id="about-title" class="hero-title">About Visual Portfolio</h1>
+    <p class="hero-subtitle">Visual Portfolio helps you create, organize, and reuse a structured record of your academic and professional work.</p>
+
+    <div class="about-grid" style="display:grid;gap:1rem;grid-template-columns:1fr;">
+      <div class="about-card">
+        <h3>Our mission</h3>
+        <p>Make it simple to collect and present your credentials with an elegant, reusable interface.</p>
       </div>
 
-      <div class="hero-right">
-        <div class="login-card">
-          <h3 class="mb-3">Sign in</h3>
+      <div class="about-card">
+        <h3>How it works</h3>
+        <p>Create items, save artifacts, and export or share structured work records with ease.</p>
+      </div>
 
-          <form id="inlineLoginForm" novalidate>
-            <div class="mb-3">
-              <label for="inlineEmail" class="form-label">Email</label>
-              <input id="inlineEmail" type="email" class="form-control" placeholder="you@example.com" required>
-            </div>
+      <div class="about-card">
+        <h3>Team &amp; Tech</h3>
+        <ul class="small-muted" style="margin:0;padding-left:1.1rem;">
+          <li>Whitney Branch: UI/UX Design / Client Liason &amp; PM</li>
+          <li>Calina Winfield — Data Modeler</li>
+          <li>Aaron Matthews— Programmer / Code Architecture Lead</li>
+          <li>Erick Vale — Testing Lead / Project Manager</li>
+          <li>Tech: Angular, MongoDB, Bootstrap</li>
+        </ul>
 
-            <div class="mb-3">
-              <label for="inlinePassword" class="form-label">Password</label>
-              <input id="inlinePassword" type="password" class="form-control" placeholder="••••••••" required>
-            </div>
-
-            <div class="d-flex justify-content-between align-items-center">
-              <div>
-                <button id="inlineSignIn" type="submit" class="btn btn-primary">Log in</button>
-              </div>
-              <div class="small-muted">No backend required — demo only</div>
-            </div>
-          </form>
+        <div style="margin-top:0.75rem;display:flex;gap:.6rem;flex-wrap:wrap;">
+          <a class="btn cta-primary" href="index.html" style="text-decoration:none;">Return Home</a>
+          <a class="btn btn-outline-light" href="https://github.com/GGC-SD/VisPortfolio" target="_blank" rel="noopener noreferrer">Repository</a>
         </div>
       </div>
-    </section>
+    </div>
+  </div>
+</section>
+
   </main>
 
   <!-- Footer -->
@@ -287,6 +324,7 @@
       <div class="toast-body">Signed in successfully</div>
     </div>
   </div>
+
 
   <!-- Bootstrap JS bundle -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
@@ -534,5 +572,8 @@
       });
     })();
   </script>
+
+  
+
 </body>
 </html>
