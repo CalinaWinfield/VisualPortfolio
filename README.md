@@ -64,7 +64,6 @@ The EasyFolio App is a web tool that will help faculty keep, organize, and share
 * **Angelica Jones** 1. UX/UI Design 👾 2. Project Manager 👩🏽‍💻
 * <img width="176" height="239" alt="image" src="https://github.com/user-attachments/assets/9d4254d4-042f-4dd2-832d-cd6cefcf523b" />
 
-
 * **Sebastian Londono** 1. Data Modeler 📊 2. Documentation 📑
 * <img width="98" height="133" alt="image" src="https://github.com/user-attachments/assets/8dd1d025-25b9-4efc-8723-b6b94bfea3e8" />
 
@@ -73,6 +72,17 @@ The EasyFolio App is a web tool that will help faculty keep, organize, and share
 
 * **Jordan Laudun** 1. Testing Lead 🛠 2. Client Liaison 💼
 * <img width="131" height="174" alt="image" src="https://github.com/user-attachments/assets/e517033c-8207-4fe0-b2f9-5b4de2591c5a" />
+
+
+#### Spring 2026 - Pixel Improve
+* **Calina Winfield** 1. Data Modeler 📊 2. Documentation Lead 📑 
+* <img width="133" height="200" alt="image" src="https://github.com/user-attachments/assets/8e304b64-032f-4b3e-8bf8-867a8104fb78" />
+* **Aaron Matthews** 1. Code Architecture/Lead Programmer 💻  2. Programmer 💻
+* <img width="133" height="200" alt="image" src="https://piazza.com/redirect/s3?bucket=uploads&prefix=paste%2Fme7mcvitgu96va%2F12420e7ec619feccc2e9232386e87cbd231eda3210c7930d5fceff1b29d98e23%2FImage.jpg" />
+* **Erick Vale** 1. Testing Lead 🛠 2. Project Manager 👩🏽‍💻 
+* <img width="133" height="200" alt="image" src="https://github.com/evale92/practical-python/blob/main/selfie.jpg?raw=true" />
+* **Whitney Branch** 1. UI/UX Designer 🛠 2. Programmer 💻
+* <img width="133" height="200" alt="image" src="https://github.com/WBranch98/Whitney.Branch/blob/main/IMG_5918.jpeg?raw=true" />
 
 ## Flyer
 <img width="640" height="799" alt="flyer" src="https://github.com/user-attachments/assets/467d7988-e5a2-4688-80d7-1ec5e228f315" />

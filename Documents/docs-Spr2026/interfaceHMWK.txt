@@ -1,0 +1,24 @@
+Whitney Branch implemented variable transform: var(--logo-hover-transform);in the
+file global.css and the corresponding page index.html
+
+Whitney Branch implemented variable   transition: transform var(--transition-logo), filter var(--transition-logo); in the
+file global.css and the corresponding page index.html
+
+Calina Winfield implemented variable var(--color-white); in the file
+global.css and the corresponding page home.html
+
+Calina Winfield implemented variable font-family: var(--font-display); in the file
+global.css and the corresponding page home.html
+
+Aaron Matthews implemented variable var(--color-glass-highlight), in the file global.css and the corresponding
+page header.html
+
+Aaron Matthews implemented variable  color: var(--color-black) in the file global.css and the corresponding
+page header.html
+
+Erick Vale implemented variable color: var(--color-white); the file global.css and the corresponding
+page about.html
+
+Erick Vale implemented variable font-family: var(--font-display); the file global.css and the corresponding
+page about.html
+
