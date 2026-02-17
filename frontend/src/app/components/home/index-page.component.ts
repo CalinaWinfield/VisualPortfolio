@@ -57,7 +57,7 @@ import { RouterModule } from '@angular/router';
       align-items: center;
       padding: 15px 30px;
       background-color: var(--pink);
-      border-top: 5px solid #ffffff;
+      border-top: 5px solid #571e1e;
       border-bottom: 5px solid #ffffff;
     }
 

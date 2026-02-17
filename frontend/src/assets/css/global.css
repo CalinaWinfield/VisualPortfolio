@@ -55,6 +55,55 @@ button, .btn, input[type="button"], input[type="submit"], input[type="reset"] { 
 
 }
 
+
+img, video, canvas, svg { max-width: 100%; height: auto; }
+button, .btn, input[type="button"], input[type="submit"], input[type="reset"] { min-height: var(--tap-min); }
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+/* Ensure consistent style for all pages */
+.back-button {
+  background: white;
+  border: 1px solid var(--light-purple);
+
+  padding: 0.35rem 0.6rem;
+  border-radius: 40px;
+  cursor: pointer;
+  font-size: 0.95rem;
+}
+.back-button:hover {
+  background: rgba(255, 255, 255, 0.5);
+}
+
+body.index-page {
+  background:
+  linear-gradient(rgba(3,20,88,.30), rgba(160,160,160,0)),
+    url("/assets/img/hero-bg.jpg");
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+
+
+      image-rendering: -webkit-optimize-contrast;
+      color: #ffffff;
+    }
+    
+
+/* Desktop */
+@media (min-width: 992px) {
+  .navbar-collapse {
+    justify-content: flex-end;
+  }
+}
+
+
 /* Shared header (pink marketing header) */
 .site-header {
   background-color: var(--cream);
@@ -86,15 +135,21 @@ button, .btn, input[type="button"], input[type="submit"], input[type="reset"] { 
 .nav-link::after {
   content: '';
   position: absolute;
-  left: 0;
+  left: 50%;
   bottom: -4px;
   width: 0;
   height: 2px;
   background-color: white;
-  transition: width 0.3s ease;
+  transition: all 0.3s ease;
+  transform: translateX(-50%);
 }
 .nav-link:hover::after {
-  width: 100%;
+  width: 60%;
+  }
+
+.hero::before {
+  transform: translateY(0);
+  transition: transform 0.2s ease-out;
 }
 
 /* Utilities */
@@ -265,7 +320,7 @@ body.index-page .cta-button:hover::before,
 body.index-page .cta-button:hover::after { width: 100%; }
 
 /* Create-item helpers */
-body.index-page .center-form-wrapper {
+.center-form-wrapper {
   display: flex;
   justify-content: left;
   align-items: left;
@@ -273,18 +328,18 @@ body.index-page .center-form-wrapper {
   padding: 24px 12px;
   background-color: #00243a;
 }
-body.index-page .expandable-form-container {
+.expandable-form-container {
   padding: 20px;
   border-radius: 10px;
   width: 100%;
   margin: auto;
 }
-body.index-page .createButton { background-color: #5d81bc; font-size: 24px; width: 100%; }
-body.index-page .createButton:hover { background-color: #5d81bca2; }
-body.index-page .createButton:active { background-color: #5d81bc88; }
-body.index-page .updateButton { background-color: #f5a3ad; font-size: 24px; width: 100%; }
-body.index-page .updateButton:hover { background-color: #f5a3ad94; }
-body.index-page .updateButton:active { background-color: #f5a3ad71; }
+.createButton { background-color: #5d81bc; font-size: 24px; width: 100%; }
+.createButton:hover { background-color: #5d81bca2; }
+.createButton:active { background-color: #5d81bc88; }
+.updateButton { background-color: #f5a3ad; font-size: 24px; width: 100%; }
+.updateButton:hover { background-color: #f5a3ad94; }
+.updateButton:active { background-color: #f5a3ad71; }
 body.index-page #itemForm {
   background-color: #d1e7fd;
   padding: 20px;
@@ -318,7 +373,7 @@ body {
    - treat .create-item-page like index-page
    ================================ */
 
-body.create-item-page .site-header .navbar { background-color: var(--pink); }
+
 
 /* Reuse index-page rules for create-item-page */
 body.create-item-page .center-form-wrapper {
@@ -406,14 +461,11 @@ body.document-page .formatbtn { margin-top: 12px; }
   background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='white' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
 }
 
-.navbar-nav .nav-item {
-  margin: 1 15px;
-}
 
 .navbar-nav .nav-link {
   display: inline-block;
   text-decoration: none;
-  color: white !important;
+  color: grey !important;
   font-weight: 500;
   font-size: 20px;
   font-family: "Inter", serif;
@@ -431,33 +483,18 @@ body.document-page .formatbtn { margin-top: 12px; }
   margin-top: 90px; /* adjust depending on navbar height */
 }
 
-.bg-pink {
-  background-color: #f4a6ac !important;
-}
-
 .navbar .nav-link:hover {
   background-color: transparent !important;
   color: white !important;
 }
 
 /* White lines at top and bottom of the navbar */
-.navbar.navbar-piped {
-  border-top: 5px solid #ffffff;
-  border-bottom: 5px solid #ffffff;
-}
+
 
 /* Optional: keep hover clean */
 .navbar .nav-link:hover {
   background-color: transparent !important;
-  color: #ffffff !important;
-}
-
-body.dashboard-page .navbar {
-  border-top: 5px solid #fff;
-  border-bottom: 5px solid #fff;
-  align-items: center; /* keeps brand and toggler vertically aligned */
-  padding-top: 15px;   /* match your original inline padding */
-  padding-bottom: 15px;
+  color: lightgrey !important;
 }
 
 /* Active nav link style */

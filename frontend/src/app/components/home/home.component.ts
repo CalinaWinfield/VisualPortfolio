@@ -11,22 +11,22 @@ import { Router } from '@angular/router';
       <div class="features-grid">
         <div class="feature-card" (click)="navigate('/documents')">
           <h3>Document Management</h3>
-          <p>Upload and organize your professional documents</p>
+          <p class="feature-sum">Upload and organize your professional documents</p>
         </div>
         
         <div class="feature-card" (click)="navigate('/cover-letter')">
           <h3>Cover Letters</h3>
-          <p>Create and customize cover letters for your applications</p>
+          <p class="feature-sum">Create and customize cover letters for your applications</p>
         </div>
         
         <div class="feature-card" (click)="navigate('/dashboard')">
           <h3>Portfolio Dashboard</h3>
-          <p>Manage your portfolio items and track your progress</p>
+          <p class="feature-sum">Manage your portfolio items and track your progress</p>
         </div>
         
         <div class="feature-card" (click)="navigate('/guide')">
           <h3>Getting Started</h3>
-          <p>Learn how to make the most of Visual Portfolio</p>
+          <p class="feature-sum">Learn how to make the most of Visual Portfolio</p>
         </div>
       </div>
     </div>
@@ -55,6 +55,10 @@ import { Router } from '@angular/router';
       border-radius: 8px;
       cursor: pointer;
       transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .feature-sum {
+      color: grey;
     }
     
     .feature-card:hover {

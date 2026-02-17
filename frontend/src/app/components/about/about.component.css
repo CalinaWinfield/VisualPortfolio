@@ -63,19 +63,5 @@ main ul li span {
   left: 1rem;
   top: 1rem;
   z-index: 10;
-}
-
-/* Ensure consistent style for all pages */
-.back-button {
-  background: transparent;
-  border: 1px solid var(--light-purple);
-
-  padding: 0.35rem 0.6rem;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 0.95rem;
-}
-
-.back-button:hover {
-  background: rgba(255,255,255,0.03);
+  border-radius: 40px;
 }
