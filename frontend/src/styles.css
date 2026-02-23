@@ -1,1 +1,40 @@
-/* You can add global styles to this file, and also import other style files */
+/* frontend/src/styles.css - global app styles */
+:root {
+  --page-bg: #fafafa;
+  --brand: #0d6efd;
+  --muted: #6c757d;
+}
+
+/* Page background and base typography */
+html, body {
+  height: 100%;
+  margin: 0;
+  background: var(--page-bg);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Ensure Angular root doesn't force a white or opaque box */
+app-root, app-root > * {
+  background: transparent !important;
+}
+
+/* If any top-level wrapper was given a white background, make it transparent */
+header, .site-header, main, .page-wrapper, .app-wrapper {
+  background: transparent !important;
+}
+
+/* If a component host used :host { background: #fff }, override only the common ones */
+.hero-right, .login-card, .page, .container-fluid {
+  background: transparent !important;
+}
+
+/* Restore a subtle page frame so content reads well */
+main.container {
+  padding-top: 1.5rem;
+  padding-bottom: 2rem;
+}
+
+/* Small helpers */
+.small-muted { color: var(--muted); font-size: .9rem; }
