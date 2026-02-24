@@ -38,3 +38,13 @@ main.container {
 
 /* Small helpers */
 .small-muted { color: var(--muted); font-size: .9rem; }
+
+html, body {
+  background:
+    linear-gradient(rgba(3,20,88,.30), rgba(160,160,160,0)),
+    url("/assets/img/hero-bg.jpg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  image-rendering: -webkit-optimize-contrast;
+}
