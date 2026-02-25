@@ -120,3 +120,21 @@ main {
   color: #007bff !important;
   font-weight: 600;
 }
+
+.card {
+  background: #f8f9fa !important;
+  border-radius: 8px !important;
+  border: none !important;
+  padding: 2rem !important;
+  box-shadow: none !important;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.card-body {
+  padding: 0 !important;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
