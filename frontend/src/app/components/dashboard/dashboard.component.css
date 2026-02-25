@@ -64,3 +64,29 @@ main {
     padding: 1.5rem 0.75rem;
   }
 }
+
+.dashboard-header-row {
+  margin-top: 3.5rem;  /* push the whole row down */
+  position: relative;
+}
+
+/* keep your existing search tweaks */
+.search-container {
+  margin-left: 1.25rem;
+  margin-right: 0.25rem;
+  margin-top: 2px;
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+
+}
+
+.search-bar {
+  padding: 0.45rem 0.75rem;
+}
+
+.Dashboard-Title {
+  flex: 1;
+  text-align: center;
+}

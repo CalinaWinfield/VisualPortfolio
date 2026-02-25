@@ -57,3 +57,13 @@ html, body {
   margin: 0 !important;
   padding: 0 !important;
 }
+
+/* Add breathing room between nav links and search bar */
+/* Add breathing room between nav links and search bar */
+.navbar .navbar-nav {
+  margin-right: 1rem; /* space between links and search bar */
+}
+
+.navbar {
+  padding: 0.75rem 1rem !important; /* vertical and horizontal padding */
+}
