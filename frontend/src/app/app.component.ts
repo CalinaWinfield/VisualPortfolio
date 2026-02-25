@@ -16,7 +16,7 @@ import { filter, Subscription } from 'rxjs';
   ],
   template: `
     <header class="site-header">
-      <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <nav class="navbar navbar-expand-lg navbar-light">
         <div class="container">
           <a class="navbar-brand" routerLink="/home">Visual Portfolio</a>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
@@ -48,9 +48,8 @@ import { filter, Subscription } from 'rxjs';
       </nav>
     </header>
 
-    <div class="container mt-4">
-      <router-outlet></router-outlet>
-    </div>
+    <!-- IMPORTANT: Only ONE router-outlet, no container wrapper -->
+    <router-outlet></router-outlet>
   `,
   styles: [`
     .navbar { margin-bottom: 20px; }
@@ -64,6 +63,7 @@ export class AppComponent implements OnDestroy {
     this.sub = this.router.events.pipe(
       filter(e => e instanceof NavigationEnd)
     ).subscribe((e: NavigationEnd) => {
+
       // remove all page classes used by global.css
       document.body.classList.remove(
         'index-page',
