@@ -79,7 +79,6 @@ main {
   right: 0;
   top: 50%;
   transform: translateY(-50%);
-
 }
 
 .search-bar {
@@ -89,4 +88,35 @@ main {
 .Dashboard-Title {
   flex: 1;
   text-align: center;
+}
+
+/* Dashboard cards — match home page feature cards */
+.card {
+  background: #f8f9fa !important;   /* same as home */
+  color: #212529 !important;         /* dark text like home */
+  border-radius: 8px !important;
+  border: none !important;
+  padding: 2rem !important;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+/* Hover effect — same as home */
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+/* Ensure all text inside cards is dark */
+.card-title,
+.card-prompt,
+.card-body,
+.card p,
+.card h5 {
+  color: #212529 !important;
+}
+
+.card-title,
+.card h5 {
+  color: #007bff !important;
+  font-weight: 600;
 }
