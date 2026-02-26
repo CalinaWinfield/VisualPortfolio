@@ -1,11 +1,140 @@
-/* Dashboard-specific styles */
-.Dashboard-Title {
- color: var(--cream); }
-.cardStyle { cursor: pointer; }
-.custom-card-header { background-color: var(--cream); color: var(--dark-brown); font-weight: 600; }
-.folderTxt { color: var(--cream); }
+/* ---------------------------------------------
+   Dashboard Layout & Background
+---------------------------------------------- */
 
-/* minor responsive tweaks */
+/* The dashboard component host becomes the full-page background */
+
+
+/* Make Bootstrap wrappers transparent so the hero image shows through */
+.container-fluid,
+.row,
+main {
+  background: transparent !important;
+}
+
+
+/* ---------------------------------------------
+   Typography & Titles
+---------------------------------------------- */
+
+.Dashboard-Title {
+  color: var(--cream);
+  margin-bottom: 1.5rem;
+  font-weight: 600;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.25);
+}
+
+
+/* ---------------------------------------------
+   Cards & Interactive Elements
+---------------------------------------------- */
+
+.cardStyle {
+  cursor: pointer;
+  border-radius: 0.5rem;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.cardStyle:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+
+.custom-card-header {
+  background-color: var(--cream);
+  color: var(--dark-brown);
+  font-weight: 600;
+}
+
+.folderTxt {
+  color: var(--cream);
+}
+
+
+/* ---------------------------------------------
+   Responsive Tweaks
+---------------------------------------------- */
+
 @media (max-width: 768px) {
-  .Dashboard-Title { font-size: calc(var(--fs-h1) * 0.9); }
+  .Dashboard-Title {
+    font-size: calc(var(--fs-h1) * 0.9);
+  }
+
+  :host {
+    padding: 1.5rem 0.75rem;
+  }
+}
+
+.dashboard-header-row {
+  margin-top: 3.5rem;  /* push the whole row down */
+  position: relative;
+}
+
+/* keep your existing search tweaks */
+.search-container {
+  margin-left: 1.25rem;
+  margin-right: 0.25rem;
+  margin-top: 2px;
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.search-bar {
+  padding: 0.45rem 0.75rem;
+}
+
+.Dashboard-Title {
+  flex: 1;
+  text-align: center;
+}
+
+/* Dashboard cards — match home page feature cards */
+.card {
+  background: #f8f9fa !important;   /* same as home */
+  color: #212529 !important;         /* dark text like home */
+  border-radius: 8px !important;
+  border: none !important;
+  padding: 2rem !important;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+/* Hover effect — same as home */
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+/* Ensure all text inside cards is dark */
+.card-title,
+.card-prompt,
+.card-body,
+.card p,
+.card h5 {
+  color: #212529 !important;
+}
+
+.card-title,
+.card h5 {
+  color: #007bff !important;
+  font-weight: 600;
+}
+
+.card {
+  background: #f8f9fa !important;
+  border-radius: 8px !important;
+  border: none !important;
+  padding: 2rem !important;
+  box-shadow: none !important;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.card-body {
+  padding: 0 !important;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 }

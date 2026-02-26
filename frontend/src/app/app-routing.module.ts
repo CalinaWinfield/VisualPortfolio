@@ -2,6 +2,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
+import { LandingComponent } from './features/landing/landing.component';
 import { AboutComponent } from './components/about/about.component';
 import { CoverLetterComponent } from './components/cover-letter/cover-letter.component';
 import { CreateItemComponent } from './components/create-item/create-item.component';
@@ -13,23 +14,23 @@ import { SignupComponent } from './components/signUp/signUp.component';
 import { ItemsListComponent } from './components/create-item/items-list.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'home', pathMatch: 'full' },
+  // Serve the Angular LandingComponent at the site root
+  { path: '', component: LandingComponent, title: 'Welcome' },
 
+  // Keep the existing routes
   { path: 'home', component: HomeComponent, title: 'Home' },
   { path: 'about', component: AboutComponent, title: 'About' },
   { path: 'dashboard', component: DashboardComponent, title: 'Dashboard' },
   { path: 'documents', component: DocumentComponent, title: 'Documents' },
   { path: 'documents/:id', component: DocumentComponent },
-
   { path: 'cover-letter', component: CoverLetterComponent, title: 'Cover Letter' },
   { path: 'cover-letter/:id', component: CoverLetterComponent },
-
   { path: 'create-item', component: CreateItemComponent, title: 'Create Item' },
   { path: 'items', component: ItemsListComponent, title: 'Items' },
   { path: 'guide', component: GuideComponent, title: 'Guide' },
   { path: 'signup', component: SignupComponent, title: 'Sign Up' },
 
-  { path: '**', redirectTo: 'home' }
+  { path: '**', redirectTo: '' }
 ];
 
 @NgModule({
