@@ -13,10 +13,10 @@ export class AboutComponent {
   currentYear: number = new Date().getFullYear();
 
   teamMembers = [
-    { name: 'Angelica Jones', role: 'UX/UI Design & Project Manager' },
-    { name: 'Sebastian Londono', role: 'Data Modeler & Documentation' },
-    { name: 'Travis Mounsy', role: 'Programmer & Code Architecture' },
-    { name: 'Jordan Laudun', role: 'Testing Lead & Client Liaison' }
+    { name: 'Whitney Branch', role: 'UX/UI Design & Programmer' },
+    { name: 'Calina Winfield', role: 'Data Modeler & Documentation' },
+    { name: 'Aaron Matthew', role: 'Programmer & Code Architecture' },
+    { name: 'Erick Vale', role: 'Testing Lead & Project Manager' }
   ];
   technologies = [
     'Front-end: Angular',

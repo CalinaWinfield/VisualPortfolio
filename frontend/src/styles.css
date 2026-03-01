@@ -42,16 +42,7 @@ header.site-header {
   box-shadow: none !important;
   margin: 0 !important;
   padding-top: 0 !important;
-}
 
-body.dashboard-page {
-  background:
-    linear-gradient(rgba(3,20,88,0.30), rgba(160,160,160,0)),
-    url("/assets/img/hero-bg.jpg");
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-attachment: fixed;
 }
 html, body {
   margin: 0 !important;

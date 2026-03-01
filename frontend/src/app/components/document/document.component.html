@@ -1,11 +1,17 @@
-<div style="background: red; color: white; padding: 20px;">
-  🔴 TEST — AM I THE RIGHT COMPONENT?
-</div>
 
-<div class="container-fluid" style="position:relative;">
-  <div class="top-left-controls">
-    <button class="back-button" (click)="goBack()">← Back</button>
+<div class="document-wrapper">
+  <div class="document-grid">
+<div class="document-header">
+  <h1 class="document-title">Documents</h1>
+
+  <div class="document-search">
+    <input type="text"
+           class="search-input"
+           placeholder="Search documents..." />
   </div>
+</div>
+<div class="container-fluid" style="position:relative;">
+
   <div class="row justify-content-center py-4">
     <div class="builder-wrapper">
       <div class="container">
@@ -42,9 +48,5 @@
     </div>
   </div>
 </div>
-
-<footer class="footer">
-  <div class="container">
-    <p>&copy; <span>{{ currentYear }}</span> Visual Portfolio. All rights reserved.</p>
   </div>
-</footer>
+</div>
