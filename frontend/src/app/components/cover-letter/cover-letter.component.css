@@ -103,16 +103,34 @@
   .dashboard {
     padding: 1rem;
   }
-  
+
   .main-section {
     padding: 0;
   }
-  
+
   .template-card {
     margin-bottom: 1rem;
   }
-  
+
   .cover-letter-editor {
     padding: 1rem;
   }
 }
+body.coverLetter-page .greeting { font-size: 28px; font-weight: 600; color: var(--cream); }
+body.coverLetter-page .template-selection h2,
+body.coverLetter-page .cover-letter-editor h2 { font-size: 22px; color: var(--cream); }
+
+body.coverLetter-page .template-card {
+  background: white; border-radius: 8px; padding: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,.12);
+}
+body.coverLetter-page .template-card img { border-radius: 6px; }
+body.coverLetter-page .covbtn { background-color: var(--blue); border-color: var(--blue); }
+body.coverLetter-page .covbtn:hover { filter: brightness(1.08); }
+
+/* Mobile header & menu */
+body.coverLetter-page .mobile-header .logo img { height: 48px; }
+body.coverLetter-page .profile-picture {
+  height: 64px; width: 64px; border-radius: 50%; background: var(--pink);
+}
+body.coverLetter-page .mobile-menu a { color: var(--cream); }

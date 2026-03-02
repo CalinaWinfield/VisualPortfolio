@@ -1,35 +1,62 @@
 
-<main class="container mt-5 text-white" style="position:relative;">
-  <div class="top-left-controls">
-    <button class="back-button" (click)="goBack()">← Back</button>
+<div class="about-wrapper">
+  <div class="about-grid">
+    <div class="about-header">
+<section class="about-hero">
+  <div class="about-inner">
+    <h1>About</h1>
   </div>
-  <h1 class="Dashboard-Title mb-4">About EasyFolio</h1>
-  <p>
-    Faculty need to keep a lot of records related to their academic work. Many of these
-    records are repeated when faculty must submit information to different venues.
-    <strong>EasyFolio App</strong> allows faculty to enter data once and then visually
-    generate the requested report—resume, portfolio, or other records—automatically.
-    Users log in through an accounting system and customize their own resume/portfolio components.
-  </p>
+</section>
+<section class="about-section">
+  <div class="about-grid">
+    <div class="about-card">
+      <h2>Our Mission</h2>
+      <p>
+        Faculty maintain extensive academic records that are repeatedly submitted
+        across institutions and platforms. <strong>Visual Portfolio</strong> simplifies this
+        process by allowing users to enter their data once and reuse it wherever needed.
+      </p>
+    </div>
 
-  <h2 class="mt-4">Technology</h2>
-  <ul>
-    <li *ngFor="let tech of technologies">{{ tech }}</li>
-  </ul>
+    <div class="about-card">
+      <h2>How It Works</h2>
+      <p>
+        Users log in securely, manage structured academic records, and visually
+        generate tailored documents such as resumes, CVs, and portfolios with ease.
+      </p>
+    </div>
 
-  <h2 class="mt-4">Client</h2>
-  <p>{{ client }}</p>
-
-  <h2 class="mt-4">Team Crtl Alt Elite</h2>
-  <ul>
-    <li *ngFor="let member of teamMembers">
-      {{ member.name }}: <span>{{ member.role }}</span>
-    </li>
-  </ul>
-</main>
-
-<footer class="footer">
-  <div class="container">
-    <p>&copy; {{ currentYear }} Visual Portfolio. All rights reserved.</p>
   </div>
-</footer>
+</section>
+
+<section class="about-section">
+  <h2 class="section-title">Technology Stack</h2>
+
+  <div class="tech-grid">
+    <div class="tech-card" *ngFor="let tech of technologies">
+      {{ tech }}
+    </div>
+  </div>
+</section>
+
+<section class="about-section">
+  <h2 class="section-title">Client</h2>
+  <div class="about-card centered">
+    {{ client }}
+  </div>
+</section>
+
+<section class="about-section">
+  <h2 class="section-title">Development Team</h2>
+
+  <div class="team-grid">
+    <div class="team-card" *ngFor="let member of teamMembers">
+      <h4>{{ member.name }}</h4>
+      <p>{{ member.role }}</p>
+    </div>
+  </div>
+</section>
+    </div>
+  </div>
+</div>
+

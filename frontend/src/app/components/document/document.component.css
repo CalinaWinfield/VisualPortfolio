@@ -8,3 +8,45 @@
 .formatbtn { background-color: var(--pink); color: white; border: none; }
 
 @media (max-width: 768px) { .builder-card { min-height: auto; } }
+
+.document-title {
+font-size: 2.8rem;
+  color: white;
+  font-weight: 600;
+  margin-bottom: 4rem;
+  text-shadow: 0 4px 12px rgba(0,0,0,0.4);
+  font-family: "Playfair Display"
+}
+
+.document-search {
+   flex: 0 0 320px;
+}
+
+.search-input {
+    width: 100%;
+    padding: 12px 18px;
+
+    border-radius: 999px;
+    border: 1px solid rgba(255,255,255,0.25);
+
+    background: rgba(255,255,255,0.55);
+    backdrop-filter: blur(12px);
+
+    color: white;
+    font-size: 0.95rem;
+
+    transition: all 0.3s ease;
+}
+.search-input:focus {
+  transform: scale(1.02);
+}
+.document-wrapper {
+  max-width: 900px;
+  margin: 4rem auto;
+  padding: 0 2rem;
+}
+.document-grid {
+  grid-template-columns: repeat(3, minmax(280px, 320px));
+  gap: 2rem;
+   justify-content: center;
+}

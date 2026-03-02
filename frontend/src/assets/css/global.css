@@ -42,93 +42,149 @@ html, body {
 img, video, canvas, svg { max-width: 100%; height: auto; }
 button, .btn, input[type="button"], input[type="submit"], input[type="reset"] { min-height: var(--tap-min); }
 
-/* Shared footer */
-.footer {
-  background-color:#f5a3ad;
-  color:white;
-  font-size: 18px;
-  padding: 20px 0;
-  text-align: center;
-  border-top: 2px solid var(--cream);
-  margin-top: auto;
-  width: 100%;
-
+* {
+  box-sizing: border-box;
 }
 
-/* Shared header (pink marketing header) */
+html, body {
+  height: 100%;
+  margin: 0;
+  background:url("/assets/img/hero-bg.jpg")
+                           no-repeat center center fixed;
+               background-size: cover;
+}
+
+
+app-root {
+  display: block;
+  height: 100%;
+}
+
+.app-shell {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.layout {
+  flex: 1;
+}
+
+
 .site-header {
-  background-color: var(--cream);
-  padding: 5px 0;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-  width: 100%;
-  z-index: 1000;
-}
+ position: sticky;
+   top: 0;
+   z-index: 1050;
+
+
+
+   /* Milk glass */
+   background: var(--glass-bg);
+     border-bottom: 0px solid var(--color-glass-border);
+     backdrop-filter: var(--glass-blur);
+     -webkit-backdrop-filter: var(--glass-blur);
+     box-shadow: var(--glass-shadow);
+     transition: background var(--transition-default),
+                 box-shadow var(--transition-default);
+   }
+
+
+
 .site-header .navbar{
   display:flex;
   justify-content:space-between;
   align-items:center;
-  padding: 15px 30px;
-  background-color: var(--pink);
-}
-.logo { font-size: 24px; font-weight: bold; display: flex; align-items: center; }
-.logo img { height: 28px; margin-right: 10px; object-fit: contain; }
-.nav-link {
-  position: relative;
-  color: white !important;
-  font-weight: 500;
-  font-size: 20px;
-  font-family: "Inter", serif;
-}
-.nav-links li { margin: 0; }
-.nav-links a {
-  display:inline-block; text-decoration:none; color:white; font-weight:500; font-size:20px; position:relative;
-}
-.nav-link::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  bottom: -4px;
-  width: 0;
-  height: 2px;
-  background-color: white;
-  transition: width 0.3s ease;
-}
-.nav-link:hover::after {
+  padding: 16px 16px;
+  color: var(--color-black);
   width: 100%;
 }
 
-/* Utilities */
-.text-center { text-align: center; }
-.table-responsive { overflow-x: auto; }
+.logo {
+display: flex;
+align-items: center;
+ }
 
-/* ================================
-   DASHBOARD / SIDEBAR (scoped)
-   ================================ */
-body.dashboard-page .nav-link {
-  position: relative;
-  color: white !important;
-  font-weight: 500;
-  font-size: 20px;
-  font-family: "Inter", serif;
+ .site-header .logo-text {
+   font-family: var(--font-display);
+     font-weight: 700;
+     letter-spacing: 0.12em;
+     font-size: 18px;
+     color: var(--color-logo-text);
+     transition: color var(--transition-default);
+ }
+
+ .site-header .navbar-brand:hover .logo-text {
+   color: var(--color-white);
+ }
+
+.site-header .logo-img {
+height: 38px;
+width: auto;
+margin-right: 12px;
+object-fit: contain;
+ transition: transform var(--transition-logo),
+                           filter var(--transition-logo);
 }
-body.dashboard-page .nav-link:hover {
-  background-color: #e0e4e8;
-  color: #f8f9fa;
+ .navbar-brand:hover .logo-img {
+  transform: var(--logo-hover-transform);
+    filter: var(--logo-hover-glow);
 }
-body.dashboard-page .sidebar {
+
+
+.site-header .navbar .nav-link {
+ font-family: 'Poppins', sans-serif;
+   font-weight: 600;
+   font-size: 12px;
+   letter-spacing: 0.05em;
+
+   position: relative;
+   display: inline-flex;
+   align-items: center;
+   justify-content: center;
+
+   padding: 5px 12px;
+   border-radius: 999px;
+
+   /* milk white */
+   background: rgba(255, 255, 255, 0.92);
+   color: #111;
+
+   border: 1px solid rgba(255, 255, 255, 0.6);
+
+   box-shadow:
+     0 6px 16px rgba(0,0,0,0.10),
+     inset 0 1px 0 rgba(255,255,255,0.8);
+
+   backdrop-filter: blur(10px);
+   -webkit-backdrop-filter: blur(10px);
+
+   transition: all 0.25s ease;
+}
+
+
+.site-header .navbar .nav-link:hover {
+  transform: translateY(-2px);
+  background: rgba(255,255,255,0.98);
+
+
+  box-shadow:
+    0 12px 25px rgba(0,0,0,0.18),
+    0 0 0 4px rgba(255,255,255,0.35),
+     0 0 20px rgba(255,255,255,0.45);
+}
+
+
+.site-header .navbar .nav-link.active {
+  background: white;
+  box-shadow:
+    0 14px 30px rgba(0,0,0,0.18),
+    0 0 0 4px rgba(255,255,255,0.65);
+}
+
+.site-header .navbar .navbar-nav {
   display: flex;
-  flex-direction: column;
-  list-style-type: none;
-  padding: 0;
-  width: 120px;
-  background-color: var(--blue);
-  border-radius: 2px;
-  position: fixed;
-  top: 0;
-  left: -100%;
-  min-height: 100vh;
-  z-index: 1100;
-  transition: left .25s ease, background-color .3s ease;
+  align-items: center;
+  gap: 7px;
 }
 body.dashboard-page .sidebar.is-open { left: 0; }
 body.dashboard-page .sidebar:hover { background-color: #3d444b; }
@@ -610,16 +666,15 @@ padding: .4rem .8rem;
  background: rgba(200, 200, 200, 0.45);
     backdrop-filter: blur(18px) saturate(140%);
     -webkit-backdrop-filter: blur(18px) saturate(140%);
-
  color: rgba(255,255,255,0.65);
-
- }
+}
 
  .footer-inner {
    max-width: 1200px;
    margin: 0 auto;
    text-align: center;
  }
+
 .footer-brand {
   font-family: "Playfair Display", serif;
   font-weight: 700;
@@ -632,8 +687,10 @@ padding: .4rem .8rem;
   font-size: 0.85rem;
   opacity: 0.8;
   font-weight: 700;
+  color:white;
 }
 
+<<<<<<< HEAD
 /* Reset checkbox to native appearance */
 .form-check-input {
   appearance: auto !important;
@@ -653,3 +710,39 @@ padding: .4rem .8rem;
 =======
 .dashboard-container { margin-top: 0; }
 // main
+=======
+
+.back-btn {
+  position: fixed;
+  top: 100px;
+  left: 40px;
+opacity: 0;
+  animation: fadeBack 0.4s ease forwards;
+  background: rgba(0, 0, 0, 0.35);
+  color: white;
+  border: 1px solid rgba(255,255,255,0.2);
+
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+
+  padding: 0.55rem 1.3rem;
+  border-radius: 999px;
+
+  font-size: 0.9rem;
+  font-weight: 500;
+  letter-spacing: 0.03em;
+
+  cursor: pointer;
+  transition: all 0.25s ease;
+  z-index: 1000;
+}
+
+.back-btn:hover {
+  background: rgba(0, 0, 0, 0.55);
+  transform: translateX(-4px);
+  box-shadow: 0 12px 25px rgba(0,0,0,0.35);
+}
+@keyframes fadeBack {
+  to { opacity: 1; }
+}
+>>>>>>> origin/PixelImprove-main
