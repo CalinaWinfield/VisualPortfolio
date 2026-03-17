@@ -14,11 +14,9 @@ import { SignupComponent } from './components/signUp/signUp.component';
 import { ItemsListComponent } from './components/create-item/items-list.component';
 
 const routes: Routes = [
-  // Serve the Angular LandingComponent at the site root
   { path: '', component: LandingComponent, title: 'Welcome' },
+  { path: 'home', component: LandingComponent, title: 'Home' },
 
-  // Keep the existing routes
-  { path: 'home', component: HomeComponent, title: 'Home' },
   { path: 'about', component: AboutComponent, title: 'About' },
   { path: 'dashboard', component: DashboardComponent, title: 'Dashboard' },
   { path: 'documents', component: DocumentComponent, title: 'Documents' },
