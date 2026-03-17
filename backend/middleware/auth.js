@@ -1,4 +1,4 @@
-const { verifyAccess } = require("../utils/jwt");
+const { verifyAccess } = require("../models/jwt");
 
 module.exports = function auth(requiredRoles = []) {
   return (req, res, next) => {

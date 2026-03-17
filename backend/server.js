@@ -1,22 +1,31 @@
 // backend/server.js
+const path = require('path');
+require('dotenv').config({ path: path.resolve(__dirname, '.env') }); // load backend/.env
+
 const express = require('express');
 const cors = require('cors');
-const { default: mongoose } = require('mongoose');
-require('dotenv').config();
-
-const connectDB = require('./config/db'); // ensures Mongo connection
+const mongoose = require('mongoose');                 // ✅ CommonJS import
+const connectDB = require('./config/db');             // uses process.env.MONGO_URL
 
 const app = express();
 
-// --- Middleware ---
-app.use(express.json());                   // parse JSON request bodies
-app.use(express.urlencoded({ extended: true })); // (optional) parse form-encoded bodies
-app.use(cors());                           // allow all origins in dev; tighten in prod
+// Middleware
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(cors({
+  origin: "http://localhost:4200",
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
+  allowedHeaders: ["Content-Type", "Authorization"]
+}));
 
-// --- Connect to MongoDB ---
+// Sanity check (don’t log secrets)
+console.log('Has MONGO_URL?', Boolean(process.env.MONGO_URL));
+
+// Connect to MongoDB
 connectDB();
 
-// Optional: log when the low-level Mongoose connection opens
+// Low-level Mongoose diagnostics (optional)
 const connection = mongoose.connection;
 connection.once('open', () => {
   console.log('✅ MongoDB Database connection established successfully');
@@ -25,17 +34,15 @@ connection.on('error', (err) => {
   console.error('❌ MongoDB connection error:', err?.message || err);
 });
 
-// --- API Routes ---
+// Routes
 app.use('/api/users', require('./routes/userRoutes'));
 app.use('/api/uploads', require('./routes/uploadFile'));
 app.use('/api/items', require('./routes/itemRoute'));
+app.use('/api/auth', require('./routes/authRoutes'));
 
-// --- Health check (optional) ---
-app.get('/health', (_req, res) => {
-  res.json({ ok: true, status: 'up' });
-});
+// Health
+app.get('/health', (_req, res) => res.json({ ok: true, status: 'up' }));
 
-// --- Start server ---
+// Start
 const PORT = process.env.PORT || 5001;
-app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`)); // able to start server.
-
+app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
