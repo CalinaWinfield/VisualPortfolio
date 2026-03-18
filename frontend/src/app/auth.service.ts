@@ -6,31 +6,27 @@ import { Subject } from 'rxjs';
 export class AuthService {
   private accessToken: string | null = null;
 
-  // Emits when the user logs in again after expiration
   authRestored = new Subject<boolean>();
 
   constructor(private http: HttpClient) {}
 
-  // Store the access token in memory
   setAccessToken(token: string) {
-  this.accessToken = token;
-  localStorage.setItem('accessToken', token);
-}
+    this.accessToken = token;
+    localStorage.setItem('accessToken', token);
+  }
 
-
-
-  // Read the access token for the interceptor
   getAccessToken() {
+    if (!this.accessToken) {
+      this.accessToken = localStorage.getItem('accessToken');
+    }
     return this.accessToken;
   }
 
-  // Clear token on logout or refresh failure
   clear() {
-  this.accessToken = null;
-  localStorage.removeItem('accessToken');
-}
+    this.accessToken = null;
+    localStorage.removeItem('accessToken');
+  }
 
-  // Call backend to refresh the access token
   refresh() {
     return this.http.post<{ accessToken: string }>(
       'http://localhost:5001/api/auth/refresh',
@@ -39,7 +35,6 @@ export class AuthService {
     );
   }
 
-  // Optional: real signup if you want it later
   signup(payload: any) {
     return this.http.post(
       'http://localhost:5001/api/auth/register',
