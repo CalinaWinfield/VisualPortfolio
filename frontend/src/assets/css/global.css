@@ -269,3 +269,21 @@ opacity: 0;
 @keyframes fadeBack {
   to { opacity: 1; }
 }
+/* Default eye button styling */
+.input-group .btn-eye {
+  background-color: #ffffff !important;
+  border: 1px solid #ced4da !important;
+  border-left: none !important;
+  border-radius: 0 0.375rem 0.375rem 0 !important;
+}
+
+/* Icon styling */
+.input-group .btn-eye i {
+  color: #6c757d;
+  font-size: 1.2rem;
+}
+
+/* Active state (when password is visible) */
+.input-group .btn-eye.active {
+  background-color: #e9ecef !important; /* Bootstrap light gray */
+}

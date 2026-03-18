@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, AbstractControl } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 
 import { AuthService } from '../auth.service';
@@ -15,20 +15,51 @@ export class SignUpComponent {
   form: FormGroup;
   loading = false;
 
+  showPassword = false;          // <‑‑ add this
+  showConfirmPassword = false;   // <‑‑ and this
+
+
   constructor(
     private fb: FormBuilder,
     private auth: AuthService,
     private router: Router
   ) {
-    this.form = this.fb.group({
-      name: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]],
-    });
+
+    
+    this.form = this.fb.group(
+      {
+        name: ['', Validators.required],
+
+        email: [
+          '',
+          [
+            Validators.required,
+            Validators.email,
+            Validators.pattern(/^[\w.-]+@ggc\.edu$/)   // enforce @ggc.edu
+          ]
+        ],
+
+        password: ['', [Validators.required, Validators.minLength(6)]],
+
+        confirmPassword: ['', Validators.required]     // required for matching
+      },
+      { validators: this.passwordsMatchValidator }     // attach validator
+    );
+  }
+
+  
+  passwordsMatchValidator(form: AbstractControl) {
+    const password = form.get('password')?.value;
+    const confirm = form.get('confirmPassword')?.value;
+
+    return password === confirm ? null : { passwordsMismatch: true };
   }
 
   onSubmit(): void {
-    if (this.form.invalid) return;
+    if (this.form.invalid) {
+      this.form.markAllAsTouched();
+      return;
+    }
 
     this.loading = true;
 

@@ -22,22 +22,37 @@
       </div>
 
       <div class="text-danger" *ngIf="form.get('email')?.hasError('pattern') && form.get('email')?.touched">
-        Email must end with &#64ggc.edu
+        Email must end with &#64;ggc.edu
       </div>
     </div>
 
     <!-- Password -->
     <div class="mb-3">
       <label for="password" class="form-label">Password</label>
-      <input id="password" type="password" class="form-control" formControlName="password">
 
-      <div class="text-danger"
-           *ngIf="form.get('password')?.hasError('minlength') && form.get('password')?.touched">
+      <div class="input-group">
+        <input
+          id="password"
+          [type]="showPassword ? 'text' : 'password'"
+          class="form-control"
+          formControlName="password"
+        />
+
+        <button
+          type="button"
+          class="btn btn-eye"
+          [ngClass]="{ 'active': showPassword }"
+          (click)="showPassword = !showPassword"
+        >
+          <i class="bi" [ngClass]="showPassword ? 'bi-eye' : 'bi-eye-slash'"></i>
+        </button>
+      </div>
+
+      <div class="text-danger" *ngIf="form.get('password')?.hasError('minlength') && form.get('password')?.touched">
         Password must be at least 6 characters long.
       </div>
 
-      <div class="text-danger"
-           *ngIf="form.get('password')?.hasError('pattern') && form.get('password')?.touched">
+      <div class="text-danger" *ngIf="form.get('password')?.hasError('pattern') && form.get('password')?.touched">
         Password must contain uppercase, lowercase, and a number.
       </div>
     </div>
@@ -45,7 +60,24 @@
     <!-- Confirm Password -->
     <div class="mb-3">
       <label for="confirmPassword" class="form-label">Confirm Password</label>
-      <input id="confirmPassword" type="password" class="form-control" formControlName="confirmPassword">
+
+      <div class="input-group">
+        <input
+          id="confirmPassword"
+          [type]="showConfirmPassword ? 'text' : 'password'"
+          class="form-control"
+          formControlName="confirmPassword"
+        />
+
+        <button
+          type="button"
+          class="btn btn-eye"
+          [ngClass]="{ 'active': showConfirmPassword }"
+          (click)="showConfirmPassword = !showConfirmPassword"
+        >
+          <i class="bi" [ngClass]="showConfirmPassword ? 'bi-eye' : 'bi-eye-slash'"></i>
+        </button>
+      </div>
 
       <div class="text-danger"
            *ngIf="form.hasError('passwordsMismatch') && form.get('confirmPassword')?.touched">
