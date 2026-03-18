@@ -45,7 +45,13 @@ import { Location } from '@angular/common';
                  <li class="nav-item"><a class="nav-link" routerLink="/documents" routerLinkActive="active">Documents</a></li>
                  <li class="nav-item"><a class="nav-link" routerLink="/guide" routerLinkActive="active">Guide</a></li>
                  <li class="nav-item"><a class="nav-link" routerLink="/about" routerLinkActive="active">About</a></li>
-               </ul>
+                 
+                 <li class="nav-item">
+                  <a class="nav-link logout-btn" (click)="logout()">Logout</a>
+                 </li>
+
+
+                 </ul>
              </div>
 
            </div>
@@ -89,4 +95,13 @@ export class AppComponent {
   goBack() {
     this.location.back();
   }
+
+  logout() {
+  // Clear any stored auth/session data
+  localStorage.clear();
+  sessionStorage.clear();
+
+  // Navigate to login page
+  this.router.navigate(['/login']);
+}
 }
