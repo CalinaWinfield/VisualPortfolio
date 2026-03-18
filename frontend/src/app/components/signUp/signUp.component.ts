@@ -34,7 +34,7 @@ export class SignUpComponent {
 
     this.auth.signup(this.form.value).subscribe({
       next: (res: any) => {
-        localStorage.setItem('token', res.token);
+        this.auth.setAccessToken(res.accessToken);
         this.router.navigate(['/dashboard']);
       },
       error: (err: any) => {
