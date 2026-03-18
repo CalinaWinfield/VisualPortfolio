@@ -9,9 +9,9 @@ import { AuthService } from '../auth.service';
   standalone: true,
   selector: 'app-signup',
   imports: [CommonModule, ReactiveFormsModule, RouterModule],
-  templateUrl: './signup.component.html'
+  templateUrl: './signUp.component.html'
 })
-export class SignupComponent {
+export class SignUpComponent {
   form: FormGroup;
   loading = false;
 

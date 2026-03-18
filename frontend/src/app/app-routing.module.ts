@@ -9,8 +9,8 @@ import { CreateItemComponent } from './components/create-item/create-item.compon
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { DocumentComponent } from './components/document/document.component';
 import { GuideComponent } from './components/guide/guide.component';
-import { HomeComponent } from './components/home/home.component';
-import { SignupComponent } from './components/signUp/signUp.component';
+
+import { SignUpComponent } from './components/signUp/signUp.component';
 import { ItemsListComponent } from './components/create-item/items-list.component';
 
 const routes: Routes = [
@@ -26,7 +26,7 @@ const routes: Routes = [
   { path: 'create-item', component: CreateItemComponent, title: 'Create Item' },
   { path: 'items', component: ItemsListComponent, title: 'Items' },
   { path: 'guide', component: GuideComponent, title: 'Guide' },
-  { path: 'signup', component: SignupComponent, title: 'Sign Up' },
+  { path: 'signup', component: SignUpComponent, title: 'Sign Up' },
 
   { path: '**', redirectTo: '' }
 ];
