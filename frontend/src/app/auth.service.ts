@@ -13,8 +13,11 @@ export class AuthService {
 
   // Store the access token in memory
   setAccessToken(token: string) {
-    this.accessToken = token;
-  }
+  this.accessToken = token;
+  localStorage.setItem('accessToken', token);
+}
+
+
 
   // Read the access token for the interceptor
   getAccessToken() {
@@ -23,8 +26,9 @@ export class AuthService {
 
   // Clear token on logout or refresh failure
   clear() {
-    this.accessToken = null;
-  }
+  this.accessToken = null;
+  localStorage.removeItem('accessToken');
+}
 
   // Call backend to refresh the access token
   refresh() {
