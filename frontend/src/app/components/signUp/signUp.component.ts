@@ -65,9 +65,22 @@ export class SignUpComponent {
 
     this.auth.signup(this.form.value).subscribe({
       next: (res: any) => {
-        this.auth.setAccessToken(res.accessToken);
-        this.router.navigate(['/dashboard']);
-      },
+    console.log("Signup response:", res);
+
+    const userId = res.userId;
+    if (!userId) {
+      console.error("Signup succeeded but no userId returned!");
+      this.loading = false;
+      alert("Signup error: missing user ID.");
+      return;
+    }
+
+  this.auth.setAccessToken(res.accessToken);
+
+  this.router.navigate(['/enroll-mfa'], {
+    state: { userId }
+  });
+},
       error: (err: any) => {
         this.loading = false;
         alert(err?.error?.error || 'Signup failed');

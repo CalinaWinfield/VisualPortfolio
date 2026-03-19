@@ -42,4 +42,27 @@ export class AuthService {
       { withCredentials: true }
     );
   }
+
+  getMfaSetup(userId: string) {
+  return this.http.get<{ qrCode: string }>(
+    `http://localhost:5001/api/auth/mfa/setup/${userId}`,
+    { withCredentials: true }
+  );
+}
+
+verifyMfaSetup(userId: string, code: string) {
+  return this.http.post(
+    `http://localhost:5001/api/auth/mfa/verify-setup`,
+    { userId, code },
+    { withCredentials: true }
+  );
+}
+
+verifyMfaLogin(tempToken: string, code: string) {
+  return this.http.post(
+    `http://localhost:5001/api/auth/mfa/verify-login`,
+    { tempToken, code },
+    { withCredentials: true }
+  );
+}
 }

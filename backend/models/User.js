@@ -20,6 +20,9 @@ const UserSchema = new mongoose.Schema(
     // MFA support
     mfaEnabled: { type: Boolean, default: false },
     mfaSecret: { type: String },
+    mfaEnrollmentRequired: {
+      type: Boolean,
+      default: true},
 
     // Refresh token rotation
     refreshTokens: [RefreshTokenSchema],
@@ -27,6 +30,8 @@ const UserSchema = new mongoose.Schema(
     // Role + status
     role: { type: String, default: "user" },
     status: { type: String, default: "active" },
+
+    
 
     loggedInAt: Date
   },

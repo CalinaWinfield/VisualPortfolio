@@ -9,9 +9,11 @@ import { CreateItemComponent } from './components/create-item/create-item.compon
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { DocumentComponent } from './components/document/document.component';
 import { GuideComponent } from './components/guide/guide.component';
-
 import { SignUpComponent } from './components/signUp/signUp.component';
 import { ItemsListComponent } from './components/create-item/items-list.component';
+
+// ⭐ Add this import once you create the component
+import { MfaEnrollmentComponent } from './components/mfa/mfa-enrollment.component';
 
 const routes: Routes = [
   { path: '', component: LandingComponent, title: 'Welcome' },
@@ -20,7 +22,13 @@ const routes: Routes = [
   { path: 'about', component: AboutComponent, title: 'About' },
   { path: 'dashboard', component: DashboardComponent, title: 'Dashboard' },
   { path: 'documents', component: DocumentComponent, title: 'Documents' },
+
+  // ⭐ Move MFA route ABOVE dynamic routes
+  { path: 'enroll-mfa', component: MfaEnrollmentComponent, title: 'MFA Enrollment' },
+
+  // dynamic route LAST
   { path: 'documents/:id', component: DocumentComponent },
+
   { path: 'cover-letter', component: CoverLetterComponent, title: 'Cover Letter' },
   { path: 'cover-letter/:id', component: CoverLetterComponent },
   { path: 'create-item', component: CreateItemComponent, title: 'Create Item' },
