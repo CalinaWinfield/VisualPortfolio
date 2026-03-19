@@ -2,6 +2,12 @@
   max-width: 800px;
   margin: 0 auto;
 }
+.item-card {
+  background: white;
+  padding: 12px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
 
 .form-grid {
   display: grid;
@@ -28,12 +34,13 @@
 .full-width {
   grid-column: span 2;
 }
+.form-group.full-width {
+  margin-bottom: 1rem; /* 🔥 space between textarea and button */
+}
 
 textarea.form-control {
   min-height: 60px;
   resize: none;
 }
 
-.submit{
-padding-top: 1rem;
-}
+

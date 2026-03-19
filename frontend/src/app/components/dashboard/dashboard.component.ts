@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { CommonModule, Location } from '@angular/common';
 
 import { ItemService } from '../../services/item.service';
@@ -19,6 +19,10 @@ import { CreateItemComponent } from '../create-item/create-item.component';
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
+
+@ViewChild('itemsList') itemsList!: ItemsListComponent;
+
+totalItems = 0;
 
   sections = {
     documents: false,
@@ -59,9 +63,12 @@ export class DashboardComponent implements OnInit {
 
   onItemCreated() {
     this.showForm = false;
+    this.viewItemsMode = true;
     this.selectedItem = null;
+     this.currentPage = 1;
+
     this.loadItemsPreview();
-    this.loadPagedItems(); // 🔥 keep view updated
+    this.loadPagedItems();
   }
 
   toggleForm() {
@@ -71,7 +78,7 @@ export class DashboardComponent implements OnInit {
       this.selectedItem = null;
     }
 
-    this.viewItemsMode = false; // 🔥 hide view when opening form
+    this.viewItemsMode = false;
   }
 
   closeForm() {
@@ -79,29 +86,37 @@ export class DashboardComponent implements OnInit {
     this.selectedItem = null;
   }
 
-  loadItemsPreview(): void {
-    this.loadingItems = true;
 
-    this.itemService.getItems().subscribe({
-      next: (data) => {
-        this.itemsPreview = data.slice(0, 5);
+closeViewItems() {
+  this.viewItemsMode = false;
+  this.selectedItem = null;
+}
 
-        const uniqueCategories = new Set(
-          data
-            .map(item => item.category)
-            .filter((cat): cat is string => !!cat)
-        );
+loadItemsPreview(): void {
+  this.loadingItems = true;
 
-        this.categories = Array.from(uniqueCategories);
+  this.itemService.getItems().subscribe({
+    next: (data) => {
+      this.itemsPreview = data.slice(0, 5);
 
-        this.loadingItems = false;
-      },
-      error: (err) => {
-        this.itemsError = err?.message ?? 'Failed to load items';
-        this.loadingItems = false;
-      },
-    });
-  }
+      this.totalItems = data.length;
+
+      const uniqueCategories = new Set(
+        data
+          .map(item => item.category)
+          .filter((cat): cat is string => !!cat)
+      );
+
+      this.categories = Array.from(uniqueCategories);
+
+      this.loadingItems = false;
+    },
+    error: (err) => {
+      this.itemsError = err?.message ?? 'Failed to load items';
+      this.loadingItems = false;
+    },
+  });
+}
 
   toggleCard(card: string) {
     this.activeCard = this.activeCard === card ? null : card;
@@ -112,6 +127,9 @@ export class DashboardComponent implements OnInit {
     this.showForm = true;
     this.viewItemsMode = false; // 🔥 hide view when editing
   }
+selectItem(item: any) {
+  this.selectedItem = item;
+}
 
   // ✅ VIEW ITEMS LOGIC
 
@@ -124,6 +142,12 @@ export class DashboardComponent implements OnInit {
 
   loadPagedItems() {
     this.itemService.getItems().subscribe(data => {
+
+      this.totalItems = data.length;
+       if (data.length > 10) {
+            this.viewItemsMode = true;
+          }
+
       this.totalPages = Math.ceil(data.length / this.itemsPerPage);
 
       const start = (this.currentPage - 1) * this.itemsPerPage;
@@ -132,20 +156,20 @@ export class DashboardComponent implements OnInit {
       this.pagedItems = data.slice(start, end);
     });
   }
-
-  nextPage() {
-    if (this.currentPage < this.totalPages) {
-      this.currentPage++;
-      this.loadPagedItems();
-    }
+nextPage() {
+  if (this.currentPage < this.totalPages) {
+    this.currentPage++;
+    this.loadPagedItems();
   }
+}
 
-  prevPage() {
-    if (this.currentPage > 1) {
-      this.currentPage--;
-      this.loadPagedItems();
-    }
+prevPage() {
+  if (this.currentPage > 1) {
+    this.currentPage--;
+    this.loadPagedItems();
   }
+}
+
 
   deleteItem(id: string) {
     this.itemService.deleteItem(id).subscribe(() => {
@@ -153,5 +177,5 @@ export class DashboardComponent implements OnInit {
       this.loadItemsPreview();
     });
   }
-
 }
+

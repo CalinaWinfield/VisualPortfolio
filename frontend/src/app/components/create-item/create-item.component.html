@@ -34,42 +34,23 @@
       <label>Description</label>
       <textarea rows="2" class="form-control" formControlName="itemDescription"></textarea>
     </div>
-
+    <div class="form-group full-width">
+      <label>Upload File</label>
+      <input
+        type="file"
+        (change)="onFileSelected($event)"
+        accept=".pdf,.doc,.docx,.xls,.xlsx"
+      />
+    </div>
     <div class="form-actions">
       <button type="submit"
               class="btn btn-success"
               [disabled]="form.invalid || isSubmitting">
-        {{ isSubmitting ? 'Submitting...' : 'Submit' }}
+        {{ isSubmitting ? 'Submitting...' : 'Save' }}
       </button>
     </div>
   </form>
 
-  <!-- ITEMS LIST -->
-  <div *ngIf="items?.length" class="mt-4">
-    <h4>Existing Items</h4>
 
-    <ul class="item-grid">
-      <li class="item-card" *ngFor="let it of items">
-        <div class="title">{{ it.itemTitle }}</div>
-
-        <div class="meta">
-          <span class="chip">{{ it.category || 'No category' }}</span>
-          <span>{{ it.itemDate }}</span>
-        </div>
-
-        <div class="desc">{{ it.itemDescription }}</div>
-
-        <div class="row mt-2">
-          <button class="btn btn-link" (click)="prefillFrom(it)">
-            Prefill
-          </button>
-
-          <button class="btn btn-link text-danger" (click)="remove(it._id)">
-            Delete
-          </button>
-        </div>
-      </li>
-    </ul>
-  </div>
 
 </div>

@@ -89,27 +89,34 @@ this.itemService.getItems().subscribe({
       userEmail: item.userEmail,
     });
   }
+selectedFile: File | null = null;
 
+onFileSelected(event: any): void {
+  const file = event.target.files[0];
+
+  if (!file) return;
+
+  console.log("FILE SELECTED:", file);
+
+  this.selectedFile = file;
+}
   save(): void {
     if (this.form.invalid) return;
 
-    this.isSubmitting = true;
-    const payload = this.form.getRawValue() as ItemCreateRequest;
+    const payload = this.form.getRawValue();
 
-    console.log("SENDING TO API:", payload);
+    const newItem = {
+      ...payload,
+      fileName: this.selectedFile?.name || null,
+      fileType: this.selectedFile?.type || null
+    };
 
+    this.itemService.createItem(newItem).subscribe({
+      next: () => {
+        this.form.reset();
+        this.selectedFile = null;
+        this.itemCreated.emit();
 
-this.itemService.createItem(payload).subscribe({
-  next: (res) => {
-    console.log("SUCCESS:", res);
-    this.isSubmitting = false;
-     this.form.reset();
-
-    this.itemCreated.emit();
-  },
-  error: (err) => {
-    console.error("ERROR:", err);
-    this.isSubmitting = false;
   },
 });
   }

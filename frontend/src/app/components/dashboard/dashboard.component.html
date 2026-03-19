@@ -55,17 +55,6 @@
 
   </div>
 
-  <!-- CATEGORIES -->
-  <div class="category-section" *ngIf="categories.length">
-    <h3 class="category-title">Folders</h3>
-
-    <div class="category-list">
-      <div class="category-card"
-           *ngFor="let cat of categories">
-        📁 {{ cat }}
-      </div>
-    </div>
-  </div>
 
   <!-- FORM SECTION -->
   <div class="form-section" [hidden]="!showForm">
@@ -85,17 +74,60 @@
   </div>
 
   <!-- ✅ VIEW SECTION (FIXED POSITION) -->
-  <div class="view-section" [hidden]="!viewItemsMode">
+<div class="view-section" *ngIf="viewItemsMode">
+  <div class="form-header">
 
-    <h2>All Items</h2>
+  <h2 class="section-title">All Items ({{ totalItems }})</h2>
+  <button class="close-btn2" (click)="closeViewItems()">✕</button>
+  </div>
 
-    <app-items-list
-      *ngIf="viewItemsMode"
-      [items]="pagedItems"
-      (prefillClicked)="prefillItem($event)">
-    </app-items-list>
+  <!-- HORIZONTAL SCROLL -->
+  <div class="item-row">
 
+    <div
+      class="item-card"
+      *ngFor="let it of pagedItems | slice:0:10"
+      (click)="selectItem(it)"
+      [class.active]="selectedItem?._id === it._id"
+    >
+
+      <div class="title">{{ it.itemTitle }}</div>
+
+      <div class="meta">
+        <span class="chip">{{ it.category || 'No category' }}</span>
+        <span>{{ it.itemDate }}</span>
+      </div>
+
+    </div>
 
   </div>
 
+  <div class="empty" *ngIf="pagedItems.length === 0">
+    No items created yet.
+  </div>
 
+  <div *ngIf="totalItems > 10" class="view-more">
+    <button (click)="openViewItems()">
+      View All Items →
+    </button>
+  </div>
+  <!-- ACTION PANEL -->
+  <div class="item-detail" *ngIf="selectedItem">
+
+    <h3>{{ selectedItem.itemTitle }}</h3>
+
+    <p>{{ selectedItem.itemDescription }}</p>
+
+    <div class="meta">
+      <span class="chip">{{ selectedItem.category }}</span>
+      <span>{{ selectedItem.itemDate }}</span>
+    </div>
+
+    <div class="row mt-2">
+      <button (click)="prefillItem(selectedItem)">Edit</button>
+      <button class="text-danger" (click)="deleteItem(selectedItem._id)">Delete</button>
+    </div>
+
+  </div>
+
+</div>

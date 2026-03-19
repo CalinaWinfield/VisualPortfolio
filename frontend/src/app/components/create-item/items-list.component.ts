@@ -17,6 +17,29 @@ export class ItemsListComponent {
   @Output() prefillClicked = new EventEmitter<any>();
   @Output() viewClicked = new EventEmitter<void>();
 
+currentPage = 1;
+itemsPerPage = 5;
+
+get paginatedItems() {
+  const start = (this.currentPage - 1) * this.itemsPerPage;
+  return this.items.slice(start, start + this.itemsPerPage);
+}
+
+get totalPages() {
+  return Math.ceil(this.items.length / this.itemsPerPage);
+}
+
+nextPage() {
+  if (this.currentPage < this.totalPages) {
+    this.currentPage++;
+  }
+}
+
+prevPage() {
+  if (this.currentPage > 1) {
+    this.currentPage--;
+  }
+}
   onCreateClick() {
     this.createClicked.emit();
   }

@@ -1,31 +1,24 @@
-
-
 <section class="panel">
 
-  <!-- EMPTY STATE -->
-  <div *ngIf="!items || items.length === 0" class="empty">
-    No items have been created yet.
+
+
+  <!-- ✅ PAGINATION (ONLY ONCE) -->
+  <div class="pagination" *ngIf="totalPages > 1">
+
+    <button
+      (click)="currentPage = currentPage - 1"
+      [disabled]="currentPage === 1">
+      ◀
+    </button>
+
+    <span>Page {{ currentPage }} of {{ totalPages }}</span>
+
+    <button
+      (click)="currentPage = currentPage + 1"
+      [disabled]="currentPage === totalPages">
+      ▶
+    </button>
+
   </div>
-
-  <!-- ITEMS GRID -->
-  <ul class="item-grid" *ngIf="items && items.length > 0">
-    <li class="item-card" *ngFor="let it of items">
-
-      <div class="title">{{ it.itemTitle }}</div>
-
-      <div class="meta">
-        <span class="chip">{{ it.category || 'No category' }}</span>
-        <span class="date">{{ it.itemDate }}</span>
-      </div>
-
-      <div class="desc">{{ it.itemDescription }}</div>
-
-      <button style="background:red; color:white;"
-              (click)="onPrefillClick(it)">
-        Use as template
-      </button>
-
-    </li>
-  </ul>
 
 </section>
