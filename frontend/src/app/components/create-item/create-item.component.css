@@ -1,35 +1,39 @@
-.expandable-form-container { padding: 20px; border-radius: 10px; width: 50%; margin: auto; }
-
-.createButton { background-color: var(--blue); font-size: 24px; }
-.createButton:hover { background-color: rgba(93,129,188,0.7); }
-
-.updateButton { background-color: var(--pink); font-size: 24px; }
-.updateButton:hover { background-color: rgba(245,163,173,0.7); }
-
-.center-form-wrapper { display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 40px 20px; background-color: var(--navy); }
-
-#itemForm { background-color: var(--cream); padding: 20px; border-radius: 10px; border: 1px solid gray; }
-
-@media (max-width: 768px) {
-  .expandable-form-container { width: 100%; padding: 10px; }
+.compact-form {
+  max-width: 800px;
+  margin: 0 auto;
 }
 
-body.create-item-page .center-form-wrapper {
-  display: flex; justify-content: center; align-items: center;
-  min-height: 100vh; padding: 24px 12px; background-color: #00243a;
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
 }
-body.create-item-page .expandable-form-container {border-radius: 10px; max-width: 100%; width: 100%; margin: auto; }
-#firstForm, #itemForm { width: 100%; }
-body.create-item-page .createButton { background-color: #f5a3ad; font-size: 24px; width: 130px; max-width: 65%; border-color: #f5a3ad;}
-body.create-item-page .createButton:hover { background-color: #f5a3ad94; }
-body.create-item-page .createButton:active { background-color: #f5a3ad71; }
-body.create-item-page .updateButton { background-color: #f5a3ad; font-size: 24px; width: 100%;  }
-body.create-item-page .updateButton:hover { background-color: #f5a3ad94; }
-body.create-item-page .updateButton:active { background-color: #f5a3ad71; }
-body.create-item-page .btn-success {background-color:#f5a3ad ;}
-body.create-item-page #itemForm { background-color:#d1e7fd; padding:20px; border-radius:10px; border:1px solid gray; display:none; min-width: 30px; max-width: 465px;}
-@media (max-width: 992px) {
-  body.create-item-page .site-header .navbar { flex-direction: column; align-items: flex-start; padding: 10px; }
-  body.create-item-page .nav-links { flex-direction: column; align-items: flex-start; width:100%; margin-top:10px; padding-left:0; }
-  body.create-item-page .nav-links li { margin: 10px 0; }
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  font-size: 0.9rem;
+}
+
+.form-group label {
+  margin-bottom: 4px;
+  font-weight: 500;
+}
+
+.form-control {
+  padding: 8px 10px;
+  font-size: 0.9rem;
+}
+
+.full-width {
+  grid-column: span 2;
+}
+
+textarea.form-control {
+  min-height: 60px;
+  resize: none;
+}
+
+.submit{
+padding-top: 1rem;
 }

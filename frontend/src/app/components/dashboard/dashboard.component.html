@@ -1,8 +1,6 @@
+<div class="dashboard-wrapper">
 
-
-  <!-- Header -->
-  <div class="dashboard-wrapper">
-    <div class="dashboard-grid">
+  <!-- HEADER -->
   <div class="dashboard-header">
     <h1 class="dashboard-title">Dashboard</h1>
 
@@ -12,125 +10,92 @@
              placeholder="Search documents, items..." />
     </div>
   </div>
+</div>
 
-
-  <!-- Main Grid -->
+  <!-- CARDS GRID -->
   <div class="dashboard-grid">
 
-    <!-- ITEMS -->
-    <div class="dashboard-card" routerLink="/items">
+    <!-- ITEMS CARD -->
+    <div class="dashboard-card"
+         (click)="toggleCard('items')">
+
       <h3>Items</h3>
       <p>Create, view and edit items.</p>
 
-      <div class="card-preview">
-        <div *ngIf="loadingItems" class="muted">Loading items…</div>
-        <div *ngIf="itemsError" class="error">{{ itemsError }}</div>
+      <div class="card-expand"
+           [hidden]="activeCard !== 'items'"
+           (click)="$event.stopPropagation()">
 
-        <ul *ngIf="itemsPreview.length">
-          <li *ngFor="let it of itemsPreview">
-            <strong>{{ it.itemTitle }}</strong>
-            <span>
-              {{ it.category || 'No category' }} —
-              {{ it.itemDate }}
-            </span>
-          </li>
-        </ul>
-      </div>
+        <div class="card-actions">
 
-      <div class="card-actions">
-        <button class="btn-primary"
-                (click)="$event.stopPropagation()"
-                routerLink="/items">
-          View All
-        </button>
+          <button (click)="toggleForm(); $event.stopPropagation()">
+            + Create Item
+          </button>
 
-        <button class="btn-secondary"
-                (click)="$event.stopPropagation()"
-                routerLink="/create-item">
-          Add New
-        </button>
+          <button (click)="openViewItems(); $event.stopPropagation()">
+            View Items
+          </button>
+
+        </div>
+
       </div>
     </div>
 
-
     <!-- DOCUMENT BUILDER -->
-    <div class="dashboard-card" (click)="toggleSection('activeForms')">
+    <div class="dashboard-card">
       <h3>Document Builder</h3>
       <p>Drag and drop to create custom documents.</p>
     </div>
 
-
-
     <!-- MY DOCUMENTS -->
-    <div class="dashboard-card" (click)="toggleSection('documents')">
+    <div class="dashboard-card">
       <h3>My Documents</h3>
       <p>View and edit saved documents.</p>
     </div>
 
   </div>
 
+  <!-- CATEGORIES -->
+  <div class="category-section" *ngIf="categories.length">
+    <h3 class="category-title">Folders</h3>
 
-  <!-- Expandable Sections -->
-
-  <div *ngIf="sections.documents" class="dashboard-section">
-    <h2>My Documents</h2>
-    <div class="folder-grid">
-      <div class="folder">
-        <img src="assets/img/folder-svgrepo-com.svg" alt="">
-        <span>Resumes</span>
-      </div>
-      <div class="folder">
-        <img src="assets/img/folder-svgrepo-com.svg" alt="">
-        <span>Certification Documents</span>
-      </div>
-      <div class="folder">
-        <img src="assets/img/folder-svgrepo-com.svg" alt="">
-        <span>Degrees</span>
+    <div class="category-list">
+      <div class="category-card"
+           *ngFor="let cat of categories">
+        📁 {{ cat }}
       </div>
     </div>
   </div>
 
+  <!-- FORM SECTION -->
+  <div class="form-section" [hidden]="!showForm">
 
-  <div *ngIf="sections.todo" class="dashboard-section">
-    <h2>To Do</h2>
-    <ul class="todo-list">
-      <li><input type="checkbox"> Finish Robotics CV</li>
-      <li><input type="checkbox" checked> Update Resume</li>
-      <li><input type="checkbox" disabled> Disabled Task</li>
-    </ul>
+    <div class="form-header">
+      <h2 class="form-title">
+        {{ selectedItem ? 'Edit Item' : 'Create New Item' }}
+      </h2>
+      <button class="close-btn" (click)="closeForm()">✕</button>
+    </div>
+
+    <app-create-item
+      [prefillData]="selectedItem"
+      (itemCreated)="onItemCreated()">
+    </app-create-item>
+
+  </div>
+
+  <!-- ✅ VIEW SECTION (FIXED POSITION) -->
+  <div class="view-section" [hidden]="!viewItemsMode">
+
+    <h2>All Items</h2>
+
+    <app-items-list
+      *ngIf="viewItemsMode"
+      [items]="pagedItems"
+      (prefillClicked)="prefillItem($event)">
+    </app-items-list>
+
+
   </div>
 
 
-  <div *ngIf="sections.activeForms" class="dashboard-section">
-    <h2>Active Forms</h2>
-
-    <table class="forms-table">
-      <thead>
-      <tr>
-        <th>#</th>
-        <th>Document</th>
-        <th>Status</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr>
-        <td>1</td>
-        <td>Robotics CV</td>
-        <td class="status success">Completed</td>
-      </tr>
-      <tr>
-        <td>2</td>
-        <td>Most Current Resume</td>
-        <td class="status pending">Pending</td>
-      </tr>
-      <tr>
-        <td>3</td>
-        <td>CV #2</td>
-        <td class="status canceled">Canceled</td>
-      </tr>
-      </tbody>
-    </table>
-  </div>
-
-</div>
-</div>

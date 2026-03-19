@@ -1,19 +1,58 @@
-/* src/app/features/login-inline/login-inline.component.css */
+
+
 .login-card {
-  background: #fff;
-  border-radius: .5rem;
-  padding: 1.25rem;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.06);
-}
-.login-card h3 {
-  margin-bottom: .75rem;
-}
-@media (max-width: 767px) {
-  .hero-split {
-    padding: 2rem 1rem;
-  }
-  .hero-right {
-    min-width: 100%;
-  }
+  background: white;
+  color: #1f1f1f;
+  width: 100%;
+   max-width: clamp(350px, 38vw, 600px);
+  padding: 2rem;
+  border-radius: 16px;
+  box-shadow: 0 20px 40px rgba(0,1,0,0.45);
+  display: flex;
+  flex-direction: column;
+  animation: float 4s ease-in-out infinite;
 }
 
+.login-card h3 {
+  margin-bottom: 1.5rem;
+  font-family: 'Playfair Display', serif;
+}
+.login-card .form-group {
+  margin-bottom: 1.2rem;
+}
+
+.login-card label {
+  font-size: 0.85rem;
+  margin-bottom: 0.3rem;
+  display: block;
+  opacity: 0.8;
+}
+
+.login-card input {
+  width: 100%;
+  padding: 0.6rem 0.7rem;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  font-size: 0.9rem;
+}
+.login-btn {
+  margin-top: 1.5rem;
+  padding: 0.7rem;
+
+  background: #1f1f1f;
+  color: white;
+  border: none;
+  border-radius: 999px;
+
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.login-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 20px rgba(0,0,0,0.2);
+}
+.small-muted {
+font-size: .9rem;
+color: #6c757d;
+}

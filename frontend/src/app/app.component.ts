@@ -71,7 +71,6 @@ import { Location } from '@angular/common';
            </div>
          </footer>
        </div>
-
   `,
 })
 export class AppComponent {

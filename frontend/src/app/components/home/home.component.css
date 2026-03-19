@@ -1,4 +1,9 @@
 
+.home-wrapper {
+  max-width: 1300px;
+  margin: 4rem auto;
+  padding: 0 2rem;
+}
 
 .login-card {
   background: white;
@@ -253,4 +258,8 @@
   opacity: 0;
   transform: translateY(12px);
   animation: subtitle-fade 0.6s ease 4.3s forwards;
+}
+.small-muted {
+font-size: .9rem;
+color: #6c757d;
 }

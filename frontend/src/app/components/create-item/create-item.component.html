@@ -1,72 +1,75 @@
+<div class="expandable-form-container">
 
 
-<div class="center-form-wrapper" style="position:relative;">
-  <div class="top-left-controls">
-    <button class="back-button" (click)="goBack()">← Back</button>
-  </div>
 
-  <div class="expandable-form-container">
-    <form *ngIf="!showForm" class="p-4 border rounded bg-white shadow w-75 mx-auto">
-      <div class="form-row">
-        <div class="form-group mb-3">
-          <button type="button" class="btn btn-primary btn-block form-control createButton" (click)="openForm()">CREATE</button>
+  <!-- FORM (toggle open, not replace UI) -->
+  <form [formGroup]="form" (ngSubmit)="save()" class="compact-form">
+
+    <div class="form-grid">
+
+      <div class="form-group">
+        <label>Category</label>
+        <input class="form-control" formControlName="category" />
+      </div>
+
+      <div class="form-group">
+        <label>Title</label>
+        <input class="form-control" formControlName="itemTitle" />
+      </div>
+
+      <div class="form-group">
+        <label>Date</label>
+        <input type="date" class="form-control" formControlName="itemDate" />
+      </div>
+
+      <div class="form-group">
+        <label>Email</label>
+        <input type="email" class="form-control" formControlName="userEmail" />
+      </div>
+
+    </div>
+
+    <!-- FULL WIDTH -->
+    <div class="form-group full-width">
+      <label>Description</label>
+      <textarea rows="2" class="form-control" formControlName="itemDescription"></textarea>
+    </div>
+
+    <div class="form-actions">
+      <button type="submit"
+              class="btn btn-success"
+              [disabled]="form.invalid || isSubmitting">
+        {{ isSubmitting ? 'Submitting...' : 'Submit' }}
+      </button>
+    </div>
+  </form>
+
+  <!-- ITEMS LIST -->
+  <div *ngIf="items?.length" class="mt-4">
+    <h4>Existing Items</h4>
+
+    <ul class="item-grid">
+      <li class="item-card" *ngFor="let it of items">
+        <div class="title">{{ it.itemTitle }}</div>
+
+        <div class="meta">
+          <span class="chip">{{ it.category || 'No category' }}</span>
+          <span>{{ it.itemDate }}</span>
         </div>
-        <div class="form-group">
-          <button type="button" class="btn btn-secondary btn-block form-control updateButton" (click)="fetchItems()">UPDATE</button>
+
+        <div class="desc">{{ it.itemDescription }}</div>
+
+        <div class="row mt-2">
+          <button class="btn btn-link" (click)="prefillFrom(it)">
+            Prefill
+          </button>
+
+          <button class="btn btn-link text-danger" (click)="remove(it._id)">
+            Delete
+          </button>
         </div>
-      </div>
-    </form>
-
-    <!-- REACTIVE FORM -->
-    <form *ngIf="showForm" [formGroup]="form" (ngSubmit)="save()" class="p-4 border rounded bg-white shadow w-75 mx-auto">
-      <div class="form-group mb-4">
-        <label for="category">Folder (Category):</label>
-        <input id="category" class="form-control" formControlName="category" />
-      </div>
-
-      <div class="form-group mb-4">
-        <label for="itemTitle">Title:</label>
-        <input id="itemTitle" class="form-control" formControlName="itemTitle" />
-      </div>
-
-      <div class="form-group mb-4">
-        <label for="itemDate">Date:</label>
-        <input id="itemDate" type="date" class="form-control" formControlName="itemDate" />
-      </div>
-
-      <div class="form-group mb-4">
-        <label for="itemDescription">Description:</label>
-        <textarea id="itemDescription" class="form-control" rows="3" formControlName="itemDescription"></textarea>
-      </div>
-
-      <div class="form-group mb-4">
-        <label for="userEmail">Email:</label>
-        <input id="userEmail" type="email" class="form-control" formControlName="userEmail" />
-      </div>
-
-      <div class="text-center">
-        <button type="submit" class="btn btn-success mt-3" [disabled]="form.invalid || isSubmitting" style="width: 50%;">
-          {{ isSubmitting ? 'Submitting...' : 'Submit' }}
-        </button>
-      </div>
-    </form>
-  </div>
-
-  <!-- Existing items list pulled from Mongo -->
-  <div class="p-4 w-75 mx-auto" *ngIf="items?.length">
-    <h3>Existing Items</h3>
-    <ul>
-      <li *ngFor="let it of items">
-        <strong>{{ it.itemTitle }}</strong> — {{ it.category || 'No category' }} — {{ it.itemDate }}
-        <button class="btn btn-link" (click)="prefillFrom(it)">Prefill</button>
-        <button class="btn btn-link text-danger" (click)="remove(it._id)">Delete</button>
       </li>
     </ul>
   </div>
-</div>
 
-<footer class="footer">
-  <div class="container">
-    <p>&copy; <span id="current-year"></span> Visual Portfolio. All rights reserved.</p>
-  </div>
-</footer>
+</div>

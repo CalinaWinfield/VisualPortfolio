@@ -1,10 +1,11 @@
 // src/app/components/create-item/create-item.component.ts
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnChanges, Input } from '@angular/core';
 import { FormBuilder, Validators, FormGroup, ReactiveFormsModule} from '@angular/forms';
 import { CommonModule, Location } from '@angular/common';
 
 import { ItemService } from '../../services/item.service';
 import { Item, ItemCreateRequest } from '../../models/item.model';
+import { Output, EventEmitter } from '@angular/core';
 
 @Component({
   standalone: true,
@@ -15,6 +16,10 @@ import { Item, ItemCreateRequest } from '../../models/item.model';
 })
 
 export class CreateItemComponent implements OnInit {
+
+@Output() itemCreated = new EventEmitter<void>();
+@Input() prefillData: any;
+
   items: Item[] = [];
   loading = false;
   error?: string;
@@ -29,6 +34,19 @@ export class CreateItemComponent implements OnInit {
     private location: Location
   ) {}
 
+ngOnChanges(): void {
+  if (this.prefillData && this.form) {
+    this.form.patchValue({
+      category: this.prefillData.category ?? '',
+      itemTitle: this.prefillData.itemTitle,
+      itemDate: this.prefillData.itemDate,
+      itemDescription: this.prefillData.itemDescription,
+      userEmail: this.prefillData.userEmail,
+    });
+
+    this.showForm = true; // 🔥 auto-open form
+  }
+}
   ngOnInit(): void {
     this.form = this.fb.group({
       category: [''],
@@ -45,11 +63,6 @@ export class CreateItemComponent implements OnInit {
     this.showForm = true;
   }
 
-
-
-  goBack(): void {
-      this.location.back();
-    }
 
  fetchItems(): void {
     this.loading = true;
@@ -83,16 +96,19 @@ this.itemService.getItems().subscribe({
     this.isSubmitting = true;
     const payload = this.form.getRawValue() as ItemCreateRequest;
 
+    console.log("SENDING TO API:", payload);
+
 
 this.itemService.createItem(payload).subscribe({
-  next: (created) => {
-    this.items.unshift(created);
-    this.form.reset();
+  next: (res) => {
+    console.log("SUCCESS:", res);
     this.isSubmitting = false;
-    this.showForm = false;
+     this.form.reset();
+
+    this.itemCreated.emit();
   },
   error: (err) => {
-    this.error = err?.message ?? 'Save failed';
+    console.error("ERROR:", err);
     this.isSubmitting = false;
   },
 });
