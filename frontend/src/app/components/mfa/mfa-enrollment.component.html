@@ -20,12 +20,13 @@
           </p>
 
           <div class="code-input">
-            <label>Enter the 6‑digit code:</label>
+            <label>Enter the 6‑digit code</label>
             <input
               type="text"
               maxlength="6"
               [(ngModel)]="code"
               placeholder="123456"
+              class="mfa-code-input"
             />
           </div>
 
@@ -37,6 +38,18 @@
             {{ verifying ? 'Verifying...' : 'Verify & Continue' }}
           </button>
 
+        </div>
+
+        <div class="mfa-instructions">
+          <h3>How to set up your authenticator</h3>
+
+          <ol>
+            <li>Open your authenticator app (Microsoft Authenticator, Google Authenticator, Authy, etc.).</li>
+            <li>Select “Add account” or “Scan QR code.”</li>
+            <li>Point your phone’s camera at the QR code above to link your account.</li>
+            <li>If scanning doesn’t work, choose “Enter key manually” in your app and use the key shown after scanning.</li>
+            <li>Your app will generate a 6‑digit code that refreshes every 30 seconds. Enter it above to finish setup.</li>
+          </ol>
         </div>
 
       </ng-container>
