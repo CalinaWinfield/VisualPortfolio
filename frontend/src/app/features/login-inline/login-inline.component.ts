@@ -1,8 +1,9 @@
-// src/app/features/login-inline/login-inline.component.ts
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
+import { AuthService } from '../../auth.service';
 
 @Component({
   selector: 'app-login-inline',
@@ -14,32 +15,41 @@ import { FormsModule } from '@angular/forms';
 export class LoginInlineComponent {
   email = '';
   password = '';
+  errorMessage = '';
 
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private http: HttpClient,
+    private auth: AuthService
+  ) {}
 
   submitInline(): void {
-    const email = (this.email || '').trim();
-    const password = this.password || '';
+    const email = this.email.trim();
+    const password = this.password;
 
     if (!email || !password) {
-      alert('Please enter email and password.');
+      this.errorMessage = 'Please enter email and password.';
       return;
     }
 
     if (!/^\S+@\S+\.\S+$/.test(email)) {
-      alert('Please enter a valid email address.');
+      this.errorMessage = 'Please enter a valid email address.';
       return;
     }
 
-    const token = 'fake-session-' + Math.random().toString(36).slice(2);
-    try {
-      localStorage.setItem('sessionToken', token);
-      localStorage.setItem('sessionEmail', email);
-    } catch {
-      sessionStorage.setItem('sessionToken', token);
-      sessionStorage.setItem('sessionEmail', email);
-    }
-
-    this.router.navigate(['/dashboard']);
+    this.http.post<any>(
+      'http://localhost:5001/api/auth/login',
+      { email, password },
+      { withCredentials: true }
+    ).subscribe({
+      next: (res) => {
+        this.auth.setAccessToken(res.accessToken);
+        this.errorMessage = '';
+        this.router.navigate(['/dashboard']);
+      },
+      error: (err) => {
+        this.errorMessage = err?.error?.error || 'Invalid email or password.';
+      }
+    });
   }
 }

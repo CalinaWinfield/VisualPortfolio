@@ -4,6 +4,7 @@
 
     <form (ngSubmit)="submitInline()" #inlineForm="ngForm" novalidate>
 
+      <!-- Email -->
       <div class="form-group">
         <label for="inlineEmail">Email</label>
         <input
@@ -16,6 +17,7 @@
         />
       </div>
 
+      <!-- Password -->
       <div class="form-group">
         <label for="inlinePassword">Password</label>
         <input
@@ -28,6 +30,7 @@
         />
       </div>
 
+      <!-- Button -->
       <button
         class="login-btn"
         type="submit"
@@ -35,9 +38,17 @@
       >
         Log in
       </button>
+
+      <!-- Optional note -->
       <div class="small-muted">
         No backend required — demo only
       </div>
+
+      <!-- Error message -->
+      <div *ngIf="errorMessage" class="alert alert-danger mt-3">
+        {{ errorMessage }}
+      </div>
+
     </form>
   </div>
 </div>
