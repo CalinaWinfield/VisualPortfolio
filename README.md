@@ -21,6 +21,11 @@ The EasyFolio App is a web tool that will help faculty keep, organize, and share
 3. PDF generation
 4. Schedule management
 5. Responsive Screen
+
+### Dashboard Components and Layout
+Components: DashboardWrapper, DashboardHeader (title+search), DashboardGrid, DashboardCard (ItemsCard, DocumentBuilderCard, MyDocumentsCard), ItemsPreview, CardActions, ExpandableSections, ItemService.getItems(), routing hooks.
+Layout: AppShell → SiteHeader | Main: DashboardWrapper → DashboardHeader, DashboardGrid (cards), ExpandableSections (My Documents, To Do, Active Forms) → Footer.
+
    
 ### Installation
 1. Clone git repo: 
