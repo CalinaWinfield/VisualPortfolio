@@ -1,38 +1,210 @@
-/* src/app/features/landing/landing.component.css */
-.hero-split {
-  display: flex;
-  gap: 2rem;
-  align-items: center;
-  justify-content: center;
-  padding: 4rem 3rem;
-  flex-wrap: wrap;
+.home-wrapper {
+  max-width: 1300px;
+  margin: 4rem auto;
+  padding: 0 2rem;
 }
-.hero-left {
-flex: 1 1 420px;
-max-width: 720px;
+
+
+.hero::before {
+  transform: translateY(0);
+  transition: transform 0.2s ease-out;
 }
-.hero-right {
-flex: 0 1 360px;
-min-width: 300px;
+
+.hero-title {
+  font-family: var(--font-display);
+  color: var(--color-white);
+  text-shadow: var(--hero-text-shadow);
+  font-weight: 700;
+  font-size: clamp(2.2rem, 5vw, 4.2rem);
+  line-height:1.3;
+  margin-bottom: 1.5rem;
+  position: relative;
+
 
 }
-.hero-title {
-font-size: 2.25rem;
-line-height: 1.05;
-margin-bottom: 1rem;
-font-family: "Playfair Display", serif;
- }
-.hero-subtitle {
- color: #6c757d;
- margin-bottom: 1.25rem;
- }
-.login-card {
-background: #fff;
- border-radius: .5rem;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
-   padding: 1.25rem;
-    }
-.small-muted {
-font-size: .9rem;
-color: #6c757d;
+
+.hero-title em {
+  display: inline-block;
+  animation: emphasis 4s ease .9s forwards;
 }
+
+
+.hero-subtitle {
+  max-width: 520px;
+  margin-bottom: 3rem;
+  color: var(--color-white);
+  text-shadow: var(--hero-subtitle-shadow);
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(1.1rem, 1.4vw, 1.6rem);
+  opacity: 0;
+  transform: translateY(10px);
+    animation: subtitle-fade 0.6s ease 4s forwards;
+}
+
+
+.typing-line {
+   display: block;
+}
+
+.typing-wrap {
+  position: relative;
+   overflow: hidden;
+    white-space: nowrap;
+    display: inline-block;
+  }
+
+
+
+.typing {
+ display: inline-block;
+}
+
+
+.line-1 .typing-wrap {
+  width: 0ch;
+  animation: type-line-1 1.5s steps(14) forwards;
+}
+
+.line-1 .typing-wrap::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  top: 0.08em;
+  width: 2px;
+  height: .95em;
+  background: white;
+  animation:
+    caret-blink 2.2s infinite,
+    hide-caret 0s linear 2s forwards;
+}
+
+
+.line-2 .typing-wrap {
+  width: 0ch;
+  animation: type-line-2 1.5s steps(14) 2s forwards;
+}
+
+.line-2 .typing-wrap::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  top: 0.08em;
+  width: 2px;
+  height: .95em;
+  background: white;
+  animation:
+    caret-blink 2.2s  infinite;
+}
+
+.typing-wrap::after {
+  box-shadow: 0 0 6px rgba(255,255,255,0.7);
+}
+
+@keyframes type-line-1 {
+  from { width: 0ch; }
+  to   { width: 12ch; }
+}
+
+@keyframes type-line-2 {
+  from { width: 0ch; }
+  to   { width: 14ch; }
+}
+
+@keyframes caret-blink {
+  0%,100% { opacity: 1; }
+  50%     { opacity: 0; }
+}
+
+@keyframes hide-caret {
+  to { opacity: 0; }
+}
+
+@keyframes subtitle-fade {
+  to {
+    opacity: 0.9;
+    transform: translateY(0);
+  }
+}
+
+@keyframes emphasis {
+  0%   { transform: translateY(0); }
+  30%  { transform: translateY(-8px); }
+  55%  { transform: translateY(4px); }
+  75%  { transform: translateY(-3px); }
+  100% { transform: translateY(0); }
+}
+
+.hero-split {
+  min-height: 85vh;
+  display: grid;
+  grid-template-columns:1fr;
+  align-items: center;
+
+  gap:10rem;
+  padding: 6rem 0;
+  max-width: 1500px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.hero-left {
+  max-width: 600px;
+   margin: 0 auto;
+   grid-row: 2;
+}
+.hero-right {
+  display: flex;
+ justify-content: center;   /* default centered */
+   align-items: center;
+    grid-row: 1;
+    justify-self: stretch;
+}
+
+@media (min-width: 1024px) {
+  .hero-split {
+    grid-template-columns: 1.1fr 5fr;
+  }
+
+  .hero-left {
+    grid-row: auto;
+    margin: 0;
+     width: 600px;       /* 👈 hard lock */
+      overflow: hidden;
+  }
+
+  .hero-right {
+    grid-row: auto;
+    justify-content: flex-end;
+  }
+}
+
+
+.cta-primary {
+   background: rgba(0, 0, 0, 0.85);
+  color: white;
+  border: none;
+  border-radius: 999px;
+  padding: 0.7rem 1.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+}
+
+.cta-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 20px rgba(0,0,0,0.25);
+}
+.hero-actions {
+  opacity: 0;
+  transform: translateY(12px);
+  animation: subtitle-fade 0.6s ease 4.3s forwards;
+}
+
+@media (min-width: 1024px) {
+  .hero-split {
+    grid-template-columns: 1fr 1.5fr; /* bigger login side */
+  }
+
+

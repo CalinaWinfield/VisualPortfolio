@@ -1,3 +1,13 @@
+
+// routes/userRoutes.js
+const express = require('express');
+const router = express.Router();
+
+// All routes removed or disabled for now
+
+module.exports = router;
+
+/*
 const express = require("express");
 const router = express.Router();
 const User = require("../models/User");
@@ -64,3 +74,4 @@ router.post("/login", async (req, res) => {
 
 
 module.exports = router;
+*/

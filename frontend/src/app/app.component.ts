@@ -45,7 +45,15 @@ import { Location } from '@angular/common';
                  <li class="nav-item"><a class="nav-link" routerLink="/documents" routerLinkActive="active">Documents</a></li>
                  <li class="nav-item"><a class="nav-link" routerLink="/guide" routerLinkActive="active">Guide</a></li>
                  <li class="nav-item"><a class="nav-link" routerLink="/about" routerLinkActive="active">About</a></li>
-               </ul>
+                 
+                 <li class="nav-item" *ngIf="isLoggedIn">
+                    <a class="nav-link logout-btn" (click)="logout()">Logout</a>
+                 </li>
+
+
+
+
+                 </ul>
              </div>
 
            </div>
@@ -71,7 +79,6 @@ import { Location } from '@angular/common';
            </div>
          </footer>
        </div>
-
   `,
 })
 export class AppComponent {
@@ -89,4 +96,18 @@ export class AppComponent {
   goBack() {
     this.location.back();
   }
+
+  get isLoggedIn(): boolean {
+  return !!localStorage.getItem('accessToken');
+}
+
+  logout() {
+  // Remove tokens or user session data
+  localStorage.removeItem('accessToken');
+  localStorage.removeItem('refreshToken');
+  sessionStorage.clear();
+
+  // Navigate to login page
+  this.router.navigate(['/login']);
+}
 }

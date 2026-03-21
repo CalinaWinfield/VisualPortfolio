@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule, Location } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { firstValueFrom } from 'rxjs';
 import { ItemService } from '../../services/item.service';
 
 @Component({
@@ -11,20 +12,16 @@ import { ItemService } from '../../services/item.service';
   styleUrls: ['./document.component.css']
 })
 export class DocumentComponent implements OnInit {
+
   items: any[] = [];
   currentYear = new Date().getFullYear();
 
   constructor(
-    private itemService: ItemService,
-    private location: Location
+    private itemService: ItemService
   ) {}
 
   ngOnInit(): void {
     this.loadItems();
-  }
-
-  goBack(): void {
-    this.location.back();
   }
 
   async loadItems(): Promise<void> {
@@ -32,13 +29,13 @@ export class DocumentComponent implements OnInit {
     if (!sessionUserEmail) return;
 
     try {
-      // toPromise() can return undefined → guard it
-      const items = await this.itemService.getItems().toPromise();
+      const items = await firstValueFrom(this.itemService.getItems());
       const safeItems = items ?? [];
 
       this.items = safeItems.filter(
-        i => i.userEmail === sessionUserEmail
+        (i: any) => i.userEmail === sessionUserEmail
       );
+
     } catch (err) {
       console.error('Error loading items', err);
     }
@@ -67,7 +64,7 @@ export class DocumentComponent implements OnInit {
     if (!id) return;
 
     const dragged = document.getElementById(id);
-    if (!dragged) return; // ⬅ fixes null + Node error
+    if (!dragged) return;
 
     target.appendChild(dragged);
     dragged.classList.remove('dragging');
@@ -86,7 +83,6 @@ export class DocumentComponent implements OnInit {
     lists.forEach(l => {
       const title = l.dataset['title'] ?? '';
       const description = l.dataset['description'] ?? '';
-
       output += `<h5>${title}</h5><p>${description}</p>`;
     });
 

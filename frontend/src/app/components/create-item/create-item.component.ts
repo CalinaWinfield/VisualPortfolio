@@ -1,10 +1,11 @@
 // src/app/components/create-item/create-item.component.ts
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnChanges, Input } from '@angular/core';
 import { FormBuilder, Validators, FormGroup, ReactiveFormsModule} from '@angular/forms';
 import { CommonModule, Location } from '@angular/common';
 
 import { ItemService } from '../../services/item.service';
 import { Item, ItemCreateRequest } from '../../models/item.model';
+import { Output, EventEmitter } from '@angular/core';
 
 @Component({
   standalone: true,
@@ -15,6 +16,10 @@ import { Item, ItemCreateRequest } from '../../models/item.model';
 })
 
 export class CreateItemComponent implements OnInit {
+
+@Output() itemCreated = new EventEmitter<void>();
+@Input() prefillData: any;
+
   items: Item[] = [];
   loading = false;
   error?: string;
@@ -29,6 +34,19 @@ export class CreateItemComponent implements OnInit {
     private location: Location
   ) {}
 
+ngOnChanges(): void {
+  if (this.prefillData && this.form) {
+    this.form.patchValue({
+      category: this.prefillData.category ?? '',
+      itemTitle: this.prefillData.itemTitle,
+      itemDate: this.prefillData.itemDate,
+      itemDescription: this.prefillData.itemDescription,
+      userEmail: this.prefillData.userEmail,
+    });
+
+    this.showForm = true; // 🔥 auto-open form
+  }
+}
   ngOnInit(): void {
     this.form = this.fb.group({
       category: [''],
@@ -45,11 +63,6 @@ export class CreateItemComponent implements OnInit {
     this.showForm = true;
   }
 
-
-
-  goBack(): void {
-      this.location.back();
-    }
 
  fetchItems(): void {
     this.loading = true;
@@ -76,24 +89,34 @@ this.itemService.getItems().subscribe({
       userEmail: item.userEmail,
     });
   }
+selectedFile: File | null = null;
 
+onFileSelected(event: any): void {
+  const file = event.target.files[0];
+
+  if (!file) return;
+
+  console.log("FILE SELECTED:", file);
+
+  this.selectedFile = file;
+}
   save(): void {
     if (this.form.invalid) return;
 
-    this.isSubmitting = true;
-    const payload = this.form.getRawValue() as ItemCreateRequest;
+    const payload = this.form.getRawValue();
 
+    const newItem = {
+      ...payload,
+      fileName: this.selectedFile?.name || null,
+      fileType: this.selectedFile?.type || null
+    };
 
-this.itemService.createItem(payload).subscribe({
-  next: (created) => {
-    this.items.unshift(created);
-    this.form.reset();
-    this.isSubmitting = false;
-    this.showForm = false;
-  },
-  error: (err) => {
-    this.error = err?.message ?? 'Save failed';
-    this.isSubmitting = false;
+    this.itemService.createItem(newItem).subscribe({
+      next: () => {
+        this.form.reset();
+        this.selectedFile = null;
+        this.itemCreated.emit();
+
   },
 });
   }

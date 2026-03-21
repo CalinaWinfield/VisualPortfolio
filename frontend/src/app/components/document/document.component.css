@@ -1,19 +1,10 @@
-/* Document builder styles */
-.builder-wrapper { padding: 1rem 0; }
-.builder-card { min-height: 240px; }
-.drag-container { min-height: 160px; border: 2px dashed #e9ecef; padding: 1rem; }
-.list { padding: 0.5rem 0.75rem; margin-bottom: 0.5rem; background: #f8f9fa; border-radius: 6px; cursor: grab; }
-.list.dragging { opacity: 0.6; }
-.docTitle { color: var(--dark-brown); }
-.formatbtn { background-color: var(--pink); color: white; border: none; }
 
-@media (max-width: 768px) { .builder-card { min-height: auto; } }
 
 .document-title {
 font-size: 2.8rem;
   color: white;
   font-weight: 600;
-  margin-bottom: 4rem;
+  margin-bottom: 2rem;
   text-shadow: 0 4px 12px rgba(0,0,0,0.4);
   font-family: "Playfair Display"
 }
@@ -42,7 +33,7 @@ font-size: 2.8rem;
 }
 .document-wrapper {
   max-width: 900px;
-  margin: 4rem auto;
+  margin: 3rem auto;
   padding: 0 2rem;
 }
 .document-grid {

@@ -1,24 +1,24 @@
-// src/app/services/item.service.ts
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { of } from 'rxjs';
 import { Item, ItemCreateRequest } from '../models/item.model';
 
 @Injectable({ providedIn: 'root' })
 export class ItemService {
-  private baseUrl = 'http://localhost:5001/api/items';
 
-  constructor(private http: HttpClient) {}
+  private items: Item[] = [];
 
-  createItem(payload: ItemCreateRequest): Observable<Item> {
-    return this.http.post<Item>(`${this.baseUrl}/create-item`, payload);
+  getItems() {
+    return of(this.items);
   }
 
-  getItems(): Observable<Item[]> {
-    return this.http.get<Item[]>(`${this.baseUrl}`);
+  createItem(item: ItemCreateRequest) {
+    const newItem = { ...item, _id: Date.now().toString() };
+    this.items.push(newItem);
+    return of(newItem);
   }
 
-  deleteItem(id: string): Observable<{ ok: boolean } | { message: string }> {
-    return this.http.delete<{ ok: boolean } | { message: string }>(`${this.baseUrl}/${id}`);
+  deleteItem(id: string) {
+    this.items = this.items.filter(i => i._id !== id);
+    return of(true);
   }
 }

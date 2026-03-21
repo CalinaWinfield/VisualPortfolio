@@ -8,16 +8,40 @@
 
 /* 2) Design tokens (only once) */
 :root {
-  --dark-brown: #382c29;
-  --cream: #fff5e3;
-  --pink: #f5a3ad;
-  --blue: #5d81bc;
-  --navy: #004687;
-  --VPOrange: #f4a460;
-  --light-purple: #c8a2c8;
+  /* Colors */
+   --color-white: #ffffff;
+   --color-black: #000000;
+   --color-nav-link: rgba(255,255,255,0.75);
+   --color-logo-text: rgba(255,255,255,0.9);
+   --color-glass-border: rgba(255,255,255,0.08);
+   --color-glass-highlight: rgba(255,255,255,0.4);
 
-  --no-padding: 0;
-  --no-margin: 0;
+   /* Glass Effect */
+   --glass-bg: rgba(200, 200, 200, 0.45);
+   --glass-blur: blur(18px) saturate(140%);
+   --glass-shadow: 0 8px 30px rgba(0,0,0,0.25);
+
+   /* Transitions */
+   --transition-default: 0.3s ease;
+   --transition-fast: 0.2s ease-out;
+   --transition-logo: 0.35s ease;
+
+   /* Logo Animation */
+   --logo-hover-transform: scale(1.30) rotate(-3deg);
+   --logo-hover-glow: drop-shadow(0 0 6px rgba(255,255,255,0.4));
+
+   /* Typography */
+   --font-display: "Playfair Display", serif;
+
+   /*  Hero Effects */
+   --hero-text-shadow:
+     0 4px 12px rgba(0,0,0,0.40),
+     0 1px 2px rgba(0,0,0,0.3);
+
+   --hero-subtitle-shadow:
+     0 2px 6px rgba(0,0,0,0.4),
+     0 0 12px rgba(0,0,0,0.2);
+
 
   /* Mobile base sizes */
   --tap-min: 44px;
@@ -28,17 +52,8 @@
 }
 
 /* 3) Base (shared) */
-html, body {
-  font-family: "Inter", serif;
-  background-color: #004687;
-  color: white;
-  margin: var(--no-margin);
-  padding: var(--no-padding);
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  -webkit-text-size-adjust: 100%;
-}
+
+
 img, video, canvas, svg { max-width: 100%; height: auto; }
 button, .btn, input[type="button"], input[type="submit"], input[type="reset"] { min-height: var(--tap-min); }
 
@@ -108,8 +123,13 @@ align-items: center;
    font-family: var(--font-display);
      font-weight: 700;
      letter-spacing: 0.12em;
-     font-size: 18px;
-     color: var(--color-logo-text);
+     font-size: 25px;
+     color: white;
+
+       /* soft outline */
+       text-shadow:
+         0 0 2px rgba(0,0,0,0.6),
+         0 0 4px rgba(0,0,0,0.4);
      transition: color var(--transition-default);
  }
 
@@ -118,7 +138,7 @@ align-items: center;
  }
 
 .site-header .logo-img {
-height: 38px;
+height: 42px;
 width: auto;
 margin-right: 12px;
 object-fit: contain;
@@ -134,7 +154,7 @@ object-fit: contain;
 .site-header .navbar .nav-link {
  font-family: 'Poppins', sans-serif;
    font-weight: 600;
-   font-size: 12px;
+   font-size: 14px;
    letter-spacing: 0.05em;
 
    position: relative;
@@ -186,487 +206,15 @@ object-fit: contain;
   align-items: center;
   gap: 7px;
 }
-body.dashboard-page .sidebar.is-open { left: 0; }
-body.dashboard-page .sidebar:hover { background-color: #3d444b; }
-
-body.dashboard-page .main-content {
-  margin-left: 0;
-  width: 100%;
-  padding: 16px;
-  transition: margin-left 0.3s ease-in-out, width 0.3s ease-in-out;
-}
-
-/* Dark, fixed dashboard topbar (acts as trigger on mobile) */
-body.dashboard-page .navbar {
-  background-color: var(--pink);
-  color: white;
-  padding: 15px;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  z-index: 1050;
-}
-
-/* Cards / tables */
-body.dashboard-page .card-image { height: 120px; width: 100%; object-fit: cover; }
-body.dashboard-page .custom-card-header { background-color: var(--pink); color: white; font-size: 22px; }
-body.dashboard-page .card { border-radius: 4px; background-color: var(--blue); }
-body.dashboard-page .cardStyle { background: var(--blue); display: flex; justify-content: center; }
-body.dashboard-page .folder img { transition: transform 0.2s ease-in-out; }
-body.dashboard-page .folder:hover img { transform: scale(1.1); }
-body.dashboard-page .table { background-color: inherit; }
-body.dashboard-page .table th, body.dashboard-page .table td {
-  background-color: inherit;
-  border-color: rgba(0,0,0,0.1);
-}
-body.dashboard-page .card-title { color: var(--pink); font-size: 30px; }
-body.dashboard-page .card-prompt { font-size: 22px; color: white; }
-body.dashboard-page hr.border-secondary { border-color: white; }
-body.dashboard-page hr { opacity: 1; }
-body.dashboard-page .Dashboard-Title { font-size: 40px; text-align: center; width: 100%; }
-body.dashboard-page .card-body { color: white; }
-
-/* Forms */
-body.dashboard-page .hidden { display: none; }
-body.dashboard-page .form-container { background-color: #d4e5f5; padding: 20px; border-radius: 10px; margin-top: 20px; }
-body.dashboard-page .subgroup-container { background-color: #f8d7da; padding: 15px; border-radius: 8px; margin-top: 10px; }
-body.dashboard-page #secondForm { display: none; }
-body.dashboard-page .addSubgroup,
-body.dashboard-page .cardbtn { background-color: var(--blue); }
-body.dashboard-page .submit,
-body.dashboard-page .remove-btn { background-color: var(--pink); }
-body.dashboard-page .folderTxt { color: white; }
-
-/* Desktop layout restores sidebar column */
-@media (min-width: 992px) {
-  body.dashboard-page .navbar { display: flex !important; }
-}
-
-/* ================================
-   MARKETING / INDEX / CREATE-ITEM (scoped)
-   ================================ */
-body.index-page main { flex: 1; }
-
-/* Hero */
-body.index-page .hero {
-  text-align: center;
-
-  padding: 60px 80px;
-
-  /* Layered background: gradient on top, image behind */
-  background:
-
-    linear-gradient(rgba(3, 20, 88, 0.5), rgba(163, 163, 163, 0.5));
-    min-height: 82vh;
-
-  /* Make the background image fill the entire hero section */
-  background-size: cover;       /* Ensures highest resolution fill */
-  background-repeat: no-repeat; /* Prevent tiling */
-  background-position: center;  /* Center the image */
-
-  /* Make hero extend to bottom of page */
-  height: auto;
-}
-
-body.index-page .hero h2 {
-  font-size: var(--fs-title, 2.5rem);
-  margin-bottom: 10px;
-  /* typing animation disabled on small screens for accessibility */
-}
-@media (min-width: 576px) {
-  body.index-page .hero h2 {
-    display: inline-block;
-    overflow: hidden;
-    white-space: nowrap;
-    border-right: 2px solid white;
-    width: 0ch;
-    animation: typing 3s steps(30, end) forwards, blink-caret 0.7s step-end 3 3s forwards;
-  }
-  @keyframes typing { from { width: 0ch; } to { width: 22ch; } }
-  @keyframes blink-caret { 0%, 100% { border-color: transparent; } 50% { border-color: white; } }
-}
-body.index-page .hero p { font-size: 1.1rem; margin-bottom: 20px; }
-
-/* CTA button */
-body.index-page .cta-button {
-  position: relative;
-  background-color:#ffa8b2;
-  color: white;
-  padding: 10px 20px;
-  border: none;
-  font-size: 1.1rem;
-  font-weight: 500;
-  border-radius: 2px;
-  cursor: pointer;
-  font-family: "Inter", serif;
-  overflow: hidden;
-  transition: letter-spacing 0.3s ease;
-}
-body.index-page .cta-button::before,
-body.index-page .cta-button::after {
-  content: "";
-  position: absolute;
-  height: 2px;
-  background-color: white;
-  width: 20%;
-  left: 50%;
-  transform: translateX(-50%);
-  transition: width 0.3s ease;
-}
-body.index-page .cta-button::before { top: 0; }
-body.index-page .cta-button::after { bottom: 0; }
-body.index-page .cta-button:hover { letter-spacing: 0.2rem; }
-body.index-page .cta-button:hover::before,
-body.index-page .cta-button:hover::after { width: 100%; }
-
-/* Create-item helpers */
-body.index-page .center-form-wrapper {
+.nav-links li {
   display: flex;
-  justify-content: left;
-  align-items: left;
-  min-height: 100vh;
-  padding: 24px 12px;
-  background-color: #00243a;
-}
-body.index-page .expandable-form-container {
-  padding: 20px;
-  border-radius: 10px;
-  width: 100%;
-  margin: auto;
-}
-body.index-page .createButton { background-color: #5d81bc; font-size: 24px; width: 100%; }
-body.index-page .createButton:hover { background-color: #5d81bca2; }
-body.index-page .createButton:active { background-color: #5d81bc88; }
-body.index-page .updateButton { background-color: #f5a3ad; font-size: 24px; width: 100%; }
-body.index-page .updateButton:hover { background-color: #f5a3ad94; }
-body.index-page .updateButton:active { background-color: #f5a3ad71; }
-body.index-page #itemForm {
-  background-color: #d1e7fd;
-  padding: 20px;
-  border-radius: 10px;
-  border: 1px solid gray;
-  display: none;
 }
 
-/* Responsive nav and hero */
-@media (max-width: 992px) {
-  .site-header .navbar { flex-direction: column; align-items: flex-start; padding: 10px; }
-  .nav-links { flex-direction: column; align-items: flex-start; width: 100%; margin-top: 10px; padding-left: 0; }
-  .nav-links li { margin: 10px 0; }
-  body.index-page .hero { padding: 80px 20px; }
-  .footer { font-size: 16px; padding: 15px;}
-}
-@media (max-width: 576px) {
-  .nav-links { align-items: center; }
-}
-
-/* iOS safe areas */
-body {
-  padding-left: max(env(safe-area-inset-left), 0px);
-  padding-right: max(env(safe-area-inset-right), 0px);
-  padding-top: max(env(safe-area-inset-top), 0px);
-}
-
-
-/* ================================
-   PAGE SCOPES ADDED
-   - treat .create-item-page like index-page
-   ================================ */
-
-body.create-item-page .site-header .navbar { background-color: var(--pink); }
-
-/* Reuse index-page rules for create-item-page */
-body.create-item-page .center-form-wrapper {
-  display: flex; justify-content: center; align-items: center;
-  min-height: 100vh; padding: 24px 12px; background-color: #00243a;
-}
-body.create-item-page .expandable-form-container {border-radius: 10px; max-width: 100%; width: 100%; margin: auto; }
-#firstForm, #itemForm { width: 100%; }
-body.create-item-page .createButton { background-color: #f5a3ad; font-size: 24px; width: 130px; max-width: 65%; border-color: #f5a3ad;}
-body.create-item-page .createButton:hover { background-color: #f5a3ad94; }
-body.create-item-page .createButton:active { background-color: #f5a3ad71; }
-body.create-item-page .updateButton { background-color: #f5a3ad; font-size: 24px; width: 100%;  }
-body.create-item-page .updateButton:hover { background-color: #f5a3ad94; }
-body.create-item-page .updateButton:active { background-color: #f5a3ad71; }
-body.create-item-page .btn-success {background-color:#f5a3ad ;}
-body.create-item-page #itemForm { background-color:#d1e7fd; padding:20px; border-radius:10px; border:1px solid gray; display:none; min-width: 30px; max-width: 465px;}
-@media (max-width: 992px) {
-  body.create-item-page .site-header .navbar { flex-direction: column; align-items: flex-start; padding: 10px; }
-  body.create-item-page .nav-links { flex-direction: column; align-items: flex-start; width:100%; margin-top:10px; padding-left:0; }
-  body.create-item-page .nav-links li { margin: 10px 0; }
-}
-
-/* ================================
-   COVER LETTER PAGE
-   ================================ */
-body.coverLetter-page .greeting { font-size: 28px; font-weight: 600; color: var(--cream); }
-body.coverLetter-page .template-selection h2,
-body.coverLetter-page .cover-letter-editor h2 { font-size: 22px; color: var(--cream); }
-
-body.coverLetter-page .template-card {
-  background: white; border-radius: 8px; padding: 12px;
-  box-shadow: 0 4px 12px rgba(0,0,0,.12);
-}
-body.coverLetter-page .template-card img { border-radius: 6px; }
-body.coverLetter-page .covbtn { background-color: var(--blue); border-color: var(--blue); }
-body.coverLetter-page .covbtn:hover { filter: brightness(1.08); }
-
-/* Mobile header & menu */
-body.coverLetter-page .mobile-header .logo img { height: 48px; }
-body.coverLetter-page .profile-picture {
-  height: 64px; width: 64px; border-radius: 50%; background: var(--pink);
-}
-body.coverLetter-page .mobile-menu a { color: var(--cream); }
-
-/* ================================
-   DOCUMENT PAGE (document builder)
-   ================================ */
-body.document-page .docTitle { color: var(--navy); font-size: 26px; }
-body.document-page .builder-wrapper { display:flex; justify-content:center; align-items:flex-start; min-height: 60vh; padding: 24px 0; }
-body.document-page .builder-card { min-height: 420px; }
-body.document-page .drag-container {
-  min-height: 250px; padding: 15px; border: 2px dashed #ccc; border-radius: 6px;
-  background-color: white; color: var(--dark-brown); font-size: 18px;
-}
-body.document-page .list {
-  background: var(--blue); color: var(--cream);
-  height: auto; min-height: 48px; margin: 10px; padding: 10px;
-  display:flex; align-items:center; cursor: grab; border-radius:5px;
-  box-shadow: 2px 4px 6px rgba(0,0,0,.22);
-}
-body.document-page .list img { width: 20px; margin-right: 15px; margin-left: 20px; }
-body.document-page .dragging { opacity: .5; }
-
-/* Reuse existing .formatbtn from global; ensure spacing */
-body.document-page .formatbtn { margin-top: 12px; }
-
-/* Responsive improvements */
-@media (max-width: 768px) {
-  body.document-page .builder-wrapper { padding: 12px 0; }
-  body.document-page .drag-container { font-size: 16px; }
-}
-
-/* ================================
-   SMALL FIXES / NORMALIZATION
-   ================================ */
-/* Make .img-fluid images never exceed container on any page scope */
-.img-fluid { max-width: 100%; height: auto; }
-
-/* If a page uses inline header styles, this still ensures typography/colors are consistent */
-
-.logo, .nav-links a { font-family: "Inter", serif;}
-
-/* Bootstrap hamburger color */
-.navbar-dark .navbar-toggler-icon {
-  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='white' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
-}
-
-.navbar-nav .nav-item {
-  margin: 1 15px;
-}
-
-.navbar-nav .nav-link {
-  display: inline-block;
-  text-decoration: none;
-  color: white !important;
-  font-weight: 500;
-  font-size: 20px;
-  font-family: "Inter", serif;
-  position: relative;
-}
-
-
-/* Optional: match link hover to your underline style */
-.navbar-nav .nav-link {
-  font-family: "Inter", serif;
-  font-size: 20px;
-}
-
-.dashboard-container {
-  margin-top: 90px; /* adjust depending on navbar height */
-}
-
-.bg-pink {
-  background-color: #f4a6ac !important;
-}
-
-.navbar .nav-link:hover {
-  background-color: transparent !important;
-  color: white !important;
-}
-
-/* White lines at top and bottom of the navbar */
-.navbar.navbar-piped {
-  border-top: 5px solid #ffffff;
-  border-bottom: 5px solid #ffffff;
-}
-
-/* Optional: keep hover clean */
-.navbar .nav-link:hover {
-  background-color: transparent !important;
-  color: #ffffff !important;
-}
-
-body.dashboard-page .navbar {
-  border-top: 5px solid #fff;
-  border-bottom: 5px solid #fff;
-  align-items: center; /* keeps brand and toggler vertically aligned */
-  padding-top: 15px;   /* match your original inline padding */
-  padding-bottom: 15px;
-}
-
-/* Active nav link style */
-.active-nav {
-  color: #ffffff !important;
-
-  border-bottom: 2px solid #fefefe;
-}
-
-/* Make dropdown cards match parent width */
-#itemsSection .card-body,
-#documentsSection .card-body {
-  flex-wrap: wrap;
-  justify-content: left;
-}
-
-#itemsSection,
-#documentsSection {
-  margin-top: 10px !important; /* removes the gap */
-}
-
-.col-md-5 {
-  padding-left: 0 !important;
-  padding-right: 0 !important;
-}
-
-.custom-height {
-  height: 200px; /* or whatever you need */
-  max-height: 100%; /* prevents overflow */
-}
-
-.custom-width {
-  width: 00px; /* or any value you want */
-  max-width: 100%; /* prevents overflow */
-}
-
-.dropdown-width {
-  width: 600px; /* or match your card width */
-  max-width: 100%; /* keeps it responsive */
-}
-
-
-/* -----------------------------
-   SMALL SCREEN (phones ≤576px)
-   ----------------------------- */
-@media (max-width: 576px) {
-  /* Wrapper: center the two columns and keep spacing compact */
-  .dashboard-toggle-row {
-    display: flex;
-    flex-direction: column;
-    align-items: center;   /* centers tiles */
-    gap: 10px;             /* spacing between Items and My Documents */
-    padding-block: 8px;    /* tiny vertical padding around the stack */
-  }
-
-  /* Tiles: consistent, compact width; centered by parent + auto margins */
-  .tile-size {
-    width: clamp(260px, 88vw, 340px);
-    margin-inline: auto;
-    height: auto !important;      /* neutralize legacy fixed heights */
-  }
-
-  /* Tile interior: smaller padding for shorter tiles */
-  .tile-body {
-    padding: 12px;
-  }
-
-  /* Typography: compact to prevent wrapping */
-  .cardStyle .card-title {
-    font-size: 1.2rem;
-    line-height: 1.2;
-    margin-bottom: 6px;
-    color: var(--pink);
-  }
-  .card-prompt {
-    font-size: 0.95rem;
-    line-height: 1.35;
-    margin: 0;
-  }
-
-  /* Dropdown spacing: a little gap only when a dropdown is visible */
-  #itemsSection,
-  #documentsSection {
-    margin-top: 10px;            /* space between tile and its own dropdown */
-  }
-
-  /* Dropdown interior padding: compact */
-  #itemsSection .card-body,
-  #documentsSection .card-body {
-    padding: 12px;
-  }
-
-  /* If older helpers are still present on tiles, neutralize them */
-  .custom-width.tile-size,
-  .custom-height.tile-size {
-    width: auto !important;
-    height: auto !important;
-  }
-}
-
-/* -----------------------------------
-   TABLET / DESKTOP (md+ ≥768px)
-   ----------------------------------- */
-@media (min-width: 768px) {
-  .dashboard-toggle-row {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: center;  /* centers the row */
-    align-items: flex-start;
-    gap: 20px;                /* spacing between the two columns */
-  }
-
-  /* Desktop tile width (match your original look) */
-  .tile-size {
-    width: 600px;             /* change to 420px if that was your preferred */
-    height: auto;
-    margin-inline: 0;         /* parent handles centering */
-  }
-
-  .tile-body { padding: 20px; }
-  .cardStyle .card-title { font-size: 30px; }
-  .card-prompt { font-size: 22px; }
-
-  /* Dropdown interior padding roomier on desktop */
-  #itemsSection .card-body,
-  #documentsSection .card-body {
-    padding: 20px;
-  }
-}
-
-#itemsSection, #documentsSection {
-  margin-top: 10px;
-}
-
-/* Ensure dropdowns that use .tile-size are always centered, even outside flex */
-.tile-size { margin-left: auto; margin-right: auto; }
-
-/* Consistent offset under your fixed navbar (adjust height to your actual navbar) */
-body.dashboard-page { padding-top: 72px; }  /* tweak to 68–84px if needed */
-
-/* Remove accidental legacy margins that add vertical bulk */
-// evale
-.dashboard-container { margin-top: 0;
-}
-/* Shared footer */
 .footer {
- margin-top: 5rem;
-padding: .4rem .8rem;
- background: rgba(200, 200, 200, 0.45);
-    backdrop-filter: blur(18px) saturate(140%);
-    -webkit-backdrop-filter: blur(18px) saturate(140%);
- color: rgba(255,255,255,0.65);
+  padding: .4rem .8rem;
+  background: rgba(200, 200, 200, 0.45);
+  backdrop-filter: blur(18px) saturate(140%);
+  color: rgba(255,255,255,0.65);
 }
 
  .footer-inner {
@@ -690,27 +238,6 @@ padding: .4rem .8rem;
   color:white;
 }
 
-<<<<<<< HEAD
-/* Reset checkbox to native appearance */
-.form-check-input {
-  appearance: auto !important;
-  -webkit-appearance: auto !important;
-  width: 1rem;
-  height: 1rem;
-  border: 1px solid #6c757d;
-  background-color: #fff;
-}
-
-/* About full-page (uses :target to show/hide without JS) */
-#about { display:none; padding:2.5rem 1rem; max-width:1100px; margin:0 auto; background: transparent; }
-:target#about { display:block; min-height: 100vh; padding-top: 3.5rem; background: rgba(0,0,0,0.25); }
-:target#about ~ footer, :target#about ~ .modal, :target#about ~ .toast-container { display:none !important; }
-:target#about .about-card { background: rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.06); padding:1rem; border-radius:12px; box-shadow: var(--glass-shadow); color: rgba(255,255,255,0.95); }
-@media (min-width:768px){ :target#about .about-grid{grid-template-columns:repeat(3,1fr);} }
-=======
-.dashboard-container { margin-top: 0; }
-// main
-=======
 
 .back-btn {
   position: fixed;
@@ -741,8 +268,27 @@ opacity: 0;
   background: rgba(0, 0, 0, 0.55);
   transform: translateX(-4px);
   box-shadow: 0 12px 25px rgba(0,0,0,0.35);
+
 }
+
 @keyframes fadeBack {
   to { opacity: 1; }
 }
->>>>>>> origin/PixelImprove-main
+/* Default eye button styling */
+.input-group .btn-eye {
+  background-color: #ffffff !important;
+  border: 1px solid #ced4da !important;
+  border-left: none !important;
+  border-radius: 0 0.375rem 0.375rem 0 !important;
+}
+
+/* Icon styling */
+.input-group .btn-eye i {
+  color: #6c757d;
+  font-size: 1.2rem;
+}
+
+/* Active state (when password is visible) */
+.input-group .btn-eye.active {
+  background-color: #e9ecef !important; /* Bootstrap light gray */
+}
