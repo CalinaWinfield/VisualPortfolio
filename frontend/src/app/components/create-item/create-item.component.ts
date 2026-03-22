@@ -52,7 +52,7 @@ ngOnChanges(): void {
       category: [''],
       itemTitle: ['', [Validators.required, Validators.minLength(2)]],
       itemDate: ['', Validators.required],
-      itemDescription: ['', [Validators.required, Validators.minLength(5)]],
+      itemDescription: ['', [Validators.required, Validators.minLength(1)]],
       userEmail: ['', [Validators.required, Validators.email]],
     });
 

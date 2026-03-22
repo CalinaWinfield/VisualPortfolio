@@ -42,10 +42,10 @@ import { Location } from '@angular/common';
                <ul class="navbar-nav ms-auto">
                  <li class="nav-item"><a class="nav-link" routerLink="/home" routerLinkActive="active">Home</a></li>
                  <li class="nav-item"><a class="nav-link" routerLink="/dashboard" routerLinkActive="active">Dashboard</a></li>
-                 <li class="nav-item"><a class="nav-link" routerLink="/documents" routerLinkActive="active">Documents</a></li>
+                 <li class="nav-item"><a class="nav-link" routerLink="/documents" routerLinkActive="active">Document Builder</a></li>
                  <li class="nav-item"><a class="nav-link" routerLink="/guide" routerLinkActive="active">Guide</a></li>
                  <li class="nav-item"><a class="nav-link" routerLink="/about" routerLinkActive="active">About</a></li>
-                 
+
                  <li class="nav-item" *ngIf="isLoggedIn">
                     <a class="nav-link logout-btn" (click)="logout()">Logout</a>
                  </li>

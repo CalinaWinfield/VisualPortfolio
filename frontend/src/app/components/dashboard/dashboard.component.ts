@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { CommonModule, Location } from '@angular/common';
-
+import { Router } from '@angular/router';
 import { ItemService } from '../../services/item.service';
 import { Item } from '../../models/item.model';
 import { ItemsListComponent } from '../create-item/items-list.component';
@@ -12,7 +12,6 @@ import { CreateItemComponent } from '../create-item/create-item.component';
   selector: 'app-dashboard',
   imports: [
     CommonModule,
-    ItemsListComponent,
     CreateItemComponent
   ],
   templateUrl: './dashboard.component.html',
@@ -23,6 +22,7 @@ export class DashboardComponent implements OnInit {
 @ViewChild('itemsList') itemsList!: ItemsListComponent;
 
 totalItems = 0;
+showDeleteModal = false;
 
   sections = {
     documents: false,
@@ -40,9 +40,13 @@ totalItems = 0;
   showForm = false;
   selectedItem: any = null;
 
-  // ✅ ADD VIEW STATE HERE
+  viewDocumentsMode = false;
+  documents: any[] = [];
+  selectedDocument: any = null;
+
   viewItemsMode = false;
   pagedItems: Item[] = [];
+
 
   currentPage = 1;
   itemsPerPage = 10;
@@ -50,16 +54,77 @@ totalItems = 0;
 
   constructor(
     private location: Location,
-    private itemService: ItemService
+    private itemService: ItemService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
     this.loadItemsPreview();
+
   }
 
+openViewDocuments() {
+  this.viewDocumentsMode = true;
+
+  this.showForm = false;
+  this.viewItemsMode = false;
+  this.selectedItem = null;
+
+  this.loadDocuments();
+}
+
+closeViewDocuments() {
+  this.viewDocumentsMode = false;
+   this.viewItemsMode = false;
+  this.selectedDocument = null;
+}
+
+selectDocument(doc: any) {
+  this.selectedDocument = doc;
+
+}
+
+deleteDocument(id: string) {
+  // temporary (replace with service later)
+  this.documents = this.documents.filter(d => d._id !== id);
+  this.selectedDocument = null;
+}
+
+editDocument(doc: any) {
+  // route to builder with doc id
+  this.router.navigate(['/documents'], {
+    queryParams: { id: doc._id }
+  });
+}
+loadDocuments() {
+    this.documents = [
+      {
+        _id: '1',
+        title: 'Resume Template',
+        description: 'Professional resume layout',
+        date: '2026-03-20'
+      },
+      {
+        _id: '2',
+        title: 'Cover Letter',
+        description: 'Simple cover letter',
+        date: '2026-03-18'
+      }
+    ];
+  }
   toggleSection(section: 'documents' | 'todo' | 'activeForms'): void {
     this.sections[section] = !this.sections[section];
   }
+
+onCreateDocument() {
+  this.router.navigate(['/documents']);
+}
+
+onCopyTemplate() {
+  this.router.navigate(['/documents'], {
+    queryParams: { mode: 'template' }
+  });
+}
 
   onItemCreated() {
     this.showForm = false;
@@ -79,6 +144,7 @@ totalItems = 0;
     }
 
     this.viewItemsMode = false;
+    this.viewDocumentsMode = false;
   }
 
   closeForm() {
@@ -89,6 +155,7 @@ totalItems = 0;
 
 closeViewItems() {
   this.viewItemsMode = false;
+   this.viewDocumentsMode = false;
   this.selectedItem = null;
 }
 
@@ -119,21 +186,32 @@ loadItemsPreview(): void {
 }
 
   toggleCard(card: string) {
-    this.activeCard = this.activeCard === card ? null : card;
+ if (this.activeCard !== card) {
+    this.activeCard = card;
+
+    // only reset when switching cards
+    this.selectedItem = null;
+    this.selectedDocument = null;
+
+    this.viewItemsMode = false;
+    this.viewDocumentsMode = false;
+    this.showForm = false;
   }
+}
 
   prefillItem(item: any) {
     this.selectedItem = item;
     this.showForm = true;
-    this.viewItemsMode = false; // 🔥 hide view when editing
+    this.viewItemsMode = false;
   }
 selectItem(item: any) {
   this.selectedItem = item;
 }
 
-  // ✅ VIEW ITEMS LOGIC
+  // VIEW ITEMS LOGIC
 
   openViewItems() {
+   this.viewDocumentsMode = false;
     this.viewItemsMode = true;
     this.showForm = false;
     this.currentPage = 1; // reset page
@@ -170,12 +248,50 @@ prevPage() {
   }
 }
 
-
-  deleteItem(id: string) {
-    this.itemService.deleteItem(id).subscribe(() => {
-      this.loadPagedItems();
-      this.loadItemsPreview();
-    });
-  }
+deleteItem(id: string) {
+  this.itemService.deleteItem(id).subscribe(() => {
+    this.loadPagedItems();
+    this.loadItemsPreview();
+    this.selectedItem = null;
+  });
 }
 
+deleteType: 'item' | 'document' | null = null;
+entityToDelete: any = null;
+
+openDeleteModal(entity: any, type: 'item' | 'document', event: Event) {
+  event.stopPropagation();
+ if (!entity) {
+    console.warn('Entity is null');
+    return;
+  }
+
+  // ✅ CLONE HERE (Angular-safe)
+  this.entityToDelete = { ...entity };
+
+  this.deleteType = type;
+  this.showDeleteModal = true;
+
+  console.log('MODAL ENTITY:', this.entityToDelete);
+}
+
+confirmDelete() {
+  console.log('CONFIRM DELETE CLICKED', this.entityToDelete, this.deleteType);
+
+  if (!this.entityToDelete) return;
+
+  if (this.deleteType === 'item') {
+    this.deleteItem(this.entityToDelete._id);
+  } else if (this.deleteType === 'document') {
+    this.deleteDocument(this.entityToDelete._id);
+  }
+
+  this.closeModal();
+}
+
+closeModal() {
+  this.showDeleteModal = false;
+  this.entityToDelete = null;
+  this.deleteType = null;
+}
+}

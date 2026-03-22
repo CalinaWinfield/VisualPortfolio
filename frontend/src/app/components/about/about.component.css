@@ -15,7 +15,7 @@ font-size: 2.8rem;
 
 
 .about-section {
-  padding: 4rem 1rem;
+  padding: 1.5rem 1rem;
   max-width: 1200px;
   margin: 0 auto;
   font-family: "Playfair Display"
@@ -41,7 +41,7 @@ font-size: 2.8rem;
   background: rgba(255,255,255,.75);
   backdrop-filter: blur(10px);
   border: 1px solid rgba(255,255,255,0.1);
-  padding: 2rem;
+  padding: 1rem;
   border-radius: 16px;
   color: black;
   transition: all 0.3s ease;
@@ -79,7 +79,7 @@ font-size: 2.8rem;
 
 .team-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 2rem;
 }
 

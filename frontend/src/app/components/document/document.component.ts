@@ -3,11 +3,12 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
 import { ItemService } from '../../services/item.service';
+import { FormBuilderComponent } from '../form-builder/form-builder.component';
 
 @Component({
   standalone: true,
   selector: 'app-document',
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, FormBuilderComponent],
   templateUrl: './document.component.html',
   styleUrls: ['./document.component.css']
 })

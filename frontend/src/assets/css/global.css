@@ -292,3 +292,55 @@ opacity: 0;
 .input-group .btn-eye.active {
   background-color: #e9ecef !important; /* Bootstrap light gray */
 }
+/* ===== FORM BUILDER SHELL ===== */
+/* ===== SHELL ===== */
+.builder-shell {
+  background: #ffffff;
+  border-radius: 20px;
+  min-height: 700px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.08);
+}
+
+.builder-shell h2 {
+  font-family: 'Poppins', sans-serif;
+  font-size: 2rem;
+  color: #111;
+  font-weight: 550;
+}
+
+
+
+/* ===== LEFT PANEL (SOFT, NOT HARSH) ===== */
+
+.formeo-control:hover {
+  background: #fafafa;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.05);
+}
+
+
+
+/* ===== FIELD BLOCKS ===== */
+.formeo-field {
+  background: white;
+  border-radius: 12px;
+  padding: 12px;
+  border: 1px solid #eee;
+  margin-bottom: 10px;
+  transition: all 0.2s ease;
+}
+
+.formeo-field:hover {
+  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+}
+
+
+.formeo-header button:hover {
+  background: #333;
+}
+
+  .builder-sub {
+      color: #777;
+      margin-bottom: 1rem;
+      font-size: 0.95rem;
+    }
