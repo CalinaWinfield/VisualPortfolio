@@ -27,9 +27,8 @@
               }
             ],
             "styles": [
-              "node_modules/formeo/dist/formeo.min.css",
-              "src/assets/css/global.css"
-            ]
+            "src/assets/css/global.css"
+          ]
           },
           "configurations": {
             "production": {
@@ -77,7 +76,6 @@
               }
             ],
             "styles": [
-              "node_modules/formeo/dist/formeo.min.css",
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "src/assets/css/global.css"
             ],
