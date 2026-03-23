@@ -1,5 +1,3 @@
-const mongoose = require("mongoose");
-
 const ItemSchema = new mongoose.Schema({
     category: { type: String },
     itemTitle: { type: String, required: true },
@@ -7,5 +5,3 @@ const ItemSchema = new mongoose.Schema({
     itemDescription: { type: String, required: true },
     userEmail: { type: String, required: true }
 }, { timestamps: true });
-
-module.exports = mongoose.model("Item", ItemSchema);
