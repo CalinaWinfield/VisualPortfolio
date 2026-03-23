@@ -18,47 +18,44 @@ import { Location } from '@angular/common';
   template: `
      <div class="app-shell">
 
-       <header class="site-header">
-         <nav class="navbar navbar-expand-lg navbar-light bg-transparent">
-           <div class="container-fluid nav-container">
+       <header *ngIf="isLoggedIn" class="site-header">
+  <nav class="navbar navbar-expand-lg navbar-light bg-transparent">
+    <div class="container-fluid nav-container">
 
-             <a class="navbar-brand d-flex align-items-center" routerLink="/home">
-               <img
-                 src="assets/img/foxIcon.png"
-                 alt="Visual Portfolio Logo"
-                 class="logo-img"
-               />
-               <span class="logo-text">Visual Portfolio</span>
-             </a>
+      <a class="navbar-brand d-flex align-items-center" routerLink="/home">
+        <img
+          src="assets/img/foxIcon.png"
+          alt="Visual Portfolio Logo"
+          class="logo-img"
+        />
+        <span class="logo-text">Visual Portfolio</span>
+      </a>
 
-             <button class="navbar-toggler"
-                     type="button"
-                     data-bs-toggle="collapse"
-                     data-bs-target="#navbarNav">
-               <span class="navbar-toggler-icon"></span>
-             </button>
+      <button class="navbar-toggler"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
 
-             <div class="collapse navbar-collapse" id="navbarNav">
-               <ul class="navbar-nav ms-auto">
-                 <li class="nav-item"><a class="nav-link" routerLink="/home" routerLinkActive="active">Home</a></li>
-                 <li class="nav-item"><a class="nav-link" routerLink="/dashboard" routerLinkActive="active">Dashboard</a></li>
-                 <li class="nav-item"><a class="nav-link" routerLink="/documents" routerLinkActive="active">Documents</a></li>
-                 <li class="nav-item"><a class="nav-link" routerLink="/guide" routerLinkActive="active">Guide</a></li>
-                 <li class="nav-item"><a class="nav-link" routerLink="/about" routerLinkActive="active">About</a></li>
-                 
-                 <li class="nav-item" *ngIf="isLoggedIn">
-                    <a class="nav-link logout-btn" (click)="logout()">Logout</a>
-                 </li>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link" routerLink="/home" routerLinkActive="active">Home</a></li>
+          <li class="nav-item"><a class="nav-link" routerLink="/dashboard" routerLinkActive="active">Dashboard</a></li>
+          <li class="nav-item"><a class="nav-link" routerLink="/documents" routerLinkActive="active">Documents</a></li>
+          <li class="nav-item"><a class="nav-link" routerLink="/guide" routerLinkActive="active">Guide</a></li>
+          <li class="nav-item"><a class="nav-link" routerLink="/about" routerLinkActive="active">About</a></li>
 
+          <li class="nav-item">
+            <a class="nav-link logout-btn" (click)="logout()">Logout</a>
+          </li>
 
+        </ul>
+      </div>
 
-
-                 </ul>
-             </div>
-
-           </div>
-         </nav>
-       </header>
+    </div>
+  </nav>
+</header>
 
 
 <div class="layout">
