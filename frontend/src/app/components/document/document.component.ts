@@ -16,26 +16,19 @@ export class DocumentComponent implements OnInit {
   items: any[] = [];
   currentYear = new Date().getFullYear();
 
-  constructor(
-    private itemService: ItemService
-  ) {}
+  constructor(private itemService: ItemService) {}
 
   ngOnInit(): void {
     this.loadItems();
   }
 
   async loadItems(): Promise<void> {
-    const sessionUserEmail = sessionStorage.getItem('userEmail');
-    if (!sessionUserEmail) return;
+    const userEmail = localStorage.getItem('userEmail');
+    if (!userEmail) return;
 
     try {
-      const items = await firstValueFrom(this.itemService.getItems());
-      const safeItems = items ?? [];
-
-      this.items = safeItems.filter(
-        (i: any) => i.userEmail === sessionUserEmail
-      );
-
+      const items = await firstValueFrom(this.itemService.getItems(userEmail));
+      this.items = items ?? [];
     } catch (err) {
       console.error('Error loading items', err);
     }

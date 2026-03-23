@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { DocumentComponent } from './document.component';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ItemService } from '../../services/item.service';
+import { of } from 'rxjs';
 
 describe('DocumentComponent', () => {
   let component: DocumentComponent;
@@ -12,7 +13,7 @@ describe('DocumentComponent', () => {
   ];
 
   const itemServiceStub = {
-    getItems: () => ({ toPromise: () => Promise.resolve(items) }),
+    getItems: (email: string) => of(items),
     deleteItem: (id: string) => ({ subscribe: (o: any) => o.next({}) }),
   };
 
@@ -23,16 +24,20 @@ describe('DocumentComponent', () => {
       schemas: [NO_ERRORS_SCHEMA],
     });
 
-    TestBed.overrideComponent(DocumentComponent as any, { set: { template: '<div></div>' } });
+    TestBed.overrideComponent(DocumentComponent as any, {
+      set: { template: '<div></div>' }
+    });
+
     await TestBed.compileComponents();
   });
 
   beforeEach(async () => {
-    // ensure sessionStorage has a user
     sessionStorage.setItem('userEmail', 'me@example.com');
+
     fixture = TestBed.createComponent(DocumentComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
+
     await component.loadItems();
   });
 
@@ -42,6 +47,6 @@ describe('DocumentComponent', () => {
 
   it('loadItems should populate items for session user', async () => {
     await component.loadItems();
-    expect(component.items.length).toBeGreaterThanOrEqual(0);
+    expect(component.items.length).toBe(1);
   });
 });
