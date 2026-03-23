@@ -9,7 +9,8 @@ import { AuthService } from '../../auth.service';
   standalone: true,
   selector: 'app-signup',
   imports: [CommonModule, ReactiveFormsModule, RouterModule],
-  templateUrl: './signUp.component.html'
+  templateUrl: './signUp.component.html',
+  styleUrls: ['./signUp.component.css']
 })
 export class SignUpComponent {
   form: FormGroup;
@@ -25,7 +26,7 @@ export class SignUpComponent {
     private router: Router
   ) {
 
-    
+
     this.form = this.fb.group(
       {
         name: ['', Validators.required],
@@ -47,7 +48,7 @@ export class SignUpComponent {
     );
   }
 
-  
+
   passwordsMatchValidator(form: AbstractControl) {
     const password = form.get('password')?.value;
     const confirm = form.get('confirmPassword')?.value;

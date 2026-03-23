@@ -16,8 +16,8 @@
   text-shadow: var(--hero-text-shadow);
   font-weight: 700;
   font-size: clamp(2.2rem, 5vw, 4.2rem);
-  line-height:1.3;
-  margin-bottom: 1.5rem;
+  line-height:1.4;
+  margin-bottom: 2.5rem;
   position: relative;
 
 
@@ -31,7 +31,7 @@
 
 .hero-subtitle {
   max-width: 520px;
-  margin-bottom: 3rem;
+  margin-bottom: 4rem;
   color: var(--color-white);
   text-shadow: var(--hero-subtitle-shadow);
   font-family: var(--font-display);
@@ -207,4 +207,4 @@
     grid-template-columns: 1fr 1.5fr; /* bigger login side */
   }
 
-
+}

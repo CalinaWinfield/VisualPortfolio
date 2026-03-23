@@ -1,3 +1,8 @@
+.createItem-wrapper {
+  max-width: 1200px;
+  margin: 1.5rem auto;
+  padding: 0 2rem;
+}
 .compact-form {
   max-width: 800px;
   margin: 0 auto;
@@ -7,6 +12,8 @@
   padding: 12px;
   border-radius: 12px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  padding: 0 2.5rem;
+
 }
 
 .form-grid {
@@ -35,7 +42,8 @@
   grid-column: span 2;
 }
 .form-group.full-width {
-  margin-bottom: 1rem; /* 🔥 space between textarea and button */
+  margin-bottom: 1rem;
+   /* 🔥 space between textarea and button */
 }
 
 textarea.form-control {

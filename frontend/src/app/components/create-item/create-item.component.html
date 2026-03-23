@@ -1,8 +1,8 @@
-<div class="expandable-form-container">
+<div class="createItem-wrapper">
 
 
 
-  <!-- FORM (toggle open, not replace UI) -->
+  <!-- FORM toggle open-->
   <form [formGroup]="form" (ngSubmit)="save()" class="compact-form">
 
     <div class="form-grid">
@@ -34,14 +34,7 @@
       <label>Description</label>
       <textarea rows="2" class="form-control" formControlName="itemDescription"></textarea>
     </div>
-    <div class="form-group full-width">
-      <label>Upload File</label>
-      <input
-        type="file"
-        (change)="onFileSelected($event)"
-        accept=".pdf,.doc,.docx,.xls,.xlsx"
-      />
-    </div>
+
     <div class="form-actions">
       <button type="submit"
               class="btn btn-success"
