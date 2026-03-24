@@ -57,18 +57,22 @@ export class MfaEnrollmentComponent implements OnInit {
 }
 
   submitCode() {
-    this.verifying = true;
-    this.error = null;
+  this.verifying = true;
+  this.error = null;
 
-    this.auth.verifyMfaSetup(this.userId, this.code).subscribe({
-      next: () => {
-        this.verifying = false;
-        this.router.navigate(['/dashboard']);
-      },
-      error: () => {
-        this.verifying = false;
-        this.error = "Invalid code. Try again.";
-      }
-    });
-  }
+  this.auth.verifyMfaSetup(this.userId, this.code).subscribe({
+    next: (res: any) => {
+      this.verifying = false;
+
+      // ⭐ Store the real access token returned after MFA setup
+      this.auth.setAccessToken(res.accessToken);
+
+      this.router.navigate(['/dashboard']);
+    },
+    error: () => {
+      this.verifying = false;
+      this.error = "Invalid code. Try again.";
+    }
+  });
+}
 }
