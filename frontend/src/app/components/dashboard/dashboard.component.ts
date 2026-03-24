@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule, Location } from '@angular/common';
 import { Router } from '@angular/router';
 import { ItemService } from '../../services/item.service';
@@ -11,14 +11,13 @@ import { CreateItemComponent } from '../create-item/create-item.component';
   selector: 'app-dashboard',
   imports: [
     CommonModule,
-    CreateItemComponent
+    CreateItemComponent,
+    ItemsListComponent   // ✅ Now included
   ],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
-
-  @ViewChild('itemsList') itemsList!: ItemsListComponent;
 
   totalItems = 0;
   showDeleteModal = false;
@@ -64,21 +63,19 @@ export class DashboardComponent implements OnInit {
   }
 
   toggleCard(card: string) {
-  if (this.activeCard !== card) {
-    this.activeCard = card;
+    if (this.activeCard !== card) {
+      this.activeCard = card;
 
-    // Reset view modes when switching cards
-    this.selectedItem = null;
-    this.selectedDocument = null;
+      this.selectedItem = null;
+      this.selectedDocument = null;
 
-    this.viewItemsMode = false;
-    this.viewDocumentsMode = false;
-    this.showForm = false;
-  } else {
-    // Clicking the same card closes it
-    this.activeCard = null;
+      this.viewItemsMode = false;
+      this.viewDocumentsMode = false;
+      this.showForm = false;
+    } else {
+      this.activeCard = null;
+    }
   }
-}
 
   // -----------------------------
   // DOCUMENTS
@@ -301,9 +298,7 @@ export class DashboardComponent implements OnInit {
   }
 
   selectItem(item: any) {
-  this.selectedItem = item;
-}
-
-
+    this.selectedItem = item;
+  }
 
 }

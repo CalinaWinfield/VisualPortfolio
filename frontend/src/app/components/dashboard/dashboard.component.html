@@ -12,7 +12,7 @@
   </div>
 </div>
 
-  <!-- CARDS GRID -->
+<!-- CARDS GRID -->
 <div class="dashboard-grid">
 
   <!-- ITEMS CARD -->
@@ -25,6 +25,7 @@
     <div class="card-expand"
          [hidden]="activeCard !== 'items'"
          (click)="$event.stopPropagation()">
+         
 
       <div class="card-actions">
 
@@ -38,17 +39,22 @@
 
       </div>
 
+      <!-- ⭐ ITEMS PREVIEW (first 5 items) -->
+      <app-items-list
+        [items]="itemsPreview"
+        (prefillClicked)="prefillItem($event)"
+        (viewClicked)="openViewItems()"
+      ></app-items-list>
+
     </div>
   </div>
-
-
 
   <!-- DOCUMENT BUILDER -->
   <div class="dashboard-card"
        (click)="toggleCard('documents')">
 
     <h3>Document Builder</h3>
-    <p> Create custom documents.</p>
+    <p>Create custom documents.</p>
 
     <div class="card-expand"
          [hidden]="activeCard !== 'documents'"
@@ -72,27 +78,27 @@
 
   <!-- MY DOCUMENTS -->
   <div class="dashboard-card"
-    (click)="toggleCard('documentsList')">
+       (click)="toggleCard('documentsList')">
 
     <h3>My Documents</h3>
     <p>View and edit saved documents.</p>
+
     <div class="card-expand"
          [hidden]="activeCard !== 'documentsList'"
          (click)="$event.stopPropagation()">
 
       <div class="card-actions">
-
         <button class="btn-primary"
                 (click)="openViewDocuments(); $event.stopPropagation()">
           View/Edit Documents
         </button>
-  </div>
+      </div>
 
-</div>
+    </div>
   </div>
 </div>
 
-  <!-- FORM SECTION -->
+<!-- FORM SECTION -->
 <div class="form-section" [hidden]="!showForm">
 
   <div class="form-header">
@@ -109,44 +115,21 @@
 
 </div>
 
-<!-- ✅ VIEW SECTION (FIXED POSITION) -->
+<!-- ⭐ VIEW ITEMS SECTION -->
 <div class="view-section" *ngIf="viewItemsMode">
-  <div class="form-header">
 
+  <div class="form-header">
     <h2 class="section-title">All Items ({{ totalItems }})</h2>
     <button class="close-btn2" (click)="closeViewItems()">✕</button>
   </div>
 
-  <!-- HORIZONTAL SCROLL -->
-  <div class="item-row">
+  <!-- ⭐ FULL ITEMS LIST -->
+  <app-items-list
+    [items]="pagedItems"
+    (prefillClicked)="prefillItem($event)"
+    (viewClicked)="selectItem($event)"
+  ></app-items-list>
 
-    <div
-      class="item-card"
-      *ngFor="let it of pagedItems | slice:0:10"
-      (click)="selectItem(it)"
-      [class.active]="selectedItem?._id === it._id"
-    >
-
-      <div class="title">{{ it.itemTitle }}</div>
-
-      <div class="meta">
-        <span class="chip">{{ it.category || 'No category' }}</span>
-        <span>{{ it.itemDate }}</span>
-      </div>
-
-    </div>
-
-  </div>
-
-  <div class="empty" *ngIf="pagedItems.length === 0">
-    No items created yet.
-  </div>
-
-  <div *ngIf="totalItems > 10" class="view-more">
-    <button (click)="openViewItems()">
-      View All Items →
-    </button>
-  </div>
   <!-- ACTION PANEL -->
   <div class="item-detail" *ngIf="selectedItem">
 
@@ -161,63 +144,63 @@
 
     <div class="row mt-2">
       <button (click)="prefillItem(selectedItem)">Edit</button>
-      <button class="text-danger" (click)="openDeleteModal(selectedItem, 'item', $event);$event.stopPropagation()">Delete</button>
+      <button class="text-danger"
+              (click)="openDeleteModal(selectedItem, 'item', $event); $event.stopPropagation()">
+        Delete
+      </button>
     </div>
   </div>
 </div>
 
-    <!-- DOCUMENT VIEW SECTION -->
-    <div class="view-section" *ngIf="viewDocumentsMode">
+<!-- DOCUMENT VIEW SECTION -->
+<div class="view-section" *ngIf="viewDocumentsMode">
 
-      <div class="form-header">
-        <h2 class="section-title">All Documents({{ documents.length }})</h2>
-        <button class="close-btn2" (click)="closeViewDocuments()">✕</button>
+  <div class="form-header">
+    <h2 class="section-title">All Documents ({{ documents.length }})</h2>
+    <button class="close-btn2" (click)="closeViewDocuments()">✕</button>
+  </div>
+
+  <div class="item-row">
+
+    <div
+      class="item-card"
+      *ngFor="let doc of documents"
+      (click)="selectDocument(doc)"
+      [class.active]="selectedDocument?._id === doc._id">
+
+      <div class="title">{{ doc.title }}</div>
+
+      <div class="meta">
+        <span>{{ doc.date }}</span>
       </div>
 
-      <!-- DOCUMENT ROW -->
-      <div class="item-row">
-
-        <div
-          class="item-card"
-          *ngFor="let doc of documents"
-          (click)="selectDocument(doc)"
-          [class.active]="selectedDocument?._id === doc._id"
-        >
-
-          <div class="title">{{ doc.title }}</div>
-
-          <div class="meta">
-            <span>{{ doc.date }}</span>
-          </div>
-
-        </div>
-
-      </div>
-
-      <div class="empty" *ngIf="documents.length === 0">
-        No documents created yet.
-      </div>
-
-      <!-- ACTION PANEL -->
-      <div class="item-detail" *ngIf="selectedDocument">
-
-        <h3>{{ selectedDocument.title }}</h3>
-
-        <p>{{ selectedDocument.description }}</p>
-
-        <div class="meta">
-          <span>{{ selectedDocument.date }}</span>
-        </div>
-
-        <div class="row mt-2">
-          <button (click)="editDocument(selectedDocument)">Edit</button>
-          <button class="text-danger"
-                  (click)="openDeleteModal(selectedDocument,'document', $event);$event.stopPropagation()">
-            Delete
-          </button>
-        </div>
-      </div>
     </div>
+
+  </div>
+
+  <div class="empty" *ngIf="documents.length === 0">
+    No documents created yet.
+  </div>
+
+  <div class="item-detail" *ngIf="selectedDocument">
+
+    <h3>{{ selectedDocument.title }}</h3>
+
+    <p>{{ selectedDocument.description }}</p>
+
+    <div class="meta">
+      <span>{{ selectedDocument.date }}</span>
+    </div>
+
+    <div class="row mt-2">
+      <button (click)="editDocument(selectedDocument)">Edit</button>
+      <button class="text-danger"
+              (click)="openDeleteModal(selectedDocument, 'document', $event); $event.stopPropagation()">
+        Delete
+      </button>
+    </div>
+  </div>
+</div>
 
 <!-- DELETE CONFIRM MODAL -->
 <div class="modal-overlay"
@@ -240,5 +223,3 @@
 
   </div>
 </div>
-
-

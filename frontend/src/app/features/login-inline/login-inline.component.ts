@@ -43,6 +43,9 @@ export class LoginInlineComponent {
       { withCredentials: true }
     ).subscribe({
       next: (res) => {
+        // ⭐ Store the user's email so dashboard can load their items
+        localStorage.setItem('userEmail', email);
+
         this.auth.setAccessToken(res.accessToken);
         this.errorMessage = '';
         this.router.navigate(['/dashboard']);

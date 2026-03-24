@@ -1,12 +1,38 @@
 <section class="panel">
 
+  <!-- ITEMS LIST -->
+  <div class="items-container" *ngIf="items.length > 0">
 
+    <div class="item-row" *ngFor="let item of paginatedItems">
 
-  <!-- ✅ PAGINATION (ONLY ONCE) -->
+      <div class="item-info">
+        <div class="item-title">{{ item.itemTitle }}</div>
+
+        <div class="item-meta">
+          <span class="chip">{{ item.category || 'No category' }}</span>
+          <span>{{ item.itemDate }}</span>
+        </div>
+      </div>
+
+      <div class="item-actions">
+        <button class="btn-edit" (click)="onPrefillClick(item)">Edit</button>
+        <button class="btn-view" (click)="onViewClick()">View</button>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- EMPTY STATE -->
+  <div class="empty" *ngIf="items.length === 0">
+    No items found.
+  </div>
+
+  <!-- PAGINATION -->
   <div class="pagination" *ngIf="totalPages > 1">
 
     <button
-      (click)="currentPage = currentPage - 1"
+      (click)="prevPage()"
       [disabled]="currentPage === 1">
       ◀
     </button>
@@ -14,7 +40,7 @@
     <span>Page {{ currentPage }} of {{ totalPages }}</span>
 
     <button
-      (click)="currentPage = currentPage + 1"
+      (click)="nextPage()"
       [disabled]="currentPage === totalPages">
       ▶
     </button>
