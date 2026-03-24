@@ -123,7 +123,8 @@ router.post("/login", async (req, res) => {
 
       return res.json({
         mfaRequired: true,
-        tempToken
+        tempToken,
+        userId: user._id
       });
     }
 

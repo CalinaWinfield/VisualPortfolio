@@ -43,14 +43,40 @@ export class LoginInlineComponent {
       { withCredentials: true }
     ).subscribe({
       next: (res) => {
-        // ⭐ Store the user's email so dashboard can load their items
+
+        console.log("RAW RESPONSE:", res);
+
+        // Always store email immediately
         localStorage.setItem('userEmail', email);
 
+        // ⭐ OPTION B — Redirect to QR enrollment instead of TOTP-only login
+        if (res.mfaRequired === true || res.mfaRequired === "true") {
+          console.log("MFA BRANCH TRIGGERED");
+
+          sessionStorage.setItem('tempToken', res.tempToken);
+
+          // ⭐ Redirect to QR enrollment instead of TOTP-only login
+          this.router.navigate(['/enroll-mfa'], {
+            queryParams: { userId: res.userId }
+          });
+
+          return;
+        }
+
+        // Normal login
         this.auth.setAccessToken(res.accessToken);
         this.errorMessage = '';
         this.router.navigate(['/dashboard']);
       },
+
       error: (err) => {
+        if (err.error?.redirectTo === '/enroll-mfa') {
+          this.router.navigate(['/enroll-mfa'], {
+            queryParams: { userId: err.error.userId }
+          });
+          return;
+        }
+
         this.errorMessage = err?.error?.error || 'Invalid email or password.';
       }
     });

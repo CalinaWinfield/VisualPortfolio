@@ -12,8 +12,9 @@ import { GuideComponent } from './components/guide/guide.component';
 import { SignUpComponent } from './components/signUp/signUp.component';
 import { ItemsListComponent } from './components/create-item/items-list.component';
 
-// ⭐ Add this import once you create the component
+// ⭐ MFA components
 import { MfaEnrollmentComponent } from './components/mfa/mfa-enrollment.component';
+import { MfaLoginComponent } from './components/mfa/mfa-login.component';
 
 const routes: Routes = [
   { path: '', component: LandingComponent, title: 'Welcome' },
@@ -23,16 +24,19 @@ const routes: Routes = [
   { path: 'dashboard', component: DashboardComponent, title: 'Dashboard' },
   { path: 'documents', component: DocumentComponent, title: 'Documents' },
 
-  // ⭐ Move MFA route ABOVE dynamic routes
+  // ⭐ MFA routes (must be above dynamic routes)
   { path: 'enroll-mfa', component: MfaEnrollmentComponent, title: 'MFA Enrollment' },
+  { path: 'mfa-login', component: MfaLoginComponent, title: 'MFA Login' },
 
-  // dynamic route LAST
+  // Dynamic route LAST
   { path: 'documents/:id', component: DocumentComponent },
 
   { path: 'cover-letter', component: CoverLetterComponent, title: 'Cover Letter' },
   { path: 'cover-letter/:id', component: CoverLetterComponent },
+
   { path: 'create-item', component: CreateItemComponent, title: 'Create Item' },
   { path: 'items', component: ItemsListComponent, title: 'Items' },
+
   { path: 'guide', component: GuideComponent, title: 'Guide' },
   { path: 'signup', component: SignUpComponent, title: 'Sign Up' },
 

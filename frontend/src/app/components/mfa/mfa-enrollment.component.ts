@@ -43,15 +43,17 @@ export class MfaEnrollmentComponent implements OnInit {
 }
 
   ngOnInit() {
-  this.userId = history.state['userId'];
-  console.log("USER ID:", this.userId);
+  this.route.queryParams.subscribe(params => {
+    this.userId = params['userId'];
+    console.log("USER ID FROM QUERY PARAMS:", this.userId);
 
-  if (!this.userId) {
-    this.error = "Missing user ID for MFA enrollment.";
-    return;
-  }
+    if (!this.userId) {
+      this.error = "Missing user ID for MFA enrollment.";
+      return;
+    }
 
-  this.loadQrCode();
+    this.loadQrCode();
+  });
 }
 
   submitCode() {
