@@ -18,7 +18,7 @@ import { Location } from '@angular/common';
   template: `
      <div class="app-shell">
 
-       <header *ngIf="isLoggedIn" class="site-header">
+       <header *ngIf="showNavbar" class="site-header">
   <nav class="navbar navbar-expand-lg navbar-light bg-transparent">
     <div class="container-fluid nav-container">
 
@@ -101,12 +101,22 @@ export class AppComponent {
 }
 
   logout() {
-  // Remove tokens or user session data
-  localStorage.removeItem('accessToken');
-  localStorage.removeItem('refreshToken');
-  sessionStorage.clear();
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('refreshToken');
+    sessionStorage.clear();
+    this.router.navigate(['/login']);
+  }
 
-  // Navigate to login page
-  this.router.navigate(['/login']);
+  get showNavbar(): boolean {
+  const loggedIn = !!localStorage.getItem('accessToken');
+  const currentRoute = this.router.url;
+
+  // Hide navbar on login page always
+  if (currentRoute.startsWith('/login')) return false;
+
+  // Hide navbar on home page when logged out
+  if (!loggedIn && currentRoute.startsWith('/home')) return false;
+
+  return loggedIn;
 }
 }
