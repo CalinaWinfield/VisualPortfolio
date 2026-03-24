@@ -50,9 +50,7 @@ import { Location } from '@angular/common';
                     <a class="nav-link logout-btn" (click)="logout()">Logout</a>
                  </li>
 
-          <li class="nav-item">
-            <a class="nav-link logout-btn" (click)="logout()">Logout</a>
-          </li>
+          
 
         </ul>
       </div>
