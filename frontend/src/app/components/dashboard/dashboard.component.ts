@@ -38,6 +38,7 @@ export class DashboardComponent implements OnInit {
   showForm = false;
   selectedItem: any = null;
 
+//Toggle
   viewDocumentsMode = false;
   documents: any[] = [];
   selectedDocument: any = null;

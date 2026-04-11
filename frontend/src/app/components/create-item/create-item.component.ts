@@ -91,13 +91,7 @@ export class CreateItemComponent implements OnInit, OnChanges {
     });
   }
 
-  onFileSelected(event: any): void {
-    const file = event.target.files[0];
-    if (!file) return;
 
-    console.log("FILE SELECTED:", file);
-    this.selectedFile = file;
-  }
 
   save(): void {
     if (this.form.invalid) return;
