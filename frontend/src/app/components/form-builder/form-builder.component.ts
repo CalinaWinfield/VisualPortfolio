@@ -2,11 +2,36 @@ import { Component, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 
+import { DragDropModule } from '@angular/cdk/drag-drop';
+import { FormeoDropzoneDirective } from '../../directives/formeo-dropzone.directive';
+
+
 @Component({
   selector: 'app-form-builder',
   standalone: true,
-   imports: [CommonModule],
+   imports: [CommonModule, DragDropModule, FormeoDropzoneDirective],
   template: `
+  <div class="form-builder-page">
+    <div class="builder-layout">
+
+      <!-- LEFT SIDE: Draggable Items -->
+      <div 
+        class="item-panel"
+        cdkDropList
+        [cdkDropListData]="items"
+        (cdkDropListDropped)="dropItem($event)"
+      >
+        <h3>Your Items</h3>
+
+        <div 
+          class="item-card"
+          *ngFor="let item of items"
+          cdkDrag
+        >
+          {{ item.itemTitle }}
+        </div>
+      </div>
+
     <div class="builder-shell">
       <div class="header-section">
         <h2>Document Builder</h2>
@@ -31,11 +56,147 @@ import { CommonModule } from '@angular/common';
         </div>
       </div>
 
-   <div *ngIf="!isPreviewMode" #formeoContainer class="formeo-container"></div>
+   <div 
+    *ngIf="!isPreviewMode"
+    #formeoContainer
+    class="formeo-container"
+    formeoDropzone
+    (itemDropped)="handleSectionDrop($event)"
+  ></div>
    <div *ngIf="isPreviewMode" #formeoRenderer class="formeo-renderer"></div>
+    </div>
     </div>
   `,
   styles: [`
+    
+  /* ============================
+     DRAGGABLE ITEM CARDS
+     ============================ */
+  .item-card {
+    background: #f1f5f9;
+    border: 1px solid #cbd5e1;
+    padding: 0.75rem;
+    border-radius: 8px;
+    margin-bottom: 0.75rem;
+    cursor: grab;
+    transition: background 0.2s ease;
+  }
+
+  /* ============================
+     FORCE BUILDER LAYOUT OVERRIDES
+     ============================ */
+
+  /* Override global height rules */
+  :host ::ng-deep .form-builder-page,
+  :host ::ng-deep .form-builder-page .builder-layout {
+    height: auto !important;
+    min-height: 100vh !important;
+  }
+
+  /* Force the two-column layout */
+  :host ::ng-deep .builder-layout {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: flex-start !important;
+    gap: 1.5rem !important;
+    width: 100% !important;
+    overflow: hidden !important;
+  }
+
+  /* Sidebar */
+  :host ::ng-deep .item-panel {
+    width: 280px !important;
+    min-width: 280px !important;
+    max-height: calc(100vh - 150px) !important;
+    overflow-y: auto !important;
+    background: #ffffff !important;
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 12px !important;
+    padding: 1rem !important;
+    box-sizing: border-box !important;
+  }
+
+  /* Builder shell */
+  :host ::ng-deep .builder-shell {
+    flex: 1 !important;
+    min-height: calc(100vh - 150px) !important;
+    overflow: hidden !important;
+    background: #f8fafc;
+    padding: 2rem;
+    border-radius: 16px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+                0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    width: 100%;
+  }
+
+  /* Header section */
+  .header-section {
+    margin-bottom: 1.5rem;
+  }
+
+  .builder-sub {
+    color: #64748b;
+    margin: 0;
+    font-size: 0.95rem;
+    font-weight: 400;
+  }
+
+  /* Action Bar */
+  .action-bar {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 1.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid #e2e8f0;
+  }
+
+  /* Buttons */
+  .btn {
+    padding: 0.6rem 1.25rem;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    border: 1px solid transparent;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    outline: none;
+  }
+
+  .btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    filter: grayscale(100%);
+  }
+
+  /* Formeo container */
+  .formeo-container {
+    background: #ffffff;
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+    min-height: 900px;
+    width: 100%;
+    padding: 1rem;
+    box-sizing: border-box;
+    text-align: left;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .formeo-renderer {
+    min-height: 900px;
+    background: #fff;
+    padding: 1rem;
+    border: 2px solid #eee;
+  }
+
+
    .builder-shell {
        background: #f8fafc; /* Light slate background */
        padding: 2rem;
@@ -163,7 +324,11 @@ import { CommonModule } from '@angular/common';
        font-size: 1.1rem;
        line-height: 1;
      }
+    
+     
+
   `]
+
 })
 export class FormBuilderComponent implements AfterViewInit {
 
@@ -179,10 +344,23 @@ export class FormBuilderComponent implements AfterViewInit {
 
   isPreviewMode = false;
 
+  items: any[] = [];
+
   constructor(private http: HttpClient) {}
+
+  ngOnInit() {
+    this.http.get('/api/items').subscribe((data: any) => {
+      console.log('Loaded items from API:', data);
+      this.items = data;
+    });
+  }  
 
   ngAfterViewInit() {
     this.initEditor();
+  }
+
+  dropItem(event: any) {
+  console.log('Dropped item:', event);
   }
 
 
@@ -219,6 +397,7 @@ export class FormBuilderComponent implements AfterViewInit {
           }
 
       });
+      this.observeFormeoSections();
 
       console.log('Editor created:', this.editor);
     }, 0);
@@ -298,4 +477,51 @@ togglePreview(): void {
    this.renderer.render(formData);
    this.isPreviewMode = true;
  }
+
+ private attachDropZones() {
+  const fields = this.container.nativeElement.querySelectorAll('.formeo-field');
+
+  fields.forEach((field: HTMLElement) => {
+    if (field.querySelector('.drop-zone')) return;
+
+    const dropZone = document.createElement('div');
+    dropZone.classList.add('drop-zone');
+
+    // ⭐ THIS IS THE MISSING LINE ⭐
+    dropZone.setAttribute('formeoDropzone', '');
+
+    dropZone.innerHTML = `<p class="drop-hint">Drop items here</p>`;
+
+    field.appendChild(dropZone);
+  });
+}
+
+private observeFormeoSections() {
+  const target = this.container.nativeElement;
+
+  const observer = new MutationObserver(() => {
+    this.attachDropZones();
+  });
+
+  observer.observe(target, {
+    childList: true,
+    subtree: true
+  });
+}
+
+sectionMap: Record<string, any[]> = {};
+
+handleSectionDrop(event: { sectionId: string, item: any }) {
+  if (!event.sectionId) return;
+
+  if (!this.sectionMap[event.sectionId]) {
+    this.sectionMap[event.sectionId] = [];
+  }
+
+  this.sectionMap[event.sectionId].push(event.item);
+
+  console.log('Updated section map:', this.sectionMap);
+}
+
+ 
  }

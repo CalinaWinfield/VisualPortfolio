@@ -50,17 +50,20 @@
           "defaultConfiguration": "development"
         },
         "serve": {
-          "builder": "@angular-devkit/build-angular:dev-server",
-          "configurations": {
-            "production": {
-              "buildTarget": "frontend:build:production"
+            "builder": "@angular-devkit/build-angular:dev-server",
+            "options": {
+              "proxyConfig": "proxy.conf.json"
             },
-            "development": {
-              "buildTarget": "frontend:build:development"
-            }
+            "configurations": {
+              "production": {
+                "buildTarget": "frontend:build:production"
+              },
+              "development": {
+                "buildTarget": "frontend:build:development"
+              }
+            },
+            "defaultConfiguration": "development"
           },
-          "defaultConfiguration": "development"
-        },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
