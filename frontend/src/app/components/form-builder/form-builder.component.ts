@@ -13,9 +13,7 @@ import { FormeoDropzoneDirective } from '../../directives/formeo-dropzone.direct
   template: `
   <div class="form-builder-page">
     <div class="builder-layout">
-
-      <!-- LEFT SIDE: Draggable Items -->
-      <div 
+      <div
         class="item-panel"
         cdkDropList
         [cdkDropListData]="items"
@@ -23,7 +21,7 @@ import { FormeoDropzoneDirective } from '../../directives/formeo-dropzone.direct
       >
         <h3>Your Items</h3>
 
-        <div 
+        <div
           class="item-card"
           *ngFor="let item of items"
           cdkDrag
@@ -56,7 +54,7 @@ import { FormeoDropzoneDirective } from '../../directives/formeo-dropzone.direct
         </div>
       </div>
 
-   <div 
+   <div
     *ngIf="!isPreviewMode"
     #formeoContainer
     class="formeo-container"
@@ -66,266 +64,158 @@ import { FormeoDropzoneDirective } from '../../directives/formeo-dropzone.direct
    <div *ngIf="isPreviewMode" #formeoRenderer class="formeo-renderer"></div>
     </div>
     </div>
+    </div>
   `,
   styles: [`
-    
+
   /* ============================
      DRAGGABLE ITEM CARDS
      ============================ */
   .item-card {
     background: #f1f5f9;
     border: 1px solid #cbd5e1;
-    padding: 0.75rem;
+    padding: 1rem;
     border-radius: 8px;
     margin-bottom: 0.75rem;
     cursor: grab;
     transition: background 0.2s ease;
   }
 
-  /* ============================
-     FORCE BUILDER LAYOUT OVERRIDES
-     ============================ */
+ /* ============================
+    MAIN LAYOUT
+    ============================ */
+ .form-builder-page {
+    max-width: 1400px; /* Use max-width instead of width for flexibility */
+      width: 140%;
+   min-height: 100vh;
+   background-color: #f8fafc;
+   overflow-x: hidden;
+   padding: 2rem;
+   box-sizing: border-box;
+       margin-left: -150px;
 
-  /* Override global height rules */
-  :host ::ng-deep .form-builder-page,
-  :host ::ng-deep .form-builder-page .builder-layout {
-    height: auto !important;
-    min-height: 100vh !important;
-  }
+ }
 
-  /* Force the two-column layout */
-  :host ::ng-deep .builder-layout {
-    display: flex !important;
-    flex-direction: row !important;
-    align-items: flex-start !important;
-    gap: 1.5rem !important;
-    width: 100% !important;
-    overflow: hidden !important;
-  }
+ .builder-layout {
+   display: flex;
+   flex-direction: row;
+   align-items: flex-start;
+   gap: 1rem;
+   max-width: 1600px; /* Optional: keeps it from getting too wide on ultrawides */
+   margin: 0 auto;
+   width: 100%;
 
-  /* Sidebar */
-  :host ::ng-deep .item-panel {
-    width: 280px !important;
-    min-width: 280px !important;
-    max-height: calc(100vh - 150px) !important;
-    overflow-y: auto !important;
-    background: #ffffff !important;
-    border: 1px solid #e2e8f0 !important;
-    border-radius: 12px !important;
-    padding: 1rem !important;
-    box-sizing: border-box !important;
-  }
+ }
 
-  /* Builder shell */
-  :host ::ng-deep .builder-shell {
-    flex: 1 !important;
-    min-height: calc(100vh - 150px) !important;
-    overflow: hidden !important;
-    background: #f8fafc;
-    padding: 2rem;
-    border-radius: 16px;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
-                0 2px 4px -1px rgba(0, 0, 0, 0.06);
-    display: flex;
-    flex-direction: column;
-    text-align: center;
-    width: 100%;
-  }
+ /* ============================
+    SIDEBAR (ITEM PANEL)
+    ============================ */
+ .item-panel {
+   width: 320px;
+   flex-shrink: 0; /* Prevents sidebar from squishing */
+   background: #ffffff;
+   border: 1px solid #e2e8f0;
+   border-radius: 12px;
+   padding: 1.5rem;
+   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+   position: sticky;
+   top: 2rem;
+ }
 
-  /* Header section */
-  .header-section {
-    margin-bottom: 1.5rem;
-  }
+ .item-card {
+   background: #f1f5f9;
+   border: 1px solid #cbd5e1;
+   padding: 0.75rem;
+   border-radius: 8px;
+   margin-bottom: 0.75rem;
+   cursor: grab;
+   transition: all 0.2s ease;
+ }
 
-  .builder-sub {
-    color: #64748b;
-    margin: 0;
-    font-size: 0.95rem;
-    font-weight: 400;
-  }
+ .item-card:hover {
+   background: #e2e8f0;
+ }
 
-  /* Action Bar */
-  .action-bar {
-    display: flex;
-    justify-content: center;
-    gap: 1rem;
-    margin-top: 1.5rem;
-    padding-bottom: 1.5rem;
-    border-bottom: 1px solid #e2e8f0;
-  }
+ /* ============================
+    BUILDER MAIN AREA (SHELL)
+    ============================ */
+ .builder-shell {
+   flex: 1; /* This fills the remaining space */
+   display: flex;
+   flex-direction: column;
+   background: #ffffff;
+   border-radius: 16px;
+   padding: 2rem;
+   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+   min-height: 800px;
 
-  /* Buttons */
-  .btn {
-    padding: 0.6rem 1.25rem;
-    border-radius: 8px;
-    font-weight: 600;
-    font-size: 0.95rem;
-    cursor: pointer;
-    transition: all 0.2s ease-in-out;
-    border: 1px solid transparent;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    outline: none;
-  }
+ }
 
-  .btn:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-    filter: grayscale(100%);
-  }
+ /* --- Action Bar & Buttons --- */
+ .header-section {
+   text-align: center;
+   margin-bottom: 2rem;
+ }
 
-  /* Formeo container */
-  .formeo-container {
-    background: #ffffff;
-    border-radius: 12px;
-    border: 1px solid #e2e8f0;
-    min-height: 900px;
-    width: 100%;
-    padding: 1rem;
-    box-sizing: border-box;
-    text-align: left;
-    position: relative;
-    overflow: hidden;
-  }
+ .action-bar {
+   display: flex;
+   justify-content: center;
+   gap: 1rem;
+   margin-top: 1.5rem;
+   padding-bottom: 1.5rem;
+   border-bottom: 1px solid #e2e8f0;
+ }
 
-  .formeo-renderer {
-    min-height: 900px;
-    background: #fff;
-    padding: 1rem;
-    border: 2px solid #eee;
-  }
+ .btn {
+   padding: 0.6rem 1.25rem;
+   border-radius: 8px;
+   font-weight: 600;
+   cursor: pointer;
+   display: flex;
+   align-items: center;
+   gap: 0.5rem;
+   transition: all 0.2s ease;
+   border: 1px solid #cbd5e1;
+   background: white;
+ }
+
+ .btn-save {
+   background-color: #4f46e5;
+   color: white;
+   border: none;
+ }
+
+ .btn:disabled {
+   opacity: 0.5;
+   cursor: not-allowed;
+ }
+
+ /* ============================
+    FORMEO CONTAINERS
+    ============================ */
+ .formeo-container,
+ .formeo-renderer {
+   width: 100%;
+   min-height: 600px;
+   background: #ffffff;
+   border-radius: 12px;
+   border: 1px solid #e2e8f0;
+   padding: 1.5rem;
+   margin-top: 1.5rem;
+   text-align: left;
+ }
+
+ .formeo-renderer {
+   border: 2px solid #bfdbfe; /* Distinguish preview mode */
+   background-color: #fafbff;
+ }
+
+ /* Angular Specific Overrides (Keep if needed for Formeo internals) */
+ :host ::ng-deep .formeo-container * {
+   box-sizing: border-box;
+ }
 
 
-   .builder-shell {
-       background: #f8fafc; /* Light slate background */
-       padding: 2rem;
-       border-radius: 16px;
-       min-height: 750px;
-       box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-       display: flex;
-       flex-direction: column;
-       text-align: center;
-       width: 100%;
-     }
-
-     .header-section {
-       margin-bottom: 1.5rem;
-     }
-
-     .header-content h2 {
-       margin: 0 0 0.5rem 0;
-       color: #1e293b;
-       font-size: 1.75rem;
-       font-weight: 700;
-     }
-
-     .builder-sub {
-       color: #64748b;
-       margin: 0;
-       font-size: 0.95rem;
-       font-weight: 400;
-     }
-
-     /* --- Action Bar --- */
-     .action-bar {
-       display: flex;
-       justify-content: center;
-       gap: 1rem;
-       margin-top: 1.5rem;
-       padding-bottom: 1.5rem;
-       border-bottom: 1px solid #e2e8f0;
-     }
-
-     /* --- Buttons --- */
-     .btn {
-       padding: 0.6rem 1.25rem;
-       border-radius: 8px;
-       font-weight: 600;
-       font-size: 0.95rem;
-       cursor: pointer;
-       transition: all 0.2s ease-in-out;
-       border: 1px solid transparent;
-       display: flex;
-       align-items: center;
-       gap: 0.5rem;
-       outline: none;
-     }
-
-     .btn:disabled {
-       opacity: 0.5;
-       cursor: not-allowed;
-       filter: grayscale(100%);
-     }
-
-     /* Preview Button (Secondary/Outline) */
-     .btn-preview {
-       background-color: #ffffff;
-       color: #475569;
-       border-color: #cbd5e1;
-     }
-
-     .btn-preview:hover:not(:disabled) {
-       background-color: #f1f5f9;
-       border-color: #94a3b8;
-       color: #0f172a;
-     }
-
-     .btn-preview.btn-active {
-       background-color: #e0e7ff;
-       color: #4338ca;
-       border-color: #4338ca;
-     }
-
-     /* Save Button (Primary) */
-     .btn-save {
-       background-color: #4f46e5; /* Indigo 600 */
-       color: #ffffff;
-       box-shadow: 0 4px 6px -1px rgba(79, 70, 229, 0.2);
-     }
-
-     .btn-save:hover:not(:disabled) {
-       background-color: #4338ca; /* Indigo 700 */
-       transform: translateY(-1px);
-       box-shadow: 0 6px 8px -1px rgba(79, 70, 229, 0.3);
-     }
-
-     .btn-save:active:not(:disabled) {
-       transform: translateY(0);
-     }
-
-     /* --- Form Containers --- */
-     .formeo-container {
-       background: #ffffff;
-       border-radius: 12px;
-       border: 1px solid #e2e8f0;
-       min-height: 900px;
-       width: 100%;
-       padding: 1rem; /* Breathing room inside the card */
-       box-sizing: border-box;
-       text-align: left; /* Formeo renders left-aligned */
-       position: relative;
-       overflow: hidden;
-     }
-
-     /* Optional: Specific style for preview mode to distinguish it */
-     .renderer-mode {
-       border-color: #bfdbfe; /* Light blue border for preview */
-       background-color: #fafbff;
-     }
-.formeo-renderer {
-  min-height: 900px;
-  background: #fff;
-  padding: 1rem;
-  border: 2px solid #eee;
-}
-     /* Ensure Formeo icons/text align nicely */
-     .icon {
-       font-size: 1.1rem;
-       line-height: 1;
-     }
-    
-     
 
   `]
 
@@ -353,7 +243,7 @@ export class FormBuilderComponent implements AfterViewInit {
       console.log('Loaded items from API:', data);
       this.items = data;
     });
-  }  
+  }
 
   ngAfterViewInit() {
     this.initEditor();
@@ -523,5 +413,5 @@ handleSectionDrop(event: { sectionId: string, item: any }) {
   console.log('Updated section map:', this.sectionMap);
 }
 
- 
+
  }
