@@ -43,6 +43,7 @@
 }
 .form-group.full-width {
   margin-bottom: 1rem;
+   /* 🔥 space between textarea and button */
 }
 
 textarea.form-control {
