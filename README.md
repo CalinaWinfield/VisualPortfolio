@@ -60,6 +60,20 @@ Layout: AppShell → SiteHeader | Main: DashboardWrapper → DashboardHeader, Da
   - go to VisPortfolio/frontend on your terminal and run: npm install
   - run with: ng serve
 
+### Making an Admin Account
+1. Click the 'Get Started' button to sign up for an account on the web app (write down or make sure to remember the email)
+2. After getting to the dashboard, logout
+3. Open makeAdmin.js file (backend/scripts/makeAdmin.js)
+4. Change line 15 (or a line with "const email = ...") to the email that you want to become an admin
+    - For example: from [const email = 'test@yahoo.com';] --> to [const email = 'testtest@gmail.com';]
+    - You will only need to do this once, since an admin will be able to promote/demote any account thereafter to/from admin on the dashboard when logged in
+5. Save the file
+6. In the backend terminal, stop the backend (Ctrl + c)
+7. Restart the backend (in that same terminal)
+8. Login with the admin account
+9. You SHOULD load into an Admin Dashboard page
+    - If not, make sure you fully stopped and restarted the backend, and that you put the correct email (from sign up) in the makeAdmin.js file
+
 ### List of working features
 1. Responsive Design: Application is able to adapt to different screen sizes.
 
