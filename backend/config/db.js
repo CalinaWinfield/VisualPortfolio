@@ -1,16 +1,20 @@
-const mongoose = require("mongoose");
-require("dotenv").config({ path: "./.env" }); // ✅ Correct path for backend/.env
-const connectDB = async () => {
-    try {
-        const conn = await mongoose.connect(process.env.MONGO_URL, {
-            useNewUrlParser: true,
-            useUnifiedTopology: true,
-        });
-        console.log(`✅ MongoDB Connected: ${conn.connection.host}`);
-    } catch (error) {
-        console.error(`❌ MongoDB Connection Error: ${error.message}`);
-        process.exit(1); // Stop the server if DB connection fails
-    }
-};
+// backend/config/db.js
+const mongoose = require('mongoose');
 
-module.exports = connectDB;
+module.exports = async function connectDB() {
+  const uri = process.env.MONGO_URL; // ✅ matches .env key
+
+  if (!uri || typeof uri !== 'string') {
+    console.error('❌ MONGO_URL is missing or invalid. Check backend/.env.');
+    process.exit(1);
+  }
+
+  try {
+    await mongoose.connect(uri); // Mongoose v7+ options generally not required
+    console.log(`✅ MongoDB Connected: ${mongoose.connection.host}`);
+    console.log(`📂 Database name in use: ${mongoose.connection.db.databaseName}`);
+  } catch (error) {
+    console.error(`❌ MongoDB Connection Error: ${error.message}`);
+    process.exit(1);
+  }
+};

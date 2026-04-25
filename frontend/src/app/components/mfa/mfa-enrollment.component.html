@@ -1,0 +1,62 @@
+<div class="dashboard-page mfa-wrapper">
+  <div class="container">
+    <h2 class="page-title">Multi‑Factor Authentication</h2>
+
+    <div class="mfa-card">
+      <ng-container *ngIf="!loading; else loadingTpl">
+
+        <p *ngIf="error" class="error-text">{{ error }}</p>
+
+        <div *ngIf="qrCodeImage" class="mfa-content">
+
+          <p class="instruction">
+            Scan this QR code with your authenticator app:
+          </p>
+
+          <img [src]="qrCodeImage" alt="MFA QR Code" class="qr-image" />
+
+          <p class="manual-key">
+            If you prefer manual entry, your authenticator app will allow entering the key shown after scanning.
+          </p>
+
+          <div class="code-input">
+            <label>Enter the 6‑digit code</label>
+            <input
+              type="text"
+              maxlength="6"
+              [(ngModel)]="code"
+              placeholder="123456"
+              class="mfa-code-input"
+            />
+          </div>
+
+          <button
+            class="btn-primary"
+            (click)="submitCode()"
+            [disabled]="verifying || code.length !== 6"
+          >
+            {{ verifying ? 'Verifying...' : 'Verify & Continue' }}
+          </button>
+
+        </div>
+
+        <div class="mfa-instructions">
+          <h3>How to set up your authenticator</h3>
+
+          <ol>
+            <li>Open your authenticator app (Microsoft Authenticator, Google Authenticator, Authy, etc.).</li>
+            <li>Select “Add account” or “Scan QR code.”</li>
+            <li>Point your phone’s camera at the QR code above to link your account.</li>
+            <li>If scanning doesn’t work, choose “Enter key manually” in your app and use the key shown after scanning.</li>
+            <li>Your app will generate a 6‑digit code that refreshes every 30 seconds. Enter it above to finish setup.</li>
+          </ol>
+        </div>
+
+      </ng-container>
+    </div>
+  </div>
+</div>
+
+<ng-template #loadingTpl>
+  <p class="loading-text">Loading MFA setup...</p>
+</ng-template>

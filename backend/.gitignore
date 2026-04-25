@@ -1,1 +1,17 @@
+## backend .gitignore ##
+
+# Environment
 .env
+
+# Dependencies
+node_modules/
+
+# Uploaded files
+uploads/
+
+# Logs
+*.log
+
+# hardcoded scripts (don't exist YET)
+scripts/seed-production.js
+scripts/*.secret.js

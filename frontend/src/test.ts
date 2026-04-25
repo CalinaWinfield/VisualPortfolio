@@ -8,7 +8,7 @@ getTestBed().initTestEnvironment(BrowserDynamicTestingModule, platformBrowserDyn
 
 // Explicitly import spec files so tests run under Karma webpack in this environment.
 import './app/services/supabase.service.spec';
-import './app/components/signUp/signup.component.spec';
+import './app/components/signUp/signUp.component.spec';
 import './app/components/about/about.component.spec';
 import './app/components/index/index.component.spec';
 import './app/components/index-header/index-header.component.spec';

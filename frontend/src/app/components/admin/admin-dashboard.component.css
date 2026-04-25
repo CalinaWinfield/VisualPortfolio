@@ -1,0 +1,347 @@
+/* frontend/src/app/components/admin/admin-dashboard.component.css */
+
+/* ── Wrapper & Header ─────────────────────────────────────────────────────── */
+.dashboard-wrapper {
+  max-width: 1000px;
+  margin: 3rem auto;
+  padding: 0 2rem;
+}
+
+.dashboard-header {
+  margin-bottom: 2rem;
+}
+
+.dashboard-title {
+  font-size: 2.8rem;
+  color: white;
+  font-weight: 600;
+  margin-bottom: 0.4rem;
+  text-shadow: 0 4px 12px rgba(0,0,0,0.4);
+  font-family: "Playfair Display";
+}
+
+/* Admin badge sits just below the title */
+.admin-badge {
+  display: inline-block;
+  background: rgba(255, 77, 157, 0.2);
+  border: 1px solid rgba(255, 77, 157, 0.5);
+  color: white;
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 4px 14px;
+  border-radius: 999px;
+  letter-spacing: 0.5px;
+  margin-bottom: 1.5rem;
+  backdrop-filter: blur(8px);
+}
+
+/* ── Stats Row ────────────────────────────────────────────────────────────── */
+.admin-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+  margin-bottom: 2.5rem;
+}
+
+.stat-card {
+  background: rgba(255, 255, 255, 0.50);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 16px;
+  padding: 1.5rem 2rem;
+  text-align: center;
+  color: black;
+  transition: transform 0.25s ease;
+}
+
+.stat-card:hover {transform: translateY(-4px);}
+
+.stat-card h4 {
+  font-size: 0.85rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  opacity: 0.75;
+  margin-bottom: 0.5rem;
+}
+
+.stat-card span {
+  font-size: 2.4rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+@media (max-width: 640px) {
+  .admin-stats {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ── Cards Grid ───────────────────────────────────────────────────────────── */
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: 1fr; /* 2 cards for admin: Users + Items */
+  gap: 3rem;
+  align-items: start;
+  margin-top: 2rem;
+}
+
+@media (max-width: 768px) {
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.dashboard-card {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: 20px;
+  padding: 50px 30px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+  min-height: 220px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.35s ease;
+  cursor: pointer;
+  color: #2b2b2b;
+
+  /* entrance animation */
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeUp 1.5s ease forwards;
+}
+
+.dashboard-card:nth-child(1) { animation-delay: 0.1s; }
+.dashboard-card:nth-child(2) { animation-delay: 0.2s; }
+
+@keyframes fadeUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* colored left border accent */
+.dashboard-card::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 4px;
+  background: linear-gradient(to bottom, #00d4ff, #ff4d9d);
+  border-radius: 20px 0 0 20px;
+}
+
+.dashboard-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.25);
+}
+
+.dashboard-card h3 {
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin-bottom: 0.6rem;
+  letter-spacing: 0.5px;
+}
+
+.dashboard-card p {
+  font-size: 0.95rem;
+  color: #4b5563;
+  line-height: 1.5;
+  margin-bottom: 1.5rem;
+  opacity: 0.8;
+}
+
+/* ── Card expand area ─────────────────────────────────────────────────────── */
+.card-expand {
+  margin-top: 1rem;
+}
+
+.card-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 12px;
+  margin-bottom: 1rem;
+}
+
+.card-actions button {
+  flex: 1;
+  padding: 8px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: all 0.2s ease;
+  background: #e6f0ff;
+}
+
+.card-actions button:hover {
+  background: #d0e0ff;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.15);
+}
+
+.card-actions button:active {
+  transform: scale(0.97);
+}
+
+/* ── User & Item cards inside expanded section ────────────────────────────── */
+.item-card {
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 16px;
+  padding: 16px;
+  margin-bottom: 12px;  /* stacked vertically for admin lists */
+  cursor: default;
+  transition: 0.3s;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.item-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+}
+
+.item-card.active {
+  border: 2px solid #00d4ff;
+}
+
+.title {
+  font-weight: 600;
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.meta {
+  font-size: 0.8rem;
+  color: #666;
+  margin-bottom: 0.5rem;
+}
+
+.chip {
+  background: #e0f2fe;
+  color: #0369a1;
+  padding: 3px 8px;
+  border-radius: 999px;
+  margin-right: 6px;
+  font-size: 0.75rem;
+}
+
+/* ── Row buttons (promote / delete inside user cards) ─────────────────────── */
+.row {
+  display: flex;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.row button {
+  flex: 1;
+  border: none;
+  padding: 6px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: all 0.2s ease;
+  background: #f5f5f5;
+}
+
+.row button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.1);
+}
+
+.row button:active {
+  transform: scale(0.97);
+}
+
+/* promote button gets a distinct colour */
+.row button:first-child {
+  background: #e6f0ff;
+}
+
+.row button:first-child:hover {
+  background: #d0e0ff;
+}
+
+.text-danger {
+  color: #dc2626 !important;
+  background: #ffe5e5 !important;
+}
+
+.text-danger:hover {
+  background: #fecaca !important;
+}
+
+.empty {
+  color: #999;
+  font-size: 0.9rem;
+  padding: 1rem 0;
+  text-align: center;
+}
+
+/* ── Delete Modal ─────────────────────────────────────────────────────────── */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.modal-box {
+  background: white;
+  padding: 2rem;
+  border-radius: 16px;
+  width: 320px;
+  text-align: center;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+.modal-box h3 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: #1f2937;
+}
+
+.modal-box p {
+  font-size: 0.9rem;
+  color: #6b7280;
+  margin-bottom: 1rem;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.modal-actions button {
+  flex: 1;
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  background: #f5f5f5;
+}
+
+.modal-actions button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.1);
+}
+
+.modal-actions button:active {
+  transform: scale(0.97);
+}

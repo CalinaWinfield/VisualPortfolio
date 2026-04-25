@@ -1,0 +1,156 @@
+<!-- frontend/src/app/components/admin/admin-dashboard.component.html -->
+
+<div class="dashboard-wrapper">
+
+  <!-- HEADER -->
+  <div class="dashboard-header">
+    <h1 class="dashboard-title">Admin Dashboard</h1>
+    <p class="admin-badge">🔒 Administrator View</p>
+
+    <div class="dashboard-search">
+      <input type="text"
+        class="search-input"
+        placeholder="Search documents, items, users..."
+        [(ngModel)]="searchTerm" />
+    </div>
+  </div>
+
+  <div class="admin-stats">
+    <div class="stat-card">
+      <h4>Total Users</h4>
+      <span>{{ totalUsers }}</span>
+    </div>
+    <div class="stat-card">
+      <h4>Total Items</h4>
+      <span>{{ totalItems }}</span>
+    </div>
+    <div class="stat-card">
+      <h4>Total Documents</h4>
+      <span>{{ totalDocuments }}</span>
+    </div>
+    <div class="stat-card">
+      <h4>Active Users</h4>
+      <span>{{ activeUsers }}</span>
+    </div>
+  </div>
+
+  <div class="dashboard-grid">
+
+    <!-- USERS CARD -->
+    <div class="dashboard-card" (click)="toggleCard('users')">
+      <h3>All Users</h3>
+      <p>View and manage registered users.</p>
+
+      <div class="card-expand"
+          [hidden]="activeCard !== 'users'"
+          (click)="$event.stopPropagation()">
+
+        <!-- User list will render here -->
+        <div *ngIf="showUsersList && filteredUsers.length > 0">
+          <div class="item-card" *ngFor="let user of filteredUsers">
+            <div class="title">{{ user.name }} ({{ user.email }})</div>
+            <div class="meta">
+              <span class="chip">{{ user.role }}</span>
+              <span>{{ user.status }}</span>
+            </div>
+            <div class="row mt-2">
+              <button (click)="promoteUser(user); $event.stopPropagation()">
+                {{ user.role === 'admin' ? 'Demote' : 'Make Admin' }}
+              </button>
+              <button class="text-danger"
+                      (click)="openDeleteModal(user, 'user', $event)">
+                Delete
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="empty" *ngIf="showUsersList && filteredUsers.length === 0">No users found.</div>
+
+      </div>
+    </div>
+
+    <!-- ALL ITEMS CARD -->
+    <div class="dashboard-card" (click)="toggleCard('allItems')">
+      <h3>All Items</h3>
+      <p>View and moderate all user items.</p>
+
+      <div class="card-expand"
+          [hidden]="activeCard !== 'allItems'"
+          (click)="$event.stopPropagation()">
+
+        <div *ngIf="showItemsList && filteredItems.length > 0">
+          <div class="item-card" *ngFor="let item of filteredItems">
+            <div class="title">{{ item.itemTitle }}</div>
+            <div class="meta">
+              <span class="chip">{{ item.category }}</span>
+              <span>{{ item.userEmail }}</span>  <!-- shows which user owns it -->
+              <span>{{ item.itemDate }}</span>
+            </div>
+            <div class="row mt-2">
+              <button class="text-danger"
+                      (click)="openDeleteModal(item, 'item', $event)">
+                Delete
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="empty" *ngIf="showItemsList && filteredItems.length === 0">No items found.</div>
+
+      </div>
+    </div>
+
+    <!-- ALL DOCUMENTS CARD -->
+    <div class="dashboard-card" (click)="toggleCard('allDocuments')">
+      <h3>All Documents</h3>
+      <p>View and moderate all user documents.</p>
+
+      <div class="card-expand"
+          [hidden]="activeCard !== 'allDocuments'"
+          (click)="$event.stopPropagation()">
+
+        <div *ngIf="showDocumentsList && filteredDocuments.length > 0">
+          <div class="item-card" *ngFor="let item of filteredDocuments">
+            <div class="title">{{ item.title }}</div>
+            <div class="meta">
+              <span>{{ item.userEmail }}</span>
+              <span>{{ item.createdAt | date }}</span>
+            </div>
+            <div class="row mt-2">
+              <button class="text-danger"
+                      (click)="openDeleteModal(item, 'document', $event)">
+                Delete
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="empty" *ngIf="showDocumentsList && filteredDocuments.length === 0">No documents found.</div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- DELETE CONFIRM MODAL -->
+<div class="modal-overlay"
+     *ngIf="showDeleteModal"
+     (click)="closeModal()">
+
+  <div class="modal-box"
+       (click)="$event.stopPropagation()">
+
+    <h3>Delete</h3>
+    <p>Are you sure you want to delete this?</p>
+
+    <div class="modal-actions">
+      <button (click)="closeModal()">Cancel</button>
+      <button class="text-danger"
+              (click)="confirmDelete()">
+        Delete
+      </button>
+    </div>
+
+  </div>
+</div>

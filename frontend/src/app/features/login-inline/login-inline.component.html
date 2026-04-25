@@ -1,0 +1,49 @@
+<div class="hero-right">
+  <div class="login-card">
+    <h3>Sign in</h3>
+
+    <form (ngSubmit)="submitInline()" #inlineForm="ngForm" novalidate>
+
+      <!-- Email -->
+      <div class="form-group">
+        <label for="inlineEmail">Email</label>
+        <input
+          id="inlineEmail"
+          name="email"
+          [(ngModel)]="email"
+          type="email"
+          placeholder="you@example.com"
+          required
+        />
+      </div>
+
+      <!-- Password -->
+      <div class="form-group">
+        <label for="inlinePassword">Password</label>
+        <input
+          id="inlinePassword"
+          name="password"
+          [(ngModel)]="password"
+          type="password"
+          placeholder="••••••••"
+          required
+        />
+      </div>
+
+      <!-- Button -->
+      <button
+        class="login-btn"
+        type="submit"
+        [disabled]="inlineForm.invalid"
+      >
+        Log in
+      </button>
+
+      <!-- Error message -->
+      <div *ngIf="errorMessage" class="alert alert-danger mt-3">
+        {{ errorMessage }}
+      </div>
+
+    </form>
+  </div>
+</div>

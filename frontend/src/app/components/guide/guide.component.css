@@ -1,2 +1,97 @@
-/* Guide styles are intentionally minimal; global.css provides layout and headers */
-.Dashboard-Title { color: var(--cream); }
+.guide-wrapper {
+  max-width: 900px;
+  margin: 3rem auto;
+  padding: 0 2rem;
+}
+
+.guide-title {
+  font-size: 2.8rem;
+  color: white;
+  font-weight: 600;
+  margin-bottom: 2rem;
+  text-shadow: 0 4px 12px rgba(0,0,0,0.4);
+  font-family: "Playfair Display";
+  margin-bottom: 4.5rem;
+}
+
+.guide-header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 1.2rem;
+  background: transparent;
+  border: none;
+  color: black;
+  font-weight: 500;
+  text-align: left;
+}
+
+
+.step-number {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: rgba(0,0,0,0.2);
+  border: 1px solid rgba(255,255,255,0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+}
+
+
+.chevron {
+  margin-left: auto;
+  transition: transform 0.3s ease;
+}
+
+.chevron.open {
+  transform: rotate(180deg);
+}
+
+.guide-content {
+  max-height: 0;
+  overflow: hidden;
+  padding: 0 1.2rem;
+  color: black;
+  line-height: 1.6;
+  opacity: 0;
+  transition: max-height 0.4s ease, opacity 0.3s ease;
+}
+
+.guide-content.open {
+  max-height: 250px;
+  padding: 0 2rem 1rem 2rem;
+  opacity: 1;
+}
+.guide-item {
+  margin-bottom: 3rem;
+  border-radius: 20px;
+  overflow: hidden;
+  background: rgba(255,255,255,0.95);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255,255,255,0.1);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+  position: relative;
+  cursor: pointer;
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+
+.guide-item.reveal {
+animation: fadeUp 1.5s ease forwards;
+}
+
+.guide-item:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 25px 60px rgba(0,0,0,0.25);
+}
+
+@keyframes fadeUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

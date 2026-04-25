@@ -1,0 +1,35 @@
+<!-- frontend/src/app/components/form-builder/form-builder.component.html -->
+<div class="builder-shell">
+
+  <div class="header-section">
+    <h2>Document Builder</h2>
+    <p class="builder-sub">Drag elements to build your document</p>
+
+    <div class="action-bar">
+      <button
+        class="btn"
+        (click)="togglePreview()"
+        [disabled]="!editor">
+        {{ isPreviewMode ? '✏️ Back to Editor' : '👁️ Preview' }}
+      </button>
+
+      <button
+        class="btn"
+        (click)="saveForm()"
+        [disabled]="!editor">
+        💾 Save Form
+      </button>
+    </div>
+  </div>
+
+  <div *ngIf="!isPreviewMode"
+       #formeoContainer
+       class="formeo-container">
+  </div>
+
+  <div *ngIf="isPreviewMode"
+       #formeoRenderer
+       class="formeo-renderer">
+  </div>
+
+</div>

@@ -1,47 +1,30 @@
+<!-- frontend/src/app/components/document/document.component.html -->
 
-<div class="container-fluid" style="position:relative;">
-  <div class="top-left-controls">
-    <button class="back-button" (click)="goBack()">← Back</button>
+<div class="document-wrapper">
+  <div class="document-grid">
+<div class="document-header">
+  <h1 class="document-title">Document Builder</h1>
+
+  <div class="document-search">
+    <input type="text"
+           class="search-input"
+           placeholder="Search documents..." />
   </div>
+</div>
+<div class="container-fluid" style="position:relative;">
+
   <div class="row justify-content-center py-4">
     <div class="builder-wrapper">
       <div class="container">
         <div class="row justify-content-center align-items-start g-5">
 
-          <div class="col-lg-6 col-md-8 mb-4">
-            <div class="p-4 border rounded bg-white shadow builder-card">
-              <h4 class="mb-3 docTitle">Item List:</h4>
-              <div id="left" class="drag-container">
-                <div *ngFor="let item of items; let i = index" class="list" [attr.id]="'item-' + i" [attr.data-title]="item.itemTitle" [attr.data-description]="item.itemDescription" #listEl>
-                  <div class="d-flex justify-content-between align-items-center">
-                    <span><img src="assets/img/foxIcon1.png" style="width: 20px; margin-right: 5px;"> {{ item.itemTitle }}</span>
-                    <button class="btn btn-sm delete-btn" (click)="deleteItem(item._id)">×</button>
-                  </div>
-                </div>
-              </div>
+          <div class="form-builder">
+              <app-form-builder [existingData]="existingFormData"></app-form-builder>
             </div>
-          </div>
-
-          <div class="col-lg-6 col-md-8 mb-4">
-            <div class="p-4 border rounded bg-white shadow builder-card">
-              <h4 class="mb-3 docTitle">Document Builder:</h4>
-              <div id="right" class="drag-container" (drop)="drop($event)" (dragover)="allowDrop($event)">
-                <p class="text-muted">Drag list items here</p>
-              </div>
-              <button class="btn formatbtn mt-3" (click)="format()">
-                <i class="bi bi-gear-fill"></i> Format
-              </button>
-            </div>
-          </div>
-
         </div>
       </div>
     </div>
   </div>
 </div>
-
-<footer class="footer">
-  <div class="container">
-    <p>&copy; <span>{{ currentYear }}</span> Visual Portfolio. All rights reserved.</p>
   </div>
-</footer>
+</div>

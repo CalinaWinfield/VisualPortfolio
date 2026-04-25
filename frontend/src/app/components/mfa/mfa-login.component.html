@@ -1,0 +1,18 @@
+<div class="mfa-login-wrapper">
+  <h2>MFA Verification</h2>
+
+  <p>Enter the 6‑digit code from your authenticator app.</p>
+
+  <input
+    type="text"
+    maxlength="6"
+    [(ngModel)]="code"
+    placeholder="123456"
+  />
+
+  <button (click)="submitCode()">Verify</button>
+
+  <div class="error" *ngIf="errorMessage">
+    {{ errorMessage }}
+  </div>
+</div>

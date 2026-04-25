@@ -1,44 +1,58 @@
-import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common'
-import { RouterModule } from '@angular/router'
-
-import { ItemService } from '../../services/item.service';
+import { Component, Output, EventEmitter, Input } from '@angular/core';
 import { Item } from '../../models/item.model';
+import { CommonModule } from '@angular/common';
 
 @Component({
   standalone: true,
+  imports: [CommonModule],
   selector: 'app-items-list',
-  imports: [CommonModule, RouterModule],
   templateUrl: './items-list.component.html',
   styleUrls: ['./items-list.component.css']
 })
+export class ItemsListComponent {
 
-export class ItemsListComponent implements OnInit {
-  items: Item[] = [];
-  loading = false;
-  error?: string;
+  @Input() items: Item[] = [];
 
-  constructor(private itemService: ItemService) {}
+  @Output() createClicked = new EventEmitter<void>();
+  @Output() prefillClicked = new EventEmitter<any>();
+  @Output() viewClicked = new EventEmitter<void>();
 
-  ngOnInit(): void {
-    this.fetchItems();
+currentPage = 1;
+itemsPerPage = 5;
+
+get paginatedItems() {
+  const start = (this.currentPage - 1) * this.itemsPerPage;
+  return this.items.slice(start, start + this.itemsPerPage);
+}
+
+get totalPages() {
+  return Math.ceil(this.items.length / this.itemsPerPage);
+}
+
+nextPage() {
+  if (this.currentPage < this.totalPages) {
+    this.currentPage++;
+  }
+}
+
+prevPage() {
+  if (this.currentPage > 1) {
+    this.currentPage--;
+  }
+}
+  onCreateClick() {
+    this.createClicked.emit();
   }
 
-  fetchItems(): void {
-    this.loading = true;
-    this.itemService.getItems().subscribe({
-      next: (data) => {
-        this.items = data;
-        this.loading = false;
-         },
-      error: (err) => {
-        this.error = err?.message ?? 'Failed to load items'; this.loading = false;
-        },
-    });
+  onPrefillClick(item: any) {
+    this.prefillClicked.emit(item);
   }
 
-  deleteItem(id: string): void {
-    // no-op placeholder for template click in tests; use ItemService in production
+  onViewClick() {
+    this.viewClicked.emit();
   }
 
+  deleteItem(id: string) {
+    // optional: implement later
+  }
 }

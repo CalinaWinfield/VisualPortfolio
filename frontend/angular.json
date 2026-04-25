@@ -27,9 +27,8 @@
               }
             ],
             "styles": [
-              "src/assets/css/global.css"
-            ],
-            "scripts": []
+            "src/assets/css/global.css"
+          ]
           },
           "configurations": {
             "production": {
@@ -48,7 +47,7 @@
               "sourceMap": true
             }
           },
-          "defaultConfiguration": "production"
+          "defaultConfiguration": "development"
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
@@ -61,8 +60,7 @@
             }
           },
           "defaultConfiguration": "development"
-        }
-        ,
+        },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
@@ -77,18 +75,19 @@
                 "output": "assets"
               }
             ],
-            "styles": ["node_modules/bootstrap/dist/css/bootstrap.min.css",
+            "styles": [
+              "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "src/assets/css/global.css"
             ],
             "scripts": [
-                "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"
-              ]
+              "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"
+            ]
           }
         }
       }
     }
   },
   "cli": {
-    "analytics": "85f20194-e845-451b-a322-85f47d9ed3e6"
+    "analytics": false
   }
 }

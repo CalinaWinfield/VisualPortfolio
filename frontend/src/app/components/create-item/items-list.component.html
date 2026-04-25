@@ -1,30 +1,50 @@
-<section class="panel w-75 mx-auto">
-  <h2>Items</h2>
+<section class="panel">
 
-  <div *ngIf="loading">Loading items…</div>
-  <div *ngIf="error" class="error">{{ error }}</div>
+  <!-- ITEMS LIST -->
+  <div class="items-container" *ngIf="items.length > 0">
 
-  <div class="actions mb-3">
-    <a class="btn btn-primary" routerLink="/create-item">+ Create Item</a>
+    <div class="item-row" *ngFor="let item of paginatedItems">
+
+      <div class="item-info">
+        <div class="item-title">{{ item.itemTitle }}</div>
+
+        <div class="item-meta">
+          <span class="chip">{{ item.category || 'No category' }}</span>
+          <span>{{ item.itemDate }}</span>
+        </div>
+      </div>
+
+      <div class="item-actions">
+        <button class="btn-edit" (click)="onPrefillClick(item)">Edit</button>
+        <button class="btn-view" (click)="onViewClick()">View</button>
+      </div>
+
+    </div>
+
   </div>
 
-  <div *ngIf="!loading && !items.length" class="empty">
-    No items yet. Click “Create Item” to add your first one.
+  <!-- EMPTY STATE -->
+  <div class="empty" *ngIf="items.length === 0">
+    No items found.
   </div>
 
-  <ul class="item-grid" *ngIf="items.length">
-    <li class="item-card" *ngFor="let it of items">
-      <div class="title">{{ it.itemTitle }}</div>
-      <div class="meta">
-        <span class="chip">{{ it.category || 'No category' }}</span>
-        <span class="date">{{ it.itemDate }}</span>
-      </div>
-      <div class="desc">{{ it.itemDescription }}</div>
+  <!-- PAGINATION -->
+  <div class="pagination" *ngIf="totalPages > 1">
 
-      <div class="row mt-2">
-        <a class="btn btn-link" routerLink="/create-item" [queryParams]="{ prefillId: it._id }">Use as template</a>
-        <button class="btn btn-link text-danger" (click)="deleteItem(it._id)">Delete</button>
-      </div>
-    </li>
-  </ul>
+    <button
+      (click)="prevPage()"
+      [disabled]="currentPage === 1">
+      ◀
+    </button>
+
+    <span>Page {{ currentPage }} of {{ totalPages }}</span>
+
+    <button
+      (click)="nextPage()"
+      [disabled]="currentPage === totalPages">
+      ▶
+    </button>
+
+  </div>
+
 </section>

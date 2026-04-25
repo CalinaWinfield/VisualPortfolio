@@ -1,4 +1,5 @@
-const mongoose = require("mongoose");
+// backend/models/Item.js
+const mongoose = require('mongoose');
 
 const ItemSchema = new mongoose.Schema({
     category: { type: String },
@@ -8,4 +9,4 @@ const ItemSchema = new mongoose.Schema({
     userEmail: { type: String, required: true }
 }, { timestamps: true });
 
-module.exports = mongoose.model("Item", ItemSchema);
+module.exports = mongoose.model('Item', ItemSchema);

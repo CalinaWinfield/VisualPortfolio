@@ -28,7 +28,7 @@ The `angular.json` file should already have testing configuration. Make sure the
       "tsConfig": "tsconfig.spec.json",
       "karmaConfig": "karma.conf.js",
       "assets": ["src/favicon.ico", "src/assets"],
-      "styles": ["src/styles.css"],
+      "styles": ["src/global.css","node_modules/formeo/dist/formeo.min.css"],
       "scripts": []
     }
   }

@@ -1,67 +1,102 @@
-/* About page specific styles */
-.Dashboard-Title {
-  color: var(--cream);
-  font-size: var(--fs-h1);
-  margin-bottom: 2rem;
-  border-bottom: 2px solid var(--pink);
-  padding-bottom: 0.5rem;
+.about-wrapper {
+  max-width: 900px;
+  margin: 3rem auto;
+  padding: 0 2rem;
 }
 
-/* Style for the about section */
-main {
-  padding: 2rem;
+.about-hero h1 {
+font-size: 2.8rem;
+  color: white;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  text-shadow: 0 4px 12px rgba(0,0,0,0.4);
+  font-family: "Playfair Display"
+}
+
+
+.about-section {
+  padding: 1.5rem 1rem;
   max-width: 1200px;
+  margin: 0 auto;
+  font-family: "Playfair Display"
+}
+
+.section-title {
+  text-align: center;
+  text-shadow: 0 4px 12px rgba(0,0,0,0.4);
+  margin-bottom: 2rem;
+  font-weight: 600;
+  color: white;
+  font-family: "Playfair Display"
+
+}
+
+.about-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+}
+
+.about-card {
+  background: rgba(255,255,255,.75);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,0.1);
+  padding: 1rem;
+  border-radius: 16px;
+  color: black;
+  transition: all 0.3s ease;
+   animation: float 4s ease-in-out infinite;
+
+}
+
+.about-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+}
+
+.about-card.centered {
+  text-align: center;
+  max-width: 600px;
   margin: 0 auto;
 }
 
-main h2 {
-  color: var(--VPOrange);
-  font-size: var(--fs-h2);
-  margin-top: 2rem;
-  margin-bottom: 1rem;
+.tech-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
 }
 
-main p {
-  line-height: 1.6;
-  margin-bottom: 1.5rem;
+.tech-card {
+  background: rgba(255,255,255,0.55);
+  border-radius: 999px;
+  padding: 0.6rem 1.4rem;
+  color: black;
+  font-weight: 500;
+  border: 1px solid rgba(255,255,255,0.15);
+   animation: float 4s ease-in-out infinite;
 }
 
-main ul {
-  list-style-type: none;
-  padding-left: 0;
+.team-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
 }
 
-main ul li {
-  padding: 0.5rem 0;
-  border-bottom: 1px solid var(--light-purple);
+.team-card {
+  background: rgba(255,255,255,0.75);
+  padding: 1.5rem;
+  border-radius: 14px;
+  text-align: center;
+  color: black;
+  transition: 0.3s ease;
+   animation: float 4s ease-in-out infinite;
 }
 
-main ul li:last-child {
-  border-bottom: none;
+.team-card:hover {
+  transform: translateY(-5px);
 }
-
-/* Emphasize the team member roles */
-main ul li span {
-  color: var(--pink);
-  font-style: italic;
-}
-
-/* Responsive adjustments */
-@media (max-width: 768px) {
-  main {
-    padding: 1rem;
-  }
-
-  .Dashboard-Title {
-    font-size: calc(var(--fs-h1) * 0.9);
-  }
-}
-
-/* Top-left back button */
-.top-left-controls {
-  position: absolute;
-  left: 1rem;
-  top: 1rem;
-  z-index: 10;
-  border-radius: 40px;
+@keyframes float {
+  0%,100% { transform: translateY(0); }
+  50%     { transform: translateY(-10px); }
 }
