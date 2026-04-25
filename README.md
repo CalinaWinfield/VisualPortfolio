@@ -102,7 +102,7 @@ Layout: AppShell → SiteHeader | Main: DashboardWrapper → DashboardHeader, Da
 - Discord
 
 ## License
-This project is licensed under [the GNU General Public License (GPL)](https://www.gnu.org/licenses/gpl-3.0.html). You are free to use, modify, and distribute this software under the condition that any derivative works or modifications must also be made available under the same license, ensuring that others have the same freedoms to use and adapt the code. For more details, see [LICENSE.md](Documents/docs-Spring2025/LICENSE.md) for details.
+This project is licensed under [the GNU General Public License (GPL)](https://www.gnu.org/licenses/gpl-3.0.html). You are free to use, modify, and distribute this software under the condition that any derivative works or modifications must also be made available under the same license, ensuring that others have the same freedoms to use and adapt the code. For more details, see [LICENSE.md](Documents/docs-Spr2026/LICENSE.md) for details.
 
 
 Copyright © 2025 VisPortfolio Team.
