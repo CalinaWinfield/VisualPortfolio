@@ -12,7 +12,6 @@ import { AuthService } from '../../auth.service';
   templateUrl: './mfa-enrollment.component.html',
   styleUrls: ['./mfa-enrollment.component.css']
 })
-
 export class MfaEnrollmentComponent implements OnInit {
 
   userId!: string;

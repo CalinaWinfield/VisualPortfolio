@@ -47,9 +47,6 @@ export class LoginInlineComponent {
 
         console.log("RAW RESPONSE:", res);
 
-        // Always store email immediately
-        // localStorage.setItem('userEmail', email);
-
         // ⭐ OPTION B — Redirect to QR enrollment instead of TOTP-only signup
         if (res.mfaRequired === true || res.mfaRequired === "true") {
           console.log("MFA BRANCH TRIGGERED");

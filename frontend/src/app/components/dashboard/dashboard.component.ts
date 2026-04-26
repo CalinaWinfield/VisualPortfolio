@@ -17,7 +17,7 @@ import { FormsModule } from '@angular/forms';
     CommonModule,
     FormsModule,
     CreateItemComponent,
-    ItemsListComponent   // ✅ Now included
+    ItemsListComponent
   ],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']

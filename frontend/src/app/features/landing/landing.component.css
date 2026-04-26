@@ -4,7 +4,6 @@
   padding: 0 2rem;
 }
 
-
 .hero::before {
   transform: translateY(0);
   transition: transform 0.2s ease-out;
@@ -26,7 +25,6 @@
   animation: emphasis 4s ease .9s forwards;
 }
 
-
 .hero-subtitle {
   text-align:center;
   max-width: 520px;
@@ -41,24 +39,20 @@
     animation: subtitle-fade 0.6s ease 4s forwards;
 }
 
-
 .typing-line {
-   display: block;
+  display: block;
 }
 
 .typing-wrap {
   position: relative;
-   overflow: hidden;
-    white-space: nowrap;
-    display: inline-block;
-  }
-
-
+  overflow: hidden;
+  white-space: nowrap;
+  display: inline-block;
+}
 
 .typing {
  display: inline-block;
 }
-
 
 .line-1 .typing-wrap {
   width: 0ch;
@@ -77,7 +71,6 @@
     caret-blink 2.2s infinite,
     hide-caret 0s linear 2s forwards;
 }
-
 
 .line-2 .typing-wrap {
   width: 0ch;
@@ -177,7 +170,6 @@
     justify-content: flex-end;
   }
 }
-
 
 .cta-primary {
    background: rgba(0, 0, 0, 0.85);

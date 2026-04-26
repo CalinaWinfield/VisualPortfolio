@@ -1,127 +1,133 @@
-.builder-shell {
-       background: #f8fafc; /* Light slate background */
-       padding: 2rem;
-       border-radius: 16px;
-       min-height: 750px;
-       box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-       display: flex;
-       flex-direction: column;
-       text-align: center;
-       width: 100%;
-     }
-
-     .header-section {
-       margin-bottom: 1.5rem;
-     }
-
-     .header-content h2 {
-       margin: 0 0 0.5rem 0;
-       color: #1e293b;
-       font-size: 1.75rem;
-       font-weight: 700;
-     }
-
-     .builder-sub {
-       color: #64748b;
-       margin: 0;
-       font-size: 0.95rem;
-       font-weight: 400;
-     }
-
-     /* --- Action Bar --- */
-     .action-bar {
-       display: flex;
-       justify-content: center;
-       gap: 1rem;
-       margin-top: 1.5rem;
-       padding-bottom: 1.5rem;
-       border-bottom: 1px solid #e2e8f0;
-     }
-
-     /* --- Buttons --- */
-     .btn {
-       padding: 0.6rem 1.25rem;
-       border-radius: 8px;
-       font-weight: 600;
-       font-size: 0.95rem;
-       cursor: pointer;
-       transition: all 0.2s ease-in-out;
-       border: 1px solid transparent;
-       display: flex;
-       align-items: center;
-       gap: 0.5rem;
-       outline: none;
-     }
-
-     .btn:disabled {
-       opacity: 0.5;
-       cursor: not-allowed;
-       filter: grayscale(100%);
-     }
-
-     /* Preview Button (Secondary/Outline) */
-     .btn-preview {
-       background-color: #ffffff;
-       color: #475569;
-       border-color: #cbd5e1;
-     }
-
-     .btn-preview:hover:not(:disabled) {
-       background-color: #f1f5f9;
-       border-color: #94a3b8;
-       color: #0f172a;
-     }
-
-     .btn-preview.btn-active {
-       background-color: #e0e7ff;
-       color: #4338ca;
-       border-color: #4338ca;
-     }
-
-     /* Save Button (Primary) */
-     .btn-save {
-       background-color: #4f46e5; /* Indigo 600 */
-       color: #ffffff;
-       box-shadow: 0 4px 6px -1px rgba(79, 70, 229, 0.2);
-     }
-
-     .btn-save:hover:not(:disabled) {
-       background-color: #4338ca; /* Indigo 700 */
-       transform: translateY(-1px);
-       box-shadow: 0 6px 8px -1px rgba(79, 70, 229, 0.3);
-     }
-
-     .btn-save:active:not(:disabled) {
-       transform: translateY(0);
-     }
-
-     /* --- Form Containers --- */
-     .formeo-container {
-       background: #ffffff;
-       border-radius: 12px;
-       border: 1px solid #e2e8f0;
-       min-height: 900px;
-       width: 100%;
-       padding: 1rem; /* Breathing room inside the card */
-       box-sizing: border-box;
-       text-align: left; /* Formeo renders left-aligned */
-       position: relative;
-       overflow: hidden;
-     }
-
-     /* Optional: Specific style for preview mode to distinguish it */
-     .renderer-mode {
-       border-color: #bfdbfe; /* Light blue border for preview */
-       background-color: #fafbff;
-     }
-.formeo-renderer {
-  min-height: 900px;
-  background: #fff;
+/* ============================
+   DRAGGABLE ITEM CARDS
+   ============================ */
+.item-card {
+  background: #f1f5f9;
+  border: 1px solid #cbd5e1;
   padding: 1rem;
-  border: 2px solid #eee;
+  border-radius: 8px;
+  margin-bottom: 0.75rem;
+  cursor: grab;
+  transition: background 0.2s ease;
 }
-     /* Ensure Formeo icons/text align nicely */
-     .icon {
-       font-size: 1.1rem;
-       line-height: 1;
-    }
+
+/* ============================
+   MAIN LAYOUT
+   ============================ */
+.form-builder-page {
+  max-width: 1400px;
+  width: 140%;
+  min-height: 100vh;
+  background-color: #f8fafc;
+  overflow-x: hidden;
+  padding: 2rem;
+  box-sizing: border-box;
+  margin-left: -150px;
+}
+
+.builder-layout {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 1rem;
+  max-width: 1600px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* ============================
+   SIDEBAR (ITEM PANEL)
+   ============================ */
+.item-panel {
+  width: 320px;
+  flex-shrink: 0;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  position: sticky;
+  top: 2rem;
+}
+
+.item-card:hover {
+  background: #e2e8f0;
+}
+
+/* ============================
+   BUILDER MAIN AREA (SHELL)
+   ============================ */
+.builder-shell {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  min-height: 800px;
+}
+
+/* --- Action Bar & Buttons --- */
+.header-section {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.action-bar {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1.5rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.btn {
+  padding: 0.6rem 1.25rem;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.2s ease;
+  border: 1px solid #cbd5e1;
+  background: white;
+}
+
+.btn-save {
+  background-color: #4f46e5;
+  color: white;
+  border: none;
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ============================
+   FORMEO CONTAINERS
+   ============================ */
+.formeo-container,
+.formeo-renderer {
+  width: 100%;
+  min-height: 600px;
+  background: #ffffff;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  padding: 1.5rem;
+  margin-top: 1.5rem;
+  text-align: left;
+}
+
+.formeo-renderer {
+  border: 2px solid #bfdbfe;
+  background-color: #fafbff;
+}
+
+/* Angular Specific Overrides */
+:host ::ng-deep .formeo-container * {
+  box-sizing: border-box;
+}

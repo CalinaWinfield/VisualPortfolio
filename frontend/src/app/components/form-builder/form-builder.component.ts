@@ -1,17 +1,19 @@
-// frontend/src/app/components/form-builder/form-builder.component.ts
+// frontend/src/app/form-builder/form-builder.component.ts
 import { Component, AfterViewInit, ViewChild, ElementRef, Input } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../auth.service';
+import { DragDropModule } from '@angular/cdk/drag-drop';
+import { FormeoDropzoneDirective } from '../../directives/formeo-dropzone.directive';
+
 
 @Component({
   selector: 'app-form-builder',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, DragDropModule, FormeoDropzoneDirective],
   templateUrl: './form-builder.component.html',
   styleUrls: ['./form-builder.component.css']
 })
-
 export class FormBuilderComponent implements AfterViewInit {
 
   @ViewChild('formeoContainer', { static: false })
@@ -28,36 +30,62 @@ export class FormBuilderComponent implements AfterViewInit {
 
   isPreviewMode = false;
 
+  items: any[] = [];
+
   constructor(private http: HttpClient, private auth: AuthService) {}
+
+  ngOnInit() {
+    this.http.get('/api/items').subscribe((data: any) => {
+      console.log('Loaded items from API:', data);
+      this.items = data;
+    });
+  }
 
   ngAfterViewInit() {
     this.initEditor();
   }
 
+  dropItem(event: any) {
+  console.log('Dropped item:', event);
+  }
+
+
   private initEditor(): void {
     const f = (window as any).formeo;
-    if (!f || !f.FormeoEditor) { console.error('Formeo not loaded'); return; }
+
+
+    if (!f || !f.FormeoEditor) {
+      console.error('Formeo not loaded');
+      return;
+    }
 
     setTimeout(() => {
-      const options: any = {
+      this.editor = new f.FormeoEditor({
         appendTo: this.container.nativeElement,
         editorContainer: this.container.nativeElement,
+
+
+
         controls: {
-          groups: [],
-          elements: [],
-          disable: { groups: ['common', 'buttons'] }
-        },
+                groups: [],
+                elements: [],
+                disable: {
+                  groups: ['common', 'buttons']
+                }
+              },
+
+
         events: {
-          onChange: (data: any) => { this.formData = data; }
-        }
-      };
+            onChange: (data: any) => {
+              console.log('Live form data:', data);
+              this.formData = data;
+            }
+          }
 
-      // ✅ If editing an existing doc, load its saved data
-      if (this.existingData) {
-        options.formData = this.existingData;
-      }
+      });
+      this.observeFormeoSections();
 
-      this.editor = new f.FormeoEditor(options);
+      console.log('Editor created:', this.editor);
     }, 0);
   }
 
@@ -152,4 +180,51 @@ togglePreview(): void {
    this.renderer.render(formData);
    this.isPreviewMode = true;
  }
+
+ private attachDropZones() {
+  const fields = this.container.nativeElement.querySelectorAll('.formeo-field');
+
+  fields.forEach((field: HTMLElement) => {
+    if (field.querySelector('.drop-zone')) return;
+
+    const dropZone = document.createElement('div');
+    dropZone.classList.add('drop-zone');
+
+    // ⭐ THIS IS THE MISSING LINE ⭐
+    dropZone.setAttribute('formeoDropzone', '');
+
+    dropZone.innerHTML = `<p class="drop-hint">Drop items here</p>`;
+
+    field.appendChild(dropZone);
+  });
 }
+
+private observeFormeoSections() {
+  const target = this.container.nativeElement;
+
+  const observer = new MutationObserver(() => {
+    this.attachDropZones();
+  });
+
+  observer.observe(target, {
+    childList: true,
+    subtree: true
+  });
+}
+
+sectionMap: Record<string, any[]> = {};
+
+handleSectionDrop(event: { sectionId: string, item: any }) {
+  if (!event.sectionId) return;
+
+  if (!this.sectionMap[event.sectionId]) {
+    this.sectionMap[event.sectionId] = [];
+  }
+
+  this.sectionMap[event.sectionId].push(event.item);
+
+  console.log('Updated section map:', this.sectionMap);
+}
+
+
+ }

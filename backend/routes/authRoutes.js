@@ -233,7 +233,11 @@ router.post("/mfa/verify-setup", async (req, res) => {
 router.post("/mfa/verify-login", async (req, res) => {
   try {
     const { tempToken, code } = req.body;
+<<<<<<< HEAD
     const payload = verifyAccess(tempToken);
+=======
+    const payload = verifyRefresh(tempToken); // or verifyAccessToken if you prefer
+>>>>>>> origin/PixelImprove-main
 
     const user = await User.findById(payload.sub);
     if (!user) return res.status(404).json({ error: "User not found" });
@@ -350,7 +354,11 @@ router.post("/logout", async (req, res) => {
 });
 
 /* ---------------------------------------------
+<<<<<<< HEAD
    ME (Aaron Matthews, creator of database)
+=======
+   ME
+>>>>>>> origin/PixelImprove-main
 ---------------------------------------------- */
 router.get("/me", require("../middleware/auth")(), async (req, res) => {
   const user = await User.findById(req.user.sub).select("_id email name role");

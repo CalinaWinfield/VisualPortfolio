@@ -79,7 +79,6 @@ import { AuthService } from './auth.service';
        </div>
   `,
 })
-
 export class AppComponent {
   currentYear: number = new Date().getFullYear();
   showBackButton = false;
