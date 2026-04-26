@@ -71,7 +71,7 @@ export class AdminDashboardComponent implements OnInit {
 
   constructor(
     private http: HttpClient,
-    private auth: AuthService
+    public auth: AuthService
   ) {}
 
   ngOnInit(): void {
@@ -117,15 +117,19 @@ export class AdminDashboardComponent implements OnInit {
   }
 
   promoteUser(user: any): void {
+    const currentEmail = this.auth.getUserEmail();
+    if (user.email === currentEmail && user.role === 'admin') {
+      alert('You cannot demote your own account.');
+      return;
+    }
+
     const newRole = user.role === 'admin' ? 'user' : 'admin';
     this.http.patch(
       `${this.apiUrl}/users/${user._id}/role`,
       { role: newRole },
       this.authHeaders()
     ).subscribe({
-      next: () => {
-        user.role = newRole; // update locally so UI reflects immediately
-      },
+      next: () => { user.role = newRole; },
       error: (err) => console.error('Failed to update role:', err)
     });
   }

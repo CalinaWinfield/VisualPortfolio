@@ -54,13 +54,22 @@
               <span>{{ user.status }}</span>
             </div>
             <div class="row mt-2">
-              <button (click)="promoteUser(user); $event.stopPropagation()">
+              <button *ngIf="!(user.email === auth.getUserEmail() && user.role === 'admin')"
+                      (click)="promoteUser(user); $event.stopPropagation()">
                 {{ user.role === 'admin' ? 'Demote' : 'Make Admin' }}
               </button>
-              <button class="text-danger"
-                      (click)="openDeleteModal(user, 'user', $event)">
-                Delete
-              </button>
+
+              <!-- Replace Delete button with 'Currently Logged In' badge for self -->
+              <ng-container *ngIf="user.email === auth.getUserEmail(); else showDelete">
+                <span class="logged-in-badge">Currently Logged In</span>
+              </ng-container>
+
+              <ng-template #showDelete>
+                <button class="text-danger"
+                        (click)="openDeleteModal(user, 'user', $event)">
+                  Delete
+                </button>
+              </ng-template>
             </div>
           </div>
         </div>

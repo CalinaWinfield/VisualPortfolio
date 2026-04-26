@@ -1,4 +1,4 @@
-
+/* frontend/src/app/components/home/home.component.css */
 .home-wrapper {
   max-width: 1300px;
   margin: 4rem auto;
@@ -77,8 +77,6 @@
   line-height:1.3;
   margin-bottom: 1.5rem;
   position: relative;
-
-
 }
 
 .hero-title em {
@@ -86,10 +84,10 @@
   animation: emphasis 4s ease .9s forwards;
 }
 
-
 .hero-subtitle {
   max-width: 520px;
   margin-bottom: 3rem;
+  position: absolute;
   color: var(--color-white);
   text-shadow: var(--hero-subtitle-shadow);
   font-family: var(--font-display);
@@ -100,24 +98,20 @@
     animation: subtitle-fade 0.6s ease 4s forwards;
 }
 
-
 .typing-line {
    display: block;
 }
 
 .typing-wrap {
   position: relative;
-   overflow: hidden;
-    white-space: nowrap;
-    display: inline-block;
-  }
-
-
+  overflow: hidden;
+  white-space: nowrap;
+  display: inline-block;
+}
 
 .typing {
  display: inline-block;
 }
-
 
 .line-1 .typing-wrap {
   width: 0ch;
@@ -136,7 +130,6 @@
     caret-blink 2.2s infinite,
     hide-caret 0s linear 2s forwards;
 }
-
 
 .line-2 .typing-wrap {
   width: 0ch;
@@ -210,15 +203,15 @@
 
 .hero-left {
   max-width: 600px;
-   margin: 0 auto;
-   grid-row: 2;
+  margin: 0 auto;
+  grid-row: 2;
 }
 .hero-right {
   display: flex;
- justify-content: center;   /* default centered */
-   align-items: center;
-    grid-row: 1;
-    justify-self: stretch;
+  justify-content: center;   /* default centered */
+  align-items: center;
+  grid-row: 1;
+  justify-self: stretch;
 }
 
 @media (min-width: 1024px) {

@@ -19,8 +19,6 @@
   line-height:1.4;
   margin-bottom: 2.5rem;
   position: relative;
-
-
 }
 
 .hero-title em {
@@ -30,8 +28,9 @@
 
 
 .hero-subtitle {
+  text-align:center;
   max-width: 520px;
-  margin-bottom: 4rem;
+  margin: auto auto 4rem;
   color: var(--color-white);
   text-shadow: var(--hero-subtitle-shadow);
   font-family: var(--font-display);

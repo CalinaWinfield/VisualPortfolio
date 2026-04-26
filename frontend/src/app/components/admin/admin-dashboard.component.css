@@ -231,6 +231,16 @@
   font-size: 0.75rem;
 }
 
+.logged-in-badge {
+  display: inline-block;
+  background-color: #28a745;
+  color: white;
+  padding: 4px 12px;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
 /* ── Row buttons (promote / delete inside user cards) ─────────────────────── */
 .row {
   display: flex;
