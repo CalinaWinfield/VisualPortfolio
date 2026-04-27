@@ -1,7 +1,4 @@
-<<<<<<< HEAD
 // backend/models/Item.js
-=======
->>>>>>> origin/PixelImprove-main
 const mongoose = require('mongoose');
 
 const ItemSchema = new mongoose.Schema({

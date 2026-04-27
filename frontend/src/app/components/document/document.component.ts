@@ -41,7 +41,7 @@ export class DocumentComponent implements OnInit {
   loadDocument(id: string): void {
     this.http.get<any>(`http://localhost:5001/api/documents/${id}`).subscribe({
       next: (doc) => {
-        this.existingFormData = doc.formData;
+        this.existingFormData = doc;
       },
       error: (err) => console.error('Failed to load document', err)
     });

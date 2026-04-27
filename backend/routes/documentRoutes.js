@@ -51,4 +51,30 @@ router.delete('/:id', async (req, res) => {
   }
 });
 
+router.put("/:id", async (req, res) => {
+  try {
+    const { title, templateJson, sections } = req.body;
+
+    // Use findByIdAndUpdate to target the document from the URL
+    const updatedDoc = await Document.findByIdAndUpdate(
+      req.params.id, 
+      { 
+        title, 
+        templateJson, 
+        sections 
+      },
+      { new: true } // This returns the updated version to Angular
+    );
+
+    if (!updatedDoc) {
+      return res.status(404).json({ error: "Document not found" });
+    }
+
+    res.json(updatedDoc);
+  } catch (error) {
+    console.error("Update error:", error);
+    res.status(500).json({ error: "Server error during update" });
+  }
+});
+
 module.exports = router;

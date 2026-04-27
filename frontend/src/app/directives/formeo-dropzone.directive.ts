@@ -1,3 +1,4 @@
+//frontend/src/app/directives/formeo-dropzone.directive.ts
 import { Directive, ElementRef, NgZone, Output, EventEmitter } from '@angular/core';
 import { CdkDropList, CdkDropListGroup, CdkDragDrop } from '@angular/cdk/drag-drop';
 

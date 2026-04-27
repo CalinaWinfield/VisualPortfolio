@@ -2,9 +2,10 @@
 const mongoose = require('mongoose');
 
 const DocumentSchema = new mongoose.Schema({
-  title:     { type: String, required: true },
-  userEmail: { type: String, required: true },
-  formData:  { type: mongoose.Schema.Types.Mixed, required: true }
+  title:          { type: String, required: true },
+  userEmail:      { type: String, required: true },
+  formData:       { type: mongoose.Schema.Types.Mixed, required: true },
+  injectedItems:  { type: mongoose.Schema.Types.Mixed, default: [] }
 }, { timestamps: true });
 
 module.exports = mongoose.model('Document', DocumentSchema);

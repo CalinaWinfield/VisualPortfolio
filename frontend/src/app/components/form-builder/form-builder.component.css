@@ -1,6 +1,4 @@
-/* ============================
-   DRAGGABLE ITEM CARDS
-   ============================ */
+/* frontend/src/app/components/form-builder/form-builder.component.css */
 .item-card {
   background: #f1f5f9;
   border: 1px solid #cbd5e1;
@@ -11,9 +9,6 @@
   transition: background 0.2s ease;
 }
 
-/* ============================
-   MAIN LAYOUT
-   ============================ */
 .form-builder-page {
   max-width: 1400px;
   width: 140%;
@@ -35,9 +30,6 @@
   width: 100%;
 }
 
-/* ============================
-   SIDEBAR (ITEM PANEL)
-   ============================ */
 .item-panel {
   width: 320px;
   flex-shrink: 0;
@@ -54,9 +46,6 @@
   background: #e2e8f0;
 }
 
-/* ============================
-   BUILDER MAIN AREA (SHELL)
-   ============================ */
 .builder-shell {
   flex: 1;
   display: flex;
@@ -68,7 +57,6 @@
   min-height: 800px;
 }
 
-/* --- Action Bar & Buttons --- */
 .header-section {
   text-align: center;
   margin-bottom: 2rem;
@@ -107,9 +95,6 @@
   cursor: not-allowed;
 }
 
-/* ============================
-   FORMEO CONTAINERS
-   ============================ */
 .formeo-container,
 .formeo-renderer {
   width: 100%;
@@ -127,7 +112,61 @@
   background-color: #fafbff;
 }
 
-/* Angular Specific Overrides */
 :host ::ng-deep .formeo-container * {
   box-sizing: border-box;
+}
+
+/* ============================
+   INJECTED ITEM BLOCKS
+   ============================ */
+.injected-item-block {
+  background: #f8f9fa;
+  border: 1px solid #dee2e6;
+  border-left: 4px solid #28a745;
+  border-radius: 6px;
+  margin: 8px 0;
+  padding: 10px 14px;
+  position: relative;
+}
+
+.injected-item-inner {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.injected-category {
+  font-size: 0.75rem;
+  color: #6c757d;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.injected-title {
+  font-size: 1rem;
+  color: #212529;
+}
+
+.injected-desc {
+  font-size: 0.875rem;
+  color: #495057;
+  margin: 0;
+}
+
+.injected-remove {
+  position: absolute;
+  top: 6px;
+  right: 8px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #dc3545;
+  font-size: 0.85rem;
+}
+
+.empty {
+  color: #94a3b8;
+  font-size: 0.9rem;
+  text-align: center;
+  padding: 1rem 0;
 }

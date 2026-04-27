@@ -1,20 +1,16 @@
+<!-- frontend/src/app/components/form-builder/form-builder.component.html -->
 <div class="form-builder-page">
   <div class="builder-layout">
-    <div
-      class="item-panel"
-      cdkDropList
-      [cdkDropListData]="items"
-      (cdkDropListDropped)="dropItem($event)"
-    >
+    <div class="item-panel">
       <h3>Your Items</h3>
-
       <div
         class="item-card"
         *ngFor="let item of items"
-        cdkDrag
-      >
+        draggable="true"
+        (dragstart)="onDragStart($event, item)">
         {{ item.itemTitle }}
       </div>
+      <div *ngIf="items.length === 0" class="empty">No items yet.</div>
     </div>
 
     <div class="builder-shell">
@@ -23,19 +19,10 @@
         <p class="builder-sub">Drag elements to build your document</p>
 
         <div class="action-bar">
-          <button
-            class="btn"
-            (click)="togglePreview()"
-            [disabled]="!editor"
-          >
+          <button class="btn" (click)="togglePreview()" [disabled]="!editor">
             {{ isPreviewMode ? '✏️ Back to Editor' : '👁️ Preview' }}
           </button>
-
-          <button
-            class="btn"
-            (click)="saveForm()"
-            [disabled]="!editor"
-          >
+          <button class="btn" (click)="saveForm()" [disabled]="!editor">
             💾 Save Form
           </button>
         </div>
@@ -45,8 +32,6 @@
         *ngIf="!isPreviewMode"
         #formeoContainer
         class="formeo-container"
-        formeoDropzone
-        (itemDropped)="handleSectionDrop($event)"
       ></div>
       <div *ngIf="isPreviewMode" #formeoRenderer class="formeo-renderer"></div>
     </div>

@@ -12,10 +12,7 @@ module.exports = async function connectDB() {
   try {
     await mongoose.connect(uri); // Mongoose v7+ options generally not required
     console.log(`✅ MongoDB Connected: ${mongoose.connection.host}`);
-<<<<<<< HEAD
     console.log(`📂 Database name in use: ${mongoose.connection.db.databaseName}`);
-=======
->>>>>>> origin/PixelImprove-main
   } catch (error) {
     console.error(`❌ MongoDB Connection Error: ${error.message}`);
     process.exit(1);
