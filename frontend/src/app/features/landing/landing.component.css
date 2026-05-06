@@ -199,3 +199,6 @@
   }
 
 }
+::ng-deep .back-btn {
+  display: none !important;
+}

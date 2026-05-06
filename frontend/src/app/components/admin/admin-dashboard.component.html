@@ -93,8 +93,8 @@
             <div class="title">{{ item.itemTitle }}</div>
             <div class="meta">
               <span class="chip">{{ item.category }}</span>
-              <span>{{ item.userEmail }}</span>  <!-- shows which user owns it -->
-              <span>{{ item.itemDate }}</span>
+              <span class="meta-email">{{ item.userEmail }}</span>  <!-- shows which user owns it -->
+              <span class="meta-date">{{ item.itemDate }}</span>
             </div>
             <div class="row mt-2">
               <button class="text-danger"
@@ -123,8 +123,8 @@
           <div class="item-card" *ngFor="let item of filteredDocuments">
             <div class="title">{{ item.title }}</div>
             <div class="meta">
-              <span>{{ item.userEmail }}</span>
-              <span>{{ item.createdAt | date }}</span>
+              <span class="meta-email">{{ item.userEmail }}</span>
+              <span class="meta-date">{{ item.createdAt | date }}</span>
             </div>
             <div class="row mt-2">
               <button class="text-danger"

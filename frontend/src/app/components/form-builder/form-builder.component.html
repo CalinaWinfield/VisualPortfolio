@@ -1,19 +1,9 @@
 <!-- frontend/src/app/components/form-builder/form-builder.component.html -->
 <div class="form-builder-page">
-  <div class="builder-layout">
-    <div class="item-panel">
-      <h3>Your Items</h3>
-      <div
-        class="item-card"
-        *ngFor="let item of items"
-        draggable="true"
-        (dragstart)="onDragStart($event, item)">
-        {{ item.itemTitle }}
-      </div>
-      <div *ngIf="items.length === 0" class="empty">No items yet.</div>
-    </div>
-
-    <div class="builder-shell">
+  <div class="container-fluid px-2 px-xl-4">
+    <div class="row g-3 align-items-start">
+      <div class="col-12">
+        <div class="builder-shell">
       <div class="header-section">
         <h2>Document Builder</h2>
         <p class="builder-sub">Drag elements to build your document</p>
@@ -25,15 +15,52 @@
           <button class="btn" (click)="saveForm()" [disabled]="!editor">
             💾 Save Form
           </button>
+          <button class="btn" type="button" (click)="exportPdf()">
+            Export PDF
+          </button>
+          <button class="btn" type="button" (click)="exportWord()">
+            Export Word
+          </button>
+        </div>
+
+        <div class="injected-text-panel" *ngIf="injectedItems.length">
+          <h4>Document Text Blocks</h4>
+          <p class="builder-sub">Items dropped into the builder are stored and shown as text below.</p>
+          <div class="injected-text-item" *ngFor="let item of injectedItems">
+            <div class="injected-text-main">
+              <strong>{{ item.itemTitle }}</strong>
+              <p>{{ item.itemDescription || '' }}</p>
+            </div>
+            <button class="injected-text-remove" type="button" (click)="removeInjectedItem(item._id)">Remove</button>
+          </div>
         </div>
       </div>
+          <div class="builder-workspace">
+            <div class="item-panel">
+              <h3>Your Items</h3>
+              <div
+                class="item-card"
+                *ngFor="let item of items"
+                draggable="true"
+                (dragstart)="onDragStart($event, item)">
+                {{ item.itemTitle }}
+              </div>
+              <div *ngIf="items.length === 0" class="empty">No items yet.</div>
+            </div>
 
-      <div
-        *ngIf="!isPreviewMode"
-        #formeoContainer
-        class="formeo-container"
-      ></div>
-      <div *ngIf="isPreviewMode" #formeoRenderer class="formeo-renderer"></div>
+            <div class="canvas-panel">
+              <div
+                [hidden]="isPreviewMode"
+                #formeoContainer
+                class="formeo-container"
+                (dragover)="allowDrop($event)"
+                (drop)="onDropToDocument($event)"
+              ></div>
+              <div [hidden]="!isPreviewMode" #formeoRenderer class="formeo-renderer"></div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>

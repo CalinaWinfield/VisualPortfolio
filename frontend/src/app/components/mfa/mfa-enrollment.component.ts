@@ -60,8 +60,14 @@ export class MfaEnrollmentComponent implements OnInit {
   submitCode() {
     this.verifying = true;
     this.error = null;
+    const normalizedCode = this.code.replace(/\D/g, '');
+    if (normalizedCode.length !== 6) {
+      this.verifying = false;
+      this.error = "Enter a valid 6-digit code.";
+      return;
+    }
 
-    this.auth.verifyMfaSetup(this.userId, this.code).subscribe({
+    this.auth.verifyMfaSetup(this.userId, normalizedCode).subscribe({
       next: (res: any) => {
         this.verifying = false;
 

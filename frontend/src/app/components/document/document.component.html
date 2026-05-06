@@ -2,29 +2,24 @@
 
 <div class="document-wrapper">
   <div class="document-grid">
-<div class="document-header">
-  <h1 class="document-title">Document Builder</h1>
+    <div class="document-header">
+      <h1 class="document-title">Document Builder</h1>
 
-  <div class="document-search">
-    <input type="text"
-           class="search-input"
-           placeholder="Search documents..." />
-  </div>
-</div>
-<div class="container-fluid" style="position:relative;">
-
-  <div class="row justify-content-center py-4">
-    <div class="builder-wrapper">
-      <div class="container">
-        <div class="row justify-content-center align-items-start g-5">
-
+      <div class="document-search">
+        <input type="text"
+              class="search-input"
+              placeholder="Search documents..." />
+      </div>
+    </div>
+    
+    <div class="container-fluid" style="position:relative;">
+      <div class="row justify-content-center py-4">
+        <div class="builder-wrapper">
           <div class="form-builder">
-              <app-form-builder [existingData]="existingFormData"></app-form-builder>
-            </div>
+            <app-form-builder [existingData]="existingFormData"></app-form-builder>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-</div>
   </div>
 </div>

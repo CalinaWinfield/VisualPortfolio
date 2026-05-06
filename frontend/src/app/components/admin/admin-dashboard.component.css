@@ -20,6 +20,30 @@
   font-family: "Playfair Display";
 }
 
+.dashboard-search {
+    flex: 0 0 320px;
+}
+
+.search-input {
+    width: 100%;
+    max-width: 100%;
+    padding: 12px 18px;
+    margin-bottom: 5rem;
+    border-radius: 999px;
+    border: 1px solid rgba(255,255,255,0.25);
+
+    background: rgba(255,255,255,0.55);
+    backdrop-filter: blur(12px);
+
+    color: black;
+    font-size: 0.95rem;
+
+    transition: all 0.3s ease;
+}
+.search-input:focus {
+  transform: scale(1.02);
+}
+
 /* Admin badge sits just below the title */
 .admin-badge {
   display: inline-block;
@@ -220,6 +244,16 @@
   font-size: 0.8rem;
   color: #666;
   margin-bottom: 0.5rem;
+}
+
+/* Keep owner email/date from running together in item/document cards */
+.meta-email,
+.meta-date {
+  display: block;
+}
+
+.meta-date {
+  margin-top: 0.2rem;
 }
 
 .chip {

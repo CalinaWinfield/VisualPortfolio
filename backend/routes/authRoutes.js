@@ -8,6 +8,8 @@ const { signAccessToken, signRefreshToken, verifyRefresh, verifyAccess } = requi
 
 const router = express.Router();
 
+const normalizeMfaCode = (value = "") => String(value).replace(/\D/g, "");
+
 const setRefreshCookie = (res, token) => {
   const isProd = process.env.NODE_ENV === "production";
   res.cookie("refreshToken", token, {
@@ -162,14 +164,26 @@ router.get("/mfa/setup/:userId", async (req, res) => {
     const user = await User.findById(req.params.userId);
     if (!user) return res.status(404).json({ error: "User not found" });
 
-    const secret = speakeasy.generateSecret({
-      name: `YourApp (${user.email})`
+    // Do not rotate secrets on every setup request; that can invalidate authenticator entries.
+    // Reuse existing secret unless the account has no secret yet.
+    let base32Secret = user.mfaSecret;
+    if (!base32Secret) {
+      const secret = speakeasy.generateSecret({
+        name: `EasyFolio (${user.email})`
+      });
+      base32Secret = secret.base32;
+      user.mfaSecret = base32Secret;
+      await user.save();
+    }
+
+    const otpauthUrl = speakeasy.otpauthURL({
+      secret: base32Secret,
+      label: user.email,
+      issuer: "EasyFolio",
+      encoding: "base32"
     });
 
-    user.mfaSecret = secret.base32;
-    await user.save();
-
-    const qrCode = await qrcode.toDataURL(secret.otpauth_url);
+    const qrCode = await qrcode.toDataURL(otpauthUrl);
 
     res.json({ qrCode });
 
@@ -184,15 +198,19 @@ router.get("/mfa/setup/:userId", async (req, res) => {
 ---------------------------------------------- */
 router.post("/mfa/verify-setup", async (req, res) => {
   try {
-    const { userId, code } = req.body;
+    const { userId } = req.body;
+    const code = normalizeMfaCode(req.body?.code);
     const user = await User.findById(userId);
 
     if (!user) return res.status(404).json({ error: "User not found" });
+    if (!user.mfaSecret) return res.status(400).json({ error: "MFA is not set up for this user" });
+    if (code.length !== 6) return res.status(400).json({ error: "Invalid MFA code format" });
 
     const verified = speakeasy.totp.verify({
       secret: user.mfaSecret,
       encoding: "base32",
-      token: code
+      token: code,
+      window: 2
     });
 
     if (!verified) {
@@ -232,16 +250,20 @@ router.post("/mfa/verify-setup", async (req, res) => {
 ---------------------------------------------- */
 router.post("/mfa/verify-login", async (req, res) => {
   try {
-    const { tempToken, code } = req.body;
+    const { tempToken } = req.body;
+    const code = normalizeMfaCode(req.body?.code);
     const payload = verifyAccess(tempToken);
 
     const user = await User.findById(payload.sub);
     if (!user) return res.status(404).json({ error: "User not found" });
+    if (!user.mfaSecret) return res.status(400).json({ error: "MFA is not set up for this user" });
+    if (code.length !== 6) return res.status(400).json({ error: "Invalid MFA code format" });
 
     const verified = speakeasy.totp.verify({
       secret: user.mfaSecret,
       encoding: "base32",
-      token: code
+      token: code,
+      window: 2
     });
 
     if (!verified) {
@@ -269,6 +291,38 @@ router.post("/mfa/verify-login", async (req, res) => {
   } catch (e) {
     console.error("MFA login verify error:", e);
     res.status(500).json({ error: "Could not verify MFA login" });
+  }
+});
+
+/* ---------------------------------------------
+   RESET MFA (RECOVERY FROM LOGIN STEP)
+---------------------------------------------- */
+router.post("/mfa/reset", async (req, res) => {
+  try {
+    const { tempToken } = req.body || {};
+    if (!tempToken) return res.status(400).json({ error: "Missing MFA session token" });
+
+    const payload = verifyAccess(tempToken);
+    if (payload?.mfaStage !== "pending") {
+      return res.status(403).json({ error: "Invalid MFA reset context" });
+    }
+
+    const user = await User.findById(payload.sub);
+    if (!user) return res.status(404).json({ error: "User not found" });
+
+    user.mfaEnabled = false;
+    user.mfaEnrollmentRequired = true;
+    user.mfaSecret = null;
+    await user.save();
+
+    res.json({
+      success: true,
+      redirectTo: "/enroll-mfa",
+      userId: user._id
+    });
+  } catch (e) {
+    console.error("MFA reset error:", e);
+    res.status(401).json({ error: "Could not reset MFA. Please log in again." });
   }
 });
 

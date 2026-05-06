@@ -341,3 +341,106 @@ opacity: 0;
       margin-bottom: 1rem;
       font-size: 0.95rem;
     }
+
+/* Document builder border accents (global, loaded by angular.json) */
+.form-builder-page .item-panel,
+.form-builder-page .injected-text-panel,
+.form-builder-page .formeo-container,
+.form-builder-page .formeo-renderer {
+  border: 1px solid #9ca3af !important;
+  box-shadow: inset 0 0 0 1px #d1d5db !important;
+}
+
+@media (min-width: 992px) {
+  .form-builder-page,
+  .form-builder-page .container-fluid,
+  .form-builder-page .row,
+  .document-wrapper,
+  .document-grid {
+    overflow: visible !important;
+  }
+
+  .form-builder-page .item-panel {
+    position: sticky !important;
+    top: 1rem !important;
+    max-height: calc(100vh - 2rem) !important;
+    overflow-y: auto !important;
+    align-self: flex-start !important;
+    z-index: 5 !important;
+    margin-top: 0 !important;
+  }
+}
+
+/* Preview cleanup: no marker bullets, no injected-card chrome */
+.form-builder-page .formeo-renderer ul,
+.form-builder-page .formeo-renderer ol {
+  list-style: none !important;
+  margin-left: 0 !important;
+  padding-left: 0 !important;
+}
+
+.form-builder-page .formeo-renderer li::marker {
+  content: '' !important;
+}
+
+.form-builder-page .formeo-renderer .injected-item-block {
+  border: none !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  margin: 0.35rem 0 !important;
+  border-left: none !important;
+  border-radius: 0 !important;
+}
+
+.form-builder-page .formeo-renderer .injected-remove {
+  display: none !important;
+}
+
+.form-builder-page .formeo-renderer .injected-item-inner {
+  display: block !important;
+  gap: 0 !important;
+}
+
+.form-builder-page .formeo-renderer .injected-category,
+.form-builder-page .formeo-renderer .injected-title,
+.form-builder-page .formeo-renderer .injected-date {
+  display: none !important;
+}
+
+.form-builder-page .formeo-renderer .injected-desc {
+  margin: 0.35rem 0 !important;
+  color: #334155 !important;
+  font-size: 1rem !important;
+}
+
+/* Make preview look like a plain document, not boxed cards */
+.form-builder-page .formeo-renderer .formeo-field,
+.form-builder-page .formeo-renderer .frmb-control,
+.form-builder-page .formeo-renderer .frmb li,
+.form-builder-page .formeo-renderer .stage-wrap {
+  border: none !important;
+  box-shadow: none !important;
+  background: transparent !important;
+  border-radius: 0 !important;
+  padding: 0 !important;
+  margin: 0 0 1rem 0 !important;
+}
+
+.form-builder-page .formeo-renderer .formeo-stage,
+.form-builder-page .formeo-renderer .frmb-stage,
+.form-builder-page .formeo-renderer .frmb {
+  border: none !important;
+  box-shadow: none !important;
+  background: transparent !important;
+}
+
+/* Hide handles only in preview */
+.formeo-renderer button.component-handle.column-handle,
+.formeo-renderer .component-handle.column-handle,
+.formeo-renderer .column-handle {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}

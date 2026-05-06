@@ -6,11 +6,14 @@ const Document = require('../models/Document');
 // SAVE a document
 router.post('/', async (req, res) => {
   try {
-    const { title, userEmail, formData } = req.body;
+    const { title } = req.body;
+    const userEmail = req.body.userEmail ?? req.body.ownerEmail;
+    const formData = req.body.formData ?? req.body.templateJson;
+    const injectedItems = req.body.injectedItems ?? req.body.sections ?? [];
     if (!title || !userEmail || !formData) {
       return res.status(400).json({ error: 'Missing required fields' });
     }
-    const doc = await Document.create({ title, userEmail, formData });
+    const doc = await Document.create({ title, userEmail, formData, injectedItems });
     res.status(201).json(doc);
   } catch (err) {
     res.status(500).json({ error: 'Failed to save document' });
@@ -53,16 +56,20 @@ router.delete('/:id', async (req, res) => {
 
 router.put("/:id", async (req, res) => {
   try {
-    const { title, templateJson, sections } = req.body;
+    const title = req.body.title;
+    const userEmail = req.body.userEmail ?? req.body.ownerEmail;
+    const formData = req.body.formData ?? req.body.templateJson;
+    const injectedItems = req.body.injectedItems ?? req.body.sections;
 
-    // Use findByIdAndUpdate to target the document from the URL
+    const updateFields = {};
+    if (title !== undefined) updateFields.title = title;
+    if (userEmail !== undefined) updateFields.userEmail = userEmail;
+    if (formData !== undefined) updateFields.formData = formData;
+    if (injectedItems !== undefined) updateFields.injectedItems = injectedItems;
+
     const updatedDoc = await Document.findByIdAndUpdate(
       req.params.id, 
-      { 
-        title, 
-        templateJson, 
-        sections 
-      },
+      updateFields,
       { new: true } // This returns the updated version to Angular
     );
 

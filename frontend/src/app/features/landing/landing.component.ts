@@ -11,9 +11,16 @@ import { LoginInlineComponent } from '../login-inline/login-inline.component';
   templateUrl: './landing.component.html',
   styleUrls: ['./landing.component.css']
 })
+
 export class LandingComponent {
   openLogin() {
     const el = document.getElementById('inlineEmail');
     if (el) (el as HTMLInputElement).focus();
+  }
+
+  showBackButton = false;
+
+  ngOnInit() {
+    this.showBackButton = false;
   }
 }

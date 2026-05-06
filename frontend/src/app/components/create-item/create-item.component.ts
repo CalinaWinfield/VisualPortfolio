@@ -21,13 +21,16 @@ export class CreateItemComponent implements OnInit, OnChanges {
 
   items: Item[] = [];
   loading = false;
-  error?: string;
+
 
   form!: FormGroup;
   showForm = false;
   isSubmitting = false;
 
+  selectedItem: any = null;
   selectedFile: File | null = null;
+  error: string | null = null;
+
 
   constructor(
     private fb: FormBuilder,
@@ -37,26 +40,26 @@ export class CreateItemComponent implements OnInit, OnChanges {
   ) {}
 
   ngOnChanges(): void {
-    if (this.prefillData && this.form) {
-      this.form.patchValue({
-        category: this.prefillData.category ?? '',
-        itemTitle: this.prefillData.itemTitle,
-        itemDate: this.prefillData.itemDate,
-        itemDescription: this.prefillData.itemDescription,
-        userEmail: this.prefillData.userEmail,
-      });
-
-      this.showForm = true; // auto-open form
+      if (this.prefillData && this.form) {
+        this.selectedItem = this.prefillData; // Set selectedItem so save() knows to update
+        this.form.patchValue({
+          category: this.prefillData.category ?? '',
+          itemTitle: this.prefillData.itemTitle,
+          itemDate: this.prefillData.itemDate,
+          itemDescription: this.prefillData.itemDescription,
+          userEmail: this.prefillData.userEmail,
+        });
+        this.showForm = true;
+      }
     }
-  }
 
   ngOnInit(): void {
     this.form = this.fb.group({
-      category: [''],
+      category: ['', [Validators.required, Validators.minLength(2)]],
       itemTitle: ['', [Validators.required, Validators.minLength(2)]],
       itemDate: ['', Validators.required],
       itemDescription: ['', [Validators.required, Validators.minLength(1)]],
-      userEmail: ['', [Validators.required, Validators.email]],
+      userEmail: ['', Validators.email],
     });
 
     this.fetchItems();
@@ -101,37 +104,57 @@ export class CreateItemComponent implements OnInit, OnChanges {
     this.selectedFile = file;
   }
 
-  save(): void {
-    if (this.form.invalid) return;
+    save(): void {
+      if (this.form.invalid) return;
+      this.isSubmitting = true;
 
-    const payload = this.form.getRawValue();
+      const payload = this.form.getRawValue();
 
-    const newItem = {
-      ...payload,
-      fileName: this.selectedFile?.name || null,
-      fileType: this.selectedFile?.type || null
-    };
+      // Consolidated into one data object
+      const itemData = {
+        ...payload,
+        fileName: this.selectedFile?.name || payload.fileName || null,
+        fileType: this.selectedFile?.type || payload.fileType || null
+      };
 
-    this.itemService.createItem(newItem).subscribe({
-      next: () => {
-        this.form.reset();
-        this.selectedFile = null;
-        this.itemCreated.emit();
-      },
-      error: (err) => {
-        this.error = err?.message ?? 'Failed to save item';
+      if (this.selectedItem && this.selectedItem._id) {
+        // UPDATE PATH
+        this.itemService.updateItem(this.selectedItem._id, itemData).subscribe({
+          next: () => this.handleSuccess(),
+          error: (err: any) => {
+            this.error = err?.message ?? 'Failed to update item';
+            this.isSubmitting = false;
+          }
+        });
+      } else {
+        // CREATE PATH
+        this.itemService.createItem(itemData).subscribe({
+          next: () => this.handleSuccess(),
+          error: (err: any) => {
+            this.error = err?.message ?? 'Failed to save item';
+            this.isSubmitting = false;
+          }
+        });
       }
-    });
-  }
+    }
 
-  remove(id: string): void {
-    this.itemService.deleteItem(id).subscribe({
-      next: () => {
-        this.items = this.items.filter(i => i._id !== id);
-      },
-      error: (err) => {
-        this.error = err?.message ?? 'Delete failed';
-      },
-    });
-  }
+    private handleSuccess(): void {
+      this.form.reset();
+      this.selectedItem = null;
+      this.selectedFile = null;
+      this.isSubmitting = false;
+      this.showForm = false;
+      this.itemCreated.emit();
+    }
+
+    remove(id: string): void {
+      this.itemService.deleteItem(id).subscribe({
+        next: () => {
+          this.items = this.items.filter(i => i._id !== id);
+        },
+        error: (err: any) => {
+          this.error = err?.message ?? 'Delete failed';
+        },
+      });
+    }
 }

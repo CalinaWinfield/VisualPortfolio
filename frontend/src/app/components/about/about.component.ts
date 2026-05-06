@@ -15,7 +15,7 @@ export class AboutComponent {
   teamMembers = [
     { name: 'Whitney Branch', role: 'UX/UI Design & Programmer' },
     { name: 'Calina Winfield', role: 'Data Modeler & Documentation' },
-    { name: 'Aaron Matthew', role: 'Programmer & Code Architecture' },
+    { name: 'Aaron Matthews', role: 'Programmer & Code Architecture' },
     { name: 'Erick Vale', role: 'Testing Lead & Project Manager' }
   ];
 

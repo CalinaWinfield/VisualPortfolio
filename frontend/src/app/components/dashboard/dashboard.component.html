@@ -27,7 +27,7 @@
     <div class="card-expand"
          [hidden]="activeCard !== 'items'"
          (click)="$event.stopPropagation()">
-         
+
 
       <div class="card-actions">
 
@@ -41,12 +41,6 @@
 
       </div>
 
-      <!-- ⭐ ITEMS PREVIEW (first 5 items) -->
-      <app-items-list
-        [items]="filteredItemsPreview"
-        (prefillClicked)="prefillItem($event)"
-        (viewClicked)="openViewItems()"
-      ></app-items-list>
 
     </div>
   </div>
@@ -125,18 +119,29 @@
     <button class="close-btn2" (click)="closeViewItems()">✕</button>
   </div>
 
-  <!-- ⭐ FULL ITEMS LIST -->
-  <app-items-list
-    [items]="filteredPagedItems"
-    (prefillClicked)="prefillItem($event)"
-    (viewClicked)="selectItem($event)"
-  ></app-items-list>
+  <div class="item-row">
+    <div
+      class="item-card"
+      *ngFor="let item of filteredPagedItems"
+      (click)="selectItem(item)"
+      [class.active]="selectedItem?._id === item._id">
 
-  <!-- ACTION PANEL -->
+      <div class="title">{{ item.itemTitle }}</div>
+
+      <div class="meta">
+        <span class="chip">{{ item.category }}</span>
+        <span>{{ item.itemDate }}</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="empty" *ngIf="filteredPagedItems.length === 0">
+    No items found.
+  </div>
+
+
   <div class="item-detail" *ngIf="selectedItem">
-
     <h3>{{ selectedItem.itemTitle }}</h3>
-
     <p>{{ selectedItem.itemDescription }}</p>
 
     <div class="meta">
@@ -145,6 +150,7 @@
     </div>
 
     <div class="row mt-2">
+
       <button (click)="prefillItem(selectedItem)">Edit</button>
       <button class="text-danger"
               (click)="openDeleteModal(selectedItem, 'item', $event); $event.stopPropagation()">
