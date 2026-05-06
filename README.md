@@ -1,10 +1,9 @@
-# EasyFolio
+# VisPortfolio
 
 ## Team Visionary
 
 ### Description
 The EasyFolio App is a web tool that will help faculty keep, organize, and share their academic records. The User can log in, store their data, and quickly create documents like resumes, CVs, or portfolios. With easy customization, the app saves time, reduces repeated work, and makes it simple to format records for different needs.
-### Links
 
 ### Technologies
 1. HTML
@@ -20,13 +19,13 @@ The EasyFolio App is a web tool that will help faculty keep, organize, and share
 2. External link integration
 3. PDF generation
 4. Schedule management
-5. Responsive Screen
+5. Responsive Screen: Application can adapt to different screen sizes
 
 ### Dashboard Components and Layout
 Components: DashboardWrapper, DashboardHeader (title+search), DashboardGrid, DashboardCard (ItemsCard, DocumentBuilderCard, MyDocumentsCard), ItemsPreview, CardActions, ExpandableSections, ItemService.getItems(), routing hooks.
 Layout: AppShell → SiteHeader | Main: DashboardWrapper → DashboardHeader, DashboardGrid (cards), ExpandableSections (My Documents, To Do, Active Forms) → Footer.
 
-   
+
 ### Installation
 1. Clone git repo: 
    git clone https://github.com/GGC-SD/VisPortfolio.git
@@ -69,45 +68,28 @@ Layout: AppShell → SiteHeader | Main: DashboardWrapper → DashboardHeader, Da
     - You will only need to do this once, since an admin will be able to promote/demote any account thereafter to/from admin on the dashboard when logged in
 5. Save the file
 6. In the backend terminal, stop the backend (Ctrl + c)
-7. Restart the backend (in that same terminal)
-8. Login with the admin account
-9. You SHOULD load into an Admin Dashboard page
+7. Run the file in the terminal with: node makeAdmin.js
+8. Restart the backend
+9. Login with the admin account
+10. You SHOULD load into an Admin Dashboard page
     - If not, make sure you fully stopped and restarted the backend, and that you put the correct email (from sign up) in the makeAdmin.js file
 
-### List of working features
-1. Responsive Design: Application is able to adapt to different screen sizes.
-
 ## Team Roles
-
-#### Fall 2025- CRTL-ALT-ELITE
-* **Angelica Jones** 1. UX/UI Design 👾 2. Project Manager 👩🏽‍💻
-* <img width="176" height="239" alt="image" src="https://github.com/user-attachments/assets/9d4254d4-042f-4dd2-832d-cd6cefcf523b" />
-
-* **Sebastian Londono** 1. Data Modeler 📊 2. Documentation 📑
-* <img width="98" height="133" alt="image" src="https://github.com/user-attachments/assets/8dd1d025-25b9-4efc-8723-b6b94bfea3e8" />
-
-* **Travis Mounsy** 1. Programmer 💻 2. Code Architecture 👨‍🔧
-* <img width="173" height="115" alt="image" src="https://github.com/user-attachments/assets/acacb0ba-c3a0-4597-b030-68bdf42843b3" />
-
-* **Jordan Laudun** 1. Testing Lead 🛠 2. Client Liaison 💼
-* <img width="131" height="174" alt="image" src="https://github.com/user-attachments/assets/e517033c-8207-4fe0-b2f9-5b4de2591c5a" />
-
-
 #### Spring 2026 - Pixel Improve
 * **Calina Winfield** 1. Data Modeler 📊 2. Documentation Lead 📑 
 * <img width="133" height="200" alt="image" src="https://github.com/user-attachments/assets/8e304b64-032f-4b3e-8bf8-867a8104fb78" />
-* **Aaron Matthews** 1. Code Architecture/Lead Programmer 💻  2. Programmer 💻
+* **Aaron Matthews** 1. Code Architecture 💻  2. Lead Programmer 💻
 * <img width="133" height="200" alt="image" src="https://piazza.com/redirect/s3?bucket=uploads&prefix=paste%2Fme7mcvitgu96va%2F12420e7ec619feccc2e9232386e87cbd231eda3210c7930d5fceff1b29d98e23%2FImage.jpg" />
 * **Erick Vale** 1. Testing Lead 🛠 2. Project Manager 👩🏽‍💻 
 * <img width="133" height="200" alt="image" src="https://github.com/evale92/practical-python/blob/main/selfie.jpg?raw=true" />
-* **Whitney Branch** 1. UI/UX Designer 🛠 2. Programmer 💻
+* **Whitney Branch** 1. UI/UX Designer 👾 2. Client Liaison 💼
 * <img width="133" height="200" alt="image" src="https://github.com/WBranch98/Whitney.Branch/blob/main/IMG_5918.jpeg?raw=true" />
 
 ## Flyer
-<img width="640" height="799" alt="flyer" src="https://github.com/user-attachments/assets/467d7988-e5a2-4688-80d7-1ec5e228f315" />
+<img width="694" height="899" alt="VisPortfolio Flyer" src="https://github.com/user-attachments/assets/f739775b-6e3f-46d5-a421-dbb44023d5dd" />
 
 ## Screencast Demo: 
-* https://www.youtube.com/watch?v=w0L-vM_lVEg 
+* [https://www.youtube.com/watch?v=w0L-vM_lVEg ](https://youtu.be/MdN3ljJyjwQ)
 
 ## Repo Location
 - [**click here**](https://github.com/GGC-SD/VisPortfolio)
@@ -116,8 +98,7 @@ Layout: AppShell → SiteHeader | Main: DashboardWrapper → DashboardHeader, Da
 - Discord
 
 ## License
-This project is licensed under [the GNU General Public License (GPL)](https://www.gnu.org/licenses/gpl-3.0.html). You are free to use, modify, and distribute this software under the condition that any derivative works or modifications must also be made available under the same license, ensuring that others have the same freedoms to use and adapt the code. For more details, see [LICENSE.md](Documents/docs-Spr2026/LICENSE.md) for details.
+You are free to use, modify, and distribute this software under the condition that any derivative works or modifications must also be made available under the same license, ensuring that others have the same freedoms to use and adapt the code. For more details, see [LICENSE.md](Documents/docs-Spr2026/LICENSE.md) for details.
 
 
-Copyright © 2025 VisPortfolio Team.
-
+Copyright © 2026 VisPortfolio Team.
