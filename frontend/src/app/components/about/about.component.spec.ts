@@ -29,7 +29,7 @@ describe('AboutComponent', () => {
   });
 
   it('should have team members defined on component', () => {
-    expect(component.teamMembers.map(m => m.name)).toContain('Angelica Jones');
+    expect(component.teamMembers.map(m => m.name)).toContain('Calina Winfield');
   });
 
   it('should set currentYear', () => {

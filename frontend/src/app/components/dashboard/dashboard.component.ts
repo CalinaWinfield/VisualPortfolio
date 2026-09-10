@@ -4,7 +4,6 @@ import { CommonModule, Location } from '@angular/common';
 import { Router } from '@angular/router';
 import { ItemService } from '../../services/item.service';
 import { Item } from '../../models/item.model';
-import { ItemsListComponent } from '../create-item/items-list.component';
 import { CreateItemComponent } from '../create-item/create-item.component';
 import { AuthService } from '../auth.service';
 import { DocumentService } from '../../services/document.service';
@@ -16,8 +15,7 @@ import { FormsModule } from '@angular/forms';
   imports: [
     CommonModule,
     FormsModule,
-    CreateItemComponent,
-    ItemsListComponent
+    CreateItemComponent
   ],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']
@@ -42,45 +40,52 @@ export class DashboardComponent implements OnInit {
   searchTerm = '';
 
   get filteredDocuments(): any[] {
-    if (!this.searchTerm) return this.documents;
-    const s = this.searchTerm.toLowerCase();
+    if (!this.searchTerm.trim()) return this.documents;
+    const s = this.searchTerm.toLowerCase().trim();
     return this.documents.filter(d =>
-      d.title?.toLowerCase().includes(s)
+      (d.title || '').toLowerCase().includes(s) ||
+      (d.date || '').toLowerCase().includes(s)
     );
   }
 
   get filteredPagedItems(): Item[] {
-    if (!this.searchTerm) return this.pagedItems;
-    const s = this.searchTerm.toLowerCase();
+    if (!this.searchTerm.trim()) return this.pagedItems;
+    const s = this.searchTerm.toLowerCase().trim();
     return this.pagedItems.filter(i =>
-      i.itemTitle?.toLowerCase().includes(s) ||
-      i.category?.toLowerCase().includes(s)
+      (i.itemTitle || '').toLowerCase().includes(s) ||
+      (i.category || '').toLowerCase().includes(s) ||
+      (i.itemDescription || '').toLowerCase().includes(s)
     );
   }
 
   get filteredItemsPreview(): Item[] {
-    if (!this.searchTerm) return this.itemsPreview;
-    const s = this.searchTerm.toLowerCase();
+    if (!this.searchTerm.trim()) return this.itemsPreview;
+    const s = this.searchTerm.toLowerCase().trim();
     return this.itemsPreview.filter(i =>
-      i.itemTitle?.toLowerCase().includes(s) ||
-      i.category?.toLowerCase().includes(s)
+      (i.itemTitle || '').toLowerCase().includes(s) ||
+      (i.category || '').toLowerCase().includes(s)
     );
+  }
+
+  clearSearch(): void {
+    this.searchTerm = '';
   }
 
   activeCard: string | null = null;
   showForm = false;
   selectedItem: any = null;
 
-//Toggle
+  // Toggle / documents
   viewDocumentsMode = false;
   documents: any[] = [];
   selectedDocument: any = null;
+  loadingDocuments = false;
 
   viewItemsMode = false;
   pagedItems: Item[] = [];
 
   currentPage = 1;
-  itemsPerPage = 10;
+  itemsPerPage = 9;
   totalPages = 1;
 
   deleteType: 'item' | 'document' | null = null;
@@ -96,6 +101,8 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadItemsPreview();
+    this.loadDocuments();
+    this.loadPagedItems();
   }
 
   toggleCard(card: string) {
@@ -252,21 +259,25 @@ export class DashboardComponent implements OnInit {
 
   loadPagedItems() {
     const email = this.auth.getUserEmail();
+    if (!email) return;
 
-    this.itemService.getItems(email!).subscribe(data => {
-      this.totalItems = data.length;
-
-      if (data.length > 10) {
-        this.viewItemsMode = true;
-      }
-
-      this.totalPages = Math.ceil(data.length / this.itemsPerPage);
+    this.itemService.getItems(email).subscribe(data => {
+      const list = data || [];
+      this.totalItems = list.length;
+      this.totalPages = Math.max(1, Math.ceil(list.length / this.itemsPerPage));
 
       const start = (this.currentPage - 1) * this.itemsPerPage;
       const end = start + this.itemsPerPage;
 
-      this.pagedItems = data.slice(start, end);
+      this.pagedItems = list.slice(start, end);
     });
+  }
+
+  prevPage() {
+    if (this.currentPage > 1) {
+      this.currentPage--;
+      this.loadPagedItems();
+    }
   }
 
   nextPage() {
@@ -280,6 +291,13 @@ export class DashboardComponent implements OnInit {
     this.viewItemsMode = false;
     this.viewDocumentsMode = false;
     this.selectedItem = null;
+  }
+
+  openCreateItemForm(): void {
+    this.selectedItem = null;
+    this.showForm = true;
+    this.viewItemsMode = false;
+    this.viewDocumentsMode = false;
   }
 
   prefillItem(item: any) {

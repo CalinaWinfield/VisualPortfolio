@@ -2,6 +2,10 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { DocumentComponent } from './document.component';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ItemService } from '../../services/item.service';
+import { DocumentService } from '../../services/document.service';
+import { AuthService } from '../auth.service';
+import { ActivatedRoute } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
 import { of } from 'rxjs';
 
 describe('DocumentComponent', () => {
@@ -14,13 +18,43 @@ describe('DocumentComponent', () => {
 
   const itemServiceStub = {
     getItems: (email: string) => of(items),
-    deleteItem: (id: string) => ({ subscribe: (o: any) => o.next({}) }),
+    deleteItem: (id: string) => of({}),
+  };
+
+  const documentServiceStub = {
+    getDocumentById: (id: string) => of({ _id: id, title: 'Test Doc', formData: { sections: [] } }),
+    createDocument: (doc: any) => of(doc),
+    updateDocument: (id: string, doc: any) => of(doc)
+  };
+
+  const authServiceStub = {
+    getUserEmail: () => 'me@example.com'
+  };
+
+  const activatedRouteStub = {
+    snapshot: {
+      paramMap: { get: () => null },
+      queryParamMap: { get: () => null }
+    },
+    paramMap: of({ get: () => null }),
+    queryParamMap: of({ get: () => null })
+  };
+
+  const httpStub = {
+    get: () => of({}),
+    post: () => of({})
   };
 
   beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [DocumentComponent],
-      providers: [{ provide: ItemService, useValue: itemServiceStub }],
+      providers: [
+        { provide: ItemService, useValue: itemServiceStub },
+        { provide: DocumentService, useValue: documentServiceStub },
+        { provide: AuthService, useValue: authServiceStub },
+        { provide: ActivatedRoute, useValue: activatedRouteStub },
+        { provide: HttpClient, useValue: httpStub }
+      ],
       schemas: [NO_ERRORS_SCHEMA],
     });
 
@@ -48,5 +82,11 @@ describe('DocumentComponent', () => {
   it('loadItems should populate items for session user', async () => {
     await component.loadItems();
     expect(component.items.length).toBe(1);
+  });
+
+  it('loadDocument should set existingFormData from DocumentService', () => {
+    component.loadDocument('doc-123');
+    expect(component.existingFormData).toBeDefined();
+    expect(component.existingFormData._id).toBe('doc-123');
   });
 });

@@ -8,6 +8,8 @@ import { ItemService } from '../../services/item.service';
 import { FormBuilderComponent } from '../form-builder/form-builder.component';
 import { AuthService } from '../auth.service';
 
+import { DocumentService } from '../../services/document.service';
+
 @Component({
   standalone: true,
   selector: 'app-document',
@@ -20,26 +22,39 @@ export class DocumentComponent implements OnInit {
   items: any[] = [];
   currentYear = new Date().getFullYear();
   existingFormData: any = null;   // ✅ passed to form builder
+  initialMode: string | null = null;
 
   constructor(
     private itemService: ItemService,
+    private documentService: DocumentService,
     private auth: AuthService,
-    private route: ActivatedRoute,       // ✅ added
-    private http: HttpClient             // ✅ added
+    private route: ActivatedRoute,
+    private http: HttpClient
   ) {}
 
   ngOnInit(): void {
     this.loadItems();
 
-    // ✅ Check for ?id= and load that document
-    const docId = this.route.snapshot.queryParamMap.get('id');
-    if (docId) {
-      this.loadDocument(docId);
-    }
+    // Support both /documents/:id and /documents?id=..., plus ?mode=template
+    this.route.paramMap.subscribe(params => {
+      const routeId = params.get('id');
+      if (routeId) {
+        this.loadDocument(routeId);
+      }
+    });
+
+    this.route.queryParamMap.subscribe(queryParams => {
+      const queryId = queryParams.get('id');
+      this.initialMode = queryParams.get('mode');
+
+      if (queryId && !this.route.snapshot.paramMap.get('id')) {
+        this.loadDocument(queryId);
+      }
+    });
   }
 
   loadDocument(id: string): void {
-    this.http.get<any>(`http://localhost:5001/api/documents/${id}`).subscribe({
+    this.documentService.getDocumentById(id).subscribe({
       next: (doc) => {
         this.existingFormData = doc;
       },

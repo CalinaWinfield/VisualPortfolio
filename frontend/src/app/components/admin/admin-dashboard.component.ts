@@ -5,6 +5,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AuthService } from '../../auth.service';
 import { FormsModule } from '@angular/forms';
 
+import { Router } from '@angular/router';
+
 @Component({
   standalone: true,
   selector: 'app-admin-dashboard',
@@ -13,6 +15,10 @@ import { FormsModule } from '@angular/forms';
   styleUrls: ['./admin-dashboard.component.css']
 })
 export class AdminDashboardComponent implements OnInit {
+
+  // Auth session error state
+  authError = false;
+  errorMessage = '';
 
   // Stats
   totalUsers = 0;
@@ -62,7 +68,7 @@ export class AdminDashboardComponent implements OnInit {
   deleteType: 'item' | 'user' | 'document' | null = null;
   entityToDelete: any = null;
 
-  // Items and Users list buttons
+  // Items, Users, and Documents list visibility
   showUsersList = false;
   showItemsList = false;
   showDocumentsList = false;
@@ -71,11 +77,72 @@ export class AdminDashboardComponent implements OnInit {
 
   constructor(
     private http: HttpClient,
-    public auth: AuthService
+    public auth: AuthService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
     this.loadStats();
+    this.loadAllUsers();
+    this.loadAllItems();
+    this.loadAllDocuments();
+  }
+
+  clearSearch(): void {
+    this.searchTerm = '';
+  }
+
+  get adminCount(): number {
+    return this.allUsers.filter(u => u.role === 'admin').length;
+  }
+
+  get regularUserCount(): number {
+    return this.allUsers.filter(u => u.role !== 'admin').length;
+  }
+
+  // Section toggle helpers
+  openViewUsers(): void {
+    this.toggleCard('users');
+  }
+
+  closeViewUsers(): void {
+    if (this.activeCard === 'users') {
+      this.toggleCard('users');
+    }
+  }
+
+  openViewItems(): void {
+    this.toggleCard('allItems');
+  }
+
+  closeViewItems(): void {
+    if (this.activeCard === 'allItems') {
+      this.toggleCard('allItems');
+    }
+  }
+
+  openViewDocuments(): void {
+    this.toggleCard('allDocuments');
+  }
+
+  closeViewDocuments(): void {
+    if (this.activeCard === 'allDocuments') {
+      this.toggleCard('allDocuments');
+    }
+  }
+
+  // ── Card toggle ────────────────────────────────────────────────────────────
+  toggleCard(card: string): void {
+    const closing = this.activeCard === card;
+    this.activeCard = closing ? null : card;
+
+    this.showUsersList = (this.activeCard === 'users');
+    this.showItemsList = (this.activeCard === 'allItems');
+    this.showDocumentsList = (this.activeCard === 'allDocuments');
+
+    if (this.showUsersList && this.allUsers.length === 0) this.loadAllUsers();
+    if (this.showItemsList && this.allItems.length === 0) this.loadAllItems();
+    if (this.showDocumentsList && this.allDocuments.length === 0) this.loadAllDocuments();
   }
 
   // Attaches the JWT token to every admin request
@@ -87,6 +154,20 @@ export class AdminDashboardComponent implements OnInit {
     };
   }
 
+  private handleAuthError(err: any): void {
+    if (err?.status === 401 || err?.status === 403) {
+      this.authError = true;
+      this.errorMessage = (err?.error?.error === 'Token expired' || err?.error?.expired)
+        ? 'Your admin session has expired. Please log in again to restore access.'
+        : 'Your admin session is unauthorized or invalid. Please log in again.';
+    }
+  }
+
+  goToLogin(): void {
+    this.auth.clear();
+    this.router.navigate(['/login']);
+  }
+
   // ── Stats ──────────────────────────────────────────────────────────────────
   loadStats(): void {
     this.http.get<any>(`${this.apiUrl}/stats`, this.authHeaders()).subscribe({
@@ -95,17 +176,28 @@ export class AdminDashboardComponent implements OnInit {
         this.totalItems = data.totalItems;
         this.totalDocuments = data.totalDocuments;
         this.activeUsers = data.activeUsers;
-        
+        this.authError = false;
+        this.errorMessage = '';
       },
-      error: (err) => console.error('Failed to load stats:', err)
+      error: (err) => {
+        console.error('Failed to load stats:', err);
+        this.handleAuthError(err);
+      }
     });
   }
 
   // ── Users ──────────────────────────────────────────────────────────────────
   loadAllUsers(): void {
     this.http.get<any[]>(`${this.apiUrl}/users`, this.authHeaders()).subscribe({
-      next: (data) => { this.allUsers = data; },
-      error: (err) => console.error('Failed to load users:', err)
+      next: (data) => {
+        this.allUsers = data;
+        this.authError = false;
+        this.errorMessage = '';
+      },
+      error: (err) => {
+        console.error('Failed to load users:', err);
+        this.handleAuthError(err);
+      }
     });
   }
   
@@ -130,15 +222,25 @@ export class AdminDashboardComponent implements OnInit {
       this.authHeaders()
     ).subscribe({
       next: () => { user.role = newRole; },
-      error: (err) => console.error('Failed to update role:', err)
+      error: (err) => {
+        console.error('Failed to update role:', err);
+        this.handleAuthError(err);
+      }
     });
   }
 
   // ── Items ──────────────────────────────────────────────────────────────────
   loadAllItems(): void {
     this.http.get<any[]>(`${this.apiUrl}/items`, this.authHeaders()).subscribe({
-      next: (data) => { this.allItems = data; },
-      error: (err) => console.error('Failed to load items:', err)
+      next: (data) => {
+        this.allItems = data;
+        this.authError = false;
+        this.errorMessage = '';
+      },
+      error: (err) => {
+        console.error('Failed to load items:', err);
+        this.handleAuthError(err);
+      }
     });
   }
   
@@ -152,8 +254,15 @@ export class AdminDashboardComponent implements OnInit {
   // ── Documents ──────────────────────────────────────────────────────────────────
   loadAllDocuments(): void {
     this.http.get<any[]>(`${this.apiUrl}/documents`, this.authHeaders()).subscribe({
-      next: (data) => { this.allDocuments = data; },
-      error: (err) => console.error('Failed to load documents:', err)
+      next: (data) => {
+        this.allDocuments = data;
+        this.authError = false;
+        this.errorMessage = '';
+      },
+      error: (err) => {
+        console.error('Failed to load documents:', err);
+        this.handleAuthError(err);
+      }
     });
   }
   
@@ -161,24 +270,6 @@ export class AdminDashboardComponent implements OnInit {
     this.showDocumentsList = !this.showDocumentsList;
     if (this.showDocumentsList && this.allDocuments.length === 0) {
       this.loadAllDocuments();
-    }
-  }
-
-  // ── Card toggle ────────────────────────────────────────────────────────────
-  toggleCard(card: string): void {
-    const closing = this.activeCard === card;
-    this.activeCard = closing ? null : card;
-
-    if (closing) {
-      // Hide the list when collapsing the card
-      if (card === 'users') this.showUsersList = false;
-      if (card === 'allItems') this.showItemsList = false;
-      if (card === 'allDocuments') this.showDocumentsList = false;
-    } else {
-      // Show and load when opening the card
-      if (card === 'users') this.toggleAllUsers();
-      if (card === 'allItems') this.toggleAllItems();
-      if (card === 'allDocuments') this.toggleAllDocuments();
     }
   }
 
@@ -217,7 +308,10 @@ export class AdminDashboardComponent implements OnInit {
         this.closeModal();
         this.loadStats();
       },
-      error: (err) => console.error('Delete failed:', err)
+      error: (err) => {
+        console.error('Delete failed:', err);
+        this.handleAuthError(err);
+      }
     });
   }
 

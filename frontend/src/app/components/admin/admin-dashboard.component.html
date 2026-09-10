@@ -1,165 +1,376 @@
 <!-- frontend/src/app/components/admin/admin-dashboard.component.html -->
+<div class="dashboard-page">
 
-<div class="dashboard-wrapper">
-
-  <!-- HEADER -->
-  <div class="dashboard-header">
-    <h1 class="dashboard-title">Admin Dashboard</h1>
-    <p class="admin-badge">🔒 Administrator View</p>
-
-    <div class="dashboard-search">
-      <input type="text"
-        class="search-input"
-        placeholder="Search documents, items, users..."
-        [(ngModel)]="searchTerm" />
+  <!-- SESSION ERROR BANNER -->
+  <div class="session-error-banner" *ngIf="authError">
+    <div class="session-error-content">
+      <span class="session-error-icon">⚠️</span>
+      <span class="session-error-text">{{ errorMessage }}</span>
     </div>
+    <button class="btn btn-sm btn-danger" (click)="goToLogin()">Log In Again</button>
   </div>
 
-  <div class="admin-stats">
-    <div class="stat-card">
-      <h4>Total Users</h4>
-      <span>{{ totalUsers }}</span>
-    </div>
-    <div class="stat-card">
-      <h4>Total Items</h4>
-      <span>{{ totalItems }}</span>
-    </div>
-    <div class="stat-card">
-      <h4>Total Documents</h4>
-      <span>{{ totalDocuments }}</span>
-    </div>
-    <div class="stat-card">
-      <h4>Active Users</h4>
-      <span>{{ activeUsers }}</span>
-    </div>
-  </div>
+  <!-- TOP HERO & SEARCH BAR -->
+  <header class="dashboard-hero">
+    <div class="hero-content">
+      <div class="hero-text">
+        <div class="admin-badge-wrapper">
+          <span class="admin-badge">🔒 Administrator View</span>
+        </div>
+        <h1 class="hero-title">Admin Dashboard</h1>
+        <p class="hero-subtitle">
+          Oversee registered users, manage administrator privileges, and moderate items and documents across all portfolios.
+        </p>
+      </div>
 
-  <div class="dashboard-grid">
+      <!-- UNIFIED SEARCH BAR -->
+      <div class="search-container">
+        <div class="search-input-wrapper">
+          <span class="search-icon">🔍</span>
+          <input
+            type="text"
+            class="search-input"
+            placeholder="Search users, items, documents..."
+            [(ngModel)]="searchTerm"
+          />
+          <button
+            *ngIf="searchTerm"
+            class="clear-search-btn"
+            type="button"
+            (click)="clearSearch()"
+            title="Clear search">
+            ✕
+          </button>
+        </div>
+      </div>
+    </div>
 
+    <!-- QUICK STATS CHIPS -->
+    <div class="stats-row">
+      <div class="stat-pill" (click)="openViewUsers()">
+        <span class="stat-icon">👥</span>
+        <span class="stat-value">{{ totalUsers }}</span>
+        <span class="stat-label">Total Users</span>
+      </div>
+
+      <div class="stat-pill" (click)="openViewItems()">
+        <span class="stat-icon">💼</span>
+        <span class="stat-value">{{ totalItems }}</span>
+        <span class="stat-label">Total Items</span>
+      </div>
+
+      <div class="stat-pill" (click)="openViewDocuments()">
+        <span class="stat-icon">📄</span>
+        <span class="stat-value">{{ totalDocuments }}</span>
+        <span class="stat-label">Total Documents</span>
+      </div>
+
+      <div class="stat-pill" (click)="openViewUsers()">
+        <span class="stat-icon">🟢</span>
+        <span class="stat-value">{{ activeUsers }}</span>
+        <span class="stat-label">Active Users</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- SEARCH RESULTS VIEW (SHOWN WHEN SEARCHING) -->
+  <section class="dashboard-section search-results-section" *ngIf="searchTerm.trim()">
+    <div class="section-header-bar">
+      <div>
+        <h2 class="section-heading">Search Results</h2>
+        <p class="section-subheading">
+          Found {{ filteredUsers.length }} user(s), {{ filteredItems.length }} item(s), and {{ filteredDocuments.length }} document(s) matching "<strong>{{ searchTerm }}</strong>"
+        </p>
+      </div>
+      <button class="btn btn-outline-sm" (click)="clearSearch()">Clear Search</button>
+    </div>
+
+    <!-- MATCHING USERS -->
+    <div class="search-group" *ngIf="filteredUsers.length > 0">
+      <h3 class="group-title">👥 Users ({{ filteredUsers.length }})</h3>
+      <div class="cards-grid">
+        <div class="user-card-grid" *ngFor="let user of filteredUsers">
+          <div class="user-card-header">
+            <div class="user-avatar-circle">{{ (user.name || user.email || 'U')[0].toUpperCase() }}</div>
+            <div class="user-primary-info">
+              <h4 class="user-name">{{ user.name }}</h4>
+              <p class="user-email">{{ user.email }}</p>
+            </div>
+          </div>
+          <div class="user-meta-tags">
+            <span class="chip" [ngClass]="user.role === 'admin' ? 'chip-admin' : 'chip-user'">{{ user.role }}</span>
+            <span class="chip chip-status" *ngIf="user.status">{{ user.status }}</span>
+          </div>
+          <div class="card-footer-actions">
+            <button
+              *ngIf="!(user.email === auth.getUserEmail() && user.role === 'admin')"
+              class="btn btn-sm btn-outline"
+              (click)="promoteUser(user); $event.stopPropagation()">
+              {{ user.role === 'admin' ? 'Demote to User' : '⭐ Make Admin' }}
+            </button>
+            <span *ngIf="user.email === auth.getUserEmail()" class="logged-in-badge">Currently Logged In</span>
+            <button
+              *ngIf="user.email !== auth.getUserEmail()"
+              class="btn btn-sm btn-danger-outline"
+              (click)="openDeleteModal(user, 'user', $event)">
+              🗑️ Delete
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MATCHING ITEMS -->
+    <div class="search-group" *ngIf="filteredItems.length > 0">
+      <h3 class="group-title">💼 Career Items ({{ filteredItems.length }})</h3>
+      <div class="cards-grid">
+        <div class="item-card-grid" *ngFor="let item of filteredItems">
+          <div class="item-card-header">
+            <h4 class="item-title">{{ item.itemTitle }}</h4>
+            <span class="category-badge" *ngIf="item.category">{{ item.category }}</span>
+          </div>
+          <p class="meta-owner">👤 <strong>Owner:</strong> {{ item.userEmail }}</p>
+          <p class="item-date" *ngIf="item.itemDate">{{ item.itemDate }}</p>
+          <p class="item-desc" *ngIf="item.itemDescription">{{ item.itemDescription }}</p>
+          <div class="card-footer-actions">
+            <button class="btn btn-sm btn-danger-outline" (click)="openDeleteModal(item, 'item', $event)">
+              🗑️ Delete Item
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MATCHING DOCUMENTS -->
+    <div class="search-group" *ngIf="filteredDocuments.length > 0">
+      <h3 class="group-title">📄 Documents ({{ filteredDocuments.length }})</h3>
+      <div class="cards-grid">
+        <div class="doc-card" *ngFor="let doc of filteredDocuments">
+          <div class="doc-card-body">
+            <span class="card-icon">📄</span>
+            <div class="doc-info">
+              <h4 class="doc-title">{{ doc.title || 'Untitled Document' }}</h4>
+              <p class="meta-owner">👤 <strong>Owner:</strong> {{ doc.userEmail }}</p>
+              <p class="doc-date" *ngIf="doc.createdAt">Created: {{ doc.createdAt | date:'mediumDate' }}</p>
+              <p class="doc-desc" *ngIf="doc.description">{{ doc.description }}</p>
+            </div>
+          </div>
+          <div class="card-footer-actions">
+            <button class="btn btn-sm btn-danger-outline" (click)="openDeleteModal(doc, 'document', $event)">
+              🗑️ Delete Document
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ZERO RESULTS -->
+    <div class="empty-state" *ngIf="filteredUsers.length === 0 && filteredItems.length === 0 && filteredDocuments.length === 0">
+      <p class="empty-icon">🔍</p>
+      <p class="empty-title">No matching records found</p>
+      <p class="empty-sub">Try searching with a different user name, email, item title, or document name.</p>
+    </div>
+  </section>
+
+  <!-- MAIN ACTION CARDS (DEFAULT VIEW) -->
+  <section class="dashboard-cards-container" *ngIf="!searchTerm.trim()">
     <!-- USERS CARD -->
-    <div class="dashboard-card" (click)="toggleCard('users')">
-      <h3>All Users</h3>
-      <p>View and manage registered users.</p>
-
-      <div class="card-expand"
-          [hidden]="activeCard !== 'users'"
-          (click)="$event.stopPropagation()">
-
-        <!-- User list will render here -->
-        <div *ngIf="showUsersList && filteredUsers.length > 0">
-          <div class="item-card" *ngFor="let user of filteredUsers">
-            <div class="title">{{ user.name }} ({{ user.email }})</div>
-            <div class="meta">
-              <span class="chip">{{ user.role }}</span>
-              <span>{{ user.status }}</span>
-            </div>
-            <div class="row mt-2">
-              <button *ngIf="!(user.email === auth.getUserEmail() && user.role === 'admin')"
-                      (click)="promoteUser(user); $event.stopPropagation()">
-                {{ user.role === 'admin' ? 'Demote' : 'Make Admin' }}
-              </button>
-
-              <!-- Replace Delete button with 'Currently Logged In' badge for self -->
-              <ng-container *ngIf="user.email === auth.getUserEmail(); else showDelete">
-                <span class="logged-in-badge">Currently Logged In</span>
-              </ng-container>
-
-              <ng-template #showDelete>
-                <button class="text-danger"
-                        (click)="openDeleteModal(user, 'user', $event)">
-                  Delete
-                </button>
-              </ng-template>
-            </div>
-          </div>
-        </div>
-
-        <div class="empty" *ngIf="showUsersList && filteredUsers.length === 0">No users found.</div>
-
+    <div class="action-card">
+      <div class="action-card-header">
+        <div class="action-icon-circle user-icon-bg">👥</div>
+        <span class="card-badge">{{ totalUsers }} Users</span>
+      </div>
+      <h3 class="action-card-title">User Accounts</h3>
+      <p class="action-card-desc">
+        Manage registered accounts, promote or demote administrator privileges, and moderate users.
+      </p>
+      <div class="categories-preview" *ngIf="allUsers.length > 0">
+        <span class="category-pill">🛡️ {{ adminCount }} Admins</span>
+        <span class="category-pill">👤 {{ regularUserCount }} Users</span>
+        <span class="category-pill more-pill">🟢 {{ activeUsers }} Active</span>
+      </div>
+      <div class="action-buttons-group">
+        <button class="btn" [ngClass]="showUsersList ? 'btn-primary' : 'btn-outline'" (click)="openViewUsers()">
+          {{ showUsersList ? '✕ Close Users View' : '👥 View All Users (' + totalUsers + ')' }}
+        </button>
       </div>
     </div>
 
-    <!-- ALL ITEMS CARD -->
-    <div class="dashboard-card" (click)="toggleCard('allItems')">
-      <h3>All Items</h3>
-      <p>View and moderate all user items.</p>
-
-      <div class="card-expand"
-          [hidden]="activeCard !== 'allItems'"
-          (click)="$event.stopPropagation()">
-
-        <div *ngIf="showItemsList && filteredItems.length > 0">
-          <div class="item-card" *ngFor="let item of filteredItems">
-            <div class="title">{{ item.itemTitle }}</div>
-            <div class="meta">
-              <span class="chip">{{ item.category }}</span>
-              <span class="meta-email">{{ item.userEmail }}</span>  <!-- shows which user owns it -->
-              <span class="meta-date">{{ item.itemDate }}</span>
-            </div>
-            <div class="row mt-2">
-              <button class="text-danger"
-                      (click)="openDeleteModal(item, 'item', $event)">
-                Delete
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <div class="empty" *ngIf="showItemsList && filteredItems.length === 0">No items found.</div>
-
+    <!-- ITEMS CARD -->
+    <div class="action-card">
+      <div class="action-card-header">
+        <div class="action-icon-circle item-icon-bg">💼</div>
+        <span class="card-badge">{{ totalItems }} Items</span>
+      </div>
+      <h3 class="action-card-title">All Career Items</h3>
+      <p class="action-card-desc">
+        Review, search, and moderate career records, jobs, degrees, and skills submitted across all accounts.
+      </p>
+      <div class="action-buttons-group">
+        <button class="btn" [ngClass]="showItemsList ? 'btn-primary' : 'btn-outline'" (click)="openViewItems()">
+          {{ showItemsList ? '✕ Close Items View' : '💼 View All Items (' + totalItems + ')' }}
+        </button>
       </div>
     </div>
 
-    <!-- ALL DOCUMENTS CARD -->
-    <div class="dashboard-card" (click)="toggleCard('allDocuments')">
-      <h3>All Documents</h3>
-      <p>View and moderate all user documents.</p>
+    <!-- DOCUMENTS CARD -->
+    <div class="action-card">
+      <div class="action-card-header">
+        <div class="action-icon-circle doc-icon-bg">📄</div>
+        <span class="card-badge">{{ totalDocuments }} Documents</span>
+      </div>
+      <h3 class="action-card-title">All User Documents</h3>
+      <p class="action-card-desc">
+        Inspect and moderate resumes, CVs, and portfolios created and saved by users in the platform.
+      </p>
+      <div class="action-buttons-group">
+        <button class="btn" [ngClass]="showDocumentsList ? 'btn-primary' : 'btn-outline'" (click)="openViewDocuments()">
+          {{ showDocumentsList ? '✕ Close Documents View' : '📄 View All Documents (' + totalDocuments + ')' }}
+        </button>
+      </div>
+    </div>
+  </section>
 
-      <div class="card-expand"
-          [hidden]="activeCard !== 'allDocuments'"
-          (click)="$event.stopPropagation()">
+  <!-- ALL USERS SECTION -->
+  <section class="dashboard-section" *ngIf="showUsersList && !searchTerm.trim()">
+    <div class="section-header-bar">
+      <div>
+        <h2 class="section-heading">All Registered Users ({{ allUsers.length }})</h2>
+        <p class="section-subheading">View, promote, demote, or manage user accounts across the application.</p>
+      </div>
+      <div class="section-actions">
+        <button class="close-btn" (click)="closeViewUsers()" title="Close users view">✕</button>
+      </div>
+    </div>
 
-        <div *ngIf="showDocumentsList && filteredDocuments.length > 0">
-          <div class="item-card" *ngFor="let item of filteredDocuments">
-            <div class="title">{{ item.title }}</div>
-            <div class="meta">
-              <span class="meta-email">{{ item.userEmail }}</span>
-              <span class="meta-date">{{ item.createdAt | date }}</span>
-            </div>
-            <div class="row mt-2">
-              <button class="text-danger"
-                      (click)="openDeleteModal(item, 'document', $event)">
-                Delete
-              </button>
-            </div>
+    <div class="cards-grid" *ngIf="filteredUsers.length > 0">
+      <div class="user-card-grid" *ngFor="let user of filteredUsers">
+        <div class="user-card-header">
+          <div class="user-avatar-circle">{{ (user.name || user.email || 'U')[0].toUpperCase() }}</div>
+          <div class="user-primary-info">
+            <h4 class="user-name">{{ user.name }}</h4>
+            <p class="user-email">{{ user.email }}</p>
           </div>
         </div>
+        <div class="user-meta-tags">
+          <span class="chip" [ngClass]="user.role === 'admin' ? 'chip-admin' : 'chip-user'">{{ user.role }}</span>
+          <span class="chip chip-status" *ngIf="user.status">{{ user.status }}</span>
+        </div>
+        <div class="card-footer-actions">
+          <button
+            *ngIf="!(user.email === auth.getUserEmail() && user.role === 'admin')"
+            class="btn btn-sm btn-outline"
+            (click)="promoteUser(user); $event.stopPropagation()">
+            {{ user.role === 'admin' ? 'Demote to User' : '⭐ Make Admin' }}
+          </button>
+          <span *ngIf="user.email === auth.getUserEmail()" class="logged-in-badge">Currently Logged In</span>
+          <button
+            *ngIf="user.email !== auth.getUserEmail()"
+            class="btn btn-sm btn-danger-outline"
+            (click)="openDeleteModal(user, 'user', $event)">
+            🗑️ Delete
+          </button>
+        </div>
+      </div>
+    </div>
 
-        <div class="empty" *ngIf="showDocumentsList && filteredDocuments.length === 0">No documents found.</div>
+    <div class="empty-state" *ngIf="filteredUsers.length === 0">
+      <p class="empty-icon">👥</p>
+      <p class="empty-title">No users found</p>
+      <p class="empty-sub">No user accounts are currently registered in the database.</p>
+    </div>
+  </section>
 
+  <!-- ALL ITEMS SECTION -->
+  <section class="dashboard-section" *ngIf="showItemsList && !searchTerm.trim()">
+    <div class="section-header-bar">
+      <div>
+        <h2 class="section-heading">All Items Catalog ({{ allItems.length }})</h2>
+        <p class="section-subheading">Inspect and moderate user career entries, degrees, jobs, and achievements.</p>
+      </div>
+      <div class="section-actions">
+        <button class="close-btn" (click)="closeViewItems()" title="Close items view">✕</button>
+      </div>
+    </div>
+
+    <div class="cards-grid" *ngIf="filteredItems.length > 0">
+      <div class="item-card-grid" *ngFor="let item of filteredItems">
+        <div class="item-card-header">
+          <h4 class="item-title">{{ item.itemTitle }}</h4>
+          <span class="category-badge" *ngIf="item.category">{{ item.category }}</span>
+        </div>
+        <p class="meta-owner">👤 <strong>Owner:</strong> {{ item.userEmail }}</p>
+        <p class="item-date" *ngIf="item.itemDate">{{ item.itemDate }}</p>
+        <p class="item-desc" *ngIf="item.itemDescription">{{ item.itemDescription }}</p>
+        <div class="card-footer-actions">
+          <button class="btn btn-sm btn-danger-outline" (click)="openDeleteModal(item, 'item', $event)">
+            🗑️ Delete Item
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="empty-state" *ngIf="filteredItems.length === 0">
+      <p class="empty-icon">💼</p>
+      <p class="empty-title">No items found</p>
+      <p class="empty-sub">No career items have been created by users yet.</p>
+    </div>
+  </section>
+
+  <!-- ALL DOCUMENTS SECTION -->
+  <section class="dashboard-section" *ngIf="showDocumentsList && !searchTerm.trim()">
+    <div class="section-header-bar">
+      <div>
+        <h2 class="section-heading">All User Documents ({{ allDocuments.length }})</h2>
+        <p class="section-subheading">Inspect and moderate resumes, CVs, and documents saved across all users.</p>
+      </div>
+      <div class="section-actions">
+        <button class="close-btn" (click)="closeViewDocuments()" title="Close documents view">✕</button>
+      </div>
+    </div>
+
+    <div class="cards-grid" *ngIf="filteredDocuments.length > 0">
+      <div class="doc-card" *ngFor="let doc of filteredDocuments">
+        <div class="doc-card-body">
+          <span class="card-icon">📄</span>
+          <div class="doc-info">
+            <h4 class="doc-title">{{ doc.title || 'Untitled Document' }}</h4>
+            <p class="meta-owner">👤 <strong>Owner:</strong> {{ doc.userEmail }}</p>
+            <p class="doc-date" *ngIf="doc.createdAt">Created: {{ doc.createdAt | date:'mediumDate' }}</p>
+            <p class="doc-desc" *ngIf="doc.description">{{ doc.description }}</p>
+          </div>
+        </div>
+        <div class="card-footer-actions">
+          <button class="btn btn-sm btn-danger-outline" (click)="openDeleteModal(doc, 'document', $event)">
+            🗑️ Delete Document
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="empty-state" *ngIf="filteredDocuments.length === 0">
+      <p class="empty-icon">📄</p>
+      <p class="empty-title">No documents found</p>
+      <p class="empty-sub">No documents have been saved by users yet.</p>
+    </div>
+  </section>
+
+  <!-- DELETE CONFIRMATION MODAL -->
+  <div class="modal-overlay" *ngIf="showDeleteModal" (click)="closeModal()">
+    <div class="modal-box" (click)="$event.stopPropagation()">
+      <div class="modal-icon-header">⚠️</div>
+      <h3 class="modal-title">Delete {{ deleteType === 'user' ? 'User' : deleteType === 'document' ? 'Document' : 'Item' }}</h3>
+      <p class="modal-message">
+        Are you sure you want to delete
+        <strong>"{{ entityToDelete?.name || entityToDelete?.title || entityToDelete?.itemTitle || entityToDelete?.email || 'this entry' }}"</strong>?
+        This action cannot be undone.
+      </p>
+
+      <div class="modal-actions">
+        <button class="btn btn-outline" (click)="closeModal()">Cancel</button>
+        <button class="btn btn-danger" (click)="confirmDelete()">Delete Permanently</button>
       </div>
     </div>
   </div>
-</div>
 
-<!-- DELETE CONFIRM MODAL -->
-<div class="modal-overlay"
-     *ngIf="showDeleteModal"
-     (click)="closeModal()">
-
-  <div class="modal-box"
-       (click)="$event.stopPropagation()">
-
-    <h3>Delete</h3>
-    <p>Are you sure you want to delete this?</p>
-
-    <div class="modal-actions">
-      <button (click)="closeModal()">Cancel</button>
-      <button class="text-danger"
-              (click)="confirmDelete()">
-        Delete
-      </button>
-    </div>
-
-  </div>
 </div>

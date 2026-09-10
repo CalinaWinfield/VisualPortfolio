@@ -4,6 +4,7 @@ import { FormBuilder } from '@angular/forms';
 import { of } from 'rxjs';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ItemService } from '../../services/item.service';
+import { AuthService } from '../../auth.service';
 
 describe('CreateItemComponent', () => {
   let component: CreateItemComponent;
@@ -13,11 +14,19 @@ describe('CreateItemComponent', () => {
     createItem: (p: any) => of({ ...p, _id: '1' }),
     deleteItem: (id: string) => of({}),
   };
+  const authStub = {
+    getUserEmail: () => 'test@test.com',
+    getAccessToken: () => 'test-token'
+  };
 
   beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [CreateItemComponent],
-      providers: [FormBuilder, { provide: ItemService, useValue: itemServiceStub }],
+      providers: [
+        FormBuilder,
+        { provide: ItemService, useValue: itemServiceStub },
+        { provide: AuthService, useValue: authStub }
+      ],
       schemas: [NO_ERRORS_SCHEMA],
     });
 

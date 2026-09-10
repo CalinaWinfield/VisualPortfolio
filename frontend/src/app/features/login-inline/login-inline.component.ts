@@ -64,9 +64,9 @@ export class LoginInlineComponent {
         this.errorMessage = '';
         const role = this.auth.getUserRole();
         if (role === 'admin') {
-          this.router.navigate(['/admin']);
+          this.router.navigate(['/admin'], { replaceUrl: true });
         } else {
-          this.router.navigate(['/dashboard']);
+          this.router.navigate(['/dashboard'], { replaceUrl: true });
         }
       },
 

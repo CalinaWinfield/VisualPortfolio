@@ -1,5 +1,5 @@
 // src/app/app.component.ts
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, HostListener } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
@@ -23,7 +23,7 @@ import { AuthService } from './auth.service';
   <nav class="navbar navbar-expand-lg navbar-light bg-transparent">
     <div class="container-fluid nav-container">
 
-      <a class="navbar-brand d-flex align-items-center" routerLink="/home">
+      <a class="navbar-brand d-flex align-items-center" [routerLink]="isLoggedIn ? '/dashboard' : '/home'">
         <img
           src="assets/img/foxIcon.png"
           alt="Visual Portfolio Logo"
@@ -79,51 +79,102 @@ import { AuthService } from './auth.service';
        </div>
   `,
 })
-export class AppComponent {
+export class AppComponent implements OnDestroy {
   currentYear: number = new Date().getFullYear();
   showBackButton = false;
+  authHistory: string[] = [];
+  private navSub?: Subscription;
 
   constructor(
     private router: Router,
     private location: Location,
     private auth: AuthService 
   ) {
-    this.router.events
-      .pipe(filter(event => event instanceof NavigationEnd))
+    // Initial state based on current router url
+    this.updateBackButton(this.router.url || '');
+
+    this.navSub = this.router.events
+      .pipe(filter((event): event is NavigationEnd => event instanceof NavigationEnd))
       .subscribe((event: NavigationEnd) => {
-        this.showBackButton = event.urlAfterRedirects !== '/home';
+        const url = (event.urlAfterRedirects || event.url || '').split('?')[0].split('#')[0];
+        this.updateBackButton(url);
+
+        if (!this.isLoginRoute(url)) {
+          if (this.authHistory.length === 0 || this.authHistory[this.authHistory.length - 1] !== url) {
+            this.authHistory.push(url);
+          }
+        }
       });
+  }
+
+  ngOnDestroy(): void {
+    this.navSub?.unsubscribe();
+  }
+
+  @HostListener('window:popstate')
+  onPopState(forcedPath?: string): void {
+    if (this.isLoggedIn) {
+      const path = (forcedPath !== undefined ? forcedPath : (window.location.pathname || '')).split('?')[0].split('#')[0];
+      if (this.isLoginRoute(path)) {
+        const target = this.isAdmin ? '/admin' : '/dashboard';
+        this.router.navigate([target], { replaceUrl: true });
+      }
+    }
+  }
+
+  updateBackButton(url: string): void {
+    const cleanUrl = (url || '').split('?')[0].split('#')[0];
+    const isRootLanding = cleanUrl === '/dashboard' || (cleanUrl === '/admin' && this.isAdmin);
+    this.showBackButton = this.isLoggedIn && !this.isLoginRoute(cleanUrl) && !isRootLanding;
   }
 
   get isAdmin(): boolean {
     return this.auth.getUserRole() === 'admin';
   }
 
-  goBack() {
-    this.location.back();
+  goBack(): void {
+    if (this.authHistory.length > 1) {
+      this.authHistory.pop(); // remove current route
+      const prevUrl = this.authHistory.pop(); // remove target route so it can be pushed anew
+      if (prevUrl && !this.isLoginRoute(prevUrl)) {
+        this.router.navigateByUrl(prevUrl);
+        return;
+      }
+    }
+    // Safe landing fallback for authenticated users
+    const defaultLanding = this.isAdmin ? '/admin' : '/dashboard';
+    this.router.navigate([defaultLanding], { replaceUrl: true });
   }
 
   get isLoggedIn(): boolean {
-    return !!localStorage.getItem('accessToken');
+    return this.auth?.isLoggedIn ? this.auth.isLoggedIn() : !!localStorage.getItem('accessToken');
   }
 
-  logout() {
-    localStorage.removeItem('accessToken');
-    localStorage.removeItem('refreshToken');
+  logout(): void {
+    this.auth.clear();
     sessionStorage.clear();
-    this.router.navigate(['/login']);
+    this.authHistory = [];
+    this.router.navigate(['/login'], { replaceUrl: true });
+  }
+
+  isLoginRoute(route: string): boolean {
+    const cleanRoute = (route || '').split('?')[0].split('#')[0];
+    return (
+      cleanRoute === '' ||
+      cleanRoute === '/' ||
+      cleanRoute.startsWith('/home') ||
+      cleanRoute.startsWith('/login') ||
+      cleanRoute.startsWith('/mfa-login') ||
+      cleanRoute.startsWith('/enroll-mfa') ||
+      cleanRoute.startsWith('/signup')
+    );
   }
 
   get showNavbar(): boolean {
-    const loggedIn = !!localStorage.getItem('accessToken');
-    const currentRoute = this.router.url;
+    // Never show or allow access to the navbar on the login/auth screens
+    if (this.isLoginRoute(this.router.url)) return false;
 
-    // Hide navbar on login page always
-    if (currentRoute.startsWith('/login')) return false;
-
-    // Hide navbar on home page when logged out
-    if (!loggedIn && currentRoute.startsWith('/home')) return false;
-
-    return loggedIn;
+    // On other screens, only show navbar if user is logged in
+    return this.isLoggedIn;
   }
 }

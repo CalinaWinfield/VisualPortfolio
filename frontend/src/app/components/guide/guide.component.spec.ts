@@ -24,4 +24,12 @@ describe('GuideComponent', () => {
   it('should create', () => expect(component).toBeTruthy());
 
   it('should have currentYear defined', () => expect(component.currentYear).toBeGreaterThan(2000));
+
+  it('should toggle step open state on toggleStep', () => {
+    const initialState = component.steps[0].open;
+    component.toggleStep(0);
+    expect(component.steps[0].open).toBe(!initialState);
+    component.toggleStep(0);
+    expect(component.steps[0].open).toBe(initialState);
+  });
 });

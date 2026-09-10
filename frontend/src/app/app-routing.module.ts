@@ -16,32 +16,34 @@ import { ItemsListComponent } from './components/create-item/items-list.componen
 import { MfaEnrollmentComponent } from './components/mfa/mfa-enrollment.component';
 import { MfaLoginComponent } from './components/mfa/mfa-login.component';
 
-// ⭐ Admin components
+// ⭐ Guards
+import { AuthGuard } from './guards/auth.guard';
+import { LoginGuard } from './guards/login.guard';
 import { AdminGuard } from './guards/admin.guard';
 import { AdminDashboardComponent } from './components/admin/admin-dashboard.component';
 
 const routes: Routes = [
-  { path: '', component: LandingComponent, title: 'Welcome' },
-  { path: 'home', component: LandingComponent, title: 'Home' },
-  { path: 'about', component: AboutComponent, title: 'About' },
-  { path: 'dashboard', component: DashboardComponent, title: 'Dashboard' },
-  { path: 'documents', component: DocumentComponent, title: 'Documents' },
+  // ── Public / Guest Login Routes (blocked if already logged in) ───────────
+  { path: '', component: LandingComponent, title: 'Welcome', canActivate: [LoginGuard] },
+  { path: 'home', component: LandingComponent, title: 'Home', canActivate: [LoginGuard] },
+  { path: 'login', component: LandingComponent, title: 'Login', canActivate: [LoginGuard] },
+  { path: 'signup', component: SignUpComponent, title: 'Sign Up', canActivate: [LoginGuard] },
+  { path: 'enroll-mfa', component: MfaEnrollmentComponent, title: 'MFA Enrollment', canActivate: [LoginGuard] },
+  { path: 'mfa-login', component: MfaLoginComponent, title: 'MFA Login', canActivate: [LoginGuard] },
 
-  // ⭐ MFA routes (must be above dynamic routes)
-  { path: 'enroll-mfa', component: MfaEnrollmentComponent, title: 'MFA Enrollment' },
-  { path: 'mfa-login', component: MfaLoginComponent, title: 'MFA Login' },
+  // ── Protected Application Routes (strictly require being logged in) ──────
+  { path: 'dashboard', component: DashboardComponent, title: 'Dashboard', canActivate: [AuthGuard] },
+  { path: 'documents', component: DocumentComponent, title: 'Documents', canActivate: [AuthGuard] },
+  { path: 'documents/:id', component: DocumentComponent, canActivate: [AuthGuard] },
+  { path: 'cover-letter', component: CoverLetterComponent, title: 'Cover Letter', canActivate: [AuthGuard] },
+  { path: 'cover-letter/:id', component: CoverLetterComponent, canActivate: [AuthGuard] },
+  { path: 'create-item', component: CreateItemComponent, title: 'Create Item', canActivate: [AuthGuard] },
+  { path: 'items', component: ItemsListComponent, title: 'Items', canActivate: [AuthGuard] },
+  { path: 'guide', component: GuideComponent, title: 'Guide', canActivate: [AuthGuard] },
+  { path: 'about', component: AboutComponent, title: 'About', canActivate: [AuthGuard] },
 
-  // Dynamic route LAST
-  { path: 'documents/:id', component: DocumentComponent },
-  { path: 'cover-letter', component: CoverLetterComponent, title: 'Cover Letter' },
-  { path: 'cover-letter/:id', component: CoverLetterComponent },
-  { path: 'create-item', component: CreateItemComponent, title: 'Create Item' },
-  { path: 'items', component: ItemsListComponent, title: 'Items' },
-  { path: 'guide', component: GuideComponent, title: 'Guide' },
-  { path: 'signup', component: SignUpComponent, title: 'Sign Up' },
-
-  // ⭐ Admin route — guarded, above wildcard
-  { path: 'admin', component: AdminDashboardComponent, title: 'Admin', canActivate: [AdminGuard] },
+  // ── Admin route — requires both logged in and admin role ─────────────────
+  { path: 'admin', component: AdminDashboardComponent, title: 'Admin', canActivate: [AuthGuard, AdminGuard] },
 
   { path: '**', redirectTo: '' }
 ];

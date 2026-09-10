@@ -1,24 +1,66 @@
-// frontend/src/app/form-builder/form-builder.component.ts
-import { Component, AfterViewInit, ViewChild, ElementRef, Input } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+// frontend/src/app/components/form-builder/form-builder.component.ts
+import { Component, OnInit, AfterViewInit, ViewChild, ElementRef, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
 import { AuthService } from '../../auth.service';
-import { DragDropModule } from '@angular/cdk/drag-drop';
-import { FormeoDropzoneDirective } from '../../directives/formeo-dropzone.directive';
 import { ItemService } from '../../services/item.service';
+import { DocumentService } from '../../services/document.service';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 import { saveAs } from 'file-saver';
+import {
+  Document as DocxDocument,
+  Packer,
+  Paragraph,
+  TextRun,
+  HeadingLevel,
+  AlignmentType,
+  BorderStyle
+} from 'docx';
 
+export interface ResumeItem {
+  id: string;
+  _id?: string;
+  itemTitle: string;
+  category?: string;
+  itemDate?: string;
+  itemDescription: string;
+  isCustom?: boolean;
+}
+
+export interface ResumeSection {
+  id: string;
+  title: string;
+  items: ResumeItem[];
+}
+
+export interface DocumentHeader {
+  fullName: string;
+  titleOrRole: string;
+  email: string;
+  phone: string;
+  location: string;
+  summary: string;
+}
+
+export interface TemplateDefinition {
+  name: string;
+  description: string;
+  title: string;
+  header: Partial<DocumentHeader>;
+  sections: { title: string; items?: any[] }[];
+}
 
 @Component({
   selector: 'app-form-builder',
   standalone: true,
-  imports: [CommonModule, DragDropModule, FormeoDropzoneDirective],
+  imports: [CommonModule, FormsModule],
   templateUrl: './form-builder.component.html',
   styleUrls: ['./form-builder.component.css']
 })
-export class FormBuilderComponent implements AfterViewInit {
+export class FormBuilderComponent implements OnInit, AfterViewInit {
 
   @ViewChild('formeoContainer', { static: false })
   container!: ElementRef;
@@ -26,449 +68,699 @@ export class FormBuilderComponent implements AfterViewInit {
   @ViewChild('formeoRenderer', { static: false })
   rendererContainer!: ElementRef;
 
+  @ViewChild('printableContent', { static: false })
+  printableContentRef!: ElementRef;
+
+  // Document metadata
+  documentTitle: string = 'My Resume';
+  existingDocId: string | null = null;
   private _existingData: any = null;
+  private _initialMode: string | null = null;
 
-  private normalizeFormData(raw: any): any {
-    if (raw == null) return raw;
-    if (typeof raw === 'string') {
-      try {
-        return JSON.parse(raw);
-      } catch {
-        return raw;
-      }
+  // Document model
+  documentHeader: DocumentHeader = {
+    fullName: '',
+    titleOrRole: '',
+    email: '',
+    phone: '',
+    location: '',
+    summary: ''
+  };
+
+  sections: ResumeSection[] = [];
+  activeSectionId: string | null = null;
+
+  // Sidebar items and filters
+  items: any[] = [];
+  draggedItem: any = null;
+  searchQuery: string = '';
+  selectedCategory: string = 'ALL';
+  categories: string[] = ['ALL'];
+
+  // Notification toast
+  statusMessage: string = '';
+  statusType: 'success' | 'error' | 'info' = 'success';
+  statusTimeout: any = null;
+
+  // Template modals
+  showTemplateModal: boolean = false;
+  showTemplateChoiceModal: boolean = false;
+  selectedTemplateKey: string | null = null;
+
+  // Modes
+  isPreviewMode: boolean = false;
+
+  // Compatibility properties for tests and legacy interfaces
+  editor: any = { isReady: true, formData: {} };
+  injectedItems: any[] = [];
+
+  readonly templates: Record<string, TemplateDefinition> = {
+    standard: {
+      name: 'Standard Professional Resume',
+      description: 'Ideal for industry roles, emphasizing experience, education, and technical competencies.',
+      title: 'Professional Resume',
+      header: {
+        titleOrRole: 'Professional Summary',
+        summary: 'Results-driven professional with proven expertise in collaborative problem-solving, project leadership, and continuous improvement.'
+      },
+      sections: [
+        { title: 'Work Experience', items: [] },
+        { title: 'Education', items: [] },
+        { title: 'Skills & Competencies', items: [] },
+        { title: 'Key Projects', items: [] }
+      ]
+    },
+    academic: {
+      name: 'Academic Curriculum Vitae (CV)',
+      description: 'Tailored for faculty, scholars, and researchers focusing on publications, appointments, and teaching.',
+      title: 'Academic CV',
+      header: {
+        titleOrRole: 'Academic Profile',
+        summary: 'Dedicated faculty member and researcher with a commitment to student mentorship, scholarly publishing, and service.'
+      },
+      sections: [
+        { title: 'Education', items: [] },
+        { title: 'Academic Appointments', items: [] },
+        { title: 'Publications & Presentations', items: [] },
+        { title: 'Teaching Experience', items: [] },
+        { title: 'Grants, Honors & Awards', items: [] },
+        { title: 'Institutional Service', items: [] }
+      ]
+    },
+    skills: {
+      name: 'Skills-Focused / Functional Resume',
+      description: 'Emphasizes key capability clusters and technical expertise for project-based roles.',
+      title: 'Technical Resume',
+      header: {
+        titleOrRole: 'Technical Profile',
+        summary: 'Versatile specialist adept at architecting high-quality solutions, modern tooling, and cross-functional collaboration.'
+      },
+      sections: [
+        { title: 'Core Competencies', items: [] },
+        { title: 'Selected Projects', items: [] },
+        { title: 'Work Experience', items: [] },
+        { title: 'Education & Certifications', items: [] }
+      ]
+    },
+    blank: {
+      name: 'Clean / Custom Document',
+      description: 'A minimal starting layout with a custom section ready for full customization.',
+      title: 'Custom Document',
+      header: {
+        titleOrRole: '',
+        summary: ''
+      },
+      sections: [
+        { title: 'Main Section', items: [] }
+      ]
     }
-    return raw;
-  }
+  };
 
-  private getEditorCanvasElement(): HTMLElement | null {
-    const host = this.container?.nativeElement as HTMLElement | undefined;
-    if (!host) return null;
-    return (
-      host.querySelector('.formeo-stage') ||
-      host.querySelector('.frmb-stage')
-    ) as HTMLElement | null;
-  }
-
-  private cleanupOrphanInjectedBlocks(): void {
-    const host = this.container?.nativeElement as HTMLElement | undefined;
-    if (!host) return;
-
-    host.querySelectorAll('.injected-item-block').forEach((el) => {
-      const inStage = !!(el as HTMLElement).closest('.formeo-stage, .frmb-stage');
-      if (!inStage) {
-        el.remove();
-      }
-    });
-
-    // Remove injected text nodes that are not inside an actual Formeo field/control.
-    host.querySelectorAll('[data-item-id]').forEach((el) => {
-      const inField = !!(el as HTMLElement).closest('.formeo-field, .frmb-control');
-      if (!inField) {
-        el.remove();
-      }
-    });
-  }
-
-  private hideInternalFormeoSaveButton(): void {
-    const host = this.container?.nativeElement as HTMLElement | undefined;
-    if (!host) return;
-
-    host.querySelectorAll('button').forEach((btn) => {
-      const label = (btn.textContent || '').trim().toLowerCase();
-      if (label === 'save') {
-        (btn as HTMLElement).style.display = 'none';
-      }
-      if (label === 'clear') {
-        const clearBtn = btn as HTMLElement;
-        clearBtn.style.minWidth = '150.53px';
-        clearBtn.style.width = '150.53px';
-        clearBtn.style.justifyContent = 'center';
-        clearBtn.style.borderRadius = '8px';
-        clearBtn.style.padding = '8px 14px';
-
-        // Keep Formeo "Clear" in sync with dropped item list.
-        if (!clearBtn.dataset['boundClearSync']) {
-          clearBtn.addEventListener('click', () => {
-            this.injectedItems = [];
-            this.removeAllInjectedItemNodes();
-          });
-          clearBtn.dataset['boundClearSync'] = 'true';
-        }
-      }
-    });
-  }
-
-  private removeAllInjectedItemNodes(): void {
-    const host = this.container?.nativeElement as HTMLElement | undefined;
-    if (!host) return;
-    host.querySelectorAll('[data-item-id], .injected-item-block').forEach((el) => el.remove());
-  }
+  constructor(
+    private http: HttpClient,
+    private auth: AuthService,
+    private itemService: ItemService,
+    private documentService: DocumentService,
+    private router: Router
+  ) {}
 
   @Input() set existingData(value: any) {
+    if (!value) return;
     this._existingData = value;
-    // If editor is already initialized, reload with new data
-    if (value && this.editor) {
-      this.reloadWithData(value);
-    }
+    this.loadDocumentData(value);
   }
 
   get existingData(): any {
     return this._existingData;
   }
 
-  private reloadWithData(data: any): void {
-    // ✅ Restore state FIRST
-    const incomingInjectedItems = data.injectedItems ?? data.sections ?? [];
-    this.injectedItems = Array.isArray(incomingInjectedItems) ? [...incomingInjectedItems] : [];
+  @Input() set initialMode(mode: string | null) {
+    this._initialMode = mode;
+    if (mode === 'template' && !this.existingDocId) {
+      this.showTemplateModal = true;
+    }
+  }
 
-    const container = this.container.nativeElement;
-    container.querySelectorAll('.injected-item-block')
-      .forEach((el: Element) => el.remove());
+  get initialMode(): string | null {
+    return this._initialMode;
+  }
 
-    const incomingFormData = this.normalizeFormData(data.formData ?? data.templateJson);
-    if (incomingFormData && this.editor) {
-      try {
-        this.editor.formData = incomingFormData;
-      } catch {
-        this._existingData = data;
-        this.initEditor();
-        return;
+  get filteredItems(): any[] {
+    let list = this.items || [];
+    if (this.selectedCategory && this.selectedCategory !== 'ALL') {
+      list = list.filter(i => (i.category || '').toLowerCase() === this.selectedCategory.toLowerCase());
+    }
+    if (this.searchQuery.trim()) {
+      const q = this.searchQuery.toLowerCase();
+      list = list.filter(i =>
+        (i.itemTitle || '').toLowerCase().includes(q) ||
+        (i.itemDescription || '').toLowerCase().includes(q) ||
+        (i.category || '').toLowerCase().includes(q)
+      );
+    }
+    return list;
+  }
+
+  ngOnInit(): void {
+    this.loadUserItems();
+
+    // Default template if brand new document and not yet populated
+    if (!this._existingData && this.sections.length === 0) {
+      this.applyTemplate('standard', false);
+    }
+
+    // Pre-populate user name and email from session if empty
+    const email = this.auth.getUserEmail();
+    if (email && !this.documentHeader.email) {
+      this.documentHeader.email = email;
+      const namePart = email.split('@')[0].replace(/[._-]/g, ' ');
+      this.documentHeader.fullName = this.capitalizeWords(namePart);
+    }
+  }
+
+  ngAfterViewInit(): void {
+    // Check initial mode after view init
+    if (this._initialMode === 'template' && !this.existingDocId) {
+      setTimeout(() => {
+        this.showTemplateModal = true;
+      }, 200);
+    }
+  }
+
+  private capitalizeWords(str: string): string {
+    return str
+      .split(' ')
+      .filter(w => w.length > 0)
+      .map(w => w.charAt(0).toUpperCase() + w.slice(1))
+      .join(' ');
+  }
+
+  loadUserItems(): void {
+    const email = this.auth.getUserEmail();
+    if (!email) return;
+
+    this.itemService.getItems(email).subscribe({
+      next: (data) => {
+        this.items = data || [];
+        const cats = new Set<string>();
+        this.items.forEach(i => {
+          if (i.category && i.category.trim()) {
+            cats.add(i.category.trim());
+          }
+        });
+        this.categories = ['ALL', ...Array.from(cats)];
+      },
+      error: (err) => console.error('Failed to load items:', err)
+    });
+  }
+
+  // ==========================================
+  // DOCUMENT RESTORATION & COMPATIBILITY
+  // ==========================================
+
+  private loadDocumentData(doc: any): void {
+    this.existingDocId = doc._id || null;
+    if (doc.title) {
+      this.documentTitle = doc.title;
+    }
+
+    const rawForm = doc.formData ?? doc.templateJson;
+    const normalized = typeof rawForm === 'string' ? this.tryParseJson(rawForm) : rawForm;
+
+    // 1. Check for modern structured format: { header, sections }
+    if (normalized && Array.isArray(normalized.sections) && normalized.sections.length > 0) {
+      this.sections = normalized.sections.map((s: any) => ({
+        id: s.id || this.generateId(),
+        title: s.title || 'Section',
+        items: (s.items || []).map((it: any) => this.normalizeItem(it))
+      }));
+
+      if (normalized.header) {
+        this.documentHeader = {
+          fullName: normalized.header.fullName || '',
+          titleOrRole: normalized.header.titleOrRole || '',
+          email: normalized.header.email || '',
+          phone: normalized.header.phone || '',
+          location: normalized.header.location || '',
+          summary: normalized.header.summary || ''
+        };
+      }
+
+      this.syncCompatibilityItems();
+      return;
+    }
+
+    // 2. Check for legacy injectedItems or sections array
+    const legacyItems = doc.injectedItems ?? doc.sections ?? [];
+    if (Array.isArray(legacyItems) && legacyItems.length > 0) {
+      this.migrateLegacyItems(legacyItems);
+      this.syncCompatibilityItems();
+      return;
+    }
+
+    // 3. Fallback: if no sections found, initialize default template
+    if (this.sections.length === 0) {
+      this.applyTemplate('standard', false);
+    }
+    this.syncCompatibilityItems();
+  }
+
+  private tryParseJson(str: string): any {
+    try {
+      return JSON.parse(str);
+    } catch {
+      return null;
+    }
+  }
+
+  private normalizeItem(it: any): ResumeItem {
+    return {
+      id: it.id || it._id || this.generateId(),
+      _id: it._id,
+      itemTitle: it.itemTitle || it.title || 'Untitled Entry',
+      category: it.category || '',
+      itemDate: it.itemDate || it.date || '',
+      itemDescription: it.itemDescription || it.description || '',
+      isCustom: !!it.isCustom
+    };
+  }
+
+  private migrateLegacyItems(rawItems: any[]): void {
+    const grouped: Record<string, ResumeItem[]> = {};
+
+    rawItems.forEach(raw => {
+      const item = this.normalizeItem(raw);
+      const cat = (item.category && item.category.trim()) || 'Work Experience';
+      if (!grouped[cat]) {
+        grouped[cat] = [];
+      }
+      grouped[cat].push(item);
+    });
+
+    const newSections: ResumeSection[] = [];
+    Object.keys(grouped).forEach(catName => {
+      newSections.push({
+        id: this.generateId(),
+        title: catName,
+        items: grouped[catName]
+      });
+    });
+
+    // Ensure Education or Skills exists if missing
+    if (!grouped['Education']) {
+      newSections.push({ id: this.generateId(), title: 'Education', items: [] });
+    }
+    if (!grouped['Skills']) {
+      newSections.push({ id: this.generateId(), title: 'Skills & Competencies', items: [] });
+    }
+
+    this.sections = newSections;
+  }
+
+  private syncCompatibilityItems(): void {
+    this.injectedItems = this.sections.flatMap(s => s.items);
+    this.editor.formData = {
+      header: this.documentHeader,
+      sections: this.sections
+    };
+  }
+
+  generateId(): string {
+    return 'sec-' + Math.random().toString(36).substring(2, 9);
+  }
+
+  // ==========================================
+  // TEMPLATES
+  // ==========================================
+
+  onSelectTemplate(templateKey: string): void {
+    if (this.hasExistingContent()) {
+      this.selectedTemplateKey = templateKey;
+      this.showTemplateChoiceModal = true;
+    } else {
+      this.applyTemplate(templateKey, 'current');
+    }
+  }
+
+  hasExistingContent(): boolean {
+    return !!(
+      this.existingDocId ||
+      this.sections.some(s => s.items.length > 0) ||
+      (this.documentHeader.summary && this.documentHeader.summary.trim().length > 0)
+    );
+  }
+
+  applyTemplate(
+    templateKey: string,
+    modeOrNotice: 'current' | 'new' | boolean = 'current',
+    showNotice: boolean = true
+  ): void {
+    let mode: 'current' | 'new' = 'current';
+    let notice = showNotice;
+
+    if (typeof modeOrNotice === 'boolean') {
+      notice = modeOrNotice;
+      mode = 'current';
+    } else if (modeOrNotice === 'new' || modeOrNotice === 'current') {
+      mode = modeOrNotice;
+    }
+
+    const tpl = this.templates[templateKey] || this.templates['standard'];
+
+    if (mode === 'new') {
+      // Clear document ID and cache so it is treated as a brand new document without modifying the current document
+      this.existingDocId = null;
+      this._existingData = null;
+      // Clear ?id= query param from browser URL to detach from the existing document
+      window.history.replaceState(null, '', '/documents');
+    }
+
+    this.documentTitle = tpl.title;
+    this.documentHeader = {
+      ...this.documentHeader,
+      titleOrRole: tpl.header.titleOrRole || '',
+      summary: tpl.header.summary || ''
+    };
+
+    this.sections = tpl.sections.map(s => ({
+      id: this.generateId(),
+      title: s.title,
+      items: (s.items || []).map(it => this.normalizeItem(it))
+    }));
+
+    this.showTemplateModal = false;
+    this.showTemplateChoiceModal = false;
+    this.selectedTemplateKey = null;
+    this.syncCompatibilityItems();
+
+    if (notice) {
+      if (mode === 'new') {
+        this.showNotification(`Created new document with template: ${tpl.name}`, 'success');
+      } else {
+        this.showNotification(`Applied template "${tpl.name}" to current document`, 'info');
       }
     }
+  }
 
-    // Restore dropped items directly into the Formeo stage when loading a saved document.
-    if (this.injectedItems.length) {
-      this.waitForStageAndInject(this.injectedItems);
+  // ==========================================
+  // DRAG & DROP AND ITEM PLACEMENT
+  // ==========================================
+
+  onDragStart(event: DragEvent, item: any): void {
+    this.draggedItem = item;
+    if (event.dataTransfer) {
+      event.dataTransfer.setData('text/plain', item.itemTitle || '');
+      event.dataTransfer.setData('application/json', JSON.stringify(item));
+      event.dataTransfer.effectAllowed = 'copy';
     }
   }
 
-  editor: any;
-  renderer: any;
-  formData: any = null;
-
-  isPreviewMode = false;
-
-  items: any[] = [];
-  draggedItem: any = null;
-  injectedItems: any[] = [];
-
-  get documentItems(): any[] {
-    // Only render items that were explicitly dropped into the document.
-    return this.injectedItems;
-  }
-
-  constructor(private http: HttpClient, private auth: AuthService, private itemService: ItemService) {}
-
-  private getExportFileBaseName(): string {
-    return (this._existingData?.title || 'document').replace(/[^\w\- ]/g, '').trim() || 'document';
-  }
-
-  private getExportSourceElement(): HTMLElement | null {
-    if (this.isPreviewMode && this.rendererContainer?.nativeElement) {
-      return this.rendererContainer.nativeElement as HTMLElement;
+  allowDrop(event: DragEvent): void {
+    event.preventDefault();
+    if (event.dataTransfer) {
+      event.dataTransfer.dropEffect = 'copy';
     }
-    if (this.container?.nativeElement) {
-      return this.container.nativeElement as HTMLElement;
+  }
+
+  onDropToSection(event: DragEvent, section: ResumeSection): void {
+    event.preventDefault();
+    event.stopPropagation();
+
+    const item = this.getDroppedItem(event);
+    if (!item) return;
+
+    this.addItemToSectionObject(section, item);
+  }
+
+  onDropToCanvas(event: DragEvent): void {
+    event.preventDefault();
+
+    const item = this.getDroppedItem(event);
+    if (!item) return;
+
+    // Try finding matching section by category
+    const cat = (item.category || '').toLowerCase();
+    let targetSection = this.sections.find(s => s.title.toLowerCase().includes(cat));
+
+    if (!targetSection && this.sections.length > 0) {
+      targetSection = this.sections[0];
+    }
+
+    if (!targetSection) {
+      targetSection = {
+        id: this.generateId(),
+        title: item.category || 'Work Experience',
+        items: []
+      };
+      this.sections.push(targetSection);
+    }
+
+    this.addItemToSectionObject(targetSection, item);
+  }
+
+  private getDroppedItem(event: DragEvent): any {
+    if (this.draggedItem) {
+      const it = this.draggedItem;
+      this.draggedItem = null;
+      return it;
+    }
+
+    const raw = event.dataTransfer?.getData('application/json');
+    if (raw) {
+      try {
+        return JSON.parse(raw);
+      } catch {
+        return null;
+      }
     }
     return null;
   }
 
-  private appendDocumentItemsHtml(target: HTMLElement): void {
-    if (!this.documentItems.length) return;
-    const itemHtml = this.documentItems.map((item) => `
-      <p class="preview-item-desc">${item.itemDescription ?? ''}</p>
-    `).join('');
-    target.insertAdjacentHTML('beforeend', `<div class="preview-item-list">${itemHtml}</div>`);
-  }
-
-  private stripInteractiveEditorElements(root: HTMLElement): void {
-    // Convert injected card blocks to plain text before stripping UI.
-    root.querySelectorAll('.injected-item-block').forEach((card) => {
-      const desc = (card.querySelector('.injected-desc') as HTMLElement | null)?.textContent?.trim() || '';
-      if (desc) {
-        const p = document.createElement('p');
-        p.className = 'preview-item-desc';
-        p.textContent = desc;
-        card.replaceWith(p);
-      } else {
-        card.remove();
-      }
-    });
-
-    const selectors = [
-      '.injected-remove',
-      '.drop-zone',
-      '.component-handle',
-      '.frmb-control',
-      '.formeo-control',
-      '.frmb-controls',
-      '.formeo-controls',
-      '.f-field-actions',
-      'button',
-      'input',
-      'select',
-      'textarea',
-      'option'
-    ];
-    root.querySelectorAll(selectors.join(',')).forEach((el) => el.remove());
-
-    // Remove any remaining builder/config UI nodes by class pattern.
-    root.querySelectorAll('*').forEach((el) => {
-      const className = (el as HTMLElement).className;
-      if (typeof className !== 'string') return;
-      const c = className.toLowerCase();
-      if (
-        c.includes('control') ||
-        c.includes('toolbar') ||
-        c.includes('menu') ||
-        c.includes('handle') ||
-        c.includes('action') ||
-        c.includes('condition') ||
-        c.includes('rule') ||
-        c.includes('setting') ||
-        c.includes('config')
-      ) {
-        el.remove();
-      }
-    });
-
-    // Remove builder placeholder helper text.
-    root.querySelectorAll('p, span, div').forEach((el) => {
-      const text = (el.textContent || '').trim().toLowerCase();
-      if (text === 'drop items here' || text === 'drop item here') {
-        el.remove();
-      }
-    });
-
-    // Remove common Formeo editor metadata labels that can leak into preview.
-    const editorLabels = new Set([
-      'stage',
-      'row',
-      'column',
-      'field',
-      'conditions',
-      'attributes',
-      'configuration',
-      'tag',
-      'class',
-      'class name'
-    ]);
-
-    root.querySelectorAll('*').forEach((el) => {
-      const text = (el.textContent || '').trim().toLowerCase();
-      if (!text) return;
-      const isSimpleLabel = el.children.length === 0 || text.split(/\s+/).length <= 2;
-      if (isSimpleLabel && editorLabels.has(text)) {
-        el.remove();
-      }
-    });
-
-    // Remove leftover marker-only glyph nodes (bullets/squares) from editor tree UI.
-    root.querySelectorAll('*').forEach((el) => {
-      const text = (el.textContent || '').trim();
-      if (!text) return;
-
-      const hasReadableText = /[a-zA-Z0-9]/.test(text);
-      const markerCharsOnly = /^[\s•◦▪▫·\-●○■□◆◇◉◌◘◙\u25A0\u25A1\u25AA\u25AB\u2219]+$/.test(text);
-      const shortSymbolChunk = text.length <= 8 && !hasReadableText;
-      if (markerCharsOnly || shortSymbolChunk) {
-        el.remove();
-      }
-    });
-
-    // Remove list items that are only visual markers and contain no readable text.
-    root.querySelectorAll('li').forEach((li) => {
-      const text = (li.textContent || '').trim();
-      const hasReadableText = /[a-zA-Z0-9]/.test(text);
-      if (!hasReadableText) {
-        li.remove();
-      }
-    });
-
-    // Hard-disable list marker rendering in the cleaned DOM.
-    root.querySelectorAll('ul, ol').forEach((list) => {
-      const el = list as HTMLElement;
-      el.style.listStyle = 'none';
-      el.style.marginLeft = '0';
-      el.style.paddingLeft = '0';
-    });
-    root.querySelectorAll('li').forEach((li) => {
-      const el = li as HTMLElement;
-      el.style.listStyle = 'none';
-      el.style.marginLeft = '0';
-      el.style.paddingLeft = '0';
-    });
-  }
-
-  private buildContentFromEditorDom(): HTMLElement | null {
-    const stage = this.getEditorCanvasElement();
-    if (!stage) return null;
-
-    const clone = stage.cloneNode(true) as HTMLElement;
-    this.stripInteractiveEditorElements(clone);
-    this.flattenInjectedBlocks(clone);
-    return clone;
-  }
-
-  private flattenInjectedBlocks(root: HTMLElement): void {
-    const toFlatten = root.querySelectorAll('.injected-item-block, .preview-item-block');
-    toFlatten.forEach((node) => {
-      const el = node as HTMLElement;
-      const desc =
-        (el.querySelector('.injected-desc, .preview-item-desc') as HTMLElement | null)?.textContent?.trim() ||
-        el.textContent?.trim() ||
-        '';
-      if (!desc) {
-        el.remove();
-        return;
-      }
-      const p = document.createElement('p');
-      p.className = 'preview-item-desc';
-      p.textContent = desc;
-      el.replaceWith(p);
-    });
-  }
-
-  private stripEditorUiElements(root: HTMLElement): void {
-    const selectors = [
-      'button',
-      '.frmb-control',
-      '.formeo-control',
-      '.formeo-header',
-      '.component-handle',
-      '.drop-zone',
-      '.injected-remove',
-      '.frmb-controls',
-      '.formeo-controls',
-      '.f-field-actions'
-    ];
-    root.querySelectorAll(selectors.join(',')).forEach((el) => el.remove());
-  }
-
-  private async buildCleanExportElement(): Promise<HTMLElement | null> {
-    const cleanRoot = document.createElement('div');
-    cleanRoot.style.background = '#ffffff';
-    cleanRoot.style.color = '#111827';
-    cleanRoot.style.padding = '16px';
-    cleanRoot.style.width = '900px';
-
-    const editorDomContent = this.buildContentFromEditorDom();
-    const usedEditorDom = !!editorDomContent;
-    if (editorDomContent) {
-      cleanRoot.innerHTML = editorDomContent.innerHTML;
-    } else if (this.isPreviewMode && this.rendererContainer?.nativeElement) {
-      cleanRoot.innerHTML = (this.rendererContainer.nativeElement as HTMLElement).innerHTML;
-    } else {
-      const f = (window as any).formeo;
-      const rawData = this.normalizeFormData(this.editor?.formData);
-      const hasFormeoData = Array.isArray(rawData)
-        ? rawData.length > 0
-        : !!rawData && Object.keys(rawData).length > 0;
-
-      if (hasFormeoData && f?.FormeoRenderer) {
-        const tmp = document.createElement('div');
-        const renderer = new f.FormeoRenderer({ renderContainer: tmp });
-        renderer.render(rawData);
-        cleanRoot.innerHTML = tmp.innerHTML;
-      }
+  addItemToSection(sectionId: string | null, rawItem: any): void {
+    let section: ResumeSection | undefined;
+    if (sectionId) {
+      section = this.sections.find(s => s.id === sectionId);
+    }
+    if (!section && this.sections.length > 0) {
+      section = this.sections[0];
+    }
+    if (!section) {
+      section = {
+        id: this.generateId(),
+        title: rawItem.category || 'Experience',
+        items: []
+      };
+      this.sections.push(section);
     }
 
-    // Only append dropped items as fallback when we could not use editor DOM.
-    if (!usedEditorDom) {
-      this.appendDocumentItemsHtml(cleanRoot);
-    }
-    this.stripEditorUiElements(cleanRoot);
-    this.flattenInjectedBlocks(cleanRoot);
-    // Hard-strip Formeo card/wrapper chrome at DOM level for reliable PDF output.
-    cleanRoot
-      .querySelectorAll('.formeo-field, .frmb-control, .frmb li, .stage-wrap, .formeo-stage, .frmb-stage, .frmb')
-      .forEach((el) => {
-        const node = el as HTMLElement;
-        node.style.border = 'none';
-        node.style.outline = 'none';
-        node.style.boxShadow = 'none';
-        node.style.background = 'transparent';
-        node.style.borderRadius = '0';
-      });
-    cleanRoot.querySelectorAll('[class*="formeo"], [class*="frmb"]').forEach((el) => {
-      const node = el as HTMLElement;
-      node.style.boxShadow = 'none';
-      node.style.border = node.style.border || 'none';
-    });
-
-    if (!cleanRoot.innerText.trim()) return null;
-    return cleanRoot;
+    this.addItemToSectionObject(section, rawItem);
   }
 
-  private sanitizeForWord(root: HTMLElement): void {
-    // Word tends to re-apply bullets for list semantics; flatten lists to paragraphs.
-    root.querySelectorAll('li').forEach((li) => {
-      const text = (li.textContent || '').trim();
-      if (!text) {
-        li.remove();
-        return;
-      }
-      const p = document.createElement('p');
-      p.className = 'preview-item-desc';
-      p.textContent = text;
-      li.replaceWith(p);
-    });
-
-    root.querySelectorAll('ul, ol').forEach((list) => {
-      const parent = list.parentNode;
-      if (!parent) return;
-      while (list.firstChild) parent.insertBefore(list.firstChild, list);
-      list.remove();
-    });
-
-    // Remove standalone bullet/marker glyph chunks that can still leak into Word.
-    root.querySelectorAll('*').forEach((el) => {
-      const text = (el.textContent || '').trim();
-      if (!text) return;
-      const markerOnly = /^[\s•◦▪▫·\-●○■□◆◇◉◌◘◙\u25A0\u25A1\u25AA\u25AB\u2219]+$/.test(text);
-      if (markerOnly) el.remove();
-    });
-  }
-
-  private escapeHtml(value: string): string {
-    return value
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;')
-      .replace(/"/g, '&quot;')
-      .replace(/'/g, '&#39;');
-  }
-
-  private extractWordLines(root: HTMLElement): string[] {
-    const blockTags = new Set(['H1', 'H2', 'H3', 'H4', 'H5', 'H6', 'P', 'DIV', 'LI']);
-    let out = '';
-
-    const walk = (node: Node) => {
-      if (node.nodeType === Node.TEXT_NODE) {
-        out += (node.textContent || '');
-        return;
-      }
-      if (node.nodeType !== Node.ELEMENT_NODE) return;
-
-      const el = node as HTMLElement;
-      const tag = el.tagName.toUpperCase();
-      if (tag === 'BR') {
-        out += '\n';
-        return;
-      }
-
-      const isBlock = blockTags.has(tag);
-      if (isBlock && !out.endsWith('\n')) out += '\n';
-      el.childNodes.forEach(walk);
-      if (isBlock && !out.endsWith('\n')) out += '\n';
+  private addItemToSectionObject(section: ResumeSection, rawItem: any): void {
+    const newItem: ResumeItem = {
+      id: this.generateId(),
+      _id: rawItem._id,
+      itemTitle: rawItem.itemTitle || 'Untitled Item',
+      category: rawItem.category || section.title,
+      itemDate: rawItem.itemDate || 'Present',
+      itemDescription: rawItem.itemDescription || '',
+      isCustom: false
     };
 
-    walk(root);
+    section.items.push(newItem);
+    this.syncCompatibilityItems();
+    this.showNotification(`Added "${newItem.itemTitle}" to ${section.title}`, 'success');
+  }
 
-    return out
-      .split(/\r?\n+/)
-      .map((line) => line.replace(/\s+/g, ' ').trim())
-      .filter((line) => line.length > 0);
+  // ==========================================
+  // IN-DOCUMENT ITEM REORDERING & EDITING
+  // ==========================================
+
+  moveItemUp(section: ResumeSection, index: number): void {
+    if (index <= 0) return;
+    const temp = section.items[index];
+    section.items[index] = section.items[index - 1];
+    section.items[index - 1] = temp;
+    this.syncCompatibilityItems();
+  }
+
+  moveItemDown(section: ResumeSection, index: number): void {
+    if (index >= section.items.length - 1) return;
+    const temp = section.items[index];
+    section.items[index] = section.items[index + 1];
+    section.items[index + 1] = temp;
+    this.syncCompatibilityItems();
+  }
+
+  removeItem(section: ResumeSection, index: number): void {
+    section.items.splice(index, 1);
+    this.syncCompatibilityItems();
+  }
+
+  removeInjectedItem(itemId: string): void {
+    for (const section of this.sections) {
+      const idx = section.items.findIndex(it => (it._id === itemId || it.id === itemId));
+      if (idx !== -1) {
+        section.items.splice(idx, 1);
+        break;
+      }
+    }
+    this.syncCompatibilityItems();
+  }
+
+  addCustomItem(section: ResumeSection): void {
+    const customItem: ResumeItem = {
+      id: this.generateId(),
+      itemTitle: 'Position Title / Degree / Honor',
+      category: section.title,
+      itemDate: 'Month Year – Present',
+      itemDescription: 'Key achievements, responsibilities, and quantified impact...',
+      isCustom: true
+    };
+    section.items.push(customItem);
+    this.syncCompatibilityItems();
+  }
+
+  // ==========================================
+  // SECTION MANAGEMENT
+  // ==========================================
+
+  addSection(): void {
+    const newSection: ResumeSection = {
+      id: this.generateId(),
+      title: 'New Section',
+      items: []
+    };
+    this.sections.push(newSection);
+    this.syncCompatibilityItems();
+  }
+
+  moveSectionUp(index: number): void {
+    if (index <= 0) return;
+    const temp = this.sections[index];
+    this.sections[index] = this.sections[index - 1];
+    this.sections[index - 1] = temp;
+    this.syncCompatibilityItems();
+  }
+
+  moveSectionDown(index: number): void {
+    if (index >= this.sections.length - 1) return;
+    const temp = this.sections[index];
+    this.sections[index] = this.sections[index + 1];
+    this.sections[index + 1] = temp;
+    this.syncCompatibilityItems();
+  }
+
+  removeSection(index: number): void {
+    const sec = this.sections[index];
+    if (sec.items.length > 0) {
+      if (!confirm(`Delete section "${sec.title}" and its ${sec.items.length} item(s)?`)) {
+        return;
+      }
+    }
+    this.sections.splice(index, 1);
+    this.syncCompatibilityItems();
+  }
+
+  // ==========================================
+  // SAVING / UPDATING
+  // ==========================================
+
+  saveForm(): void {
+    const userEmail = this.auth.getUserEmail();
+    if (!userEmail) {
+      alert('You must be logged in to save.');
+      return;
+    }
+
+    const title = (this.documentTitle || '').trim() || 'Untitled Resume';
+    this.documentTitle = title;
+    this.syncCompatibilityItems();
+
+    const payload = {
+      userEmail,
+      title,
+      formData: {
+        header: this.documentHeader,
+        sections: this.sections
+      },
+      injectedItems: this.injectedItems,
+      templateJson: {
+        header: this.documentHeader,
+        sections: this.sections
+      },
+      sections: this.sections
+    };
+
+    if (this.existingDocId) {
+      this.documentService.updateDocument(this.existingDocId, payload).subscribe({
+        next: (res: any) => {
+          this._existingData = res;
+          this.showNotification('Document updated successfully!', 'success');
+        },
+        error: (err: any) => {
+          console.error('Update Error:', err);
+          this.showNotification('Failed to update document.', 'error');
+        }
+      });
+    } else {
+      this.documentService.createDocument(payload).subscribe({
+        next: (res: any) => {
+          this._existingData = res;
+          this.existingDocId = res._id;
+          this.showNotification('Document saved successfully!', 'success');
+          // Update URL query param so subsequent saves or refreshes keep document context
+          window.history.replaceState(null, '', `/documents?id=${res._id}`);
+        },
+        error: (err: any) => {
+          console.error('Save Error:', err);
+          this.showNotification('Failed to save document.', 'error');
+        }
+      });
+    }
+  }
+
+  showNotification(msg: string, type: 'success' | 'error' | 'info' = 'success'): void {
+    this.statusMessage = msg;
+    this.statusType = type;
+    if (this.statusTimeout) clearTimeout(this.statusTimeout);
+    this.statusTimeout = setTimeout(() => {
+      this.statusMessage = '';
+    }, 3500);
+  }
+
+  togglePreview(): void {
+    this.isPreviewMode = !this.isPreviewMode;
+  }
+
+  // ==========================================
+  // EXPORTING (PDF & WORD)
+  // ==========================================
+
+  getExportFileBaseName(): string {
+    return (this.documentTitle || 'document').replace(/[^\w\- ]/g, '').trim() || 'document';
+  }
+
+  async buildCleanExportElement(): Promise<HTMLElement | null> {
+    const hasContent = !!(
+      (this.documentHeader.fullName && this.documentHeader.fullName.trim()) ||
+      (this.documentHeader.summary && this.documentHeader.summary.trim()) ||
+      this.sections.some(s => s.items.length > 0 || (s.title && s.title.trim())) ||
+      (this.injectedItems && this.injectedItems.length > 0)
+    );
+
+    if (!hasContent) {
+      return null;
+    }
+
+    const previewEl = document.getElementById('printableResumeContent');
+    if (previewEl) {
+      const clone = previewEl.cloneNode(true) as HTMLElement;
+      clone.querySelectorAll('button, input, textarea, .no-print').forEach(el => el.remove());
+      return clone;
+    }
+
+    return null;
   }
 
   async exportPdf(): Promise<void> {
@@ -481,466 +773,214 @@ export class FormBuilderComponent implements AfterViewInit {
     sourceEl.style.position = 'fixed';
     sourceEl.style.left = '-10000px';
     sourceEl.style.top = '0';
+    sourceEl.style.width = '800px';
+    sourceEl.style.background = '#ffffff';
+    sourceEl.style.padding = '30px 36px';
+    sourceEl.style.boxSizing = 'border-box';
     document.body.appendChild(sourceEl);
 
-    const canvas = await html2canvas(sourceEl, {
-      scale: 2,
-      useCORS: true,
-      backgroundColor: '#ffffff'
-    });
+    try {
+      const canvas = await html2canvas(sourceEl, {
+        scale: 2,
+        useCORS: true,
+        backgroundColor: '#ffffff'
+      });
 
-    const imgData = canvas.toDataURL('image/png');
-    const pdf = new jsPDF('p', 'mm', 'a4');
-    const pageWidth = pdf.internal.pageSize.getWidth();
-    const pageHeight = pdf.internal.pageSize.getHeight();
+      const imgData = canvas.toDataURL('image/png');
+      const pdf = new jsPDF('p', 'mm', 'a4');
+      const pageWidth = pdf.internal.pageSize.getWidth();
+      const pageHeight = pdf.internal.pageSize.getHeight();
 
-    // Default PDF margins: 0.5 inch (~12.7 mm) on all sides
-    const marginMm = 12.7;
-    const contentWidth = pageWidth - marginMm * 2;
-    const contentHeight = pageHeight - marginMm * 2;
+      const marginMm = 12.7; // 0.5 in
+      const contentWidth = pageWidth - marginMm * 2;
+      const contentHeight = pageHeight - marginMm * 2;
 
-    const imgWidth = contentWidth;
-    const imgHeight = (canvas.height * imgWidth) / canvas.width;
+      const imgWidth = contentWidth;
+      const imgHeight = (canvas.height * imgWidth) / canvas.width;
 
-    let heightLeft = imgHeight;
-    let position = 0;
+      let heightLeft = imgHeight;
+      let position = 0;
 
-    pdf.addImage(imgData, 'PNG', marginMm, marginMm + position, imgWidth, imgHeight);
-    heightLeft -= contentHeight;
-
-    while (heightLeft > 0) {
-      position = heightLeft - imgHeight;
-      pdf.addPage();
       pdf.addImage(imgData, 'PNG', marginMm, marginMm + position, imgWidth, imgHeight);
       heightLeft -= contentHeight;
-    }
 
-    pdf.save(`${this.getExportFileBaseName()}.pdf`);
-    sourceEl.remove();
+      while (heightLeft > 0) {
+        position = heightLeft - imgHeight;
+        pdf.addPage();
+        pdf.addImage(imgData, 'PNG', marginMm, marginMm + position, imgWidth, imgHeight);
+        heightLeft -= contentHeight;
+      }
+
+      pdf.save(`${this.getExportFileBaseName()}.pdf`);
+      this.showNotification('PDF exported successfully!', 'success');
+    } catch (err) {
+      console.error('PDF Export Error:', err);
+      alert('An error occurred during PDF generation.');
+    } finally {
+      sourceEl.remove();
+    }
   }
 
   async exportWord(): Promise<void> {
-    const exportRoot = await this.buildCleanExportElement();
-    if (!exportRoot) {
+    const hasContent = !!(
+      (this.documentHeader.fullName && this.documentHeader.fullName.trim()) ||
+      (this.documentHeader.summary && this.documentHeader.summary.trim()) ||
+      this.sections.some(s => s.items.length > 0) ||
+      (this.injectedItems && this.injectedItems.length > 0)
+    );
+
+    if (!hasContent) {
       alert('No document content available to export.');
       return;
     }
-    this.sanitizeForWord(exportRoot);
-    exportRoot.querySelectorAll('style, script').forEach((el) => el.remove());
-    const bodyHtml = exportRoot.innerHTML;
 
-    const title = this._existingData?.title || 'Document';
-    const html = `
-      <!doctype html>
-      <html>
-      <head>
-        <meta charset="utf-8" />
-        <title>${title}</title>
-        <style>
-          @page { margin: 0.75in; }
-          body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            color: #111827 !important;
-            background: #ffffff !important;
-          }
-          h1, h2, h3, h4, h5, h6 { margin: 0 0 0.45rem 0; font-weight: 700; line-height: 1.2; }
-          p, div { margin: 0 0 0.55rem 0; line-height: 1.35; }
-          body * {
-            color: #111827 !important;
-            background: transparent !important;
-            border-color: #d1d5db !important;
-          }
-          ul, ol, li { list-style: none !important; margin-left: 0 !important; padding-left: 0 !important; }
-          li::marker { content: '' !important; color: transparent !important; font-size: 0 !important; }
-          .formeo-field, .frmb-control, .frmb li, .stage-wrap, .formeo-stage, .frmb-stage, .frmb {
-            border: none !important;
-            outline: none !important;
-            box-shadow: none !important;
-            background: transparent !important;
-            border-radius: 0 !important;
-          }
-          [class*="formeo"], [class*="frmb"] {
-            box-shadow: none !important;
-          }
-          .preview-item-block {
-            border: none !important;
-            border-radius: 0 !important;
-            padding: 4px 0 !important;
-            margin: 8px 0 !important;
-          }
-          .preview-item-block * {
-            border: none !important;
-            box-shadow: none !important;
-          }
-          .preview-item-title { font-weight: 700; }
-          .preview-item-meta { color: #6b7280; font-size: 12px; }
-          .preview-item-desc { margin: 4px 0 0; }
-        </style>
-      </head>
-      <body>${bodyHtml}</body>
-      </html>
-    `;
+    try {
+      const docChildren: Paragraph[] = [];
 
-    const blob = new Blob(['\ufeff', html], { type: 'application/msword;charset=utf-8' });
-    saveAs(blob, `${this.getExportFileBaseName()}.doc`);
-  }
-
-  // changed to where only the logged-in user's items appear, rather than ALL items
-  ngOnInit() {
-    const email = this.auth.getUserEmail();
-    if (!email) return;
-
-    this.itemService.getItems(email).subscribe({
-      next: (data) => { this.items = data; },
-      error: (err) => console.error('Failed to load items:', err)
-    });
-  }
-
-  onDragStart(event: DragEvent, item: any) {
-    this.draggedItem = item;
-    event.dataTransfer?.setData('text/plain', item.itemTitle);
-    event.dataTransfer?.setData('application/json', JSON.stringify(item));
-    if (event.dataTransfer) {
-      event.dataTransfer.effectAllowed = 'copy';
-    }
-  }
-
-  allowDrop(event: DragEvent): void {
-    event.preventDefault();
-    if (event.dataTransfer) event.dataTransfer.dropEffect = 'copy';
-  }
-
-  private resolveDropField(event: DragEvent): HTMLElement | null {
-    const pointTarget = document.elementFromPoint(event.clientX, event.clientY) as HTMLElement | null;
-    const target = (pointTarget || (event.target as HTMLElement | null));
-    return target?.closest('.formeo-field, .frmb-control') as HTMLElement | null;
-  }
-
-  private ensureFieldKey(field: HTMLElement | null): string | null {
-    if (!field) return null;
-    const existing = field.getAttribute('data-inject-field-key');
-    if (existing) return existing;
-    const generated = `field-${Math.random().toString(36).slice(2, 10)}`;
-    field.setAttribute('data-inject-field-key', generated);
-    return generated;
-  }
-
-  private getFieldIndex(field: HTMLElement | null): number {
-    if (!field || !this.container?.nativeElement) return -1;
-    const fields = Array.from(
-      this.container.nativeElement.querySelectorAll('.formeo-field, .frmb-control')
-    ) as HTMLElement[];
-    return fields.indexOf(field);
-  }
-
-  onDropToDocument(event: DragEvent): void {
-    event.preventDefault();
-    let droppedItem: any = this.draggedItem;
-
-    const raw = event.dataTransfer?.getData('application/json');
-    if (!droppedItem && raw) {
-      try {
-        droppedItem = JSON.parse(raw);
-      } catch {
-        droppedItem = null;
-      }
-    }
-
-    if (!droppedItem) return;
-
-    const dropField = this.resolveDropField(event);
-    const fieldKey = this.ensureFieldKey(dropField);
-    const fieldId = dropField?.id || dropField?.getAttribute('id') || null;
-    const fieldIndex = this.getFieldIndex(dropField);
-
-    // Allow same item to be dropped in multiple sections by keying on item+field.
-    const placementKey = `${droppedItem?._id || 'item'}::${fieldKey || fieldId || fieldIndex || 'stage'}`;
-    const alreadyAdded = this.injectedItems.some(
-      i => `${i?._id || 'item'}::${i?.targetFieldKey || i?.targetFieldId || i?.targetFieldIndex || 'stage'}` === placementKey
-    );
-
-    if (!alreadyAdded) {
-      const placedItem = {
-        ...droppedItem,
-        targetFieldKey: fieldKey,
-        targetFieldId: fieldId,
-        targetFieldIndex: fieldIndex
-      };
-      this.injectedItems.push(placedItem);
-      this.injectItemBlock(placedItem);
-    }
-    this.draggedItem = null;
-  }
-
-  ngAfterViewInit() {
-    this.initEditor();
-  }
-
-  dropItem(event: any) {
-  console.log('Dropped item:', event);
-  }
-
-  private initEditor(): void {
-    const f = (window as any).formeo;
-    if (!f || !f.FormeoEditor) { console.error('Formeo not loaded'); return; }
-
-    setTimeout(() => {
-      // Prevent duplicate editor UIs when toggling preview/editor repeatedly.
-      this.container.nativeElement.innerHTML = '';
-
-      const options: any = {
-        appendTo: this.container.nativeElement,
-        editorContainer: this.container.nativeElement,
-        controls: {
-          groups: [], elements: [],
-          disable: { groups: ['common', 'buttons'] }
-        },
-        events: {
-          onChange: (data: any) => { this.formData = data; }
-        }
-      };
-
-      // Load existing Formeo content if editing
-      const existingFormData = this.normalizeFormData(
-        this._existingData?.formData ?? this._existingData?.templateJson
+      // 1. Header: Name & Title
+      const name = this.documentHeader.fullName.trim() || this.documentTitle;
+      docChildren.push(
+        new Paragraph({
+          text: name,
+          heading: HeadingLevel.HEADING_1,
+          alignment: AlignmentType.CENTER,
+          spacing: { after: 120 }
+        })
       );
-      if (existingFormData) {
-        options.formData = existingFormData;
+
+      if (this.documentHeader.titleOrRole.trim()) {
+        docChildren.push(
+          new Paragraph({
+            children: [
+              new TextRun({
+                text: this.documentHeader.titleOrRole.trim(),
+                bold: true,
+                color: '4F46E5',
+                size: 24
+              })
+            ],
+            alignment: AlignmentType.CENTER,
+            spacing: { after: 120 }
+          })
+        );
       }
 
-      this.editor = new f.FormeoEditor(options);
-      this.observeFormeoSections();
-      this.cleanupOrphanInjectedBlocks();
-      this.hideInternalFormeoSaveButton();
+      // 2. Contact details line
+      const contactPieces = [
+        this.documentHeader.email,
+        this.documentHeader.phone,
+        this.documentHeader.location
+      ].filter(p => !!p && p.trim());
 
-      // Restore dropped items from current in-session state first,
-      // then fall back to persisted document data.
-      const persistedInjectedItems = this._existingData?.injectedItems ?? this._existingData?.sections ?? [];
-      const itemsToRestore = this.injectedItems.length ? this.injectedItems : persistedInjectedItems;
-      if (itemsToRestore.length) {
-        this.waitForStageAndInject(itemsToRestore);
+      if (contactPieces.length > 0) {
+        docChildren.push(
+          new Paragraph({
+            children: [
+              new TextRun({
+                text: contactPieces.join('   |   '),
+                color: '64748B',
+                size: 20
+              })
+            ],
+            alignment: AlignmentType.CENTER,
+            spacing: { after: 240 }
+          })
+        );
       }
 
-      console.log('Editor created:', this.editor);
-    }, 0);
-  }
+      // 3. Summary
+      if (this.documentHeader.summary.trim()) {
+        docChildren.push(
+          new Paragraph({
+            text: 'Professional Summary',
+            heading: HeadingLevel.HEADING_2,
+            border: {
+              bottom: { style: BorderStyle.SINGLE, size: 8, color: 'CBD5E1' }
+            },
+            spacing: { before: 240, after: 120 }
+          })
+        );
+        docChildren.push(
+          new Paragraph({
+            text: this.documentHeader.summary.trim(),
+            spacing: { after: 200 }
+          })
+        );
+      }
 
-  private initEditorWithData(formData: any): void {
-    this._existingData = { ...this._existingData, formData };
-    this.initEditor();
-  }
+      // 4. Sections & Entries
+      for (const sec of this.sections) {
+        if (!sec.title.trim() && sec.items.length === 0) continue;
 
-  private waitForStageAndInject(items: any[], attempts: number = 0): void {
-    const stage = this.getEditorCanvasElement();
+        docChildren.push(
+          new Paragraph({
+            text: sec.title.trim() || 'Section',
+            heading: HeadingLevel.HEADING_2,
+            border: {
+              bottom: { style: BorderStyle.SINGLE, size: 8, color: 'CBD5E1' }
+            },
+            spacing: { before: 280, after: 140 }
+          })
+        );
 
-    if (stage) {
-      items.forEach(item => this.injectItemBlock(item, true)); // ✅ restore mode
-    } else if (attempts < 20) {
-      setTimeout(() => this.waitForStageAndInject(items, attempts + 1), 100);
-    }
-  }
+        for (const item of sec.items) {
+          const itemTitle = item.itemTitle || 'Position / Entry';
+          const metaParts = [item.category, item.itemDate].filter(p => !!p && p.trim());
+          const metaText = metaParts.length > 0 ? `  (${metaParts.join('  •  ')})` : '';
 
-  injectItemBlock(item: any, isRestoring: boolean = false): void {
-    const stage = this.getEditorCanvasElement();
-    if (!stage) return;
+          docChildren.push(
+            new Paragraph({
+              children: [
+                new TextRun({ text: itemTitle, bold: true, size: 22 }),
+                new TextRun({ text: metaText, italics: true, color: '64748B', size: 20 })
+              ],
+              spacing: { before: 120, after: 60 }
+            })
+          );
 
-    const explicitFieldTarget = item?.targetFieldKey
-      ? this.container?.nativeElement?.querySelector(`[data-inject-field-key="${item.targetFieldKey}"]`)
-      : (item?.targetFieldId
-          ? this.container?.nativeElement?.querySelector(`[id="${item.targetFieldId}"]`)
-          : null);
-    const indexedFieldTarget =
-      Number.isInteger(item?.targetFieldIndex) && item.targetFieldIndex >= 0
-        ? (this.container?.nativeElement?.querySelectorAll('.formeo-field, .frmb-control')?.[item.targetFieldIndex] as HTMLElement | undefined)
-        : null;
-    const firstFieldTarget =
-      this.container?.nativeElement?.querySelector('.formeo-field, .frmb-control') as HTMLElement | null;
-    const targetContainer = (explicitFieldTarget as HTMLElement | null) || indexedFieldTarget || firstFieldTarget;
-    // Insert plain text content directly into the target field (no card UI).
-    if (!targetContainer) return;
+          if (item.itemDescription && item.itemDescription.trim()) {
+            const lines = item.itemDescription
+              .split(/\r?\n+/)
+              .map(l => l.trim().replace(/^[-•*]\s*/, ''))
+              .filter(l => l.length > 0);
 
-    const instanceId = `${item?._id || 'item'}::${item?.targetFieldKey || 'stage'}`;
-    const alreadyInjected = targetContainer.querySelector(`[data-item-instance-id="${instanceId}"]`);
-    if (alreadyInjected) return;
-
-    const textEl = document.createElement('p');
-    textEl.classList.add('injected-desc');
-    textEl.setAttribute('data-item-id', item._id);
-    textEl.setAttribute('data-item-instance-id', instanceId);
-    textEl.textContent = item.itemDescription ?? '';
-    targetContainer.appendChild(textEl);
-  }
-
-  removeInjectedItem(itemId: string): void {
-    this.injectedItems = this.injectedItems.filter(i => i?._id !== itemId);
-
-    const stage = this.container?.nativeElement as HTMLElement | undefined;
-    if (!stage) return;
-    stage
-      .querySelectorAll(`[data-item-id="${itemId}"]`)
-      .forEach((el: Element) => el.remove());
-  }
-
-  togglePreview(): void {
-    if (!this.editor) return;
-    this.isPreviewMode = !this.isPreviewMode;
-
-    if (this.isPreviewMode) {
-      setTimeout(() => {
-        const previewEl = this.rendererContainer?.nativeElement as HTMLElement | undefined;
-        if (!previewEl) return;
-        previewEl.innerHTML = '';
-
-        const domContent = this.buildContentFromEditorDom();
-        if (domContent) {
-          previewEl.innerHTML = domContent.innerHTML;
-          this.flattenInjectedBlocks(previewEl);
-        } else if (this.documentItems.length) {
-          this.appendDocumentItemsHtml(previewEl);
-          this.flattenInjectedBlocks(previewEl);
-        } else {
-          previewEl.innerHTML = '<p class="preview-empty">Nothing to preview yet. Add form fields or drop items into the editor.</p>';
+            for (const line of lines) {
+              docChildren.push(
+                new Paragraph({
+                  text: line,
+                  bullet: { level: 0 },
+                  spacing: { after: 60 }
+                })
+              );
+            }
+          }
         }
-      }, 50);
-    } else {
-      // BACK TO EDITOR MODE
-      if (this.rendererContainer?.nativeElement) {
-        this.rendererContainer.nativeElement.innerHTML = '';
       }
 
-      // 2. Re-initialize the editor with your existing formData
-      this.initEditor();
-    }
-  }
-
-  handleFormSubmit(formData: any): void {
-    console.log('Processing form submission:', formData);
-
-    this.http.post('/api/form-submissions', formData).subscribe({
-      next: () => alert('Form submitted successfully!'),
-      error: (err) => console.error('Submission error:', err)
-    });
-  }
-
-  saveForm(): void {
-    if (!this.editor) return;
-
-    const data = this.editor.formData;
-    const userEmail = this.auth.getUserEmail();
-
-    if (!userEmail) {
-      alert('You must be logged in to save.');
-      return;
-    }
-
-    const isExisting = !!this._existingData?._id;
-    let title = this._existingData?.title;
-
-    if (!isExisting) {
-      const promptedTitle = prompt('Enter a name for this document:');
-      if (!promptedTitle?.trim()) return;
-      title = promptedTitle.trim();
-    }
-
-    // Use canonical backend keys; include legacy aliases for compatibility.
-    const payload = {
-      userEmail,
-      title: title,
-      formData: data,
-      injectedItems: this.injectedItems,
-      templateJson: data,
-      sections: this.injectedItems
-    };
-
-    if (isExisting) {
-      this.http.put(`http://localhost:5001/api/documents/${this._existingData._id}`, payload)
-        .subscribe({
-          next: (res: any) => {
-            this._existingData = res;
-            alert('Update Successful!');
-          },
-          error: (err) => {
-            console.error('Update Error:', err);
-            alert('Failed to update. Check console.');
+      const doc = new DocxDocument({
+        sections: [
+          {
+            properties: {
+              page: {
+                margin: {
+                  top: 720,    // 0.5 in
+                  right: 720,
+                  bottom: 720,
+                  left: 720
+                }
+              }
+            },
+            children: docChildren
           }
-        });
-    } else {
-      this.http.post('http://localhost:5001/api/documents', payload)
-        .subscribe({
-          next: (res: any) => {
-            this._existingData = res; // Save the returned doc (with its new _id)
-            alert('Save Successful!');
-          },
-          error: (err) => {
-            console.error('Save Error:', err);
-            alert('Failed to save. Check console.');
-          }
-        });
+        ]
+      });
+
+      const blob = await Packer.toBlob(doc);
+      saveAs(blob, `${this.getExportFileBaseName()}.docx`);
+      this.showNotification('Word document exported successfully!', 'success');
+    } catch (err) {
+      console.error('Word Export Error:', err);
+      alert('An error occurred during Word document generation.');
     }
-  }
-
-  loadAndRenderForm(formData: any): void {
-    const f = (window as any).formeo;
-
-    // Clear previous content
-    this.rendererContainer.nativeElement.innerHTML = '';
-
-    this.renderer = new f.FormeoRenderer({
-      renderContainer: this.rendererContainer.nativeElement,
-      // Note: Formeo handles submission via its own internal events
-      events: {
-        onPostReply: (data: any) => this.handleFormSubmit(data)
-      }
-    });
-
-    this.renderer.render(this.normalizeFormData(formData));
-    this.isPreviewMode = true;
-  }
-
-  private attachDropZones() {
-    const fields = this.container.nativeElement.querySelectorAll('.formeo-field');
-
-    fields.forEach((field: HTMLElement) => {
-      if (field.querySelector('.drop-zone')) return;
-
-      const dropZone = document.createElement('div');
-      dropZone.classList.add('drop-zone');
-
-      // ⭐ THIS IS THE MISSING LINE ⭐
-      dropZone.setAttribute('formeoDropzone', '');
-
-      dropZone.innerHTML = `<p class="drop-hint">Drop items here</p>`;
-
-      field.appendChild(dropZone);
-    });
-  }
-
-  private observeFormeoSections() {
-    const target = this.container.nativeElement;
-
-    const observer = new MutationObserver(() => {
-      this.attachDropZones();
-      this.hideInternalFormeoSaveButton();
-    });
-
-    observer.observe(target, {
-      childList: true,
-      subtree: true
-    });
-  }
-
-  sectionMap: Record<string, any[]> = {};
-
-  handleSectionDrop(event: { sectionId: string, item: any }) {
-    if (!event.sectionId) return;
-
-    if (!this.sectionMap[event.sectionId]) {
-      this.sectionMap[event.sectionId] = [];
-    }
-
-    this.sectionMap[event.sectionId].push(event.item);
-
-    console.log('Updated section map:', this.sectionMap);
   }
 }

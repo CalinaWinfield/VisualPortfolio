@@ -29,9 +29,14 @@ export class AuthService {
     return this.accessToken;
   }
 
+  isLoggedIn(): boolean {
+    return !!this.getAccessToken();
+  }
+
   clear() {
     this.accessToken = null;
     localStorage.removeItem('accessToken');
+    localStorage.removeItem('refreshToken');
   }
 
   refresh() {

@@ -15,7 +15,10 @@ module.exports = function requireAdmin() {
       }
       req.user = payload;
       next();
-    } catch {
+    } catch (err) {
+      if (err && err.name === 'TokenExpiredError') {
+        return res.status(401).json({ error: 'Token expired', expired: true });
+      }
       res.status(401).json({ error: 'Invalid token' });
     }
   };

@@ -1,64 +1,464 @@
 <!-- frontend/src/app/components/form-builder/form-builder.component.html -->
 <div class="form-builder-page">
   <div class="container-fluid px-2 px-xl-4">
-    <div class="row g-3 align-items-start">
-      <div class="col-12">
-        <div class="builder-shell">
-      <div class="header-section">
-        <h2>Document Builder</h2>
-        <p class="builder-sub">Drag elements to build your document</p>
 
-        <div class="action-bar">
-          <button class="btn" (click)="togglePreview()" [disabled]="!editor">
-            {{ isPreviewMode ? '✏️ Back to Editor' : '👁️ Preview' }}
-          </button>
-          <button class="btn" (click)="saveForm()" [disabled]="!editor">
-            💾 Save Form
-          </button>
-          <button class="btn" type="button" (click)="exportPdf()">
-            Export PDF
-          </button>
-          <button class="btn" type="button" (click)="exportWord()">
-            Export Word
-          </button>
+    <!-- TOP TOOLBAR & CONTROLS -->
+    <div class="builder-topbar">
+      <!-- TOP ROW: DOCUMENT TITLE & DEDICATED NOTIFICATION SPACE -->
+      <div class="topbar-title-row">
+        <div class="topbar-left">
+          <div class="document-title-box">
+            <span class="doc-icon">📄</span>
+            <input
+              type="text"
+              class="document-title-input"
+              [(ngModel)]="documentTitle"
+              placeholder="Document Title (e.g. My Resume)"
+              title="Click to rename document"
+            />
+          </div>
         </div>
 
-        <div class="injected-text-panel" *ngIf="injectedItems.length">
-          <h4>Document Text Blocks</h4>
-          <p class="builder-sub">Items dropped into the builder are stored and shown as text below.</p>
-          <div class="injected-text-item" *ngFor="let item of injectedItems">
-            <div class="injected-text-main">
-              <strong>{{ item.itemTitle }}</strong>
-              <p>{{ item.itemDescription || '' }}</p>
-            </div>
-            <button class="injected-text-remove" type="button" (click)="removeInjectedItem(item._id)">Remove</button>
+        <!-- DEDICATED NOTIFICATION SPACE (STABLE RESERVED SLOT PREVENTS JUMPING) -->
+        <div class="topbar-notification-slot">
+          <div *ngIf="statusMessage" class="status-banner" [ngClass]="'status-' + statusType">
+            {{ statusMessage }}
           </div>
         </div>
       </div>
-          <div class="builder-workspace">
-            <div class="item-panel">
-              <h3>Your Items</h3>
-              <div
-                class="item-card"
-                *ngFor="let item of items"
-                draggable="true"
-                (dragstart)="onDragStart($event, item)">
-                {{ item.itemTitle }}
-              </div>
-              <div *ngIf="items.length === 0" class="empty">No items yet.</div>
-            </div>
 
-            <div class="canvas-panel">
-              <div
-                [hidden]="isPreviewMode"
-                #formeoContainer
-                class="formeo-container"
-                (dragover)="allowDrop($event)"
-                (drop)="onDropToDocument($event)"
-              ></div>
-              <div [hidden]="!isPreviewMode" #formeoRenderer class="formeo-renderer"></div>
+      <!-- BOTTOM ROW: ACTION BUTTONS (UNDER DOCUMENT TITLE) -->
+      <div class="topbar-actions">
+        <button class="btn btn-outline" type="button" (click)="showTemplateModal = true">
+          📋 Templates
+        </button>
+        <button class="btn btn-outline" type="button" (click)="togglePreview()">
+          {{ isPreviewMode ? '✏️ Back to Editor' : '👁️ Preview' }}
+        </button>
+        <button class="btn btn-primary" type="button" (click)="saveForm()">
+          💾 Save Document
+        </button>
+        <button class="btn btn-secondary" type="button" (click)="exportPdf()">
+          📥 Export PDF
+        </button>
+        <button class="btn btn-secondary" type="button" (click)="exportWord()">
+          📝 Export Word
+        </button>
+      </div>
+    </div>
+
+    <!-- MAIN WORKSPACE (EDITOR MODE) -->
+    <div class="builder-workspace" *ngIf="!isPreviewMode">
+
+      <!-- LEFT SIDEBAR: USER ITEMS -->
+      <aside class="item-panel">
+        <div class="panel-header">
+          <div class="panel-title-row">
+            <h3>Your Items</h3>
+            <span class="item-count-badge">{{ filteredItems.length }}</span>
+          </div>
+          <p class="panel-sub">Drag items into any section, or click + to add.</p>
+
+          <!-- SEARCH INPUT -->
+          <div class="search-box">
+            <input
+              type="text"
+              class="form-control item-search-input"
+              [(ngModel)]="searchQuery"
+              placeholder="Search items..."
+            />
+            <button *ngIf="searchQuery" class="clear-search-btn" (click)="searchQuery = ''">✕</button>
+          </div>
+
+          <!-- CATEGORY FILTER PILLS -->
+          <div class="category-pills" *ngIf="categories.length > 2">
+            <button
+              *ngFor="let cat of categories"
+              class="pill-btn"
+              [class.active]="selectedCategory === cat"
+              (click)="selectedCategory = cat">
+              {{ cat }}
+            </button>
+          </div>
+        </div>
+
+        <!-- ITEMS LIST -->
+        <div class="items-scroll-list">
+          <div
+            class="item-card"
+            *ngFor="let item of filteredItems"
+            draggable="true"
+            (dragstart)="onDragStart($event, item)">
+            <div class="item-drag-indicator" title="Drag this item onto the document">⋮⋮</div>
+            <div class="item-card-main">
+              <div class="item-card-title">{{ item.itemTitle || 'Untitled Item' }}</div>
+              <div class="item-card-meta">
+                <span class="badge category-badge" *ngIf="item.category">{{ item.category }}</span>
+                <span class="item-date" *ngIf="item.itemDate">{{ item.itemDate }}</span>
+              </div>
+              <p class="item-card-snippet" *ngIf="item.itemDescription">
+                {{ item.itemDescription | slice:0:100 }}{{ (item.itemDescription.length > 100) ? '...' : '' }}
+              </p>
+            </div>
+            <button
+              class="quick-add-btn"
+              type="button"
+              title="Add to first or active section"
+              (click)="addItemToSection(null, item)">
+              +
+            </button>
+          </div>
+
+          <div *ngIf="filteredItems.length === 0" class="empty-items-state">
+            <p *ngIf="searchQuery">No items found matching "{{ searchQuery }}".</p>
+            <p *ngIf="!searchQuery">No items found in your catalog. You can create items from the Dashboard or add custom entries directly in the document.</p>
+          </div>
+        </div>
+      </aside>
+
+      <!-- CENTER CANVAS: RESUME SHEET -->
+      <main class="canvas-panel">
+        <div
+          class="resume-sheet"
+          (dragover)="allowDrop($event)"
+          (drop)="onDropToCanvas($event)">
+
+          <!-- RESUME HEADER BLOCK -->
+          <div class="resume-header-edit">
+            <div class="header-name-row">
+              <input
+                type="text"
+                class="header-input header-fullname"
+                [(ngModel)]="documentHeader.fullName"
+                placeholder="Full Name"
+              />
+            </div>
+            <div class="header-title-row">
+              <input
+                type="text"
+                class="header-input header-title"
+                [(ngModel)]="documentHeader.titleOrRole"
+                placeholder="Professional Title / Academic Specialization"
+              />
+            </div>
+            <div class="header-contact-row">
+              <input
+                type="email"
+                class="header-contact-input"
+                [(ngModel)]="documentHeader.email"
+                placeholder="Email Address"
+              />
+              <span class="contact-sep">•</span>
+              <input
+                type="tel"
+                class="header-contact-input"
+                [(ngModel)]="documentHeader.phone"
+                placeholder="Phone Number"
+              />
+              <span class="contact-sep">•</span>
+              <input
+                type="text"
+                class="header-contact-input"
+                [(ngModel)]="documentHeader.location"
+                placeholder="Location (City, State)"
+              />
+            </div>
+            <div class="header-summary-row">
+              <textarea
+                class="header-summary-input"
+                rows="3"
+                [(ngModel)]="documentHeader.summary"
+                placeholder="Professional Summary / Profile (Brief overview of your background, core strengths, and goals)...">
+              </textarea>
             </div>
           </div>
+
+          <!-- RESUME SECTIONS -->
+          <div class="sections-container">
+            <div
+              class="resume-section-edit"
+              *ngFor="let section of sections; let secIdx = index"
+              (dragover)="allowDrop($event)"
+              (drop)="onDropToSection($event, section)">
+
+              <!-- SECTION BAR -->
+              <div class="section-bar">
+                <div class="section-title-wrap">
+                  <input
+                    type="text"
+                    class="section-title-input"
+                    [(ngModel)]="section.title"
+                    placeholder="Section Title (e.g. Work Experience)"
+                  />
+                </div>
+                <div class="section-actions">
+                  <button
+                    class="sec-btn"
+                    type="button"
+                    title="Move section up"
+                    [disabled]="secIdx === 0"
+                    (click)="moveSectionUp(secIdx)">
+                    ▲
+                  </button>
+                  <button
+                    class="sec-btn"
+                    type="button"
+                    title="Move section down"
+                    [disabled]="secIdx === sections.length - 1"
+                    (click)="moveSectionDown(secIdx)">
+                    ▼
+                  </button>
+                  <button
+                    class="sec-btn add-entry-btn"
+                    type="button"
+                    (click)="addCustomItem(section)">
+                    + Add Entry
+                  </button>
+                  <button
+                    class="sec-btn delete-sec-btn"
+                    type="button"
+                    title="Delete section"
+                    (click)="removeSection(secIdx)">
+                    🗑️
+                  </button>
+                </div>
+              </div>
+
+              <!-- SECTION ITEMS -->
+              <div class="section-entries">
+                <div
+                  class="entry-card"
+                  *ngFor="let item of section.items; let itemIdx = index">
+
+                  <div class="entry-card-header">
+                    <div class="entry-title-box">
+                      <input
+                        type="text"
+                        class="entry-title-input"
+                        [(ngModel)]="item.itemTitle"
+                        placeholder="Role / Degree / Project Title"
+                      />
+                    </div>
+                    <div class="entry-meta-box">
+                      <input
+                        type="text"
+                        class="entry-meta-input"
+                        [(ngModel)]="item.category"
+                        placeholder="Company / Institution"
+                      />
+                      <input
+                        type="text"
+                        class="entry-date-input"
+                        [(ngModel)]="item.itemDate"
+                        placeholder="Date Range"
+                      />
+                    </div>
+                    <div class="entry-actions">
+                      <button
+                        class="entry-btn"
+                        type="button"
+                        title="Move up"
+                        [disabled]="itemIdx === 0"
+                        (click)="moveItemUp(section, itemIdx)">
+                        ▲
+                      </button>
+                      <button
+                        class="entry-btn"
+                        type="button"
+                        title="Move down"
+                        [disabled]="itemIdx === section.items.length - 1"
+                        (click)="moveItemDown(section, itemIdx)">
+                        ▼
+                      </button>
+                      <button
+                        class="entry-btn remove-btn"
+                        type="button"
+                        title="Remove entry"
+                        (click)="removeItem(section, itemIdx)">
+                        ✕
+                      </button>
+                    </div>
+                  </div>
+
+                  <div class="entry-card-body">
+                    <textarea
+                      class="entry-desc-input"
+                      rows="3"
+                      [(ngModel)]="item.itemDescription"
+                      placeholder="Bullet points or description. Press enter for new bullets...">
+                    </textarea>
+                  </div>
+                </div>
+
+                <!-- EMPTY SECTION DROPZONE -->
+                <div
+                  class="section-dropzone-hint"
+                  *ngIf="section.items.length === 0">
+                  <span class="drop-hint-icon">📥</span>
+                  <span>Drag items from the left sidebar into this section, or click <strong>+ Add Entry</strong>.</span>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- ADD SECTION BAR -->
+          <div class="add-section-area">
+            <button class="btn btn-outline-primary add-section-btn" type="button" (click)="addSection()">
+              + Add New Section
+            </button>
+          </div>
+
+        </div>
+      </main>
+    </div>
+
+    <!-- PREVIEW MODE VIEW -->
+    <div class="preview-workspace" *ngIf="isPreviewMode">
+      <div class="preview-actions-bar">
+        <span class="preview-badge">Document Preview</span>
+        <div class="preview-btns">
+          <button class="btn btn-primary" type="button" (click)="togglePreview()">
+            ✏️ Back to Editor
+          </button>
+          <button class="btn btn-secondary" type="button" (click)="exportPdf()">
+            📥 Export PDF
+          </button>
+          <button class="btn btn-secondary" type="button" (click)="exportWord()">
+            📝 Export Word
+          </button>
+        </div>
+      </div>
+
+      <div class="preview-sheet-wrapper">
+        <div class="printable-resume" id="printableResumeContent">
+          <!-- HEADER -->
+          <header class="resume-print-header">
+            <h1 class="print-name">{{ documentHeader.fullName || documentTitle }}</h1>
+            <p class="print-title" *ngIf="documentHeader.titleOrRole">{{ documentHeader.titleOrRole }}</p>
+            <div class="print-contacts">
+              <span *ngIf="documentHeader.email">{{ documentHeader.email }}</span>
+              <span class="print-dot" *ngIf="documentHeader.email && (documentHeader.phone || documentHeader.location)">•</span>
+              <span *ngIf="documentHeader.phone">{{ documentHeader.phone }}</span>
+              <span class="print-dot" *ngIf="documentHeader.phone && documentHeader.location">•</span>
+              <span *ngIf="documentHeader.location">{{ documentHeader.location }}</span>
+            </div>
+            <p class="print-summary" *ngIf="documentHeader.summary">{{ documentHeader.summary }}</p>
+          </header>
+
+          <!-- SECTIONS -->
+          <div class="print-sections">
+            <section class="print-section" *ngFor="let section of sections">
+              <h2 class="print-section-title">{{ section.title }}</h2>
+
+              <div class="print-entries">
+                <article class="print-entry" *ngFor="let item of section.items">
+                  <div class="print-entry-header">
+                    <span class="print-entry-title">{{ item.itemTitle }}</span>
+                    <span class="print-entry-date" *ngIf="item.itemDate">{{ item.itemDate }}</span>
+                  </div>
+                  <div class="print-entry-sub" *ngIf="item.category">
+                    <em>{{ item.category }}</em>
+                  </div>
+                  <div class="print-entry-desc" *ngIf="item.itemDescription">
+                    <p *ngFor="let line of item.itemDescription.split('\n')" class="print-desc-line">
+                      <span *ngIf="line.trim()">{{ line }}</span>
+                    </p>
+                  </div>
+                </article>
+              </div>
+            </section>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- HIDDEN CONTAINER FOR PDF EXPORT RENDERING (WHEN IN EDITOR MODE) -->
+    <div style="display: none;">
+      <div id="hiddenPrintableContainer">
+        <!-- Replicates preview structure if needed -->
+      </div>
+    </div>
+
+  </div>
+
+  <!-- TEMPLATE SELECTION MODAL -->
+  <div class="modal-overlay" *ngIf="showTemplateModal" (click)="showTemplateModal = false">
+    <div class="template-modal-card" (click)="$event.stopPropagation()">
+      <div class="modal-head">
+        <h3>Choose a Document Template</h3>
+        <button class="modal-close" (click)="showTemplateModal = false">✕</button>
+      </div>
+      <p class="modal-sub">Select a starter layout to quickly scaffold your resume, CV, or portfolio document.</p>
+
+      <div class="template-grid">
+        <div
+          class="tpl-choice-card"
+          *ngFor="let key of ['standard', 'academic', 'skills', 'blank']"
+          (click)="onSelectTemplate(key)">
+          <div class="tpl-choice-icon">
+            <span *ngIf="key === 'standard'">💼</span>
+            <span *ngIf="key === 'academic'">🎓</span>
+            <span *ngIf="key === 'skills'">⚡</span>
+            <span *ngIf="key === 'blank'">📝</span>
+          </div>
+          <h4>{{ templates[key].name }}</h4>
+          <p>{{ templates[key].description }}</p>
+          <button class="btn btn-outline-primary btn-sm" type="button">Use This Template</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TEMPLATE TARGET SELECTION MODAL (Current Document vs New Document) -->
+  <div class="modal-overlay" *ngIf="showTemplateChoiceModal" (click)="showTemplateChoiceModal = false">
+    <div class="template-choice-card" (click)="$event.stopPropagation()">
+      <div class="modal-head">
+        <h3>Use Template</h3>
+        <button class="modal-close" (click)="showTemplateChoiceModal = false">✕</button>
+      </div>
+
+      <div class="template-choice-body" *ngIf="selectedTemplateKey">
+        <p class="choice-subtitle">
+          Selected template: <strong>{{ templates[selectedTemplateKey].name }}</strong>
+        </p>
+        <p class="choice-description" *ngIf="existingDocId">
+          You are currently editing <em>"{{ documentTitle }}"</em>. How would you like to proceed?
+        </p>
+        <p class="choice-description" *ngIf="!existingDocId">
+          Your document has existing content. How would you like to proceed?
+        </p>
+
+        <div class="choice-options-grid">
+          <!-- OPTION 1: CREATE AS NEW DOCUMENT -->
+          <div class="choice-option-box safe-option" (click)="applyTemplate(selectedTemplateKey, 'new')">
+            <div class="option-icon">📄➕</div>
+            <div class="option-content">
+              <h4>Create as New Document</h4>
+              <p>Keep your current document <strong>"{{ documentTitle }}"</strong> safe and unchanged. Start a fresh, separate document with this template.</p>
+              <button class="btn btn-primary btn-sm" type="button">
+                Create as New Document
+              </button>
+            </div>
+          </div>
+
+          <!-- OPTION 2: APPLY TO CURRENT DOCUMENT -->
+          <div class="choice-option-box replace-option" (click)="applyTemplate(selectedTemplateKey, 'current')">
+            <div class="option-icon">🔄</div>
+            <div class="option-content">
+              <h4>Apply to Current Document</h4>
+              <p>Replace the sections and layout of <strong>"{{ documentTitle }}"</strong> with this template.</p>
+              <button class="btn btn-outline-danger btn-sm" type="button">
+                Apply to Current Document
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="choice-footer">
+          <button class="btn btn-outline" type="button" (click)="showTemplateChoiceModal = false">
+            Cancel
+          </button>
         </div>
       </div>
     </div>

@@ -13,8 +13,16 @@ export class DocumentService {
     return this.http.get<any[]>(`${this.apiUrl}?userEmail=${encodeURIComponent(userEmail)}`);
   }
 
-  createDocument(doc: { title: string; userEmail: string; formData: any }): Observable<any> {
+  getDocumentById(id: string): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/${id}`);
+  }
+
+  createDocument(doc: { title: string; userEmail: string; formData: any; injectedItems?: any }): Observable<any> {
     return this.http.post<any>(this.apiUrl, doc);
+  }
+
+  updateDocument(id: string, doc: any): Observable<any> {
+    return this.http.put<any>(`${this.apiUrl}/${id}`, doc);
   }
 
   deleteDocument(id: string): Observable<any> {

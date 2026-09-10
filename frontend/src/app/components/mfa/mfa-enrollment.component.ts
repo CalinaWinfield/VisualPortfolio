@@ -74,7 +74,7 @@ export class MfaEnrollmentComponent implements OnInit {
         // ⭐ Store the real access token returned after MFA setup
         this.auth.setAccessToken(res.accessToken);
 
-        this.router.navigate(['/dashboard']);
+        this.router.navigate(['/dashboard'], { replaceUrl: true });
       },
       error: () => {
         this.verifying = false;

@@ -1,233 +1,314 @@
-<!-- frontend/src/app/components/dashboard/dshboard.component.html -->
-<div class="dashboard-wrapper">
+<!-- frontend/src/app/components/dashboard/dashboard.component.html -->
+<div class="dashboard-page">
 
-  <!-- HEADER -->
-  <div class="dashboard-header">
-    <h1 class="dashboard-title">Dashboard</h1>
-
-    <div class="dashboard-search">
-      <input type="text"
-             class="search-input"
-             placeholder="Search documents, items..."
-             [(ngModel)]="searchTerm" />
-    </div>
-  </div>
-</div>
-
-<!-- CARDS GRID -->
-<div class="dashboard-grid">
-
-  <!-- ITEMS CARD -->
-  <div class="dashboard-card"
-       (click)="toggleCard('items')">
-
-    <h3>Items</h3>
-    <p>Create, view and edit items.</p>
-
-    <div class="card-expand"
-         [hidden]="activeCard !== 'items'"
-         (click)="$event.stopPropagation()">
-
-
-      <div class="card-actions">
-
-        <button (click)="toggleForm(); $event.stopPropagation()">
-          + Create Item
-        </button>
-
-        <button (click)="openViewItems(); $event.stopPropagation()">
-          View/Edit Items
-        </button>
-
+  <!-- TOP HERO & SEARCH BAR -->
+  <header class="dashboard-hero">
+    <div class="hero-content">
+      <div class="hero-text">
+        <h1 class="hero-title">Portfolio Dashboard</h1>
+        <p class="hero-subtitle">
+          Manage your career documents, organize professional achievements, and build customized resumes.
+        </p>
       </div>
 
-
-    </div>
-  </div>
-
-  <!-- DOCUMENT BUILDER -->
-  <div class="dashboard-card"
-       (click)="toggleCard('documents')">
-
-    <h3>Document Builder</h3>
-    <p>Create custom documents.</p>
-
-    <div class="card-expand"
-         [hidden]="activeCard !== 'documents'"
-         (click)="$event.stopPropagation()">
-
-      <div class="card-actions">
-
-        <button class="btn-primary"
-                (click)="onCreateDocument(); $event.stopPropagation()">
-          + Create New Document
-        </button>
-
-        <button class="btn-secondary"
-                (click)="onCopyTemplate(); $event.stopPropagation()">
-          Copy a Template
-        </button>
-
+      <!-- UNIFIED SEARCH BAR -->
+      <div class="search-container">
+        <div class="search-input-wrapper">
+          <span class="search-icon">🔍</span>
+          <input
+            type="text"
+            class="search-input"
+            placeholder="Search documents, skills, work history..."
+            [(ngModel)]="searchTerm"
+          />
+          <button
+            *ngIf="searchTerm"
+            class="clear-search-btn"
+            type="button"
+            (click)="clearSearch()"
+            title="Clear search">
+            ✕
+          </button>
+        </div>
       </div>
     </div>
-  </div>
 
-  <!-- MY DOCUMENTS -->
-  <div class="dashboard-card"
-       (click)="toggleCard('documentsList')">
+    <!-- QUICK STATS CHIPS -->
+    <div class="stats-row">
+      <div class="stat-pill" (click)="openViewDocuments()">
+        <span class="stat-icon">📄</span>
+        <span class="stat-value">{{ documents.length }}</span>
+        <span class="stat-label">Saved Documents</span>
+      </div>
 
-    <h3>My Documents</h3>
-    <p>View and edit saved documents.</p>
+      <div class="stat-pill" (click)="openViewItems()">
+        <span class="stat-icon">💼</span>
+        <span class="stat-value">{{ totalItems }}</span>
+        <span class="stat-label">Career Items</span>
+      </div>
 
-    <div class="card-expand"
-         [hidden]="activeCard !== 'documentsList'"
-         (click)="$event.stopPropagation()">
+      <div class="stat-pill" *ngIf="categories.length > 0">
+        <span class="stat-icon">🏷️</span>
+        <span class="stat-value">{{ categories.length }}</span>
+        <span class="stat-label">Categories</span>
+      </div>
+    </div>
+  </header>
 
-      <div class="card-actions">
-        <button class="btn-primary"
-                (click)="openViewDocuments(); $event.stopPropagation()">
-          View/Edit Documents
+  <!-- SEARCH RESULTS VIEW (SHOWN WHEN SEARCHING) -->
+  <section class="dashboard-section search-results-section" *ngIf="searchTerm.trim()">
+    <div class="section-header-bar">
+      <div>
+        <h2 class="section-heading">Search Results</h2>
+        <p class="section-subheading">
+          Found {{ filteredDocuments.length }} document(s) and {{ filteredPagedItems.length }} item(s) matching "<strong>{{ searchTerm }}</strong>"
+        </p>
+      </div>
+      <button class="btn btn-outline-sm" (click)="clearSearch()">Clear Search</button>
+    </div>
+
+    <!-- MATCHING DOCUMENTS -->
+    <div class="search-group" *ngIf="filteredDocuments.length > 0">
+      <h3 class="group-title">📄 Documents ({{ filteredDocuments.length }})</h3>
+      <div class="cards-grid">
+        <div class="doc-card" *ngFor="let doc of filteredDocuments">
+          <div class="doc-card-body">
+            <span class="card-icon">📄</span>
+            <div class="doc-info">
+              <h4 class="doc-title">{{ doc.title || 'Untitled Document' }}</h4>
+              <p class="doc-date" *ngIf="doc.date">{{ doc.date }}</p>
+            </div>
+          </div>
+          <div class="card-footer-actions">
+            <button class="btn btn-sm btn-primary" (click)="editDocument(doc)">✏️ Edit</button>
+            <button class="btn btn-sm btn-danger-outline" (click)="openDeleteModal(doc, 'document', $event)">🗑️ Delete</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MATCHING ITEMS -->
+    <div class="search-group" *ngIf="filteredPagedItems.length > 0">
+      <h3 class="group-title">💼 Career Items ({{ filteredPagedItems.length }})</h3>
+      <div class="cards-grid">
+        <div class="item-card-grid" *ngFor="let item of filteredPagedItems">
+          <div class="item-card-header">
+            <h4 class="item-title">{{ item.itemTitle }}</h4>
+            <span class="category-badge" *ngIf="item.category">{{ item.category }}</span>
+          </div>
+          <p class="item-date" *ngIf="item.itemDate">{{ item.itemDate }}</p>
+          <p class="item-desc" *ngIf="item.itemDescription">{{ item.itemDescription }}</p>
+          <div class="card-footer-actions">
+            <button class="btn btn-sm btn-outline" (click)="prefillItem(item)">✏️ Edit</button>
+            <button class="btn btn-sm btn-danger-outline" (click)="openDeleteModal(item, 'item', $event)">🗑️ Delete</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ZERO RESULTS -->
+    <div class="empty-state" *ngIf="filteredDocuments.length === 0 && filteredPagedItems.length === 0">
+      <p class="empty-icon">🔍</p>
+      <p class="empty-title">No matching results found</p>
+      <p class="empty-sub">Try searching with a different keyword or clear the search filter.</p>
+    </div>
+  </section>
+
+  <!-- MAIN DASHBOARD ACTION CARDS (DEFAULT VIEW) -->
+  <section class="dashboard-cards-container" *ngIf="!searchTerm.trim()">
+    <!-- DOCUMENTS CARD -->
+    <div class="action-card">
+      <div class="action-card-header">
+        <div class="action-icon-circle doc-icon-bg">📄</div>
+        <span class="card-badge">{{ documents.length }} Saved</span>
+      </div>
+      <h3 class="action-card-title">My Documents</h3>
+      <p class="action-card-desc">
+        Create, edit, and export tailored resumes, CVs, and portfolios in PDF or Word format.
+      </p>
+
+      <div class="action-buttons-group">
+        <button class="btn btn-primary" (click)="onCreateDocument()">
+          + Create Document
+        </button>
+        <button class="btn btn-outline" (click)="openViewDocuments()">
+          📂 View Saved Documents ({{ documents.length }})
+        </button>
+        <button class="btn btn-ghost" (click)="onCopyTemplate()">
+          📋 Copy a Starter Template
         </button>
       </div>
-
     </div>
-  </div>
-</div>
 
-<!-- FORM SECTION -->
-<div class="form-section" [hidden]="!showForm">
+    <!-- ITEMS & EXPERIENCES CARD -->
+    <div class="action-card">
+      <div class="action-card-header">
+        <div class="action-icon-circle item-icon-bg">💼</div>
+        <span class="card-badge">{{ totalItems }} Items</span>
+      </div>
+      <h3 class="action-card-title">Items & Catalog</h3>
+      <p class="action-card-desc">
+        Store and organize work experience, academic achievements, certifications, and skills.
+      </p>
 
-  <div class="form-header">
-    <h2 class="form-title">
-      {{ selectedItem ? 'Edit Item' : 'Create New Item' }}
-    </h2>
-    <button class="close-btn" (click)="closeForm()">✕</button>
-  </div>
+      <!-- Category pills preview -->
+      <div class="categories-preview" *ngIf="categories.length > 0">
+        <span class="category-pill" *ngFor="let cat of categories.slice(0, 4)">{{ cat }}</span>
+        <span class="category-pill more-pill" *ngIf="categories.length > 4">+{{ categories.length - 4 }} more</span>
+      </div>
 
-  <app-create-item
-    [prefillData]="selectedItem"
-    (itemCreated)="onItemCreated()">
-  </app-create-item>
-
-</div>
-
-<!-- ⭐ VIEW ITEMS SECTION -->
-<div class="view-section" *ngIf="viewItemsMode">
-
-  <div class="form-header">
-    <h2 class="section-title">All Items ({{ totalItems }})</h2>
-    <button class="close-btn2" (click)="closeViewItems()">✕</button>
-  </div>
-
-  <div class="item-row">
-    <div
-      class="item-card"
-      *ngFor="let item of filteredPagedItems"
-      (click)="selectItem(item)"
-      [class.active]="selectedItem?._id === item._id">
-
-      <div class="title">{{ item.itemTitle }}</div>
-
-      <div class="meta">
-        <span class="chip">{{ item.category }}</span>
-        <span>{{ item.itemDate }}</span>
+      <div class="action-buttons-group">
+        <button class="btn btn-primary" (click)="openCreateItemForm()">
+          + Add New Item
+        </button>
+        <button class="btn btn-outline" (click)="openViewItems()">
+          📋 View Item Catalog ({{ totalItems }})
+        </button>
       </div>
     </div>
-  </div>
 
-  <div class="empty" *ngIf="filteredPagedItems.length === 0">
-    No items found.
-  </div>
+    <!-- DOCUMENT BUILDER / TEMPLATES CARD -->
+    <div class="action-card">
+      <div class="action-card-header">
+        <div class="action-icon-circle builder-icon-bg">🛠️</div>
+        <span class="card-badge">Ready</span>
+      </div>
+      <h3 class="action-card-title">Document Builder</h3>
+      <p class="action-card-desc">
+        Use drag-and-drop sections, inline editing, and professional layouts to build custom documents.
+      </p>
 
+      <div class="action-buttons-group">
+        <button class="btn btn-primary" (click)="onCreateDocument()">
+          🚀 Launch Builder
+        </button>
+        <button class="btn btn-outline" (click)="onCopyTemplate()">
+          📋 Browse Templates
+        </button>
+      </div>
+    </div>
+  </section>
 
-  <div class="item-detail" *ngIf="selectedItem">
-    <h3>{{ selectedItem.itemTitle }}</h3>
-    <p>{{ selectedItem.itemDescription }}</p>
-
-    <div class="meta">
-      <span class="chip">{{ selectedItem.category }}</span>
-      <span>{{ selectedItem.itemDate }}</span>
+  <!-- FORM SECTION (CREATE / EDIT ITEM) -->
+  <section class="dashboard-section form-section" *ngIf="showForm">
+    <div class="section-header-bar">
+      <h2 class="section-heading">
+        {{ selectedItem ? 'Edit Career Item' : 'Create New Career Item' }}
+      </h2>
+      <button class="close-btn" (click)="closeForm()" title="Close form">✕</button>
     </div>
 
-    <div class="row mt-2">
+    <app-create-item
+      [prefillData]="selectedItem"
+      (itemCreated)="onItemCreated()">
+    </app-create-item>
+  </section>
 
-      <button (click)="prefillItem(selectedItem)">Edit</button>
-      <button class="text-danger"
-              (click)="openDeleteModal(selectedItem, 'item', $event); $event.stopPropagation()">
-        Delete
+  <!-- SAVED DOCUMENTS SECTION -->
+  <section class="dashboard-section" *ngIf="viewDocumentsMode && !searchTerm.trim()">
+    <div class="section-header-bar">
+      <div>
+        <h2 class="section-heading">Saved Documents ({{ documents.length }})</h2>
+        <p class="section-subheading">Click any document to edit, update, or export.</p>
+      </div>
+      <div class="section-actions">
+        <button class="btn btn-primary btn-sm" (click)="onCreateDocument()">+ New Document</button>
+        <button class="close-btn" (click)="closeViewDocuments()" title="Close view">✕</button>
+      </div>
+    </div>
+
+    <!-- DOCUMENT CARDS GRID -->
+    <div class="cards-grid" *ngIf="documents.length > 0">
+      <div class="doc-card" *ngFor="let doc of documents">
+        <div class="doc-card-body" (click)="editDocument(doc)" style="cursor: pointer;">
+          <span class="card-icon">📄</span>
+          <div class="doc-info">
+            <h4 class="doc-title">{{ doc.title || 'Untitled Document' }}</h4>
+            <p class="doc-date" *ngIf="doc.date">Created: {{ doc.date }}</p>
+            <p class="doc-desc" *ngIf="doc.description">{{ doc.description }}</p>
+          </div>
+        </div>
+        <div class="card-footer-actions">
+          <button class="btn btn-sm btn-primary" (click)="editDocument(doc)">✏️ Edit</button>
+          <button class="btn btn-sm btn-danger-outline" (click)="openDeleteModal(doc, 'document', $event)">🗑️ Delete</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- EMPTY STATE FOR DOCUMENTS -->
+    <div class="empty-state" *ngIf="documents.length === 0">
+      <p class="empty-icon">📄</p>
+      <p class="empty-title">No documents created yet</p>
+      <p class="empty-sub">Start building your customized resume or academic CV.</p>
+      <button class="btn btn-primary" (click)="onCreateDocument()">+ Create Your First Document</button>
+    </div>
+  </section>
+
+  <!-- ALL ITEMS SECTION -->
+  <section class="dashboard-section" *ngIf="viewItemsMode && !searchTerm.trim()">
+    <div class="section-header-bar">
+      <div>
+        <h2 class="section-heading">Career Items Catalog ({{ totalItems }})</h2>
+        <p class="section-subheading">Reusable entries for work experience, education, skills, and projects.</p>
+      </div>
+      <div class="section-actions">
+        <button class="btn btn-primary btn-sm" (click)="openCreateItemForm()">+ Add Item</button>
+        <button class="close-btn" (click)="closeViewItems()" title="Close view">✕</button>
+      </div>
+    </div>
+
+    <!-- ITEMS CARDS GRID -->
+    <div class="cards-grid" *ngIf="pagedItems.length > 0">
+      <div class="item-card-grid" *ngFor="let item of pagedItems">
+        <div class="item-card-header">
+          <h4 class="item-title">{{ item.itemTitle }}</h4>
+          <span class="category-badge" *ngIf="item.category">{{ item.category }}</span>
+        </div>
+        <p class="item-date" *ngIf="item.itemDate">{{ item.itemDate }}</p>
+        <p class="item-desc" *ngIf="item.itemDescription">{{ item.itemDescription }}</p>
+        <div class="card-footer-actions">
+          <button class="btn btn-sm btn-outline" (click)="prefillItem(item)">✏️ Edit</button>
+          <button class="btn btn-sm btn-danger-outline" (click)="openDeleteModal(item, 'item', $event)">🗑️ Delete</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- PAGINATION -->
+    <div class="pagination-bar" *ngIf="totalPages > 1">
+      <button class="btn btn-outline btn-sm" [disabled]="currentPage === 1" (click)="prevPage()">
+        ◀ Previous
+      </button>
+      <span class="pagination-info">Page {{ currentPage }} of {{ totalPages }}</span>
+      <button class="btn btn-outline btn-sm" [disabled]="currentPage >= totalPages" (click)="nextPage()">
+        Next ▶
       </button>
     </div>
-  </div>
-</div>
 
-<!-- DOCUMENT VIEW SECTION -->
-<div class="view-section" *ngIf="viewDocumentsMode">
+    <!-- EMPTY STATE FOR ITEMS -->
+    <div class="empty-state" *ngIf="totalItems === 0">
+      <p class="empty-icon">💼</p>
+      <p class="empty-title">No items in your catalog</p>
+      <p class="empty-sub">Add past jobs, degrees, certifications, or skills to easily reuse in documents.</p>
+      <button class="btn btn-primary" (click)="openCreateItemForm()">+ Add Your First Item</button>
+    </div>
+  </section>
 
-  <div class="form-header">
-    <h2 class="section-title">All Documents ({{ documents.length }})</h2>
-    <button class="close-btn2" (click)="closeViewDocuments()">✕</button>
-  </div>
+  <!-- DELETE CONFIRMATION MODAL -->
+  <div class="modal-overlay" *ngIf="showDeleteModal" (click)="closeModal()">
+    <div class="modal-box" (click)="$event.stopPropagation()">
+      <div class="modal-icon-header">⚠️</div>
+      <h3 class="modal-title">Delete {{ deleteType === 'document' ? 'Document' : 'Item' }}</h3>
+      <p class="modal-message">
+        Are you sure you want to delete
+        <strong>"{{ entityToDelete?.title || entityToDelete?.itemTitle || 'this entry' }}"</strong>?
+        This action cannot be undone.
+      </p>
 
-  <div class="item-row">
-
-    <div
-      class="item-card"
-      *ngFor="let doc of filteredDocuments"
-      (click)="selectDocument(doc)"
-      [class.active]="selectedDocument?._id === doc._id">
-
-      <div class="title">{{ doc.title }}</div>
-
-      <div class="meta">
-        <span>{{ doc.date }}</span>
+      <div class="modal-actions">
+        <button class="btn btn-outline" (click)="closeModal()">Cancel</button>
+        <button class="btn btn-danger" (click)="confirmDelete()">Delete Permanently</button>
       </div>
-
-    </div>
-
-  </div>
-
-  <div class="empty" *ngIf="documents.length === 0">
-    No documents created yet.
-  </div>
-
-  <div class="item-detail" *ngIf="selectedDocument">
-
-    <h3>{{ selectedDocument.title }}</h3>
-
-    <p>{{ selectedDocument.description }}</p>
-
-    <div class="meta">
-      <span>{{ selectedDocument.date }}</span>
-    </div>
-
-    <div class="row mt-2">
-      <button (click)="editDocument(selectedDocument)">Edit</button>
-      <button class="text-danger"
-              (click)="openDeleteModal(selectedDocument, 'document', $event); $event.stopPropagation()">
-        Delete
-      </button>
     </div>
   </div>
-</div>
 
-<!-- DELETE CONFIRM MODAL -->
-<div class="modal-overlay"
-     *ngIf="showDeleteModal"
-     (click)="closeModal()">
-
-  <div class="modal-box"
-       (click)="$event.stopPropagation()">
-
-    <h3>Delete</h3>
-    <p>Are you sure you want to delete this?</p>
-
-    <div class="modal-actions">
-      <button (click)="closeModal()">Cancel</button>
-      <button class="text-danger"
-              (click)="confirmDelete()">
-        Delete
-      </button>
-    </div>
-
-  </div>
 </div>

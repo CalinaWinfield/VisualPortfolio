@@ -61,9 +61,32 @@
 }
 
 .guide-content.open {
-  max-height: 250px;
-  padding: 0 2rem 1rem 2rem;
+  max-height: 1000px;
+  padding: 0.25rem 2rem 1.5rem 2rem;
   opacity: 1;
+}
+
+.guide-content p {
+  margin: 0 0 0.85rem 0;
+  color: #334155;
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+.guide-content ul {
+  margin: 0.5rem 0 1rem 1.25rem;
+  padding: 0;
+  color: #475569;
+}
+
+.guide-content li {
+  margin-bottom: 0.6rem;
+  font-size: 0.925rem;
+  line-height: 1.55;
+}
+
+.guide-content strong {
+  color: #0f172a;
 }
 .guide-item {
   margin-bottom: 3rem;
