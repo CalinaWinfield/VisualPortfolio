@@ -165,15 +165,48 @@ describe('FormBuilderComponent', () => {
     expect(documentServiceStub.createDocument).toHaveBeenCalled();
   });
 
-  it('should update an existing document using DocumentService.updateDocument', () => {
+  it('should save a new document as in-progress', () => {
+    component.existingDocId = null;
+    component.documentTitle = 'In-Progress Resume';
+
+    component.saveForm('in-progress');
+
+    expect(component.documentStatus).toBe('in-progress');
+    expect(documentServiceStub.createDocument).toHaveBeenCalledWith(
+      jasmine.objectContaining({
+        title: 'In-Progress Resume',
+        status: 'in-progress'
+      })
+    );
+  });
+
+  it('should save a document as done', () => {
+    component.existingDocId = null;
+    component.documentTitle = 'Completed Resume';
+
+    component.saveForm('done');
+
+    expect(component.documentStatus).toBe('done');
+    expect(documentServiceStub.createDocument).toHaveBeenCalledWith(
+      jasmine.objectContaining({
+        title: 'Completed Resume',
+        status: 'done'
+      })
+    );
+  });
+
+  it('should update an existing document using DocumentService.updateDocument with status', () => {
     component.existingDocId = 'existing-doc-456';
     component.documentTitle = 'Updated Resume';
 
-    component.saveForm();
+    component.saveForm('done');
 
     expect(documentServiceStub.updateDocument).toHaveBeenCalledWith(
       'existing-doc-456',
-      jasmine.objectContaining({ title: 'Updated Resume' })
+      jasmine.objectContaining({
+        title: 'Updated Resume',
+        status: 'done'
+      })
     );
   });
 
@@ -206,6 +239,59 @@ describe('FormBuilderComponent', () => {
 
       expect(alertSpy).toHaveBeenCalledWith('No document content available to export.');
     });
+
+    it('builds clean export element when in editor mode (isPreviewMode = false)', async () => {
+      component.isPreviewMode = false;
+      component.documentHeader.fullName = 'Regular A. Person';
+      component.documentHeader.summary = 'A summary';
+      component.sections = [
+        {
+          id: 's1',
+          title: 'Core Competencies',
+          items: [
+            {
+              id: 'i1',
+              itemTitle: 'MS Suite',
+              category: 'Skills',
+              itemDescription: 'Word, Excel'
+            }
+          ]
+        }
+      ];
+      fixture.detectChanges();
+
+      const el = await component.buildCleanExportElement();
+      expect(el).toBeTruthy();
+      expect(el?.textContent).toContain('Regular A. Person');
+      expect(el?.textContent).toContain('Core Competencies');
+      expect(el?.textContent).toContain('MS Suite');
+      expect(el?.textContent).not.toContain('Skills');
+    });
+
+    it('preserves full URL link in certificate item description without truncation', async () => {
+      const fullUrl = 'https://www.linkedin.com/learning/certificates/5248c993cddc0b6de5e7b2209c4b35781e732d1fd63d70a6b2d1229e206013d4';
+      component.sections = [
+        {
+          id: 's-cert',
+          title: 'Education & Certifications',
+          items: [
+            {
+              id: 'cert-1',
+              itemTitle: 'Web Design and Development',
+              category: 'Certificates',
+              itemDescription: `Introduction to Web Design and Development\n[${fullUrl}]`
+            }
+          ]
+        }
+      ];
+      fixture.detectChanges();
+
+      const el = await component.buildCleanExportElement();
+      expect(el).toBeTruthy();
+      expect(el?.textContent).toContain('Web Design and Development');
+      expect(el?.textContent).toContain(fullUrl);
+      expect(el?.textContent).toContain('206013d4');
+    });
   });
 
   describe('exportWord', () => {
@@ -227,6 +313,35 @@ describe('FormBuilderComponent', () => {
       await component.exportWord();
 
       expect(alertSpy).toHaveBeenCalledWith('No document content available to export.');
+    });
+
+    it('exports populated resume document without error', async () => {
+      component.documentTitle = 'Software Engineer Resume';
+      component.documentHeader = {
+        fullName: 'Jane Doe',
+        titleOrRole: 'Senior Developer',
+        email: 'jane@example.com',
+        phone: '555-0199',
+        location: 'New York, NY',
+        summary: 'Experienced developer.'
+      };
+      component.sections = [
+        {
+          id: 'sec-1',
+          title: 'Work Experience',
+          items: [
+            {
+              id: 'item-1',
+              itemTitle: 'Software Engineer',
+              category: 'work history',
+              itemDate: '2026-01-10',
+              itemDescription: 'Built scalable web applications.'
+            }
+          ]
+        }
+      ];
+
+      await expectAsync(component.exportWord()).toBeResolved();
     });
   });
 });

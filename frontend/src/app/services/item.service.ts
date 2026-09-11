@@ -23,6 +23,10 @@ export class ItemService {
     return this.http.delete(`${this.apiUrl}/${id}`);
   }
 
+  getItem(id: string): Observable<Item> {
+    return this.http.get<Item>(`${this.apiUrl}/${id}`);
+  }
+
   updateItem(id: string, itemData: any): Observable<any> {
     return this.http.put<Item>(`${this.apiUrl}/${id}`, itemData);
   }

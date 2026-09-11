@@ -73,9 +73,18 @@
       <div class="cards-grid">
         <div class="doc-card" *ngFor="let doc of filteredDocuments">
           <div class="doc-card-body">
-            <span class="card-icon">📄</span>
+            <span class="card-icon">{{ isCoverLetter(doc) ? '✉️' : '📄' }}</span>
             <div class="doc-info">
               <h4 class="doc-title">{{ doc.title || 'Untitled Document' }}</h4>
+              <div class="doc-status-row">
+                <span class="doc-type-pill" [ngClass]="isCoverLetter(doc) ? 'type-cover-letter' : 'type-resume'">
+                  {{ getDocTypeLabel(doc) }}
+                </span>
+                <span class="doc-status-pill" [ngClass]="getDocStatus(doc) === 'done' ? 'status-done' : 'status-in-progress'">
+                  <span class="status-icon">{{ getDocStatus(doc) === 'done' ? '✅' : '⏳' }}</span>
+                  {{ getDocStatus(doc) === 'done' ? 'Done' : 'In-Progress' }}
+                </span>
+              </div>
               <p class="doc-date" *ngIf="doc.date">{{ doc.date }}</p>
             </div>
           </div>
@@ -96,8 +105,8 @@
             <h4 class="item-title">{{ item.itemTitle }}</h4>
             <span class="category-badge" *ngIf="item.category">{{ item.category }}</span>
           </div>
-          <p class="item-date" *ngIf="item.itemDate">{{ item.itemDate }}</p>
-          <p class="item-desc" *ngIf="item.itemDescription">{{ item.itemDescription }}</p>
+          <p class="item-date" *ngIf="item.itemDate">{{ item.itemDate | itemDate }}</p>
+          <p class="item-desc" *ngIf="item.itemDescription" [title]="item.itemDescription">{{ item.itemDescription }}</p>
           <div class="card-footer-actions">
             <button class="btn btn-sm btn-outline" (click)="prefillItem(item)">✏️ Edit</button>
             <button class="btn btn-sm btn-danger-outline" (click)="openDeleteModal(item, 'item', $event)">🗑️ Delete</button>
@@ -129,7 +138,10 @@
 
       <div class="action-buttons-group">
         <button class="btn btn-primary" (click)="onCreateDocument()">
-          + Create Document
+          + Create Resume
+        </button>
+        <button class="btn btn-outline" (click)="onCreateCoverLetter()">
+          ✉️ Create Cover Letter
         </button>
         <button class="btn btn-outline" (click)="openViewDocuments()">
           📂 View Saved Documents ({{ documents.length }})
@@ -180,9 +192,12 @@
 
       <div class="action-buttons-group">
         <button class="btn btn-primary" (click)="onCreateDocument()">
-          🚀 Launch Builder
+          🚀 Resume Builder
         </button>
-        <button class="btn btn-outline" (click)="onCopyTemplate()">
+        <button class="btn btn-outline" (click)="onCreateCoverLetter()">
+          ✉️ Cover Letter Builder
+        </button>
+        <button class="btn btn-ghost" (click)="onCopyTemplate()">
           📋 Browse Templates
         </button>
       </div>
@@ -212,7 +227,8 @@
         <p class="section-subheading">Click any document to edit, update, or export.</p>
       </div>
       <div class="section-actions">
-        <button class="btn btn-primary btn-sm" (click)="onCreateDocument()">+ New Document</button>
+        <button class="btn btn-primary btn-sm" (click)="onCreateDocument()">+ New Resume</button>
+        <button class="btn btn-outline btn-sm" (click)="onCreateCoverLetter()">+ New Cover Letter</button>
         <button class="close-btn" (click)="closeViewDocuments()" title="Close view">✕</button>
       </div>
     </div>
@@ -221,11 +237,20 @@
     <div class="cards-grid" *ngIf="documents.length > 0">
       <div class="doc-card" *ngFor="let doc of documents">
         <div class="doc-card-body" (click)="editDocument(doc)" style="cursor: pointer;">
-          <span class="card-icon">📄</span>
+          <span class="card-icon">{{ isCoverLetter(doc) ? '✉️' : '📄' }}</span>
           <div class="doc-info">
             <h4 class="doc-title">{{ doc.title || 'Untitled Document' }}</h4>
+            <div class="doc-status-row">
+              <span class="doc-type-pill" [ngClass]="isCoverLetter(doc) ? 'type-cover-letter' : 'type-resume'">
+                {{ getDocTypeLabel(doc) }}
+              </span>
+              <span class="doc-status-pill" [ngClass]="getDocStatus(doc) === 'done' ? 'status-done' : 'status-in-progress'">
+                <span class="status-icon">{{ getDocStatus(doc) === 'done' ? '✅' : '⏳' }}</span>
+                {{ getDocStatus(doc) === 'done' ? 'Done' : 'In-Progress' }}
+              </span>
+            </div>
             <p class="doc-date" *ngIf="doc.date">Created: {{ doc.date }}</p>
-            <p class="doc-desc" *ngIf="doc.description">{{ doc.description }}</p>
+            <p class="doc-desc" *ngIf="doc.description" [title]="doc.description">{{ doc.description }}</p>
           </div>
         </div>
         <div class="card-footer-actions">
@@ -264,8 +289,8 @@
           <h4 class="item-title">{{ item.itemTitle }}</h4>
           <span class="category-badge" *ngIf="item.category">{{ item.category }}</span>
         </div>
-        <p class="item-date" *ngIf="item.itemDate">{{ item.itemDate }}</p>
-        <p class="item-desc" *ngIf="item.itemDescription">{{ item.itemDescription }}</p>
+        <p class="item-date" *ngIf="item.itemDate">{{ item.itemDate | itemDate }}</p>
+        <p class="item-desc" *ngIf="item.itemDescription" [title]="item.itemDescription">{{ item.itemDescription }}</p>
         <div class="card-footer-actions">
           <button class="btn btn-sm btn-outline" (click)="prefillItem(item)">✏️ Edit</button>
           <button class="btn btn-sm btn-danger-outline" (click)="openDeleteModal(item, 'item', $event)">🗑️ Delete</button>

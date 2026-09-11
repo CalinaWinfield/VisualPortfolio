@@ -6,11 +6,12 @@ import { AuthService } from '../../auth.service';
 import { FormsModule } from '@angular/forms';
 
 import { Router } from '@angular/router';
+import { ItemDatePipe } from '../../pipes/item-date.pipe';
 
 @Component({
   standalone: true,
   selector: 'app-admin-dashboard',
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, ItemDatePipe],
   templateUrl: './admin-dashboard.component.html',
   styleUrls: ['./admin-dashboard.component.css']
 })
@@ -271,6 +272,22 @@ export class AdminDashboardComponent implements OnInit {
     if (this.showDocumentsList && this.allDocuments.length === 0) {
       this.loadAllDocuments();
     }
+  }
+
+  getDocStatus(doc: any): 'in-progress' | 'done' {
+    if (!doc) return 'in-progress';
+    const status = (doc.status || doc.formData?.status || '').toString().toLowerCase().trim();
+    return status === 'done' ? 'done' : 'in-progress';
+  }
+
+  isCoverLetter(doc: any): boolean {
+    if (!doc) return false;
+    const type = (doc.docType || doc.formData?.docType || '').toString().toLowerCase().trim();
+    return type === 'cover-letter' || (doc.title || '').toString().toLowerCase().includes('cover letter');
+  }
+
+  getDocTypeLabel(doc: any): string {
+    return this.isCoverLetter(doc) ? 'Cover Letter' : 'Resume';
   }
 
   // ── Delete modal ───────────────────────────────────────────────────────────

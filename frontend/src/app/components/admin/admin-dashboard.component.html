@@ -130,8 +130,8 @@
             <span class="category-badge" *ngIf="item.category">{{ item.category }}</span>
           </div>
           <p class="meta-owner">👤 <strong>Owner:</strong> {{ item.userEmail }}</p>
-          <p class="item-date" *ngIf="item.itemDate">{{ item.itemDate }}</p>
-          <p class="item-desc" *ngIf="item.itemDescription">{{ item.itemDescription }}</p>
+          <p class="item-date" *ngIf="item.itemDate">{{ item.itemDate | itemDate }}</p>
+          <p class="item-desc" *ngIf="item.itemDescription" [title]="item.itemDescription">{{ item.itemDescription }}</p>
           <div class="card-footer-actions">
             <button class="btn btn-sm btn-danger-outline" (click)="openDeleteModal(item, 'item', $event)">
               🗑️ Delete Item
@@ -147,12 +147,21 @@
       <div class="cards-grid">
         <div class="doc-card" *ngFor="let doc of filteredDocuments">
           <div class="doc-card-body">
-            <span class="card-icon">📄</span>
+            <span class="card-icon">{{ isCoverLetter(doc) ? '✉️' : '📄' }}</span>
             <div class="doc-info">
               <h4 class="doc-title">{{ doc.title || 'Untitled Document' }}</h4>
+              <div class="doc-status-row">
+                <span class="doc-type-pill" [ngClass]="isCoverLetter(doc) ? 'type-cover-letter' : 'type-resume'">
+                  {{ getDocTypeLabel(doc) }}
+                </span>
+                <span class="doc-status-pill" [ngClass]="getDocStatus(doc) === 'done' ? 'status-done' : 'status-in-progress'">
+                  <span class="status-icon">{{ getDocStatus(doc) === 'done' ? '✅' : '⏳' }}</span>
+                  {{ getDocStatus(doc) === 'done' ? 'Done' : 'In-Progress' }}
+                </span>
+              </div>
               <p class="meta-owner">👤 <strong>Owner:</strong> {{ doc.userEmail }}</p>
               <p class="doc-date" *ngIf="doc.createdAt">Created: {{ doc.createdAt | date:'mediumDate' }}</p>
-              <p class="doc-desc" *ngIf="doc.description">{{ doc.description }}</p>
+              <p class="doc-desc" *ngIf="doc.description" [title]="doc.description">{{ doc.description }}</p>
             </div>
           </div>
           <div class="card-footer-actions">
@@ -300,8 +309,8 @@
           <span class="category-badge" *ngIf="item.category">{{ item.category }}</span>
         </div>
         <p class="meta-owner">👤 <strong>Owner:</strong> {{ item.userEmail }}</p>
-        <p class="item-date" *ngIf="item.itemDate">{{ item.itemDate }}</p>
-        <p class="item-desc" *ngIf="item.itemDescription">{{ item.itemDescription }}</p>
+        <p class="item-date" *ngIf="item.itemDate">{{ item.itemDate | itemDate }}</p>
+        <p class="item-desc" *ngIf="item.itemDescription" [title]="item.itemDescription">{{ item.itemDescription }}</p>
         <div class="card-footer-actions">
           <button class="btn btn-sm btn-danger-outline" (click)="openDeleteModal(item, 'item', $event)">
             🗑️ Delete Item
@@ -332,12 +341,21 @@
     <div class="cards-grid" *ngIf="filteredDocuments.length > 0">
       <div class="doc-card" *ngFor="let doc of filteredDocuments">
         <div class="doc-card-body">
-          <span class="card-icon">📄</span>
+          <span class="card-icon">{{ isCoverLetter(doc) ? '✉️' : '📄' }}</span>
           <div class="doc-info">
             <h4 class="doc-title">{{ doc.title || 'Untitled Document' }}</h4>
+            <div class="doc-status-row">
+              <span class="doc-type-pill" [ngClass]="isCoverLetter(doc) ? 'type-cover-letter' : 'type-resume'">
+                {{ getDocTypeLabel(doc) }}
+              </span>
+              <span class="doc-status-pill" [ngClass]="getDocStatus(doc) === 'done' ? 'status-done' : 'status-in-progress'">
+                <span class="status-icon">{{ getDocStatus(doc) === 'done' ? '✅' : '⏳' }}</span>
+                {{ getDocStatus(doc) === 'done' ? 'Done' : 'In-Progress' }}
+              </span>
+            </div>
             <p class="meta-owner">👤 <strong>Owner:</strong> {{ doc.userEmail }}</p>
             <p class="doc-date" *ngIf="doc.createdAt">Created: {{ doc.createdAt | date:'mediumDate' }}</p>
-            <p class="doc-desc" *ngIf="doc.description">{{ doc.description }}</p>
+            <p class="doc-desc" *ngIf="doc.description" [title]="doc.description">{{ doc.description }}</p>
           </div>
         </div>
         <div class="card-footer-actions">

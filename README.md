@@ -1,4 +1,4 @@
-# VisPortfolio
+# Visual Portfolio
 
 ## Team Visionary
 
@@ -34,17 +34,17 @@ Layout: AppShell → SiteHeader | Main: DashboardWrapper → DashboardHeader, Da
 2. Run `npm install` to install dependencies
 3. Fix audits if some appear with `npm audit fix` (if it still shows some after doing the command, disregard them)
 4. In the backend folder (accessed through File Explorer or terminal), create a `.env` file and add the following:
-  - MONGO_URL=mongodb+srv://visportfolio:h7j433RFoU79Sk1U@cluster0.btpuj.mongodb.net/VisPortfolio?retryWrites=true&w=majority&appName=Cluster0
-  - PORT=5001
-  - JWT_ACCESS_SECRET=easyfolio_access_secret
-  - JWT_REFRESH_SECRET=easyfolio_refresh_secret
+    - MONGO_URL=mongodb+srv://visportfolio:h7j433RFoU79Sk1U@cluster0.btpuj.mongodb.net/VisPortfolio?retryWrites=true&w=majority&appName=Cluster0
+    - PORT=5001
+    - JWT_ACCESS_SECRET=easyfolio_access_secret
+    - JWT_REFRESH_SECRET=easyfolio_refresh_secret
 
 5. In the backend terminal, start the server with:
-  - `npm start` (or `node server.js`)
+    - `npm start` (or `node server.js`)
 
 6. After that, go to the MongoDB extension and click on connect, add the following:
-  - mongodb+srv://<db_username>:<db_password>@cluster0.btpuj.mongodb.net/ - You need to replace the username with the information for user and password from Client
-  - Example: mongodb+srv://visportfolio:h7j433RFoU79Sk1U@cluster0.btpuj.mongodb.net/
+    - mongodb+srv://<db_username>:<db_password>@cluster0.btpuj.mongodb.net/ - You need to replace the username with the information for user and password from Client
+    - Example: mongodb+srv://visportfolio:h7j433RFoU79Sk1U@cluster0.btpuj.mongodb.net/
   
 7. In another terminal window/tab, move to the frontend subfolder: `cd VisPortfolio/frontend`
 8. Run `npm install`
@@ -67,18 +67,14 @@ Layout: AppShell → SiteHeader | Main: DashboardWrapper → DashboardHeader, Da
 
 ## Team Roles
 #### Spring 2026 - Pixel Improve
-* **Calina Winfield** 1. Data Modeler 📊 2. Documentation Lead 📑 
-* <img width="133" height="200" alt="image" src="https://github.com/user-attachments/assets/8e304b64-032f-4b3e-8bf8-867a8104fb78" />
-* **Aaron Matthews** 1. Code Architecture 💻  2. Lead Programmer 💻
-* <img width="133" height="200" alt="image" src="https://piazza.com/redirect/s3?bucket=uploads&prefix=paste%2Fme7mcvitgu96va%2F12420e7ec619feccc2e9232386e87cbd231eda3210c7930d5fceff1b29d98e23%2FImage.jpg" />
-* **Erick Vale** 1. Testing Lead 🛠 2. Project Manager 👩🏽‍💻 
-* <img width="133" height="200" alt="image" src="https://github.com/evale92/practical-python/blob/main/selfie.jpg?raw=true" />
-* **Whitney Branch** 1. UI/UX Designer 👾 2. Client Liaison 💼
-* <img width="133" height="200" alt="image" src="https://github.com/WBranch98/Whitney.Branch/blob/main/IMG_5918.jpeg?raw=true" />
+* **Calina Winfield:** Data Modeler 📊 AND Documentation Lead 📑 
+* **Aaron Matthews:** Code Architecture 💻 AND Lead Programmer 💻
+* **Erick Vale:** Testing Lead 🛠 AND Project Manager 👩🏽‍💻 
+* **Whitney Branch:** UI/UX Designer 👾 AND Client Liaison 💼
+
 
 #### Fall 2026 - Personal (Unrelated to course) Fixes/Updates
 * **Calina Winfield**  Data Modeler 📊, Documentation Lead 📑, UI/UX Designer 👾, Testing Lead 🛠, Code Architecture/Programmer 💻 (With Antigravity/Gemini help)
-* <img width="133" height="200" alt="image" src="https://github.com/user-attachments/assets/8e304b64-032f-4b3e-8bf8-867a8104fb78" />
 
 ## Flyer
 <img width="694" height="899" alt="VisPortfolio Flyer" src="https://github.com/user-attachments/assets/f739775b-6e3f-46d5-a421-dbb44023d5dd" />
@@ -86,14 +82,17 @@ Layout: AppShell → SiteHeader | Main: DashboardWrapper → DashboardHeader, Da
 ## Screencast Demo: 
 * [https://www.youtube.com/watch?v=w0L-vM_lVEg ](https://youtu.be/MdN3ljJyjwQ)
 
+
 ## Repo Location
 - [**click here**](https://github.com/GGC-SD/VisPortfolio)
 
-### Communication
+
+## Communication
 - Discord
+
 
 ## License
 You are free to use, modify, and distribute this software under the condition that any derivative works or modifications must also be made available under the same license, ensuring that others have the same freedoms to use and adapt the code. For more details, see [LICENSE.md](Documents/docs-Spr2026/LICENSE.md) for details.
 
 
-Copyright © 2026 VisPortfolio Team.
+Copyright © 2026 Calina Winfield.

@@ -1,10 +1,11 @@
 import { Component, Output, EventEmitter, Input } from '@angular/core';
 import { Item } from '../../models/item.model';
 import { CommonModule } from '@angular/common';
+import { ItemDatePipe } from '../../pipes/item-date.pipe';
 
 @Component({
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, ItemDatePipe],
   selector: 'app-items-list',
   templateUrl: './items-list.component.html',
   styleUrls: ['./items-list.component.css']

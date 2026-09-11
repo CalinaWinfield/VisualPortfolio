@@ -8,6 +8,7 @@ import { CreateItemComponent } from '../create-item/create-item.component';
 import { AuthService } from '../auth.service';
 import { DocumentService } from '../../services/document.service';
 import { FormsModule } from '@angular/forms';
+import { ItemDatePipe } from '../../pipes/item-date.pipe';
 
 @Component({
   standalone: true,
@@ -15,7 +16,8 @@ import { FormsModule } from '@angular/forms';
   imports: [
     CommonModule,
     FormsModule,
-    CreateItemComponent
+    CreateItemComponent,
+    ItemDatePipe
   ],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']
@@ -156,9 +158,35 @@ export class DashboardComponent implements OnInit {
   }
 
   editDocument(doc: any) {
-    this.router.navigate(['/documents'], {
-      queryParams: { id: doc._id }
-    });
+    if (this.isCoverLetter(doc)) {
+      this.router.navigate(['/cover-letter'], {
+        queryParams: { id: doc._id }
+      });
+    } else {
+      this.router.navigate(['/documents'], {
+        queryParams: { id: doc._id }
+      });
+    }
+  }
+
+  isCoverLetter(doc: any): boolean {
+    if (!doc) return false;
+    const type = (doc.docType || doc.formData?.docType || '').toString().toLowerCase().trim();
+    return type === 'cover-letter' || (doc.title || '').toString().toLowerCase().includes('cover letter');
+  }
+
+  getDocTypeLabel(doc: any): string {
+    return this.isCoverLetter(doc) ? 'Cover Letter' : 'Resume';
+  }
+
+  onCreateCoverLetter() {
+    this.router.navigate(['/cover-letter']);
+  }
+
+  getDocStatus(doc: any): 'in-progress' | 'done' {
+    if (!doc) return 'in-progress';
+    const status = (doc.status || doc.formData?.status || '').toString().toLowerCase().trim();
+    return status === 'done' ? 'done' : 'in-progress';
   }
 
   loadDocuments() {

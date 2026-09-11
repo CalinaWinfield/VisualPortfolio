@@ -8,16 +8,17 @@
   border-radius: 16px;
   border: 1px solid #f1f1f1;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
-.title{
-font-family: "Playfair Display";
- font-size: 2.5rem;
-    margin-bottom: 2rem;
-
-     text-align: center;
-     margin-top: 1.5rem;
-
+.title {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 2.2rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  margin-bottom: 2rem;
+  text-align: center;
+  margin-top: 1.5rem;
 }
 
 input {

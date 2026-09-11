@@ -32,7 +32,9 @@
    --logo-hover-glow: drop-shadow(0 0 6px rgba(255,255,255,0.4));
 
    /* Typography */
-   --font-display: "Playfair Display", serif;
+   --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+   --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+   --font-display: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 
    /*  Hero Effects */
    --hero-text-shadow:
@@ -65,9 +67,14 @@ button, .btn, input[type="button"], input[type="submit"], input[type="reset"] { 
 html, body {
   height: 100%;
   margin: 0;
+  font-family: var(--font-sans);
   background:url("/assets/img/hero-bg.jpg")
                            no-repeat center center fixed;
                background-size: cover;
+}
+
+body, button, input, select, textarea, .btn, .nav-link, a, p, h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-sans);
 }
 
 
@@ -116,23 +123,23 @@ display: flex;
 align-items: center;
  }
 
- .site-header .logo-text {
-   font-family: var(--font-display);
-     font-weight: 700;
-     letter-spacing: 0.12em;
-     font-size: 25px;
-     color: white;
+  .site-header .logo-text {
+    font-family: var(--font-sans);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    font-size: 1.35rem;
+    color: white;
 
-       /* soft outline */
-       text-shadow:
-         0 0 2px rgba(0,0,0,0.6),
-         0 0 4px rgba(0,0,0,0.4);
-     transition: color var(--transition-default);
- }
+    /* soft outline */
+    text-shadow:
+      0 1px 3px rgba(0,0,0,0.5),
+      0 0 8px rgba(0,0,0,0.25);
+    transition: color var(--transition-default);
+  }
 
- .site-header .navbar-brand:hover .logo-text {
-   color: var(--color-white);
- }
+  .site-header .navbar-brand:hover .logo-text {
+    color: var(--color-white);
+  }
 
 .site-header .logo-img {
 height: 42px;
@@ -149,10 +156,10 @@ object-fit: contain;
 
 
 .site-header .navbar .nav-link {
- font-family: 'Poppins', sans-serif;
+ font-family: var(--font-sans);
    font-weight: 600;
-   font-size: 14px;
-   letter-spacing: 0.05em;
+   font-size: 0.9rem;
+   letter-spacing: -0.01em;
 
    position: relative;
    display: inline-flex;
@@ -221,17 +228,18 @@ object-fit: contain;
  }
 
 .footer-brand {
-  font-family: "Playfair Display", serif;
+  font-family: var(--font-sans);
   font-weight: 700;
-  letter-spacing: 0.12em;
+  letter-spacing: -0.01em;
   font-size: 1.2rem;
   color: white;
   text-shadow: 0 3px 8px rgba(0,0,0,0.5);
 }
 .footer-copy {
+  font-family: var(--font-sans);
   font-size: 0.85rem;
-  opacity: 0.8;
-  font-weight: 700;
+  opacity: 0.85;
+  font-weight: 500;
   color:white;
 }
 
@@ -299,10 +307,11 @@ opacity: 0;
 }
 
 .builder-shell h2 {
-  font-family: 'Poppins', sans-serif;
+  font-family: var(--font-sans);
   font-size: 2rem;
-  color: #111;
-  font-weight: 550;
+  color: #0f172a;
+  font-weight: 700;
+  letter-spacing: -0.02em;
 }
 
 

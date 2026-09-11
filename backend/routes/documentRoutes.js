@@ -6,14 +6,21 @@ const Document = require('../models/Document');
 // SAVE a document
 router.post('/', async (req, res) => {
   try {
-    const { title } = req.body;
+    const { title, status, docType } = req.body;
     const userEmail = req.body.userEmail ?? req.body.ownerEmail;
     const formData = req.body.formData ?? req.body.templateJson;
     const injectedItems = req.body.injectedItems ?? req.body.sections ?? [];
     if (!title || !userEmail || !formData) {
       return res.status(400).json({ error: 'Missing required fields' });
     }
-    const doc = await Document.create({ title, userEmail, formData, injectedItems });
+    const doc = await Document.create({
+      title,
+      userEmail,
+      formData,
+      injectedItems,
+      status: status || 'in-progress',
+      docType: docType || formData?.docType || 'resume'
+    });
     res.status(201).json(doc);
   } catch (err) {
     res.status(500).json({ error: 'Failed to save document' });
@@ -57,12 +64,16 @@ router.delete('/:id', async (req, res) => {
 router.put("/:id", async (req, res) => {
   try {
     const title = req.body.title;
+    const status = req.body.status;
     const userEmail = req.body.userEmail ?? req.body.ownerEmail;
     const formData = req.body.formData ?? req.body.templateJson;
     const injectedItems = req.body.injectedItems ?? req.body.sections;
+    const docType = req.body.docType ?? req.body.formData?.docType;
 
     const updateFields = {};
     if (title !== undefined) updateFields.title = title;
+    if (status !== undefined) updateFields.status = status;
+    if (docType !== undefined) updateFields.docType = docType;
     if (userEmail !== undefined) updateFields.userEmail = userEmail;
     if (formData !== undefined) updateFields.formData = formData;
     if (injectedItems !== undefined) updateFields.injectedItems = injectedItems;

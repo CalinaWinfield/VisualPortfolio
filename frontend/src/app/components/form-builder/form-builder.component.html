@@ -27,23 +27,40 @@
         </div>
       </div>
 
-      <!-- BOTTOM ROW: ACTION BUTTONS (UNDER DOCUMENT TITLE) -->
-      <div class="topbar-actions">
-        <button class="btn btn-outline" type="button" (click)="showTemplateModal = true">
-          📋 Templates
-        </button>
-        <button class="btn btn-outline" type="button" (click)="togglePreview()">
-          {{ isPreviewMode ? '✏️ Back to Editor' : '👁️ Preview' }}
-        </button>
-        <button class="btn btn-primary" type="button" (click)="saveForm()">
-          💾 Save Document
-        </button>
-        <button class="btn btn-secondary" type="button" (click)="exportPdf()">
-          📥 Export PDF
-        </button>
-        <button class="btn btn-secondary" type="button" (click)="exportWord()">
-          📝 Export Word
-        </button>
+      <!-- BOTTOM ROW: ACTION BUTTONS (UNDER DOCUMENT TITLE & NOTIFICATIONS) -->
+      <div class="topbar-actions-row">
+        <div class="topbar-actions-left">
+          <button class="btn btn-outline" type="button" (click)="showTemplateModal = true">
+            📋 Templates
+          </button>
+          <button class="btn btn-outline" type="button" (click)="togglePreview()">
+            {{ isPreviewMode ? '✏️ Back to Editor' : '👁️ Preview' }}
+          </button>
+          <button class="btn btn-secondary" type="button" (click)="exportPdf()">
+            📥 Export PDF
+          </button>
+          <button class="btn btn-secondary" type="button" (click)="exportWord()">
+            📝 Export Word
+          </button>
+        </div>
+
+        <!-- 2 BUTTONS UNDER WHERE THE NOTIFICATIONS POP UP -->
+        <div class="topbar-actions-save">
+          <button
+            class="btn btn-save-in-progress"
+            [class.active-status]="documentStatus === 'in-progress'"
+            type="button"
+            (click)="saveForm('in-progress')">
+            ⏳ Save as In-Progress
+          </button>
+          <button
+            class="btn btn-save-done"
+            [class.active-status]="documentStatus === 'done'"
+            type="button"
+            (click)="saveForm('done')">
+            ✅ Save as Done
+          </button>
+        </div>
       </div>
     </div>
 
@@ -94,9 +111,9 @@
               <div class="item-card-title">{{ item.itemTitle || 'Untitled Item' }}</div>
               <div class="item-card-meta">
                 <span class="badge category-badge" *ngIf="item.category">{{ item.category }}</span>
-                <span class="item-date" *ngIf="item.itemDate">{{ item.itemDate }}</span>
+                <span class="item-date" *ngIf="item.itemDate">{{ item.itemDate | itemDate }}</span>
               </div>
-              <p class="item-card-snippet" *ngIf="item.itemDescription">
+              <p class="item-card-snippet" *ngIf="item.itemDescription" [title]="item.itemDescription">
                 {{ item.itemDescription | slice:0:100 }}{{ (item.itemDescription.length > 100) ? '...' : '' }}
               </p>
             </div>
@@ -355,15 +372,14 @@
                 <article class="print-entry" *ngFor="let item of section.items">
                   <div class="print-entry-header">
                     <span class="print-entry-title">{{ item.itemTitle }}</span>
-                    <span class="print-entry-date" *ngIf="item.itemDate">{{ item.itemDate }}</span>
-                  </div>
-                  <div class="print-entry-sub" *ngIf="item.category">
-                    <em>{{ item.category }}</em>
+                    <span class="print-entry-date" *ngIf="item.itemDate">{{ item.itemDate | itemDate }}</span>
                   </div>
                   <div class="print-entry-desc" *ngIf="item.itemDescription">
-                    <p *ngFor="let line of item.itemDescription.split('\n')" class="print-desc-line">
-                      <span *ngIf="line.trim()">{{ line }}</span>
-                    </p>
+                    <ng-container *ngFor="let line of item.itemDescription.split('\n')">
+                      <p *ngIf="line.trim()" class="print-desc-line">
+                        <span>{{ line }}</span>
+                      </p>
+                    </ng-container>
                   </div>
                 </article>
               </div>
@@ -373,10 +389,45 @@
       </div>
     </div>
 
-    <!-- HIDDEN CONTAINER FOR PDF EXPORT RENDERING (WHEN IN EDITOR MODE) -->
-    <div style="display: none;">
-      <div id="hiddenPrintableContainer">
-        <!-- Replicates preview structure if needed -->
+    <!-- OFFSCREEN CONTAINER FOR PDF EXPORT RENDERING (ALWAYS IN DOM SO EXPORT PDF WORKS IN EDITOR MODE) -->
+    <div class="offscreen-export-wrapper" [attr.aria-hidden]="true">
+      <div class="printable-resume" id="printableResumeContentOffscreen">
+        <!-- HEADER -->
+        <header class="resume-print-header">
+          <h1 class="print-name">{{ documentHeader.fullName || documentTitle }}</h1>
+          <p class="print-title" *ngIf="documentHeader.titleOrRole">{{ documentHeader.titleOrRole }}</p>
+          <div class="print-contacts">
+            <span *ngIf="documentHeader.email">{{ documentHeader.email }}</span>
+            <span class="print-dot" *ngIf="documentHeader.email && (documentHeader.phone || documentHeader.location)">•</span>
+            <span *ngIf="documentHeader.phone">{{ documentHeader.phone }}</span>
+            <span class="print-dot" *ngIf="documentHeader.phone && documentHeader.location">•</span>
+            <span *ngIf="documentHeader.location">{{ documentHeader.location }}</span>
+          </div>
+          <p class="print-summary" *ngIf="documentHeader.summary">{{ documentHeader.summary }}</p>
+        </header>
+
+        <!-- SECTIONS -->
+        <div class="print-sections">
+          <section class="print-section" *ngFor="let section of sections">
+            <h2 class="print-section-title">{{ section.title }}</h2>
+
+            <div class="print-entries">
+              <article class="print-entry" *ngFor="let item of section.items">
+                <div class="print-entry-header">
+                  <span class="print-entry-title">{{ item.itemTitle }}</span>
+                  <span class="print-entry-date" *ngIf="item.itemDate">{{ item.itemDate | itemDate }}</span>
+                </div>
+                <div class="print-entry-desc" *ngIf="item.itemDescription">
+                  <ng-container *ngFor="let line of item.itemDescription.split('\n')">
+                    <p *ngIf="line.trim()" class="print-desc-line">
+                      <span>{{ line }}</span>
+                    </p>
+                  </ng-container>
+                </div>
+              </article>
+            </div>
+          </section>
+        </div>
       </div>
     </div>
 

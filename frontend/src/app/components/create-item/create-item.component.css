@@ -33,9 +33,15 @@
   font-weight: 500;
 }
 
-.form-control {
+.form-control,
+.form-select {
   padding: 8px 10px;
   font-size: 0.9rem;
+  border-radius: 6px;
+}
+
+.form-select {
+  cursor: pointer;
 }
 
 .full-width {

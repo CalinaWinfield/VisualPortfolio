@@ -130,4 +130,37 @@ describe('DashboardComponent', () => {
     expect(itemServiceStub.deleteItem).toHaveBeenCalledWith('1');
     expect(component.showDeleteModal).toBeFalse();
   });
+
+  it('should return correct status via getDocStatus', () => {
+    expect(component.getDocStatus({ status: 'done' })).toBe('done');
+    expect(component.getDocStatus({ status: 'Done' })).toBe('done');
+    expect(component.getDocStatus({ formData: { status: 'done' } })).toBe('done');
+    expect(component.getDocStatus({ status: 'in-progress' })).toBe('in-progress');
+    expect(component.getDocStatus({ status: '' })).toBe('in-progress');
+    expect(component.getDocStatus(null)).toBe('in-progress');
+  });
+
+  it('should identify cover letters and return labels correctly', () => {
+    expect(component.isCoverLetter({ docType: 'cover-letter' })).toBeTrue();
+    expect(component.isCoverLetter({ formData: { docType: 'cover-letter' } })).toBeTrue();
+    expect(component.isCoverLetter({ title: 'My Cover Letter' })).toBeTrue();
+    expect(component.isCoverLetter({ docType: 'resume' })).toBeFalse();
+    expect(component.isCoverLetter(null)).toBeFalse();
+
+    expect(component.getDocTypeLabel({ docType: 'cover-letter' })).toBe('Cover Letter');
+    expect(component.getDocTypeLabel({ docType: 'resume' })).toBe('Resume');
+  });
+
+  it('onCreateCoverLetter should navigate to /cover-letter', () => {
+    component.onCreateCoverLetter();
+    expect(routerStub.navigate).toHaveBeenCalledWith(['/cover-letter']);
+  });
+
+  it('editDocument should navigate to /cover-letter for cover letter and /documents for resume', () => {
+    component.editDocument({ _id: 'cl-1', docType: 'cover-letter' });
+    expect(routerStub.navigate).toHaveBeenCalledWith(['/cover-letter'], { queryParams: { id: 'cl-1' } });
+
+    component.editDocument({ _id: 'res-1', docType: 'resume' });
+    expect(routerStub.navigate).toHaveBeenCalledWith(['/documents'], { queryParams: { id: 'res-1' } });
+  });
 });

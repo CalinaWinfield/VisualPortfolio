@@ -176,4 +176,24 @@ describe('AdminDashboardComponent', () => {
     expect(component.activeCard).toBe('allDocuments');
     expect(component.showDocumentsList).toBeTrue();
   });
+
+  it('should return correct status via getDocStatus', () => {
+    expect(component.getDocStatus({ status: 'done' })).toBe('done');
+    expect(component.getDocStatus({ status: 'Done' })).toBe('done');
+    expect(component.getDocStatus({ formData: { status: 'done' } })).toBe('done');
+    expect(component.getDocStatus({ status: 'in-progress' })).toBe('in-progress');
+    expect(component.getDocStatus({ status: '' })).toBe('in-progress');
+    expect(component.getDocStatus(null)).toBe('in-progress');
+  });
+
+  it('should identify cover letters and return labels correctly', () => {
+    expect(component.isCoverLetter({ docType: 'cover-letter' })).toBeTrue();
+    expect(component.isCoverLetter({ formData: { docType: 'cover-letter' } })).toBeTrue();
+    expect(component.isCoverLetter({ title: 'Candidate Cover Letter' })).toBeTrue();
+    expect(component.isCoverLetter({ docType: 'resume' })).toBeFalse();
+    expect(component.isCoverLetter(null)).toBeFalse();
+
+    expect(component.getDocTypeLabel({ docType: 'cover-letter' })).toBe('Cover Letter');
+    expect(component.getDocTypeLabel({ docType: 'resume' })).toBe('Resume');
+  });
 });

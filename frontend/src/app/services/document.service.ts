@@ -17,7 +17,7 @@ export class DocumentService {
     return this.http.get<any>(`${this.apiUrl}/${id}`);
   }
 
-  createDocument(doc: { title: string; userEmail: string; formData: any; injectedItems?: any }): Observable<any> {
+  createDocument(doc: { title: string; userEmail: string; formData: any; injectedItems?: any; status?: string; docType?: string }): Observable<any> {
     return this.http.post<any>(this.apiUrl, doc);
   }
 

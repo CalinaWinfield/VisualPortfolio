@@ -17,8 +17,13 @@ import {
   TextRun,
   HeadingLevel,
   AlignmentType,
-  BorderStyle
+  BorderStyle,
+  Table,
+  TableRow,
+  TableCell,
+  WidthType
 } from 'docx';
+import { ItemDatePipe, formatItemDate } from '../../pipes/item-date.pipe';
 
 export interface ResumeItem {
   id: string;
@@ -56,7 +61,7 @@ export interface TemplateDefinition {
 @Component({
   selector: 'app-form-builder',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, ItemDatePipe],
   templateUrl: './form-builder.component.html',
   styleUrls: ['./form-builder.component.css']
 })
@@ -73,6 +78,7 @@ export class FormBuilderComponent implements OnInit, AfterViewInit {
 
   // Document metadata
   documentTitle: string = 'My Resume';
+  documentStatus: 'in-progress' | 'done' = 'in-progress';
   existingDocId: string | null = null;
   private _existingData: any = null;
   private _initialMode: string | null = null;
@@ -286,6 +292,7 @@ export class FormBuilderComponent implements OnInit, AfterViewInit {
 
     const rawForm = doc.formData ?? doc.templateJson;
     const normalized = typeof rawForm === 'string' ? this.tryParseJson(rawForm) : rawForm;
+    this.documentStatus = doc.status || normalized?.status || 'in-progress';
 
     // 1. Check for modern structured format: { header, sections }
     if (normalized && Array.isArray(normalized.sections) && normalized.sections.length > 0) {
@@ -334,12 +341,13 @@ export class FormBuilderComponent implements OnInit, AfterViewInit {
   }
 
   private normalizeItem(it: any): ResumeItem {
+    const rawDate = it.itemDate || it.date || '';
     return {
       id: it.id || it._id || this.generateId(),
       _id: it._id,
       itemTitle: it.itemTitle || it.title || 'Untitled Entry',
       category: it.category || '',
-      itemDate: it.itemDate || it.date || '',
+      itemDate: formatItemDate(rawDate) || rawDate,
       itemDescription: it.itemDescription || it.description || '',
       isCustom: !!it.isCustom
     };
@@ -557,12 +565,15 @@ export class FormBuilderComponent implements OnInit, AfterViewInit {
   }
 
   private addItemToSectionObject(section: ResumeSection, rawItem: any): void {
+    const rawDate = rawItem.itemDate || '';
+    const formattedDate = formatItemDate(rawDate) || rawDate || 'Present';
+
     const newItem: ResumeItem = {
       id: this.generateId(),
       _id: rawItem._id,
       itemTitle: rawItem.itemTitle || 'Untitled Item',
       category: rawItem.category || section.title,
-      itemDate: rawItem.itemDate || 'Present',
+      itemDate: formattedDate,
       itemDescription: rawItem.itemDescription || '',
       isCustom: false
     };
@@ -666,13 +677,14 @@ export class FormBuilderComponent implements OnInit, AfterViewInit {
   // SAVING / UPDATING
   // ==========================================
 
-  saveForm(): void {
+  saveForm(status: 'in-progress' | 'done' = this.documentStatus || 'in-progress'): void {
     const userEmail = this.auth.getUserEmail();
     if (!userEmail) {
       alert('You must be logged in to save.');
       return;
     }
 
+    this.documentStatus = status;
     const title = (this.documentTitle || '').trim() || 'Untitled Resume';
     this.documentTitle = title;
     this.syncCompatibilityItems();
@@ -680,23 +692,28 @@ export class FormBuilderComponent implements OnInit, AfterViewInit {
     const payload = {
       userEmail,
       title,
+      status,
       formData: {
         header: this.documentHeader,
-        sections: this.sections
+        sections: this.sections,
+        status
       },
       injectedItems: this.injectedItems,
       templateJson: {
         header: this.documentHeader,
-        sections: this.sections
+        sections: this.sections,
+        status
       },
       sections: this.sections
     };
+
+    const statusLabel = status === 'done' ? 'done' : 'in-progress';
 
     if (this.existingDocId) {
       this.documentService.updateDocument(this.existingDocId, payload).subscribe({
         next: (res: any) => {
           this._existingData = res;
-          this.showNotification('Document updated successfully!', 'success');
+          this.showNotification(`Document updated as ${statusLabel}!`, 'success');
         },
         error: (err: any) => {
           console.error('Update Error:', err);
@@ -708,7 +725,7 @@ export class FormBuilderComponent implements OnInit, AfterViewInit {
         next: (res: any) => {
           this._existingData = res;
           this.existingDocId = res._id;
-          this.showNotification('Document saved successfully!', 'success');
+          this.showNotification(`Document saved as ${statusLabel}!`, 'success');
           // Update URL query param so subsequent saves or refreshes keep document context
           window.history.replaceState(null, '', `/documents?id=${res._id}`);
         },
@@ -744,6 +761,8 @@ export class FormBuilderComponent implements OnInit, AfterViewInit {
   async buildCleanExportElement(): Promise<HTMLElement | null> {
     const hasContent = !!(
       (this.documentHeader.fullName && this.documentHeader.fullName.trim()) ||
+      (this.documentHeader.titleOrRole && this.documentHeader.titleOrRole.trim()) ||
+      (this.documentHeader.email && this.documentHeader.email.trim()) ||
       (this.documentHeader.summary && this.documentHeader.summary.trim()) ||
       this.sections.some(s => s.items.length > 0 || (s.title && s.title.trim())) ||
       (this.injectedItems && this.injectedItems.length > 0)
@@ -753,14 +772,176 @@ export class FormBuilderComponent implements OnInit, AfterViewInit {
       return null;
     }
 
-    const previewEl = document.getElementById('printableResumeContent');
+    const previewEl = document.getElementById('printableResumeContent') ||
+                      document.getElementById('printableResumeContentOffscreen');
     if (previewEl) {
       const clone = previewEl.cloneNode(true) as HTMLElement;
+      clone.id = 'cleanResumeExportElement';
       clone.querySelectorAll('button, input, textarea, .no-print').forEach(el => el.remove());
       return clone;
     }
 
-    return null;
+    return this.createProgrammaticExportElement();
+  }
+
+  private createProgrammaticExportElement(): HTMLElement {
+    const container = document.createElement('div');
+    container.className = 'printable-resume';
+    container.style.width = '100%';
+    container.style.maxWidth = '840px';
+    container.style.background = '#ffffff';
+    container.style.padding = '40px 48px';
+    container.style.boxSizing = 'border-box';
+    container.style.color = '#111827';
+    container.style.wordBreak = 'break-word';
+    container.style.overflowWrap = 'anywhere';
+    container.style.fontFamily = "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif";
+
+    // Header
+    const header = document.createElement('header');
+    header.className = 'resume-print-header';
+    header.style.textAlign = 'center';
+    header.style.borderBottom = '2px solid #111827';
+    header.style.paddingBottom = '16px';
+    header.style.marginBottom = '24px';
+
+    const h1 = document.createElement('h1');
+    h1.className = 'print-name';
+    h1.style.fontSize = '26px';
+    h1.style.fontWeight = '800';
+    h1.style.margin = '0 0 6px 0';
+    h1.style.color = '#111827';
+    h1.textContent = this.documentHeader.fullName || this.documentTitle || 'Resume';
+    header.appendChild(h1);
+
+    if (this.documentHeader.titleOrRole) {
+      const pTitle = document.createElement('p');
+      pTitle.className = 'print-title';
+      pTitle.style.fontSize = '15px';
+      pTitle.style.fontWeight = '600';
+      pTitle.style.color = '#4f46e5';
+      pTitle.style.margin = '0 0 8px 0';
+      pTitle.textContent = this.documentHeader.titleOrRole;
+      header.appendChild(pTitle);
+    }
+
+    const contacts = [this.documentHeader.email, this.documentHeader.phone, this.documentHeader.location].filter(Boolean);
+    if (contacts.length > 0) {
+      const pContacts = document.createElement('div');
+      pContacts.className = 'print-contacts';
+      pContacts.style.fontSize = '13px';
+      pContacts.style.color = '#4b5563';
+      pContacts.style.display = 'flex';
+      pContacts.style.justifyContent = 'center';
+      pContacts.style.gap = '8px';
+      pContacts.style.marginBottom = '10px';
+      pContacts.textContent = contacts.join(' • ');
+      header.appendChild(pContacts);
+    }
+
+    if (this.documentHeader.summary) {
+      const pSummary = document.createElement('p');
+      pSummary.className = 'print-summary';
+      pSummary.style.fontSize = '13.5px';
+      pSummary.style.lineHeight = '1.55';
+      pSummary.style.color = '#374151';
+      pSummary.style.textAlign = 'left';
+      pSummary.style.margin = '12px 0 0 0';
+      pSummary.textContent = this.documentHeader.summary;
+      header.appendChild(pSummary);
+    }
+    container.appendChild(header);
+
+    // Sections
+    const secContainer = document.createElement('div');
+    secContainer.className = 'print-sections';
+    secContainer.style.display = 'flex';
+    secContainer.style.flexDirection = 'column';
+    secContainer.style.gap = '20px';
+
+    for (const sec of this.sections) {
+      if ((!sec.items || sec.items.length === 0) && (!sec.title || !sec.title.trim())) continue;
+
+      const sectionEl = document.createElement('section');
+      sectionEl.className = 'print-section';
+
+      const h2 = document.createElement('h2');
+      h2.className = 'print-section-title';
+      h2.style.fontSize = '15px';
+      h2.style.fontWeight = '800';
+      h2.style.textTransform = 'uppercase';
+      h2.style.color = '#111827';
+      h2.style.borderBottom = '1.5px solid #cbd5e1';
+      h2.style.paddingBottom = '4px';
+      h2.style.margin = '0 0 12px 0';
+      h2.textContent = sec.title;
+      sectionEl.appendChild(h2);
+
+      const entries = document.createElement('div');
+      entries.className = 'print-entries';
+      entries.style.display = 'flex';
+      entries.style.flexDirection = 'column';
+      entries.style.gap = '14px';
+
+      for (const it of sec.items) {
+        const article = document.createElement('article');
+        article.className = 'print-entry';
+
+        const entryHeader = document.createElement('div');
+        entryHeader.className = 'print-entry-header';
+        entryHeader.style.display = 'flex';
+        entryHeader.style.justifyContent = 'space-between';
+
+        const entryTitle = document.createElement('span');
+        entryTitle.className = 'print-entry-title';
+        entryTitle.style.fontSize = '14.5px';
+        entryTitle.style.fontWeight = '700';
+        entryTitle.style.color = '#111827';
+        entryTitle.textContent = it.itemTitle;
+        entryHeader.appendChild(entryTitle);
+
+        if (it.itemDate) {
+          const entryDate = document.createElement('span');
+          entryDate.className = 'print-entry-date';
+          entryDate.style.fontSize = '13px';
+          entryDate.style.fontStyle = 'italic';
+          entryDate.style.color = '#6b7280';
+          entryDate.textContent = formatItemDate(it.itemDate);
+          entryHeader.appendChild(entryDate);
+        }
+        article.appendChild(entryHeader);
+
+        if (it.itemDescription) {
+          const desc = document.createElement('div');
+          desc.className = 'print-entry-desc';
+          desc.style.marginTop = '6px';
+          desc.style.wordBreak = 'break-word';
+          desc.style.overflowWrap = 'anywhere';
+          for (const line of it.itemDescription.split('\n')) {
+            if (!line.trim()) continue;
+            const p = document.createElement('p');
+            p.className = 'print-desc-line';
+            p.style.fontSize = '13.5px';
+            p.style.lineHeight = '1.5';
+            p.style.color = '#374151';
+            p.style.margin = '3px 0';
+            p.style.wordBreak = 'break-word';
+            p.style.overflowWrap = 'anywhere';
+            p.textContent = line;
+            desc.appendChild(p);
+          }
+          article.appendChild(desc);
+        }
+
+        entries.appendChild(article);
+      }
+
+      sectionEl.appendChild(entries);
+      secContainer.appendChild(sectionEl);
+    }
+
+    container.appendChild(secContainer);
+    return container;
   }
 
   async exportPdf(): Promise<void> {
@@ -770,6 +951,8 @@ export class FormBuilderComponent implements OnInit, AfterViewInit {
       return;
     }
 
+    this.showNotification('Generating high-resolution PDF...', 'info');
+
     sourceEl.style.position = 'fixed';
     sourceEl.style.left = '-10000px';
     sourceEl.style.top = '0';
@@ -777,6 +960,8 @@ export class FormBuilderComponent implements OnInit, AfterViewInit {
     sourceEl.style.background = '#ffffff';
     sourceEl.style.padding = '30px 36px';
     sourceEl.style.boxSizing = 'border-box';
+    sourceEl.style.wordBreak = 'break-word';
+    sourceEl.style.overflowWrap = 'anywhere';
     document.body.appendChild(sourceEl);
 
     try {
@@ -824,6 +1009,8 @@ export class FormBuilderComponent implements OnInit, AfterViewInit {
   async exportWord(): Promise<void> {
     const hasContent = !!(
       (this.documentHeader.fullName && this.documentHeader.fullName.trim()) ||
+      (this.documentHeader.titleOrRole && this.documentHeader.titleOrRole.trim()) ||
+      (this.documentHeader.email && this.documentHeader.email.trim()) ||
       (this.documentHeader.summary && this.documentHeader.summary.trim()) ||
       this.sections.some(s => s.items.length > 0) ||
       (this.injectedItems && this.injectedItems.length > 0)
@@ -835,32 +1022,49 @@ export class FormBuilderComponent implements OnInit, AfterViewInit {
     }
 
     try {
-      const docChildren: Paragraph[] = [];
+      const docChildren: (Paragraph | Table)[] = [];
+
+      const borderless = {
+        top: { style: BorderStyle.NONE, size: 0, color: 'auto' },
+        bottom: { style: BorderStyle.NONE, size: 0, color: 'auto' },
+        left: { style: BorderStyle.NONE, size: 0, color: 'auto' },
+        right: { style: BorderStyle.NONE, size: 0, color: 'auto' },
+        insideHorizontal: { style: BorderStyle.NONE, size: 0, color: 'auto' },
+        insideVertical: { style: BorderStyle.NONE, size: 0, color: 'auto' }
+      };
 
       // 1. Header: Name & Title
       const name = this.documentHeader.fullName.trim() || this.documentTitle;
       docChildren.push(
         new Paragraph({
-          text: name,
-          heading: HeadingLevel.HEADING_1,
           alignment: AlignmentType.CENTER,
-          spacing: { after: 120 }
+          children: [
+            new TextRun({
+              text: (name || 'RESUME').toUpperCase(),
+              bold: true,
+              size: 36, // 18pt
+              color: '111827',
+              font: 'Calibri'
+            })
+          ],
+          spacing: { after: 60 }
         })
       );
 
       if (this.documentHeader.titleOrRole.trim()) {
         docChildren.push(
           new Paragraph({
+            alignment: AlignmentType.CENTER,
             children: [
               new TextRun({
                 text: this.documentHeader.titleOrRole.trim(),
                 bold: true,
                 color: '4F46E5',
-                size: 24
+                size: 24, // 12pt
+                font: 'Calibri'
               })
             ],
-            alignment: AlignmentType.CENTER,
-            spacing: { after: 120 }
+            spacing: { after: 80 }
           })
         );
       }
@@ -875,34 +1079,59 @@ export class FormBuilderComponent implements OnInit, AfterViewInit {
       if (contactPieces.length > 0) {
         docChildren.push(
           new Paragraph({
+            alignment: AlignmentType.CENTER,
             children: [
               new TextRun({
-                text: contactPieces.join('   |   '),
+                text: contactPieces.join('   •   '),
                 color: '64748B',
-                size: 20
+                size: 20, // 10pt
+                font: 'Calibri'
               })
             ],
-            alignment: AlignmentType.CENTER,
-            spacing: { after: 240 }
+            spacing: { after: 140 }
           })
         );
       }
+
+      // Header Divider Line (matching resume builder)
+      docChildren.push(
+        new Paragraph({
+          border: {
+            bottom: { style: BorderStyle.SINGLE, size: 14, color: '111827' }
+          },
+          spacing: { after: 180 }
+        })
+      );
 
       // 3. Summary
       if (this.documentHeader.summary.trim()) {
         docChildren.push(
           new Paragraph({
-            text: 'Professional Summary',
-            heading: HeadingLevel.HEADING_2,
             border: {
-              bottom: { style: BorderStyle.SINGLE, size: 8, color: 'CBD5E1' }
+              bottom: { style: BorderStyle.SINGLE, size: 10, color: '4F46E5' }
             },
-            spacing: { before: 240, after: 120 }
+            children: [
+              new TextRun({
+                text: 'PROFESSIONAL SUMMARY',
+                bold: true,
+                size: 22,
+                color: '111827',
+                font: 'Calibri'
+              })
+            ],
+            spacing: { before: 180, after: 100 }
           })
         );
         docChildren.push(
           new Paragraph({
-            text: this.documentHeader.summary.trim(),
+            children: [
+              new TextRun({
+                text: this.documentHeader.summary.trim(),
+                size: 20,
+                color: '374151',
+                font: 'Calibri'
+              })
+            ],
             spacing: { after: 200 }
           })
         );
@@ -914,46 +1143,100 @@ export class FormBuilderComponent implements OnInit, AfterViewInit {
 
         docChildren.push(
           new Paragraph({
-            text: sec.title.trim() || 'Section',
-            heading: HeadingLevel.HEADING_2,
             border: {
-              bottom: { style: BorderStyle.SINGLE, size: 8, color: 'CBD5E1' }
+              bottom: { style: BorderStyle.SINGLE, size: 10, color: '4F46E5' }
             },
-            spacing: { before: 280, after: 140 }
+            children: [
+              new TextRun({
+                text: (sec.title.trim() || 'SECTION').toUpperCase(),
+                bold: true,
+                size: 22,
+                color: '111827',
+                font: 'Calibri'
+              })
+            ],
+            spacing: { before: 220, after: 120 }
           })
         );
 
         for (const item of sec.items) {
           const itemTitle = item.itemTitle || 'Position / Entry';
-          const metaParts = [item.category, item.itemDate].filter(p => !!p && p.trim());
-          const metaText = metaParts.length > 0 ? `  (${metaParts.join('  •  ')})` : '';
+          const formattedDate = formatItemDate(item.itemDate);
 
-          docChildren.push(
+          // 2-column header table for entry: Title & Company on left, Date on right
+          const leftCellParagraphs: Paragraph[] = [
             new Paragraph({
               children: [
-                new TextRun({ text: itemTitle, bold: true, size: 22 }),
-                new TextRun({ text: metaText, italics: true, color: '64748B', size: 20 })
-              ],
-              spacing: { before: 120, after: 60 }
+                new TextRun({
+                  text: itemTitle,
+                  bold: true,
+                  size: 21,
+                  color: '111827',
+                  font: 'Calibri'
+                })
+              ]
+            })
+          ];
+
+          docChildren.push(
+            new Table({
+              width: { size: 100, type: WidthType.PERCENTAGE },
+              borders: borderless,
+              rows: [
+                new TableRow({
+                  children: [
+                    new TableCell({
+                      width: { size: 75, type: WidthType.PERCENTAGE },
+                      children: leftCellParagraphs
+                    }),
+                    new TableCell({
+                      width: { size: 25, type: WidthType.PERCENTAGE },
+                      children: [
+                        new Paragraph({
+                          alignment: AlignmentType.RIGHT,
+                          children: [
+                            new TextRun({
+                              text: formattedDate,
+                              italics: true,
+                              size: 19,
+                              color: '64748B',
+                              font: 'Calibri'
+                            })
+                          ]
+                        })
+                      ]
+                    })
+                  ]
+                })
+              ]
             })
           );
 
           if (item.itemDescription && item.itemDescription.trim()) {
             const lines = item.itemDescription
               .split(/\r?\n+/)
-              .map(l => l.trim().replace(/^[-•*]\s*/, ''))
+              .map(l => l.trim().replace(/^[-•*■]\s*/, ''))
               .filter(l => l.length > 0);
 
             for (const line of lines) {
               docChildren.push(
                 new Paragraph({
-                  text: line,
                   bullet: { level: 0 },
-                  spacing: { after: 60 }
+                  children: [
+                    new TextRun({
+                      text: line,
+                      size: 20,
+                      color: '374151',
+                      font: 'Calibri'
+                    })
+                  ],
+                  spacing: { after: 40 }
                 })
               );
             }
           }
+
+          docChildren.push(new Paragraph({ spacing: { after: 120 } }));
         }
       }
 

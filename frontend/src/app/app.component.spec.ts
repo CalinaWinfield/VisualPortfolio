@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { of } from 'rxjs';
 import { AppComponent } from './app.component';
@@ -18,7 +18,9 @@ describe('AppComponent (Navbar access)', () => {
       url: '/dashboard',
       events: of(),
       navigate: jasmine.createSpy('navigate'),
-      navigateByUrl: jasmine.createSpy('navigateByUrl')
+      navigateByUrl: jasmine.createSpy('navigateByUrl'),
+      createUrlTree: jasmine.createSpy('createUrlTree').and.returnValue({}),
+      serializeUrl: jasmine.createSpy('serializeUrl').and.returnValue('')
     };
 
     mockAuthService = {
@@ -39,7 +41,8 @@ describe('AppComponent (Navbar access)', () => {
       providers: [
         { provide: Router, useValue: mockRouter },
         { provide: AuthService, useValue: mockAuthService },
-        { provide: Location, useValue: mockLocation }
+        { provide: Location, useValue: mockLocation },
+        { provide: ActivatedRoute, useValue: { snapshot: {}, paramMap: of() } }
       ]
     }).compileComponents();
 
@@ -93,6 +96,17 @@ describe('AppComponent (Navbar access)', () => {
 
     mockRouter.url = '/documents';
     expect(component.showNavbar).toBeTrue();
+  });
+
+  it('should render "Resume Builder" and "Cover Letter Builder" links in the navbar', () => {
+    localStorage.setItem('accessToken', 'mock-token');
+    mockRouter.url = '/dashboard';
+    fixture.detectChanges();
+
+    const compiled = fixture.nativeElement as HTMLElement;
+    const navText = compiled.querySelector('.site-header')?.textContent || '';
+    expect(navText).toContain('Resume Builder');
+    expect(navText).toContain('Cover Letter Builder');
   });
 
   describe('Back Button & Route Protection', () => {

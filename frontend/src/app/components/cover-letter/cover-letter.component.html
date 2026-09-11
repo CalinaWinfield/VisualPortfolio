@@ -1,60 +1,428 @@
-
-<div class="dashboard container-fluid">
-  <header class="mobile-header d-md-none text-center py-3">
-    <div class="user-profile">
-      <div class="profile-picture mx-auto"></div>
-      <div class="user-details mt-2">
-        <p class="user-name fw-bold mb-0">{{ userProfile.name }}</p>
-        <p class="user-email mb-0">{{ userProfile.email }}</p>
-      </div>
+<!-- frontend/src/app/components/cover-letter/cover-letter.component.html -->
+<div class="document-wrapper">
+  <div class="document-grid">
+    <div class="document-header">
+      <h1 class="document-title">Cover Letter Builder</h1>
     </div>
-  </header>
 
-  <main class="main-section col-md-8 col-12" style="position:relative;">
-    <h1 class="greeting mb-4">Let's build your Cover Letter</h1>
+    <div class="cover-builder-page">
+      <div class="container-fluid px-0">
 
-    <div class="template-selection mb-4">
-      <h2>Choose a Template</h2>
-      <div class="row">
-        <div class="col-md-4" *ngFor="let template of [1, 2, 3]">
-          <div class="template-card">
-            <img src="assets/img/cover{{ template }}.png" [alt]="'Template ' + template" class="img-fluid"/>
-            <button class="btn btn-primary mt-2 covbtn" (click)="loadTemplate(template)">
-              Use This Template
-            </button>
+    <!-- TOP TOOLBAR & CONTROLS -->
+    <div class="builder-topbar">
+      <!-- TOP ROW: TITLE & NOTIFICATION -->
+      <div class="topbar-title-row">
+        <div class="topbar-left">
+          <div class="document-title-box">
+            <span class="doc-icon">✉️</span>
+            <input
+              type="text"
+              class="document-title-input"
+              [(ngModel)]="documentTitle"
+              placeholder="Cover Letter Title (e.g. Senior Developer Application)"
+              title="Click to rename cover letter"
+            />
+          </div>
+        </div>
+
+        <!-- NOTIFICATION BANNER SLOT -->
+        <div class="topbar-notification-slot">
+          <div *ngIf="statusMessage" class="status-banner" [ngClass]="'status-' + statusType">
+            {{ statusMessage }}
           </div>
         </div>
       </div>
 
-    <div class="cover-letter-editor">
-      <h2>Your Cover Letter</h2>
-      <p class="text-success fw-bold" *ngIf="templateStatus">{{ templateStatus }}</p>
+      <!-- BOTTOM ROW: TEMPLATE SELECTOR, ACTIONS & STATUS SAVE BUTTONS -->
+      <div class="topbar-actions-row">
+        <div class="topbar-actions-left">
+          <!-- TEMPLATE SELECTOR PILLS -->
+          <div class="template-selector-group">
+            <span class="selector-label">Layout:</span>
+            <button
+              class="btn-template-pill"
+              [class.active]="selectedTemplate === 1"
+              type="button"
+              (click)="loadTemplate(1)">
+              <span class="pill-badge">1</span> Modern Red
+            </button>
+            <button
+              class="btn-template-pill"
+              [class.active]="selectedTemplate === 2"
+              type="button"
+              (click)="loadTemplate(2)">
+              <span class="pill-badge">2</span> Framed Serif
+            </button>
+            <button
+              class="btn-template-pill"
+              [class.active]="selectedTemplate === 3"
+              type="button"
+              (click)="loadTemplate(3)">
+              <span class="pill-badge">3</span> Bold Navy
+            </button>
+          </div>
 
-      <textarea
-        class="form-control mb-3"
-        [(ngModel)]="currentLetter.introduction"
-        rows="5"
-        placeholder="Introduction...">
-      </textarea>
+          <button class="btn btn-outline btn-sm" type="button" (click)="togglePreview()">
+            {{ isPreviewMode ? '✏️ Back to Editor' : '👁️ Preview' }}
+          </button>
+          <button class="btn btn-secondary btn-sm" type="button" (click)="exportPdf()">
+            📥 Export PDF
+          </button>
+          <button class="btn btn-secondary btn-sm" type="button" (click)="exportWord()">
+            📝 Export Word
+          </button>
+        </div>
 
-      <textarea
-        class="form-control mb-3"
-        [(ngModel)]="currentLetter.body"
-        rows="5"
-        placeholder="Body...">
-      </textarea>
-
-      <textarea
-        class="form-control mb-3"
-        [(ngModel)]="currentLetter.conclusion"
-        rows="5"
-        placeholder="Conclusion...">
-      </textarea>
-
-      <button class="btn btn-success" (click)="saveLetter()">Save</button>
-      <button class="btn btn-primary" (click)="previewLetter()">Preview</button>
-      <button class="btn btn-secondary" (click)="exportLetter()">Export as PDF</button>
+        <!-- SAVE BUTTONS -->
+        <div class="topbar-actions-save">
+          <button
+            class="btn btn-save-in-progress"
+            [class.active-status]="documentStatus === 'in-progress'"
+            type="button"
+            (click)="saveLetter('in-progress')">
+            ⏳ Save as In-Progress
+          </button>
+          <button
+            class="btn btn-save-done"
+            [class.active-status]="documentStatus === 'done'"
+            type="button"
+            (click)="saveLetter('done')">
+            ✅ Save as Done
+          </button>
+        </div>
+      </div>
     </div>
+
+    <!-- MAIN WORKSPACE -->
+    <div class="builder-workspace" [class.preview-only]="isPreviewMode">
+
+      <!-- LEFT COLUMN: FORM EDITOR (HIDDEN IN FULL PREVIEW MODE) -->
+      <div class="editor-column" *ngIf="!isPreviewMode">
+
+        <!-- SENDER INFO CARD -->
+        <div class="editor-card">
+          <div class="card-head">
+            <span class="head-icon">👤</span>
+            <h3 class="head-title">Sender Information</h3>
+          </div>
+          <div class="row g-2">
+            <div class="col-6">
+              <label class="form-label">First Name</label>
+              <input type="text" class="form-control" [(ngModel)]="currentLetter.sender.firstName" placeholder="Nicolas" />
+            </div>
+            <div class="col-6">
+              <label class="form-label">Last Name</label>
+              <input type="text" class="form-control" [(ngModel)]="currentLetter.sender.lastName" placeholder="Park" />
+            </div>
+            <div class="col-12">
+              <label class="form-label">Address / Location</label>
+              <input type="text" class="form-control" [(ngModel)]="currentLetter.sender.address" placeholder="Tucson, AZ 85706" />
+            </div>
+            <div class="col-6">
+              <label class="form-label">Phone</label>
+              <input type="text" class="form-control" [(ngModel)]="currentLetter.sender.phone" placeholder="555-555-5555" />
+            </div>
+            <div class="col-6">
+              <label class="form-label">Email</label>
+              <input type="email" class="form-control" [(ngModel)]="currentLetter.sender.email" placeholder="example@example.com" />
+            </div>
+          </div>
+        </div>
+
+        <!-- RECIPIENT INFO CARD -->
+        <div class="editor-card">
+          <div class="card-head">
+            <span class="head-icon">🏢</span>
+            <h3 class="head-title">Recipient & Date</h3>
+          </div>
+          <div class="row g-2">
+            <div class="col-6">
+              <label class="form-label">Letter Date</label>
+              <input type="text" class="form-control" [(ngModel)]="currentLetter.recipient.date" placeholder="May 10, 2022" />
+            </div>
+            <div class="col-6">
+              <label class="form-label">Recipient Name</label>
+              <input type="text" class="form-control" [(ngModel)]="currentLetter.recipient.name" placeholder="Susan Silverman" />
+            </div>
+            <div class="col-6">
+              <label class="form-label">Job Title / Role</label>
+              <input type="text" class="form-control" [(ngModel)]="currentLetter.recipient.title" placeholder="Store Manager" />
+            </div>
+            <div class="col-6">
+              <label class="form-label">Company Name</label>
+              <input type="text" class="form-control" [(ngModel)]="currentLetter.recipient.company" placeholder="Kmart" />
+            </div>
+            <div class="col-12">
+              <label class="form-label">Company Address</label>
+              <input type="text" class="form-control" [(ngModel)]="currentLetter.recipient.address" placeholder="2489 Parkway Drive" />
+            </div>
+            <div class="col-12">
+              <label class="form-label">City, State, ZIP</label>
+              <input type="text" class="form-control" [(ngModel)]="currentLetter.recipient.cityStateZip" placeholder="Tucson, AZ 85701" />
+            </div>
+            <div class="col-6" *ngIf="selectedTemplate === 2">
+              <label class="form-label">Recipient Phone (Optional)</label>
+              <input type="text" class="form-control" [(ngModel)]="currentLetter.recipient.phone" placeholder="555-555-5555" />
+            </div>
+            <div class="col-6" *ngIf="selectedTemplate === 2">
+              <label class="form-label">Recipient Email (Optional)</label>
+              <input type="text" class="form-control" [(ngModel)]="currentLetter.recipient.email" placeholder="manager@company.com" />
+            </div>
+          </div>
+        </div>
+
+        <!-- LETTER CONTENT CARD -->
+        <div class="editor-card">
+          <div class="card-head">
+            <span class="head-icon">📝</span>
+            <h3 class="head-title">Letter Content</h3>
+          </div>
+          <div class="g-2">
+            <div class="mb-3">
+              <label class="form-label">Salutation</label>
+              <input type="text" class="form-control" [(ngModel)]="currentLetter.content.salutation" placeholder="Dear Ms. Silverman," />
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Opening Paragraph (Intro & Position)</label>
+              <textarea class="form-control" rows="3" [(ngModel)]="currentLetter.content.intro" placeholder="While viewing job ads online..."></textarea>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Body Paragraph (Skills, Experience, & Value)</label>
+              <textarea class="form-control" rows="4" [(ngModel)]="currentLetter.content.body" placeholder="I am a fast learner and am skilled at..."></textarea>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Key Qualities / Bullet Points (One per line)</label>
+              <textarea class="form-control" rows="3" [(ngModel)]="bulletPointsText" (ngModelChange)="onBulletsChange()" placeholder="• Knowledgeable in medical billing&#10;• Effective patient scheduling&#10;• Infection control protocol"></textarea>
+              <small class="text-muted">Tip: Enter each bullet point on its own line.</small>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Closing Paragraph (Call to Action & Appreciation)</label>
+              <textarea class="form-control" rows="3" [(ngModel)]="currentLetter.content.conclusion" placeholder="For further details of my qualifications..."></textarea>
+            </div>
+            <div class="row">
+              <div class="col-6">
+                <label class="form-label">Sign-Off</label>
+                <input type="text" class="form-control" [(ngModel)]="currentLetter.content.signOff" placeholder="Warm regards," />
+              </div>
+              <div class="col-6">
+                <label class="form-label">Signature / Printed Name</label>
+                <input type="text" class="form-control" [(ngModel)]="currentLetter.content.signatureName" placeholder="Nicolas Park" />
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- RIGHT COLUMN: LIVE PAPER PREVIEW CANVAS -->
+      <div class="preview-column">
+        <div class="preview-stage">
+
+          <!-- A4 / US LETTER PAPER CONTAINER -->
+          <div class="cover-paper" id="coverLetterPaper" [ngClass]="'paper-layout-' + selectedTemplate">
+
+            <!-- ============================================================== -->
+            <!-- LAYOUT 1: MODERN RED ACCENT (cover1.png)                         -->
+            <!-- ============================================================== -->
+            <div class="layout1-container" *ngIf="selectedTemplate === 1">
+              <!-- Name Header -->
+              <div class="c1-header">
+                <h1 class="c1-name">
+                  <span class="c1-first">{{ (currentLetter.sender.firstName || 'Nicolas') | uppercase }}</span>
+                  <span class="c1-last">{{ (currentLetter.sender.lastName || 'Park') | uppercase }}</span>
+                </h1>
+                <div class="c1-red-line"></div>
+                <div class="c1-contact-bar">
+                  <span *ngIf="currentLetter.sender.address">{{ currentLetter.sender.address }}</span>
+                  <span class="sep" *ngIf="currentLetter.sender.address && currentLetter.sender.phone">|</span>
+                  <span *ngIf="currentLetter.sender.phone">{{ currentLetter.sender.phone }}</span>
+                  <span class="sep" *ngIf="currentLetter.sender.phone && currentLetter.sender.email">|</span>
+                  <span *ngIf="currentLetter.sender.email">{{ currentLetter.sender.email }}</span>
+                </div>
+              </div>
+
+              <!-- Date -->
+              <div class="c1-date" *ngIf="currentLetter.recipient.date">
+                {{ currentLetter.recipient.date }}
+              </div>
+
+              <!-- Recipient -->
+              <div class="c1-recipient">
+                <p class="mb-0 fw-semibold" *ngIf="currentLetter.recipient.name">
+                  {{ currentLetter.recipient.name }}<span *ngIf="currentLetter.recipient.title">, {{ currentLetter.recipient.title }}</span>
+                </p>
+                <p class="mb-0" *ngIf="currentLetter.recipient.company">{{ currentLetter.recipient.company }}</p>
+                <p class="mb-0" *ngIf="currentLetter.recipient.address">{{ currentLetter.recipient.address }}</p>
+                <p class="mb-0" *ngIf="currentLetter.recipient.cityStateZip">{{ currentLetter.recipient.cityStateZip }}</p>
+              </div>
+
+              <!-- Salutation -->
+              <div class="c1-salutation">
+                {{ currentLetter.content.salutation || 'Dear Hiring Manager,' }}
+              </div>
+
+              <!-- Body Paragraphs -->
+              <div class="c1-body-content">
+                <p class="c1-p" *ngIf="currentLetter.content.intro">{{ currentLetter.content.intro }}</p>
+                <p class="c1-p" *ngIf="currentLetter.content.body">{{ currentLetter.content.body }}</p>
+
+                <!-- Bullets if present -->
+                <ul class="c1-bullets" *ngIf="currentLetter.content.bulletPoints && currentLetter.content.bulletPoints.length > 0">
+                  <li *ngFor="let pt of currentLetter.content.bulletPoints">{{ pt }}</li>
+                </ul>
+
+                <p class="c1-p" *ngIf="currentLetter.content.conclusion">{{ currentLetter.content.conclusion }}</p>
+              </div>
+
+              <!-- Sign-off & Signatures -->
+              <div class="c1-closing-block">
+                <p class="c1-signoff mb-1">{{ currentLetter.content.signOff || 'Warm regards,' }}</p>
+                <div class="c1-handwritten-signature">
+                  {{ currentLetter.content.signatureName || ((currentLetter.sender.firstName + ' ' + currentLetter.sender.lastName) | titlecase) || 'Signature' }}
+                </div>
+                <p class="c1-printed-name mb-0">
+                  {{ currentLetter.content.signatureName || (currentLetter.sender.firstName + ' ' + currentLetter.sender.lastName) }}
+                </p>
+              </div>
+            </div>
+
+            <!-- ============================================================== -->
+            <!-- LAYOUT 2: ELEGANT FRAMED SERIF (cover2.png)                      -->
+            <!-- ============================================================== -->
+            <div class="layout2-container" *ngIf="selectedTemplate === 2">
+              <div class="l2-inner-frame">
+                <!-- Top Banner Header -->
+                <div class="l2-banner-header">
+                  <h1 class="l2-serif-name">
+                    {{ currentLetter.sender.firstName }} {{ currentLetter.sender.lastName }}
+                  </h1>
+                  <div class="l2-short-divider"></div>
+                </div>
+
+                <!-- 2-Column Meta Details -->
+                <div class="l2-meta-columns">
+                  <!-- Left: Recipient & Date -->
+                  <div class="l2-left-meta">
+                    <p class="l2-date mb-2" *ngIf="currentLetter.recipient.date">{{ currentLetter.recipient.date }}</p>
+                    <p class="l2-recipient-name mb-0" *ngIf="currentLetter.recipient.name">
+                      {{ currentLetter.recipient.name }}<span *ngIf="currentLetter.recipient.title">, {{ currentLetter.recipient.title }}</span>
+                    </p>
+                    <p class="l2-recipient-item mb-0" *ngIf="currentLetter.recipient.company">{{ currentLetter.recipient.company }}</p>
+                    <p class="l2-recipient-item mb-0" *ngIf="currentLetter.recipient.address">{{ currentLetter.recipient.address }}</p>
+                    <p class="l2-recipient-item mb-0" *ngIf="currentLetter.recipient.cityStateZip">{{ currentLetter.recipient.cityStateZip }}</p>
+                    <p class="l2-recipient-item mb-0" *ngIf="currentLetter.recipient.phone">{{ currentLetter.recipient.phone }}</p>
+                    <p class="l2-recipient-item mb-0" *ngIf="currentLetter.recipient.email">{{ currentLetter.recipient.email }}</p>
+                  </div>
+
+                  <!-- Right: Sender Details -->
+                  <div class="l2-right-meta">
+                    <p class="l2-sender-item mb-0" *ngIf="currentLetter.sender.email">{{ currentLetter.sender.email }}</p>
+                    <p class="l2-sender-item mb-0" *ngIf="currentLetter.sender.phone">{{ currentLetter.sender.phone }}</p>
+                    <p class="l2-sender-item mb-0" *ngIf="currentLetter.sender.address">{{ currentLetter.sender.address }}</p>
+                  </div>
+                </div>
+
+                <!-- Salutation -->
+                <div class="l2-salutation">
+                  {{ currentLetter.content.salutation || 'Dear Hiring Manager,' }}
+                </div>
+
+                <!-- Letter Content -->
+                <div class="l2-body-content">
+                  <p class="l2-p" *ngIf="currentLetter.content.intro">{{ currentLetter.content.intro }}</p>
+                  <p class="l2-p" *ngIf="currentLetter.content.body">{{ currentLetter.content.body }}</p>
+
+                  <ul class="l2-bullets" *ngIf="currentLetter.content.bulletPoints && currentLetter.content.bulletPoints.length > 0">
+                    <li *ngFor="let pt of currentLetter.content.bulletPoints">{{ pt }}</li>
+                  </ul>
+
+                  <p class="l2-p" *ngIf="currentLetter.content.conclusion">{{ currentLetter.content.conclusion }}</p>
+                </div>
+
+                <!-- Closing -->
+                <div class="l2-closing-block">
+                  <p class="l2-signoff mb-1">{{ currentLetter.content.signOff || 'Sincerely,' }}</p>
+                  <div class="l2-handwritten-signature">
+                    {{ currentLetter.content.signatureName || ((currentLetter.sender.firstName + ' ' + currentLetter.sender.lastName) | titlecase) }}
+                  </div>
+                  <p class="l2-printed-name mb-0">
+                    {{ currentLetter.content.signatureName || (currentLetter.sender.firstName + ' ' + currentLetter.sender.lastName) }}
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <!-- ============================================================== -->
+            <!-- LAYOUT 3: BOLD NAVY HEADER BLOCK (cover3.png)                    -->
+            <!-- ============================================================== -->
+            <div class="layout3-container" *ngIf="selectedTemplate === 3">
+              <!-- Full-Width Navy Banner -->
+              <div class="l3-navy-header">
+                <h1 class="l3-navy-name">
+                  {{ currentLetter.sender.firstName }} {{ currentLetter.sender.lastName }}
+                </h1>
+                <div class="l3-contact-line">
+                  <span *ngIf="currentLetter.sender.email">{{ currentLetter.sender.email }}</span>
+                  <span class="sep" *ngIf="currentLetter.sender.email && currentLetter.sender.phone">|</span>
+                  <span *ngIf="currentLetter.sender.phone">{{ currentLetter.sender.phone }}</span>
+                  <span class="sep" *ngIf="currentLetter.sender.phone && currentLetter.sender.address">|</span>
+                  <span *ngIf="currentLetter.sender.address">{{ currentLetter.sender.address }}</span>
+                </div>
+              </div>
+
+              <!-- Main Document Sheet Under Navy Header -->
+              <div class="l3-body-wrapper">
+                <!-- Date -->
+                <div class="l3-date" *ngIf="currentLetter.recipient.date">
+                  {{ currentLetter.recipient.date }}
+                </div>
+
+                <!-- Recipient Info -->
+                <div class="l3-recipient">
+                  <p class="mb-0 fw-semibold" *ngIf="currentLetter.recipient.name">
+                    {{ currentLetter.recipient.name }}<span *ngIf="currentLetter.recipient.title">, {{ currentLetter.recipient.title }}</span>
+                  </p>
+                  <p class="mb-0" *ngIf="currentLetter.recipient.company">{{ currentLetter.recipient.company }}</p>
+                  <p class="mb-0" *ngIf="currentLetter.recipient.address">{{ currentLetter.recipient.address }}</p>
+                  <p class="mb-0" *ngIf="currentLetter.recipient.cityStateZip">{{ currentLetter.recipient.cityStateZip }}</p>
+                </div>
+
+                <!-- Salutation -->
+                <div class="l3-salutation">
+                  {{ currentLetter.content.salutation || 'Dear Hiring Manager,' }}
+                </div>
+
+                <!-- Letter Content -->
+                <div class="l3-body-content">
+                  <p class="l3-p" *ngIf="currentLetter.content.intro">{{ currentLetter.content.intro }}</p>
+                  <p class="l3-p" *ngIf="currentLetter.content.body">{{ currentLetter.content.body }}</p>
+
+                  <ul class="l3-bullets" *ngIf="currentLetter.content.bulletPoints && currentLetter.content.bulletPoints.length > 0">
+                    <li *ngFor="let pt of currentLetter.content.bulletPoints">{{ pt }}</li>
+                  </ul>
+
+                  <p class="l3-p" *ngIf="currentLetter.content.conclusion">{{ currentLetter.content.conclusion }}</p>
+                </div>
+
+                <!-- Sign-off -->
+                <div class="l3-closing-block">
+                  <p class="l3-signoff mb-1">{{ currentLetter.content.signOff || 'Sincerely,' }}</p>
+                  <div class="l3-handwritten-signature">
+                    {{ currentLetter.content.signatureName || ((currentLetter.sender.firstName + ' ' + currentLetter.sender.lastName) | titlecase) }}
+                  </div>
+                  <p class="l3-printed-name mb-0">
+                    {{ currentLetter.content.signatureName || (currentLetter.sender.firstName + ' ' + currentLetter.sender.lastName) }}
+                  </p>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
 </div>
-  </main>
+  </div>
 </div>
