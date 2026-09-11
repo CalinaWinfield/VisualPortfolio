@@ -15,7 +15,6 @@
   box-shadow: 0 20px 40px rgba(0,1,0,0.45);
   display: flex;
   flex-direction: column;
-  animation: float 4s ease-in-out infinite;
 }
 
 .login-card h3 {
@@ -60,11 +59,6 @@
   box-shadow: 0 12px 20px rgba(0,0,0,0.2);
 }
 
-@keyframes float {
-  0%,100% { transform: translateY(0); }
-  50%     { transform: translateY(-10px); }
-}
-
 .hero::before {
   transform: translateY(0);
   transition: transform 0.2s ease-out;
@@ -76,33 +70,35 @@
   text-shadow: var(--hero-text-shadow);
   font-weight: 800;
   letter-spacing: -0.02em;
-  font-size: clamp(2.2rem, 5vw, 4.2rem);
-  line-height: 1.3;
-  margin-bottom: 1.5rem;
+  font-size: clamp(2rem, 3.8vw, 3.8rem);
+  line-height: 1.35;
+  margin-bottom: 2rem;
   position: relative;
+  text-align: center;
 }
 
 .hero-title em {
   display: inline-block;
-  animation: emphasis 4s ease .9s forwards;
+  margin-right: 0.22em;
 }
 
 .hero-subtitle {
   max-width: 520px;
-  margin-bottom: 3rem;
-  position: absolute;
+  margin: 0 auto 3rem;
   color: var(--color-white);
   text-shadow: var(--hero-subtitle-shadow);
   font-family: var(--font-display);
   font-weight: 500;
   font-size: clamp(1.1rem, 1.4vw, 1.6rem);
-  opacity: 0;
-  transform: translateY(10px);
-    animation: subtitle-fade 0.6s ease 4s forwards;
+  opacity: 0.95;
+  text-align: center;
+  line-height: 1.6;
 }
 
 .typing-line {
    display: block;
+   text-align: center;
+   width: 100%;
 }
 
 .typing-wrap {
@@ -110,6 +106,8 @@
   overflow: hidden;
   white-space: nowrap;
   display: inline-block;
+  text-align: center;
+  vertical-align: top;
 }
 
 .typing {
@@ -118,7 +116,7 @@
 
 .line-1 .typing-wrap {
   width: 0ch;
-  animation: type-line-1 1.5s steps(14) forwards;
+  animation: type-line-1 1.5s steps(16) forwards;
 }
 
 .line-1 .typing-wrap::after {
@@ -129,6 +127,7 @@
   width: 2px;
   height: .95em;
   background: white;
+  box-shadow: 0 0 6px rgba(255,255,255,0.7);
   animation:
     caret-blink 2.2s infinite,
     hide-caret 0s linear 2s forwards;
@@ -136,17 +135,18 @@
 
 .line-2 .typing-wrap {
   width: 0ch;
-  animation: type-line-2 1.5s steps(14) 2s forwards;
+  animation: type-line-2 1.5s steps(17) 2s forwards;
 }
 
 .line-2 .typing-wrap::after {
   content: "";
   position: absolute;
-  right: 0;
+  right: -4px;
   top: 0.08em;
   width: 2px;
   height: .95em;
   background: white;
+  box-shadow: 0 0 6px rgba(255,255,255,0.7);
   animation:
     caret-blink 2.2s  infinite;
 }
@@ -156,13 +156,15 @@
 }
 
 @keyframes type-line-1 {
-  from { width: 0ch; }
-  to   { width: 12ch; }
+  0%    { width: 0ch; }
+  99.9% { width: 15ch; }
+  100%  { width: fit-content; }
 }
 
 @keyframes type-line-2 {
-  from { width: 0ch; }
-  to   { width: 14ch; }
+  0%    { width: 0ch; }
+  99.9% { width: 17ch; }
+  100%  { width: fit-content; }
 }
 
 @keyframes caret-blink {
@@ -174,40 +176,24 @@
   to { opacity: 0; }
 }
 
-@keyframes subtitle-fade {
-  to {
-    opacity: 0.9;
-    transform: translateY(0);
-  }
-}
-
-@keyframes emphasis {
-  0%   { transform: translateY(0); }
-  30%  { transform: translateY(-8px); }
-  55%  { transform: translateY(4px); }
-  75%  { transform: translateY(-3px); }
-  100% { transform: translateY(0); }
-}
-
-
-
 .hero-split {
   min-height: 85vh;
   display: grid;
-  grid-template-columns:1fr;
+  grid-template-columns: 1fr;
   align-items: center;
-
-  gap:1rem;
-  padding: 3rem 0;
-  max-width: 1500px;
+  gap: 4rem;
+  padding: 3rem 1.5rem;
+  max-width: 1440px;
   margin: 0 auto;
   text-align: center;
 }
 
 .hero-left {
-  max-width: 600px;
+  max-width: 640px;
+  width: 100%;
   margin: 0 auto;
   grid-row: 2;
+  text-align: center;
 }
 .hero-right {
   display: flex;
@@ -219,17 +205,22 @@
 
 @media (min-width: 1024px) {
   .hero-split {
-    grid-template-columns: 1.1fr 0.9fr;
+    grid-template-columns: 1.15fr 0.85fr;
+    padding: 4rem 2rem;
+    gap: clamp(4rem, 6vw, 7rem);
+    text-align: center;
   }
 
   .hero-left {
     grid-row: auto;
-    margin: 0;
+    margin: 0 auto;
+    max-width: 640px;
+    width: 100%;
   }
 
   .hero-right {
     grid-row: auto;
-    justify-content: flex-end;
+    justify-content: center;
   }
 }
 
@@ -251,9 +242,7 @@
   box-shadow: 0 12px 20px rgba(0,0,0,0.25);
 }
 .hero-actions {
-  opacity: 0;
-  transform: translateY(12px);
-  animation: subtitle-fade 0.6s ease 4.3s forwards;
+  opacity: 1;
 }
 .small-muted {
 font-size: .9rem;
