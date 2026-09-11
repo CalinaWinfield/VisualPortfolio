@@ -73,6 +73,9 @@ export class MfaEnrollmentComponent implements OnInit {
 
         // ⭐ Store the real access token returned after MFA setup
         this.auth.setAccessToken(res.accessToken);
+        if (res.user?.name) {
+          this.auth.setUserName(res.user.name);
+        }
 
         this.router.navigate(['/dashboard'], { replaceUrl: true });
       },
@@ -81,5 +84,20 @@ export class MfaEnrollmentComponent implements OnInit {
         this.error = "Invalid code. Try again.";
       }
     });
+  }
+
+  onEnterKey(event?: Event): void {
+    if (event) {
+      event.preventDefault();
+    }
+    if (this.verifying) {
+      return;
+    }
+    const normalizedCode = (this.code || '').replace(/\D/g, '');
+    if (normalizedCode.length === 6) {
+      this.submitCode();
+    } else if (this.code && this.code.trim().length > 0) {
+      this.error = "Enter a valid 6-digit code.";
+    }
   }
 }

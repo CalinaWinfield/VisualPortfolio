@@ -27,6 +27,7 @@
               [(ngModel)]="code"
               placeholder="123456"
               class="mfa-code-input"
+              (keydown.enter)="onEnterKey($event)"
             />
           </div>
 

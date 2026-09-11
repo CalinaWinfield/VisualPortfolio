@@ -12,7 +12,8 @@ describe('SignUpComponent', () => {
   let fixture: ComponentFixture<SignUpComponent>;
   const authStub = {
     signup: (v: any) => of({ userId: 'user-123', accessToken: 'abc' }),
-    setAccessToken: jasmine.createSpy('setAccessToken')
+    setAccessToken: jasmine.createSpy('setAccessToken'),
+    setUserName: jasmine.createSpy('setUserName')
   };
   const routerStub = { navigate: jasmine.createSpy('navigate') };
 

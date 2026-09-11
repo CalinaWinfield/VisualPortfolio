@@ -133,7 +133,7 @@ router.post("/login", async (req, res) => {
     // NORMAL LOGIN (no MFA)
     user.loggedInAt = new Date();
 
-    const payload = { sub: user._id.toString(), email: user.email, role: user.role };
+    const payload = { sub: user._id.toString(), email: user.email, role: user.role, name: user.name || "" };
     const accessToken = signAccessToken(payload);
     const refreshToken = signRefreshToken(payload);
 
@@ -222,7 +222,7 @@ router.post("/mfa/verify-setup", async (req, res) => {
     await user.save();
 
     // Issue tokens now that MFA is complete
-    const payload = { sub: user._id.toString(), email: user.email, role: user.role };
+    const payload = { sub: user._id.toString(), email: user.email, role: user.role, name: user.name || "" };
     const accessToken = signAccessToken(payload);
     const refreshToken = signRefreshToken(payload);
 
@@ -271,7 +271,7 @@ router.post("/mfa/verify-login", async (req, res) => {
     }
 
     // Issue full tokens
-    const fullPayload = { sub: user._id.toString(), email: user.email, role: user.role };
+    const fullPayload = { sub: user._id.toString(), email: user.email, role: user.role, name: user.name || "" };
     const accessToken = signAccessToken(fullPayload);
     const refreshToken = signRefreshToken(fullPayload);
 
@@ -350,7 +350,7 @@ router.post("/refresh", async (req, res) => {
     }
 
     user.refreshTokens.splice(idx, 1);
-    const newPayload = { sub: user._id.toString(), email: user.email, role: user.role };
+    const newPayload = { sub: user._id.toString(), email: user.email, role: user.role, name: user.name || "" };
     const newAccess = signAccessToken(newPayload);
     const newRefresh = signRefreshToken(newPayload);
     const newHash = await bcrypt.hash(newRefresh, 12);
@@ -407,8 +407,20 @@ router.post("/logout", async (req, res) => {
    ME
 ---------------------------------------------- */
 router.get("/me", require("../middleware/auth")(), async (req, res) => {
-  const user = await User.findById(req.user.sub).select("_id email name role");
-  res.json({ user });
+  try {
+    const user = await User.findById(req.user.sub).select("_id email name role");
+    if (!user) return res.status(404).json({ error: "User not found" });
+    res.json({
+      user,
+      id: user._id,
+      name: user.name || "",
+      email: user.email,
+      role: user.role
+    });
+  } catch (e) {
+    console.error("Fetch current user profile error:", e);
+    res.status(500).json({ error: "Could not fetch user profile" });
+  }
 });
 
 module.exports = router;

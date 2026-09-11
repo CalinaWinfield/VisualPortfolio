@@ -23,6 +23,7 @@ export class DocumentComponent implements OnInit {
   currentYear = new Date().getFullYear();
   existingFormData: any = null;   // ✅ passed to form builder
   initialMode: string | null = null;
+  initialTemplate: string | null = null;
 
   constructor(
     private itemService: ItemService,
@@ -35,7 +36,7 @@ export class DocumentComponent implements OnInit {
   ngOnInit(): void {
     this.loadItems();
 
-    // Support both /documents/:id and /documents?id=..., plus ?mode=template
+    // Support both /documents/:id and /documents?id=..., plus ?mode=template and ?template=...
     this.route.paramMap.subscribe(params => {
       const routeId = params.get('id');
       if (routeId) {
@@ -46,6 +47,7 @@ export class DocumentComponent implements OnInit {
     this.route.queryParamMap.subscribe(queryParams => {
       const queryId = queryParams.get('id');
       this.initialMode = queryParams.get('mode');
+      this.initialTemplate = queryParams.get('template');
 
       if (queryId && !this.route.snapshot.paramMap.get('id')) {
         this.loadDocument(queryId);

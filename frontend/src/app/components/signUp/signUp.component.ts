@@ -77,6 +77,9 @@ export class SignUpComponent {
     }
 
   this.auth.setAccessToken(res.accessToken);
+  if (this.form.value.name && typeof (this.auth as any)?.setUserName === 'function') {
+    this.auth.setUserName(this.form.value.name.trim());
+  }
 
   this.router.navigate(['/enroll-mfa'], {
     queryParams: { userId: userId }

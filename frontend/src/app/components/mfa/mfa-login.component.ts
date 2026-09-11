@@ -18,6 +18,7 @@ export class MfaLoginComponent {
   code = '';
   errorMessage = '';
   resetting = false;
+  verifying = false;
 
   constructor(
     private http: HttpClient,
@@ -25,9 +26,22 @@ export class MfaLoginComponent {
     private auth: AuthService
   ) {}
 
+  onEnterKey(event?: Event): void {
+    if (event) {
+      event.preventDefault();
+    }
+    if (this.verifying) {
+      return;
+    }
+    this.submitCode();
+  }
+
   submitCode() {
+    if (this.verifying) {
+      return;
+    }
     const tempToken = sessionStorage.getItem('tempToken');
-    const normalizedCode = this.code.replace(/\D/g, '');
+    const normalizedCode = (this.code || '').replace(/\D/g, '');
 
     if (!tempToken) {
       this.errorMessage = 'Missing MFA session. Please log in again.';
@@ -38,13 +52,20 @@ export class MfaLoginComponent {
       return;
     }
 
+    this.verifying = true;
+    this.errorMessage = '';
+
     this.http.post<any>(
       'http://localhost:5001/api/auth/mfa/verify-login',
       { tempToken, code: normalizedCode },
       { withCredentials: true }
     ).subscribe({
       next: (res) => {
+        this.verifying = false;
         this.auth.setAccessToken(res.accessToken);
+        if (res.user?.name) {
+          this.auth.setUserName(res.user.name);
+        }
         const role = this.auth.getUserRole();
         if (role === 'admin') {
           this.router.navigate(['/admin'], { replaceUrl: true });
@@ -53,6 +74,7 @@ export class MfaLoginComponent {
         }
       },
       error: (err) => {
+        this.verifying = false;
         this.errorMessage = err.error?.error || 'Invalid MFA code.';
       }
     });

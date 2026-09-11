@@ -32,6 +32,14 @@ describe('AboutComponent', () => {
     expect(component.teamMembers.map(m => m.name)).toContain('Calina Winfield');
   });
 
+  it('should have development team roles formatted without emojis and with ampersands', () => {
+    const rolesMap = new Map(component.teamMembers.map(m => [m.name, m.role]));
+    expect(rolesMap.get('Calina Winfield')).toBe('Data Modeler & Documentation Lead');
+    expect(rolesMap.get('Aaron Matthews')).toBe('Code Architecture & Lead Programmer');
+    expect(rolesMap.get('Erick Vale')).toBe('Testing Lead & Project Manager');
+    expect(rolesMap.get('Whitney Branch')).toBe('UI/UX Designer & Client Liaison');
+  });
+
   it('should set currentYear', () => {
     expect(component.currentYear).toBeGreaterThan(2000);
   });

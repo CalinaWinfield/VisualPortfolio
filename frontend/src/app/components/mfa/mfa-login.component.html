@@ -1,20 +1,37 @@
 <div class="mfa-login-wrapper">
-  <h2 class ="title">
+  <h2 class="title">
     MFA Verification</h2>
 
   <p>Enter the 6‑digit code from your authenticator app.</p>
 
-  <input
-    type="text"
-    maxlength="6"
-    [(ngModel)]="code"
-    placeholder="123456"
-  />
+  <form (ngSubmit)="onEnterKey($event)">
+    <input
+      type="text"
+      maxlength="6"
+      [(ngModel)]="code"
+      name="code"
+      placeholder="123456"
+      autocomplete="one-time-code"
+      autofocus
+      (keydown.enter)="onEnterKey($event)"
+    />
 
-  <button class="btn-primary" (click)="submitCode()">Verify</button>
-  <button class="btn-secondary" type="button" (click)="resetMfa()" [disabled]="resetting">
-    {{ resetting ? 'Resetting...' : 'Reset MFA and Re-enroll' }}
-  </button>
+    <button
+      class="btn-primary"
+      type="submit"
+      [disabled]="verifying || (code || '').length !== 6"
+    >
+      {{ verifying ? 'Verifying...' : 'Verify' }}
+    </button>
+    <button
+      class="btn-secondary"
+      type="button"
+      (click)="resetMfa()"
+      [disabled]="resetting || verifying"
+    >
+      {{ resetting ? 'Resetting...' : 'Reset MFA and Re-enroll' }}
+    </button>
+  </form>
 
   <div class="error" *ngIf="errorMessage">
     {{ errorMessage }}

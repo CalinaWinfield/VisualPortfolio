@@ -148,7 +148,8 @@
   background: white;
   box-shadow: 0 0 6px rgba(255,255,255,0.7);
   animation:
-    caret-blink 2.2s  infinite;
+    caret-blink 2.2s infinite,
+    hide-caret 0s linear 3.5s forwards;
 }
 
 .typing-wrap::after {
@@ -173,7 +174,10 @@
 }
 
 @keyframes hide-caret {
-  to { opacity: 0; }
+  to {
+    opacity: 0;
+    visibility: hidden;
+  }
 }
 
 .hero-split {

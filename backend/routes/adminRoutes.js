@@ -4,6 +4,7 @@ const router = express.Router();
 const User = require('../models/User');
 const Item = require('../models/Item');
 const Document = require('../models/Document');
+const File = require('../models/File');
 const requireAdmin = require('../middleware/requireAdmin');
 
 // All routes in this file require admin role
@@ -54,17 +55,45 @@ router.patch('/users/:id/role', async (req, res) => {
   }
 });
 
-// Delete a user
+// Delete a user and cascade delete all their items, documents, and files
 router.delete('/users/:id', async (req, res) => {
   try {
     // Prevent admin from deleting themselves
     if (req.params.id === req.user.sub) {
       return res.status(400).json({ error: 'Cannot delete your own account' });
     }
-    const user = await User.findByIdAndDelete(req.params.id);
+    const user = await User.findById(req.params.id);
     if (!user) return res.status(404).json({ error: 'User not found' });
-    res.json({ ok: true });
+
+    const escapedEmail = user.email ? user.email.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') : '';
+    const emailRegex = escapedEmail ? new RegExp(`^${escapedEmail}$`, 'i') : null;
+
+    const deleteOperations = [
+      User.findByIdAndDelete(req.params.id)
+    ];
+
+    if (emailRegex) {
+      deleteOperations.push(Item.deleteMany({ userEmail: { $regex: emailRegex } }));
+      deleteOperations.push(Document.deleteMany({
+        $or: [
+          { userEmail: { $regex: emailRegex } },
+          { ownerEmail: { $regex: emailRegex } }
+        ]
+      }));
+      deleteOperations.push(File.deleteMany({
+        $or: [
+          { userId: user._id.toString() },
+          { userId: { $regex: emailRegex } }
+        ]
+      }));
+    } else {
+      deleteOperations.push(File.deleteMany({ userId: user._id.toString() }));
+    }
+
+    await Promise.all(deleteOperations);
+    res.json({ ok: true, message: 'User and all associated items and documents deleted' });
   } catch (err) {
+    console.error('Failed to delete user and associated records:', err);
     res.status(500).json({ error: 'Failed to delete user' });
   }
 });

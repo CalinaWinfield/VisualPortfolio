@@ -5,7 +5,13 @@
   <header class="dashboard-hero">
     <div class="hero-content">
       <div class="hero-text">
-        <h1 class="hero-title">Portfolio Dashboard</h1>
+        <div class="dashboard-badge-wrapper" *ngIf="userName">
+          <span class="dashboard-badge">💼 Portfolio Dashboard</span>
+        </div>
+        <h1 class="hero-title">
+          <span *ngIf="userName">Welcome back, {{ userName }}! <span class="wave-emoji">👋</span></span>
+          <span *ngIf="!userName">Portfolio Dashboard</span>
+        </h1>
         <p class="hero-subtitle">
           Manage your career documents, organize professional achievements, and build customized resumes.
         </p>
@@ -51,6 +57,12 @@
         <span class="stat-icon">🏷️</span>
         <span class="stat-value">{{ categories.length }}</span>
         <span class="stat-label">Categories</span>
+      </div>
+
+      <div class="stat-pill" (click)="openViewTemplates('all')">
+        <span class="stat-icon">📋</span>
+        <span class="stat-value">{{ starterTemplates.length }}</span>
+        <span class="stat-label">Starter Templates</span>
       </div>
     </div>
   </header>
@@ -146,9 +158,6 @@
         <button class="btn btn-outline" (click)="openViewDocuments()">
           📂 View Saved Documents ({{ documents.length }})
         </button>
-        <button class="btn btn-ghost" (click)="onCopyTemplate()">
-          📋 Copy a Starter Template
-        </button>
       </div>
     </div>
 
@@ -197,7 +206,7 @@
         <button class="btn btn-outline" (click)="onCreateCoverLetter()">
           ✉️ Cover Letter Builder
         </button>
-        <button class="btn btn-ghost" (click)="onCopyTemplate()">
+        <button class="btn btn-ghost" (click)="openViewTemplates('all')">
           📋 Browse Templates
         </button>
       </div>
@@ -315,6 +324,73 @@
       <p class="empty-title">No items in your catalog</p>
       <p class="empty-sub">Add past jobs, degrees, certifications, or skills to easily reuse in documents.</p>
       <button class="btn btn-primary" (click)="openCreateItemForm()">+ Add Your First Item</button>
+    </div>
+  </section>
+
+  <!-- STARTER TEMPLATES SECTION -->
+  <section class="dashboard-section templates-section" *ngIf="viewTemplatesMode && !searchTerm.trim()">
+    <div class="section-header-bar">
+      <div>
+        <h2 class="section-heading">Browse Starter Templates</h2>
+        <p class="section-subheading">Choose a pre-designed layout to scaffold your resume, CV, or cover letter without starting from scratch.</p>
+      </div>
+      <div class="section-actions">
+        <div class="template-filter-pills">
+          <button
+            class="filter-pill"
+            type="button"
+            [class.active]="selectedTemplateCategory === 'all'"
+            (click)="selectedTemplateCategory = 'all'">
+            All
+          </button>
+          <button
+            class="filter-pill"
+            type="button"
+            [class.active]="selectedTemplateCategory === 'resume'"
+            (click)="selectedTemplateCategory = 'resume'">
+            💼 Resumes & CVs
+          </button>
+          <button
+            class="filter-pill"
+            type="button"
+            [class.active]="selectedTemplateCategory === 'cover-letter'"
+            (click)="selectedTemplateCategory = 'cover-letter'">
+            ✉️ Cover Letters
+          </button>
+        </div>
+        <button class="close-btn" (click)="closeViewTemplates()" title="Close view">✕</button>
+      </div>
+    </div>
+
+    <!-- TEMPLATES CARDS GRID -->
+    <div class="cards-grid">
+      <div class="template-card" *ngFor="let tpl of filteredTemplates">
+        <div class="template-card-header">
+          <div class="template-card-icon-title">
+            <span class="tpl-icon">{{ tpl.icon }}</span>
+            <div>
+              <h4 class="template-card-title">{{ tpl.name }}</h4>
+              <span class="template-type-badge" [ngClass]="tpl.type === 'resume' ? 'type-resume' : 'type-cover-letter'">
+                {{ tpl.typeLabel }}
+              </span>
+            </div>
+          </div>
+          <span class="template-badge" [ngClass]="tpl.badgeClass">{{ tpl.badge }}</span>
+        </div>
+
+        <p class="template-card-desc">{{ tpl.description }}</p>
+
+        <!-- Feature Tags -->
+        <div class="template-features">
+          <span class="feature-tag" *ngFor="let feat of tpl.features">{{ feat }}</span>
+        </div>
+
+        <div class="card-footer-actions">
+          <button class="btn btn-sm btn-primary w-full" (click)="useTemplate(tpl)">
+            🚀 Use Template
+          </button>
+        </div>
+      </div>
     </div>
   </section>
 

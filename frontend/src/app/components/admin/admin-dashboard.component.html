@@ -381,6 +381,7 @@
       <p class="modal-message">
         Are you sure you want to delete
         <strong>"{{ entityToDelete?.name || entityToDelete?.title || entityToDelete?.itemTitle || entityToDelete?.email || 'this entry' }}"</strong>?
+        <span *ngIf="deleteType === 'user'"> All associated documents and items belonging to this user will also be permanently deleted.</span>
         This action cannot be undone.
       </p>
 

@@ -61,6 +61,9 @@ export class LoginInlineComponent {
 
         // Normal login success (no MFA)
         this.auth.setAccessToken(res.accessToken);
+        if (res.user?.name) {
+          this.auth.setUserName(res.user.name);
+        }
         this.errorMessage = '';
         const role = this.auth.getUserRole();
         if (role === 'admin') {

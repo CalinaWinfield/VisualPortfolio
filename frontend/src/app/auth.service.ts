@@ -37,6 +37,7 @@ export class AuthService {
     this.accessToken = null;
     localStorage.removeItem('accessToken');
     localStorage.removeItem('refreshToken');
+    localStorage.removeItem('userName');
   }
 
   refresh() {
@@ -100,5 +101,50 @@ export class AuthService {
     } catch {
       return null;
     }
+  }
+
+  setUserName(name: string | null) {
+    if (name) {
+      localStorage.setItem('userName', name);
+    } else {
+      localStorage.removeItem('userName');
+    }
+  }
+
+  getUserName(): string | null {
+    const email = this.getUserEmail();
+    const emailPrefix = email ? email.split('@')[0].toLowerCase() : '';
+
+    const stored = localStorage.getItem('userName');
+    if (stored && stored.trim()) {
+      const trimmed = stored.trim();
+      if (trimmed.includes('@') || (emailPrefix && trimmed.toLowerCase() === emailPrefix)) {
+        localStorage.removeItem('userName');
+      } else {
+        return trimmed;
+      }
+    }
+
+    const token = this.getAccessToken();
+    if (!token) return null;
+    try {
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      if (payload.name && typeof payload.name === 'string' && payload.name.trim()) {
+        const name = payload.name.trim();
+        if (!name.includes('@') && (!emailPrefix || name.toLowerCase() !== emailPrefix)) {
+          return name;
+        }
+      }
+      return null;
+    } catch {
+      return null;
+    }
+  }
+
+  getCurrentUser() {
+    return this.http.get<{ user?: any; id?: string; name?: string; email?: string; role?: string }>(
+      'http://localhost:5001/api/auth/me',
+      { withCredentials: true }
+    );
   }
 }

@@ -133,11 +133,31 @@ describe('AppComponent (Navbar access)', () => {
       expect(component.showBackButton).toBeFalse();
     });
 
-    it('should show back button on internal application routes (e.g. /documents, /guide)', () => {
+    it('should hide back button on resume builder, cover letter builder, guide, and about pages', () => {
       component.updateBackButton('/documents');
-      expect(component.showBackButton).toBeTrue();
+      expect(component.showBackButton).toBeFalse();
+
+      component.updateBackButton('/documents/123');
+      expect(component.showBackButton).toBeFalse();
+
+      component.updateBackButton('/cover-letter');
+      expect(component.showBackButton).toBeFalse();
+
+      component.updateBackButton('/cover-letter/456');
+      expect(component.showBackButton).toBeFalse();
 
       component.updateBackButton('/guide');
+      expect(component.showBackButton).toBeFalse();
+
+      component.updateBackButton('/about');
+      expect(component.showBackButton).toBeFalse();
+    });
+
+    it('should show back button on other sub-routes (e.g. /create-item, /items)', () => {
+      component.updateBackButton('/create-item');
+      expect(component.showBackButton).toBeTrue();
+
+      component.updateBackButton('/items');
       expect(component.showBackButton).toBeTrue();
     });
 
@@ -165,6 +185,13 @@ describe('AppComponent (Navbar access)', () => {
       expect(mockAuthService.clear).toHaveBeenCalled();
       expect(mockRouter.navigate).toHaveBeenCalledWith(['/login'], { replaceUrl: true });
       expect(component.authHistory.length).toBe(0);
+    });
+
+    it('should render footer with mb-0 to prevent excess bottom margin', () => {
+      fixture.detectChanges();
+      const footerCopy = fixture.nativeElement.querySelector('.footer-copy');
+      expect(footerCopy).toBeTruthy();
+      expect(footerCopy.classList).toContain('mb-0');
     });
   });
 });

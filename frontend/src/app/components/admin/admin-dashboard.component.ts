@@ -313,8 +313,23 @@ export class AdminDashboardComponent implements OnInit {
     this.http.delete(url, this.authHeaders()).subscribe({
       next: () => {
         if (this.deleteType === 'user') {
+          const userEmail = (this.entityToDelete.email || '').toLowerCase().trim();
           this.allUsers = this.allUsers.filter(u => u._id !== this.entityToDelete._id);
           this.totalUsers--;
+
+          if (userEmail) {
+            this.allItems = this.allItems.filter(i => (i.userEmail || '').toLowerCase().trim() !== userEmail);
+            this.allDocuments = this.allDocuments.filter(d =>
+              (d.userEmail || d.ownerEmail || '').toLowerCase().trim() !== userEmail
+            );
+          }
+
+          if (this.showItemsList) {
+            this.loadAllItems();
+          }
+          if (this.showDocumentsList) {
+            this.loadAllDocuments();
+          }
         } else if (this.deleteType === 'document') {
           this.allDocuments = this.allDocuments.filter(d => d._id !== this.entityToDelete._id);
           this.totalDocuments--;

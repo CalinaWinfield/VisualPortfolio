@@ -120,6 +120,13 @@ export class CoverLetterComponent implements OnInit, OnDestroy {
 
     this.route.queryParamMap.subscribe(queryParams => {
       const id = queryParams.get('id');
+      const tpl = queryParams.get('template');
+      if (tpl) {
+        const num = parseInt(tpl, 10);
+        if ([1, 2, 3].includes(num)) {
+          this.loadTemplate(num, false);
+        }
+      }
       if (id && !this.route.snapshot.paramMap.get('id')) {
         this.loadDocument(id);
       }

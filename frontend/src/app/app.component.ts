@@ -68,7 +68,7 @@ import { AuthService } from './auth.service';
     </div>
        <footer class="footer">
            <div class="footer-inner container">
-             <p class="footer-copy">
+             <p class="footer-copy mb-0">
                &copy; {{ currentYear }}
                Visual Portfolio. All rights reserved.
              </p>
@@ -123,7 +123,12 @@ export class AppComponent implements OnDestroy {
   updateBackButton(url: string): void {
     const cleanUrl = (url || '').split('?')[0].split('#')[0];
     const isRootLanding = cleanUrl === '/dashboard' || (cleanUrl === '/admin' && this.isAdmin);
-    this.showBackButton = this.isLoggedIn && !this.isLoginRoute(cleanUrl) && !isRootLanding;
+    const isExcludedPage =
+      cleanUrl.startsWith('/documents') ||
+      cleanUrl.startsWith('/cover-letter') ||
+      cleanUrl.startsWith('/guide') ||
+      cleanUrl.startsWith('/about');
+    this.showBackButton = this.isLoggedIn && !this.isLoginRoute(cleanUrl) && !isRootLanding && !isExcludedPage;
   }
 
   get isAdmin(): boolean {

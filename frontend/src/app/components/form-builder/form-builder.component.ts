@@ -202,7 +202,7 @@ export class FormBuilderComponent implements OnInit, AfterViewInit {
 
   @Input() set initialMode(mode: string | null) {
     this._initialMode = mode;
-    if (mode === 'template' && !this.existingDocId) {
+    if (mode === 'template' && !this.existingDocId && !this.initialTemplate) {
       this.showTemplateModal = true;
     }
   }
@@ -210,6 +210,8 @@ export class FormBuilderComponent implements OnInit, AfterViewInit {
   get initialMode(): string | null {
     return this._initialMode;
   }
+
+  @Input() initialTemplate: string | null = null;
 
   get filteredItems(): any[] {
     let list = this.items || [];
@@ -232,7 +234,10 @@ export class FormBuilderComponent implements OnInit, AfterViewInit {
 
     // Default template if brand new document and not yet populated
     if (!this._existingData && this.sections.length === 0) {
-      this.applyTemplate('standard', false);
+      const tplToApply = (this.initialTemplate && ['standard', 'academic', 'skills', 'blank'].includes(this.initialTemplate))
+        ? this.initialTemplate
+        : 'standard';
+      this.applyTemplate(tplToApply, false);
     }
 
     // Pre-populate user name and email from session if empty
@@ -245,8 +250,8 @@ export class FormBuilderComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    // Check initial mode after view init
-    if (this._initialMode === 'template' && !this.existingDocId) {
+    // Check initial mode after view init (only open modal if no specific template was pre-selected)
+    if (this._initialMode === 'template' && !this.existingDocId && !this.initialTemplate) {
       setTimeout(() => {
         this.showTemplateModal = true;
       }, 200);

@@ -34,7 +34,12 @@ describe('DashboardComponent', () => {
   };
 
   const authStub = {
-    getUserEmail: jasmine.createSpy('getUserEmail').and.returnValue('test@example.com')
+    getUserEmail: jasmine.createSpy('getUserEmail').and.returnValue('test@example.com'),
+    getUserName: jasmine.createSpy('getUserName').and.returnValue('Test User'),
+    setUserName: jasmine.createSpy('setUserName'),
+    getCurrentUser: jasmine.createSpy('getCurrentUser').and.returnValue(
+      of({ name: 'Test User', email: 'test@example.com', role: 'user' })
+    )
   };
 
   const routerStub = {
@@ -60,6 +65,11 @@ describe('DashboardComponent', () => {
 
     fixture = TestBed.createComponent(DashboardComponent);
     component = fixture.componentInstance;
+    authStub.getUserEmail.and.returnValue('test@example.com');
+    authStub.getUserName.and.returnValue('Test User');
+    authStub.getCurrentUser.and.returnValue(
+      of({ name: 'Test User', email: 'test@example.com', role: 'user' })
+    );
     fixture.detectChanges();
   });
 
@@ -95,12 +105,49 @@ describe('DashboardComponent', () => {
     expect(component.filteredDocuments.length).toBe(2);
   });
 
-  it('should navigate to document builder on onCreateDocument and onCopyTemplate', () => {
+  it('should navigate to document builder on onCreateDocument', () => {
     component.onCreateDocument();
     expect(routerStub.navigate).toHaveBeenCalledWith(['/documents']);
+  });
+
+  it('openViewTemplates and onCopyTemplate should show templates section without navigating away', () => {
+    routerStub.navigate.calls.reset();
+    component.openViewTemplates('all');
+    expect(component.viewTemplatesMode).toBeTrue();
+    expect(component.viewDocumentsMode).toBeFalse();
+    expect(component.viewItemsMode).toBeFalse();
+    expect(component.selectedTemplateCategory).toBe('all');
+    expect(routerStub.navigate).not.toHaveBeenCalled();
+
+    component.closeViewTemplates();
+    expect(component.viewTemplatesMode).toBeFalse();
 
     component.onCopyTemplate();
-    expect(routerStub.navigate).toHaveBeenCalledWith(['/documents'], { queryParams: { mode: 'template' } });
+    expect(component.viewTemplatesMode).toBeTrue();
+    expect(routerStub.navigate).not.toHaveBeenCalled();
+  });
+
+  it('filteredTemplates should filter templates by selectedTemplateCategory', () => {
+    component.selectedTemplateCategory = 'all';
+    expect(component.filteredTemplates.length).toBe(component.starterTemplates.length);
+
+    component.selectedTemplateCategory = 'resume';
+    expect(component.filteredTemplates.every(t => t.type === 'resume')).toBeTrue();
+    expect(component.filteredTemplates.length).toBe(component.resumeTemplatesCount);
+
+    component.selectedTemplateCategory = 'cover-letter';
+    expect(component.filteredTemplates.every(t => t.type === 'cover-letter')).toBeTrue();
+    expect(component.filteredTemplates.length).toBe(component.coverLetterTemplatesCount);
+  });
+
+  it('useTemplate should navigate to template route with queryParams', () => {
+    const resumeTpl = component.starterTemplates.find(t => t.id === 'standard')!;
+    component.useTemplate(resumeTpl);
+    expect(routerStub.navigate).toHaveBeenCalledWith(['/documents'], { queryParams: { mode: 'template', template: 'standard' } });
+
+    const coverTpl = component.starterTemplates.find(t => t.id === 'cover-1')!;
+    component.useTemplate(coverTpl);
+    expect(routerStub.navigate).toHaveBeenCalledWith(['/cover-letter'], { queryParams: { template: 1 } });
   });
 
   it('should open and confirm delete modal for documents', () => {
@@ -156,11 +203,50 @@ describe('DashboardComponent', () => {
     expect(routerStub.navigate).toHaveBeenCalledWith(['/cover-letter']);
   });
 
+  it('should render stacked create buttons and not render browse resume templates in my documents card', () => {
+    const docCard = fixture.nativeElement.querySelector('.action-card');
+    expect(docCard).toBeTruthy();
+    const buttons = docCard.querySelectorAll('.action-buttons-group > button');
+    expect(buttons.length).toBe(3);
+    expect(buttons[0].textContent).toContain('Create Resume');
+    expect(buttons[1].textContent).toContain('Create Cover Letter');
+    expect(buttons[2].textContent).toContain('View Saved Documents');
+    expect(docCard.textContent).not.toContain('Browse Resume Templates');
+  });
+
   it('editDocument should navigate to /cover-letter for cover letter and /documents for resume', () => {
     component.editDocument({ _id: 'cl-1', docType: 'cover-letter' });
     expect(routerStub.navigate).toHaveBeenCalledWith(['/cover-letter'], { queryParams: { id: 'cl-1' } });
 
     component.editDocument({ _id: 'res-1', docType: 'resume' });
     expect(routerStub.navigate).toHaveBeenCalledWith(['/documents'], { queryParams: { id: 'res-1' } });
+  });
+
+  it('should greet the user with their name when available', () => {
+    expect(component.userName).toBe('Test User');
+    const heading = fixture.nativeElement.querySelector('.hero-title');
+    expect(heading.textContent).toContain('Welcome back, Test User!');
+  });
+
+  it('should not use username or email prefix as greeting name', () => {
+    authStub.getUserName.and.returnValue('alex');
+    authStub.getCurrentUser.and.returnValue(of(null));
+    authStub.getUserEmail.and.returnValue('alex@example.com');
+    component.initUserGreeting();
+    fixture.detectChanges();
+    expect(component.userName).toBe('');
+    const heading = fixture.nativeElement.querySelector('.hero-title');
+    expect(heading.textContent).toContain('Portfolio Dashboard');
+  });
+
+  it('should greet user with their full name from user profile', () => {
+    authStub.getUserName.and.returnValue(null);
+    authStub.getCurrentUser.and.returnValue(of({ user: { name: 'Calina Winfield' } }));
+    authStub.getUserEmail.and.returnValue('cwinfield1@ggc.edu');
+    component.initUserGreeting();
+    fixture.detectChanges();
+    expect(component.userName).toBe('Calina Winfield');
+    const heading = fixture.nativeElement.querySelector('.hero-title');
+    expect(heading.textContent).toContain('Welcome back, Calina Winfield!');
   });
 });

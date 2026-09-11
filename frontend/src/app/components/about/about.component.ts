@@ -13,15 +13,15 @@ export class AboutComponent {
   currentYear: number = new Date().getFullYear();
 
   teamMembers = [
-    { name: 'Whitney Branch', role: 'UX/UI Design & Programmer' },
-    { name: 'Calina Winfield', role: 'Data Modeler & Documentation' },
-    { name: 'Aaron Matthews', role: 'Programmer & Code Architecture' },
-    { name: 'Erick Vale', role: 'Testing Lead & Project Manager' }
+    { name: 'Calina Winfield', role: 'Data Modeler & Documentation Lead' },
+    { name: 'Aaron Matthews', role: 'Code Architecture & Lead Programmer' },
+    { name: 'Erick Vale', role: 'Testing Lead & Project Manager' },
+    { name: 'Whitney Branch', role: 'UI/UX Designer & Client Liaison' }
   ];
 
   technologies = [
-    'Front-end: Angular',
-    'Database: MongoDB'
+    'Front-end: HTML/CSS, Angular, TypeScript & JavaScript',
+    'Database: MongoDB Atlas & Mongoose'
   ];
 
   client = 'Dr. Anca Doloc-Mihu';

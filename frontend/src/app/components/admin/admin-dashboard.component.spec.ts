@@ -96,6 +96,38 @@ describe('AdminDashboardComponent', () => {
     expect(component.entityToDelete).toBeNull();
   });
 
+  it('confirmDelete with user should cascade remove user items and documents from local state', () => {
+    spyOn(component, 'loadStats');
+    component.allUsers = [
+      { _id: 'u1', email: 'john@example.com', name: 'John Doe' },
+      { _id: 'u2', email: 'jane@example.com', name: 'Jane Smith' }
+    ];
+    component.allItems = [
+      { _id: 'i1', userEmail: 'john@example.com', itemTitle: 'Item 1' },
+      { _id: 'i2', userEmail: 'jane@example.com', itemTitle: 'Item 2' }
+    ];
+    component.allDocuments = [
+      { _id: 'd1', userEmail: 'john@example.com', title: 'Doc 1' },
+      { _id: 'd2', userEmail: 'jane@example.com', title: 'Doc 2' }
+    ];
+    component.totalUsers = 2;
+    component.deleteType = 'user';
+    component.entityToDelete = { _id: 'u1', email: 'john@example.com' };
+    component.showDeleteModal = true;
+
+    component.confirmDelete();
+
+    expect(component.allUsers.length).toBe(1);
+    expect(component.allUsers[0]._id).toBe('u2');
+    expect(component.totalUsers).toBe(1);
+    expect(component.allItems.length).toBe(1);
+    expect(component.allItems[0]._id).toBe('i2');
+    expect(component.allDocuments.length).toBe(1);
+    expect(component.allDocuments[0]._id).toBe('d2');
+    expect(component.showDeleteModal).toBeFalse();
+    expect(component.loadStats).toHaveBeenCalled();
+  });
+
   // ── promoteUser ───────────────────────────────────────────────────────────
   it('promoteUser should toggle role from user to admin', () => {
     const fakeUser = { _id: '123', role: 'user' };
