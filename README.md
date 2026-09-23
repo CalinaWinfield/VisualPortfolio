@@ -33,7 +33,7 @@ Layout: AppShell → SiteHeader | Main: DashboardWrapper → DashboardHeader, Da
 1. Open terminal and move to backend subfolder: `cd VisPortfolio/backend`
 2. Run `npm install` to install dependencies
 3. Fix audits if some appear with `npm audit fix` (if it still shows some after doing the command, disregard them)
-4. In the backend folder (accessed through File Explorer or terminal), create a `.env` file and add the following:
+4. In the backend folder (accessed through File Explorer), create a `.env` file and add the following:
     - MONGO_URL=mongodb+srv://visportfolio:h7j433RFoU79Sk1U@cluster0.btpuj.mongodb.net/VisPortfolio?retryWrites=true&w=majority&appName=Cluster0
     - PORT=5001
     - JWT_ACCESS_SECRET=easyfolio_access_secret
@@ -67,28 +67,17 @@ Layout: AppShell → SiteHeader | Main: DashboardWrapper → DashboardHeader, Da
 
 ## Team Roles
 #### Spring 2026 - Pixel Improve
-* **Calina Winfield:** Data Modeler 📊 AND Documentation Lead 📑 
-* **Aaron Matthews:** Code Architecture 💻 AND Lead Programmer 💻
-* **Erick Vale:** Testing Lead 🛠 AND Project Manager 👩🏽‍💻 
-* **Whitney Branch:** UI/UX Designer 👾 AND Client Liaison 💼
+* **Calina Winfield:** Data Modeler 📊 **AND** Documentation Lead 📑 
+* **Aaron Matthews:** Code Architecture 💻 **AND** Lead Programmer 💻
+* **Erick Vale:** Testing Lead 🛠 **AND** Project Manager 👩🏽‍💻 
+* **Whitney Branch:** UI/UX Designer 👾 **AND** Client Liaison 💼
 
 
 #### Fall 2026 - Personal (Unrelated to course) Fixes/Updates
-* **Calina Winfield**  Data Modeler 📊, Documentation Lead 📑, UI/UX Designer 👾, Testing Lead 🛠, Code Architecture/Programmer 💻 (With Antigravity/Gemini help)
-
-## Flyer
-<img width="694" height="899" alt="VisPortfolio Flyer" src="https://github.com/user-attachments/assets/f739775b-6e3f-46d5-a421-dbb44023d5dd" />
+* **Calina Winfield:**  Data Modeler 📊, Documentation Lead 📑, UI/UX Designer 👾, Testing Lead 🛠, Code Architecture/Programmer 💻 (With Antigravity/Gemini help)
 
 ## Screencast Demo: 
 * [https://www.youtube.com/watch?v=w0L-vM_lVEg ](https://youtu.be/MdN3ljJyjwQ)
-
-
-## Repo Location
-- [**click here**](https://github.com/GGC-SD/VisPortfolio)
-
-
-## Communication
-- Discord
 
 
 ## License
