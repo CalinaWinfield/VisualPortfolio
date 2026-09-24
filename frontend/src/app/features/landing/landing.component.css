@@ -12,7 +12,7 @@
 .hero-title {
   font-family: var(--font-display);
   color: var(--color-white);
-  text-shadow: var(--hero-text-shadow);
+  text-shadow: none;
   font-weight: 700;
   font-size: clamp(2rem, 3.8vw, 3.8rem);
   line-height: 1.35;
@@ -43,6 +43,7 @@
   display: block;
   text-align: center;
   width: 100%;
+  filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.40)) drop-shadow(0 1px 2px rgba(0, 0, 0, 0.3));
 }
 
 .typing-wrap {
@@ -52,10 +53,12 @@
   display: inline-block;
   text-align: center;
   vertical-align: top;
+  text-shadow: none;
 }
 
 .typing {
  display: inline-block;
+ text-shadow: none;
 }
 
 .line-1 .typing-wrap {
@@ -85,26 +88,27 @@
 .line-2 .typing-wrap::after {
   content: "";
   position: absolute;
-  right: -4px;
+  right: 0;
   top: 0.08em;
   width: 2px;
   height: .95em;
   background: white;
   box-shadow: 0 0 6px rgba(255,255,255,0.7);
+  opacity: 0;
   animation:
-    caret-blink 2.2s infinite,
+    caret-blink 2.2s 2s infinite,
     hide-caret 0s linear 3.5s forwards;
 }
 
 @keyframes type-line-1 {
   0%    { width: 0ch; }
-  99.9% { width: 15ch; }
+  99.9% { width: 12.35ch; }
   100%  { width: fit-content; }
 }
 
 @keyframes type-line-2 {
   0%    { width: 0ch; }
-  99.9% { width: 17ch; }
+  99.9% { width: 14ch; }
   100%  { width: fit-content; }
 }
 
@@ -117,6 +121,7 @@
   to {
     opacity: 0;
     visibility: hidden;
+    width: 0;
   }
 }
 

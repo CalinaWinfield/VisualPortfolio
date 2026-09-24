@@ -30,25 +30,31 @@ Layout: AppShell → SiteHeader | Main: DashboardWrapper → DashboardHeader, Da
    git clone https://github.com/GGC-SD/VisPortfolio.git or https://github.com/CalinaWinfield/VisualPortfolio.git (for this specific version)
 
 ### How to Run
-1. Open terminal and move to backend subfolder: `cd VisPortfolio/backend`
-2. Run `npm install` to install dependencies
-3. Fix audits if some appear with `npm audit fix` (if it still shows some after doing the command, disregard them)
-4. In the backend folder (accessed through File Explorer), create a `.env` file and add the following:
+
+#### Run Both Frontend & Backend Together (Recommended — Single Command) 🚀
+1. Ensure dependencies are installed in both subfolders:
+   - Backend: `cd VisPortfolio/backend && npm install`
+   - Frontend: `cd VisPortfolio/frontend && npm install`
+2. In the `backend` folder (accessed through File Explorer or terminal), create a `.env` file and add the following:
     - MONGO_URL=mongodb+srv://visportfolio:h7j433RFoU79Sk1U@cluster0.btpuj.mongodb.net/VisPortfolio?retryWrites=true&w=majority&appName=Cluster0
     - PORT=5001
     - JWT_ACCESS_SECRET=easyfolio_access_secret
     - JWT_REFRESH_SECRET=easyfolio_refresh_secret
+3. From the root `VisPortfolio` folder in your terminal, run:
+   ```bash
+   npm start
+   ```
+   *(or `npm run dev` / `node start.js`)*
+   
+   This concurrently launches both the backend (http://localhost:5001) and frontend (http://localhost:4200) in one terminal with labeled, color-coded output. Press **Ctrl + C** to cleanly stop both servers.
 
-5. In the backend terminal, start the server with:
-    - `npm start` (or `node server.js`)
-
-6. After that, go to the MongoDB extension and click on connect, add the following:
-    - mongodb+srv://<db_username>:<db_password>@cluster0.btpuj.mongodb.net/ - You need to replace the username with the information for user and password from Client
-    - Example: mongodb+srv://visportfolio:h7j433RFoU79Sk1U@cluster0.btpuj.mongodb.net/
-  
-7. In another terminal window/tab, move to the frontend subfolder: `cd VisPortfolio/frontend`
-8. Run `npm install`
-9. And run with: `npm start` (or `ng serve`) — view the app at http://localhost:4200
+#### Alternative: Running Separately in Two Terminal Windows
+1. **Backend**:
+   - `cd VisPortfolio/backend`
+   - `npm start` (or `node server.js`)
+2. **Frontend**:
+   - `cd VisPortfolio/frontend`
+   - `npm start` (or `ng serve`) — view the app at http://localhost:4200
 
 ### Making an Admin Account
 1. Click the 'Get Started' button to sign up for an account on the web app (write down or make sure to remember the email)
